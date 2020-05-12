@@ -1,24 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+import HeaderBarMenu from './HeaderBarMenu';
+
+import { BrowserRouter, Route } from "react-router-dom";
+import CandidateStatesListView from "./components/CandidateStatesListView.js";
+import CandidatesView from "./components/CandidatesView.js";
+import PositionsView from "./components/PositionsView.js";
+import HomeView from "./components/HomeView.js";
+
 function App() {
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        
+        
+        <BrowserRouter>
+		  <div>
+		  <HeaderBarMenu userLoggedEmail="mau@bau.it" />
+			<Route exact path="/" component={HomeView}/>
+			<Route exact path="/candidates" component={CandidatesView}/>
+			<Route exact path="/candidateStates" component={CandidateStatesListView}/>
+			<Route exact path="/positions" component={PositionsView}/>
+		  </div>
+		</BrowserRouter>
     </div>
   );
 }
