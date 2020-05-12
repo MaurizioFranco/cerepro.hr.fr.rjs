@@ -1,0 +1,59 @@
+.CentralPanel{
+	background: #FFFFFF;
+
+}
+
+
+.panel-container {
+	background:yellow; 
+	align-content: right;
+	width: 90%;
+	float:right;
+}
+.panel {
+	padding: 5px 1px 1px 5px;
+	align-content: right;
+	width: 99%;
+/* 	float:right; */
+float: none;
+}
+.panel-heading {
+	padding: 10px 15px;
+	background: #242a30;
+    border: none;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	color: #fff;
+/* 	width: 100%; */
+}
+
+.leftMenu {
+	margin: 0px;
+	padding:0px;
+	background:#707478; 
+	float: left;
+	width:10%;
+	height: 100%;
+/* 	position: relative;  */
+/* 	overflow: hidden;  */
+/* 	width: auto;  */
+/* 	height: 100%; */
+}
+.sidebarNav{
+/* 	background:#707478; */
+/* #background: rgb(0, 0, 0) none repeat scroll 0% 0%;  */
+/* #width: 7px;  */
+/* #position: absolute;  */
+/* #top: 155.269px;  */
+/* #opacity: 0.4;  */
+/* #display: block;  */
+/* #border-radius: 7px;  */
+/* #z-index: 99;  */
+/* #right: 1px;  */
+/* #height: 486.218px; */
+/* #flex-wrap: wrap; */
+/* #padding-left: 0; */
+/* #margin-bottom: 0; */
+/*  #list-style: none; */
+}
+

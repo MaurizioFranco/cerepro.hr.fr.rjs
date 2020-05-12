@@ -20,12 +20,12 @@ class ListedCourseCandidate extends Component {
 				<React.Fragment>
 				<tr>
 				<td>{this.props.id}</td>
-				<td>{this.props.photoPath!=="null" && this.props.photoPath}</td>
+				<td>{this.props.imgpath!=="null" && this.props.imgpath}</td>
 				<td>{this.props.email}</td>
-				<td>{this.props.name}</td>
-				<td>{this.props.surname}</td>
-				<td>{this.props.cvPath!=="null" ? this.props.cvPath : ''}</td>
-
+				<td>{this.props.firstname}</td>
+				<td>{this.props.lastname}</td>
+				<td>{this.props.cvExternalPath!=="null" ? this.props.cvExternalPath : ''}</td>
+				<td>{this.props.insertedByFirstname}</td>
 				<td><button onClick={() => this.updateCandidate(this.props.id)} >MODIFICA</button></td>
 				<td><button onClick={() => this.deleteCandidate(this.props.id)} > CANCELLA </button></td> 
 				</tr>
@@ -37,12 +37,12 @@ class ListedCourseCandidate extends Component {
 export default ListedCourseCandidate ;
 
 ListedCourseCandidate.defaultProps = {
-		name:"a",
-		surname:"b",
-		id:"c",
-		cvPath:"d",
-		email:"e",
-		photoPath:"f"
+		firstname:"",
+		lastname:"",
+		id:"",
+		cvExternalPath:"",
+		email:"",
+		imgpath:""
 }
 
 ListedCourseCandidate.propTypes = {

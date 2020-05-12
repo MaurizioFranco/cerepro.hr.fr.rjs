@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import CandidateList from './CandidateList';
-import './CentralPanel.css';
+import './candidates.css';
 import SideBarMenu from './SideBarMenu';
-import CandidateInsertForm from './CandidateInsertForm';
 
 class CentralPanel extends Component {
 	constructor (props) {
@@ -31,8 +30,6 @@ class CentralPanel extends Component {
 				<div className="CentralPanel">
 				<SideBarMenu selectMenu={this.selectCourseCode}/>
 				<CandidateList selectedCourseCode={this.state.selectedCourseCode}/>
-				<br/>
-				<CandidateInsertForm />
     			</div>
 		);
 	}

@@ -22,6 +22,8 @@ class HeaderBarMenu extends Component {
 					<EmptySeparator/><EmptySeparator/>
 					<Link to="/candidates">Candidati</Link>
 					<Separator/>
+					<Link to="/newCandidate">Inserisci nuovo candidato</Link>
+					<Separator/>
 					<Link to="/candidateStates">Stati candidatura</Link>
 					<Separator/>
 					<Link to="/positions">Posizioni</Link>

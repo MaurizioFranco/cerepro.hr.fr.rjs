@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './CentralPanel.css';
+import './candidates.css';
 
 class CandidateFilterForm extends Component {
 	constructor (props) {

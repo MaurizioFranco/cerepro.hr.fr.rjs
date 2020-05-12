@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import SideBarMenuItem from './SideBarMenuItem';
-import './SideBarMenu.css';
+import './candidates.css';
 class SideBarMenu extends Component {
 	constructor (props) {
 		super(props);
@@ -18,13 +18,11 @@ class SideBarMenu extends Component {
 	render () {
 		return (
 				
-				<div>
-    				<div className="slimScrollDiv">
+    				<div className="leftMenu">
     						<ul className="sidebarNav">
     						{ this.state.courses.map(item => <SideBarMenuItem selectMenu={this.selectCourseCode} key={item} courseCode={item} />) }
     						</ul>
 				    </div>
-				</div>
     						
 		);
 	}
