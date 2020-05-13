@@ -4,6 +4,9 @@ import CandidateFilterForm from './CandidateFilterForm';
 import './candidates.css';
 
 import * as Constants from '../../constants' ;
+import { withRouter } from "react-router";
+
+
 
 const CANDIDATE_API = '/api/v1/candidatecustom/paginated/1000/0/' ;
 const FULL_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_API ;
@@ -11,13 +14,15 @@ const FULL_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_API ;
 class CandidateList extends Component {
 	constructor (props) {
 		super(props);
-		console.log("this.props: ");
+		console.log("CandidateList.constructor() - START");
+//		console.log("this.props: ");
 		console.log(this.props);
+		console.log("CandidateList.constructor() - END");
 //		this.setState({selectedCourseCode: this.props.selectedCourseCode});
 //		this.state= {selectedCourseCode: this.props.selectedCourseCode};
 //		console.log("email ricevuta: " + this.props.email);
-		console.log("this.props.selectedCourseCode: ");
-		console.log(this.props.selectedCourseCode);
+//		console.log("this.props.selectedCourseCode: ");
+//		console.log(this.props.selectedCourseCode);
 //		this.courses = ['MICEACFS01', 'MICEACFS02', 'MICEACFS03', 'MICEACFS04', 'MICEACFS05'] ;
 		
 		this.state = {
@@ -38,30 +43,34 @@ class CandidateList extends Component {
 //				surname:"Ponzio",
 //			}
 //		],
-		selectedCourseCode: this.props.selectedCourseCode,
+//		selectedCourseCode: this.props.selectedCourseCode,
 		filteredCandidateEmail : "" 
 		
 		}
 	}
 	
-	printDebug = () => {
-		console.log(this.props.selectedCourseCode);
-	}
+//	printDebug = () => {
+//		console.log(this.props.selectedCourseCode);
+//	}
 	
 	listFiltering = (text) => {
-		console.log(text);
+//		console.log(text);
 		this.setState({filteredCandidateEmail: text});
 	}
 	
 	componentDidMount() {			
 		console.log("CandidateList.componentDidMount - START - FULL_API_URI: " + FULL_API_URI);
+		const { match: { params } } = this.props;
+		console.log("CandidateList.componentDidMount() - DEBUG - Selected params.id:" + params.id);
+		
+		
 		fetch(FULL_API_URI, {"method": "GET"})
         .then(res => res.json())
         .then((data) => {
           this.setState({ candidates: data.content });	 
-          console.log("CandidateList.componentDidMount - DEBUG - data.content.length: " + data.content.length);
+//          console.log("CandidateList.componentDidMount - DEBUG - data.content.length: " + data.content.length);
         })
-        .catch(console.log)
+//        .catch(console.log)
       }
 	
 	render () {
@@ -73,7 +82,7 @@ class CandidateList extends Component {
 				</div>
 				
 				<CandidateFilterForm onSearchFormSubmit={this.listFiltering} />				
-				<table onMouseOver={this.printDebug}>
+				<table>
 		        <thead>
 		        <tr>
 		        <th></th>
@@ -97,4 +106,5 @@ class CandidateList extends Component {
 	}
 }
 
-export default CandidateList ;
+//export default CandidateList ;
+export default withRouter(CandidateList)

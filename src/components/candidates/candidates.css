@@ -6,13 +6,11 @@
 
 .panel-container {
 	background:yellow; 
-	align-content: right;
 	width: 90%;
 	float:right;
 }
 .panel {
 	padding: 5px 1px 1px 5px;
-	align-content: right;
 	width: 99%;
 /* 	float:right; */
 float: none;

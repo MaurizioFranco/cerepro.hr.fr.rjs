@@ -20,7 +20,8 @@ function App() {
 		  <div>
 		  <HeaderBarMenu userLoggedEmail="mau@bau.it" />
 			<Route exact path="/" component={HomeView}/>
-			<Route exact path="/candidates" component={CandidatesView}/>
+		    <Route path="/candidates/:id" component={CandidatesView}/>
+            <Route exact path="/candidates" component={CandidatesView}/>
             <Route exact path="/newCandidate" component={CandidateInsertView}/>
 			<Route exact path="/candidateStates" component={CandidateStatesListView}/>
 			<Route exact path="/positions" component={PositionsView}/>

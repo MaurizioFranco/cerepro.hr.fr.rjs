@@ -1,21 +1,20 @@
 import React, {Component} from 'react';
-
+import { Link } from "react-router-dom";
 
 class SideBarMenuItem extends Component {
-//	constructor (props) {
-//		super(props);
+	constructor (props) {
+		super(props);
 //		console.log(this.props);
-//		console.log("email ricevuta: " + this.props.email);
-//	}
-	showCandidateList = (courseCode) => {
-        console.log("showCandidateList for this courseCode: " + courseCode);
-        this.props.selectMenu(courseCode);
-    }
+		this.state = {
+				label : this.props.courseCode,
+				link : "/candidates/" + this.props.courseCode
+		}
+	}
 	render () {
 		return (
 				<React.Fragment>
-				 <li onClick={() => this.showCandidateList(this.props.courseCode)}> {this.props.courseCode} </li> 
-					</React.Fragment>
+				<li><Link to={this.state.link}>{this.state.label}</Link></li>
+				</React.Fragment>
 		);
 	}
 }

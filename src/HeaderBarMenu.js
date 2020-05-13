@@ -18,7 +18,10 @@ class HeaderBarMenu extends Component {
 		return (
 				<React.Fragment>
 				<header className="main">
-					<img alt="centauri-academy-logo" src={centauri_academy_header_logo} className="logo" /><span className="title">CeRePro.HR</span>
+				    <Link to="/">
+				    <img alt="centauri-academy-logo" src={centauri_academy_header_logo} className="logo" /><span className="title">CeRePro.HR</span>
+				    </Link>
+					
 					<EmptySeparator/><EmptySeparator/>
 					<Link to="/candidates">Candidati</Link>
 					<Separator/>
