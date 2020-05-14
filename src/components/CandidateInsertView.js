@@ -5,7 +5,7 @@ import CandidateInsertForm from './candidates/CandidateInsertForm';
 		render() {
 			return (
 				<div>
-				    <CandidateInsertForm /> />
+				    <CandidateInsertForm />
 				</div>
 			);
 		}

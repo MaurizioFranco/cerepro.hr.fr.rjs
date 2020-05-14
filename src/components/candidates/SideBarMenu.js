@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import SideBarMenuItem from './SideBarMenuItem';
 import './candidates.css';
-
+import { Link } from "react-router-dom";
 
 class SideBarMenu extends Component {
 	componentDidMount() {
@@ -27,7 +27,9 @@ class SideBarMenu extends Component {
 		return (
 				
     				<div className="leftMenu">
-    						<ul className="sidebarNav">    						
+    				    <Link to="newCandidate">Inserisci nuovo candidato</Link>
+    				    <span>Lista candidati per posizione:</span>
+    						<ul className="sidebarMenu">    						
     						{ this.state.courses.map(item => <SideBarMenuItem selectMenu={this.selectCourseCode} key={item} courseCode={item} />) }    						
     						</ul>
 				    </div>

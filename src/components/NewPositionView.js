@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 		render() {
 			return (
 				<div>
-					<h1>LISTA POSIZIONI</h1>
+					<h1>INSERISCI NUOVA POSIZIONE</h1>
 					<p>
 						Questa pagina contiene informazioni generiche
 						sulla applicazione che stai utilizzando.

@@ -12,19 +12,24 @@ const CANDIDATE_API = '/api/v1/candidatecustom/paginated/1000/0/' ;
 const FULL_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_API ;
 
 class CandidateList extends Component {
+	UNSAFE_componentWillReceiveProps(nextProps){
+//		console.log("CandidateList.componentWillReceiveProps - START - FULL_API_URI: " + FULL_API_URI);
+////		console.log(nextProps);
+		const { match: { params } } = nextProps;
+		this.fetchCandidates(params.id);
+//		console.log("CandidateList.componentWillReceiveProps() - DEBUG - Selected params.id:" + params.id);
+//		let APT_TO_CALL = FULL_API_URI + (params.id!==undefined?params.id:'');
+//		console.log("CandidateList.componentWillReceiveProps - DEBUG - APT_TO_CALL: " + APT_TO_CALL);
+//		fetch(APT_TO_CALL, {"method": "GET"})
+//        .then(res => res.json())
+//        .then((data) => {
+//          this.setState({ candidates: data.content });	 
+////          console.log("CandidateList.componentDidMount - DEBUG - data.content.length: " + data.content.length);
+//        })
+	}
 	constructor (props) {
 		super(props);
 		console.log("CandidateList.constructor() - START");
-//		console.log("this.props: ");
-		console.log(this.props);
-		console.log("CandidateList.constructor() - END");
-//		this.setState({selectedCourseCode: this.props.selectedCourseCode});
-//		this.state= {selectedCourseCode: this.props.selectedCourseCode};
-//		console.log("email ricevuta: " + this.props.email);
-//		console.log("this.props.selectedCourseCode: ");
-//		console.log(this.props.selectedCourseCode);
-//		this.courses = ['MICEACFS01', 'MICEACFS02', 'MICEACFS03', 'MICEACFS04', 'MICEACFS05'] ;
-		
 		this.state = {
 				candidates : [],
 //				candidates : [
@@ -58,20 +63,73 @@ class CandidateList extends Component {
 		this.setState({filteredCandidateEmail: text});
 	}
 	
+	fetchCandidates = (positionCode) =>{
+		const API_TO_CALL = FULL_API_URI + (positionCode!==undefined?positionCode:'');
+		console.log("CandidateList.fetchCandidates - DEBUG - API_TO_CALL: " + API_TO_CALL);
+//		let data = [] ;
+//		fetch(APT_TO_CALL, {"method": "GET"
+////		    withCredentials: true,
+////		    headers: myHeaders
+//		})
+//		.then(function(response) {
+//		    console.log(response.status); // Will show you the status
+//		    if (!response.ok) {
+//		        throw new Error("HTTP status " + response.status);
+//		        data = [] ;
+//		    } else {
+//		    	console.log();
+//		    	data = response.json();
+//		    }
+//		}).then (
+//				//this.setState({ candidates: data.content })
+//				this.state = { candidates: data.content }
+//				)
+		
+				fetch(API_TO_CALL)
+				  .then((response) => {
+					  console.log(response.status); // Will show you the status
+				    if(!response.ok) throw new Error(response.status);
+				    else return response.json();
+				  })
+				  .then((data) => {
+					this.setState({ candidates: data.content });
+				    console.log("DATA STORED");
+				  })
+				  .catch((error) => {
+				    console.log('error: ' + error);
+//				    this.setState({ requestFailed: true });
+				    this.setState({ candidates: [] });
+				  });
+		
+//		.then(// ...
+//				
+//		fetch(APT_TO_CALL, {"method": "GET"})
+//		.then(res => res.json())
+//		.then((data) => {
+//			
+//			this.setState({ candidates: data.content });	 
+////          console.log("CandidateList.componentDidMount - DEBUG - data.content.length: " + data.content.length);
+//		})
+//		.catch(console.log)
+//		
+	}
 	componentDidMount() {			
-		console.log("CandidateList.componentDidMount - START - FULL_API_URI: " + FULL_API_URI);
+//		console.log("CandidateList.componentDidMount - START - FULL_API_URI: " + FULL_API_URI);
 		const { match: { params } } = this.props;
-		console.log("CandidateList.componentDidMount() - DEBUG - Selected params.id:" + params.id);
-		
-		
-		fetch(FULL_API_URI, {"method": "GET"})
-        .then(res => res.json())
-        .then((data) => {
-          this.setState({ candidates: data.content });	 
-//          console.log("CandidateList.componentDidMount - DEBUG - data.content.length: " + data.content.length);
-        })
+		this.fetchCandidates(params.id);
+//		console.log("CandidateList.componentDidMount() - DEBUG - Selected params.id:" + params.id);
+//		let APT_TO_CALL = FULL_API_URI + (params.id!==undefined?params.id:'');
+//		console.log("CandidateList.componentDidMount - DEBUG - APT_TO_CALL: " + APT_TO_CALL);
+//		fetch(APT_TO_CALL, {"method": "GET"})
+//        .then(res => res.json())
+//        .then((data) => {
+//          this.setState({ candidates: data.content });	 
+////          console.log("CandidateList.componentDidMount - DEBUG - data.content.length: " + data.content.length);
+//        })
 //        .catch(console.log)
       }
+	
+	
 	
 	render () {
 		return (

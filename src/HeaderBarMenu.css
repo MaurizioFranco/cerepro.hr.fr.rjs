@@ -46,3 +46,7 @@ font-family: 'Open Sans',"Helvetica Neue",Helvetica,Arial,sans-serif;
 .App-link {
   color: #61dafb;
 }
+
+.buttonDropdown {
+	border:0px;
+}

@@ -13,7 +13,7 @@ class SideBarMenuItem extends Component {
 	render () {
 		return (
 				<React.Fragment>
-				<li><Link to={this.state.link}>{this.state.label}</Link></li>
+				<li className="sidebarMenuItems"><Link to={this.state.link}>{this.state.label}</Link></li>
 				</React.Fragment>
 		);
 	}
