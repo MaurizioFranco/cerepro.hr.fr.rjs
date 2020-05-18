@@ -9,6 +9,7 @@ class CandidatesView extends Component {
 				<div className="row ">
 				  <div className="col-md-1 sidebarMenu underHeader"><SideBarMenu2/></div>
 				  <div className="col-md-11 underHeader"><CandidateList/></div>
+				  
 				</div>
 					
 		);

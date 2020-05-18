@@ -3,8 +3,9 @@ import ListedCourseCandidate from './ListedCourseCandidate';
 import CandidateFilterForm from './CandidateFilterForm';
 import './candidates.css';
 import * as Constants from '../../constants' ;
-import { withRouter } from "react-router";
 
+import { withRouter } from "react-router";
+import MessageDialog from './MessageDialog.js';
 const CANDIDATE_API = '/api/v1/candidatecustom/' ;
 const CANDIDATE_GET_LIST_API = CANDIDATE_API + 'paginated/1000/0/' ;
 const FULL_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_GET_LIST_API ;
@@ -14,6 +15,7 @@ class CandidateList extends Component {
 //		console.log("CandidateList.componentWillReceiveProps - START - FULL_API_URI: " + FULL_API_URI);
 ////		console.log(nextProps);
 		const { match: { params } } = nextProps;
+		this.setState({selectedPositionCode:params.id});
 		this.fetchCandidates(params.id);
 //		console.log("CandidateList.componentWillReceiveProps() - DEBUG - Selected params.id:" + params.id);
 //		let APT_TO_CALL = FULL_API_URI + (params.id!==undefined?params.id:'');
@@ -28,9 +30,12 @@ class CandidateList extends Component {
 	constructor (props) {
 		super(props);
 		console.log("CandidateList.constructor() - START");
+		this.fetchCandidates.bind(this);
 		this.state = {
 				candidates : [],
 				selectedPositionCode: '',
+				messageDialogVisibility: false,
+				messageDialogText: '',
 //				candidates : [
 //			{
 //				email:"pippolallo@ymail.com",
@@ -65,6 +70,7 @@ class CandidateList extends Component {
 	fetchCandidates = (positionCode) =>{
 		const API_TO_CALL = FULL_API_URI + (positionCode!==undefined?positionCode:'');
 		console.log("CandidateList.fetchCandidates - DEBUG - API_TO_CALL: " + API_TO_CALL);
+		console.log(this.state.selectedPositionCode);
 //		let data = [] ;
 //		fetch(APT_TO_CALL, {"method": "GET"
 ////		    withCredentials: true,
@@ -115,9 +121,22 @@ class CandidateList extends Component {
 //		
 	}
 	
-	notifyDelete = (candidateFirstname, candidateLastname) =>{
-		console.log("CandidateList.notifyDelete - START - il candidato " + candidateFirstname + " " + candidateLastname + " è stato cancellato.");
-		this.fetchCandidates();
+	notifyWithAlertDialog = (messageText, messageDialogType) =>{
+		//console.log("CandidateList.notifyWithAlertDialog - START - il candidato " + candidateFirstname + " " + candidateLastname + " è stato cancellato, this.state.selectedPositionCode: " + this.state.selectedPositionCode);
+		this.fetchCandidates(this.state.selectedPositionCode);
+		this.setState({ 
+			messageDialogVisibility: true, 
+			messageDialogText: messageText,
+			messageDialogType: messageDialogType
+		});
+		
+		setTimeout(
+			    function() {
+			        this.setState({ messageDialogVisibility: false });
+			    }
+			    .bind(this),
+			    3000
+			);
 	}
 	
 	componentDidMount() {			
@@ -197,7 +216,7 @@ class CandidateList extends Component {
 													</tr>
 												</thead>
 												<tbody>
-												{ this.state.candidates.filter(item => (item.email.includes(this.state.filteredCandidateEmail))||(item.firstname.includes(this.state.filteredCandidateEmail))||(item.lastname.includes(this.state.filteredCandidateEmail))).map(item => <ListedCourseCandidate notifyDelete={this.notifyDelete} key={item.id} email={item.email} id={item.id} imgpath={item.imgpath} firstname={item.firstname} lastname={item.lastname} cvExternalPath={item.cvExternalPath} insertedByFirstname={item.insertedByFirstname}/>) }
+												{ this.state.candidates.filter(item => (item.email.includes(this.state.filteredCandidateEmail))||(item.firstname.includes(this.state.filteredCandidateEmail))||(item.lastname.includes(this.state.filteredCandidateEmail))).map(item => <ListedCourseCandidate notifyWithAlertDialog={this.notifyWithAlertDialog} key={item.id} email={item.email} id={item.id} imgpath={item.imgpath} firstname={item.firstname} lastname={item.lastname} cvExternalPath={item.cvExternalPath} insertedByFirstname={item.insertedByFirstname}/>) }
 												</tbody>
 				
 										</table>
@@ -215,6 +234,7 @@ class CandidateList extends Component {
 						</div>
 				        
 		            </div>
+		            <MessageDialog visibility={this.state.messageDialogVisibility} message={this.state.messageDialogText} type={this.state.messageDialogType}/>
 		        </div>
 		);
 	}

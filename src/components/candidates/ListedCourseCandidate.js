@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CandidateProfileImage from './CandidateProfileImage.js';
 import CandidateProfileCVDownloadImage from './CandidateProfileCVDownloadImage.js';
 import * as Constants from '../../constants' ;
+import * as Messages from '../../messages.js' ;
 import { Button } from 'react-bootstrap';
 
 const CANDIDATE_API = '/api/v1/candidatecustom/' ;
@@ -19,20 +20,22 @@ class ListedCourseCandidate extends Component {
 		console.log("called update form for candidate with id: " + candidateId);
 	};
     deleteCandidate = (candidateId, candidateFirstname, candidateLastname) => {
-    	console.log("called delete for candidate with id: " + candidateId);
+//    	console.log("called delete for candidate with id: " + candidateId);
     	fetch(FULL_API_URI + candidateId, {
     		  method: 'DELETE',
     		})
 //    		.then(res => res.text()) // or res.json()
 //    		.then(res => console.log(res))
-    		.then((response) => {
+    		.then((response, data) => {
 				  console.log(response.status); // Will show you the status
-			    if(!response.ok)
-			    	console.log("No candidate deleted!!");
+				  console.log(response);
+			    if(!response.ok) {
+//			    	console.log("No candidate deleted!!");
 //			    	//throw new Error(response.status);
-			    else {
-			    	console.log("Candidate " + candidateId + " successfully deleted!!!");
-			    	this.props.notifyDelete(candidateFirstname, candidateLastname);
+			    	this.props.notifyWithAlertDialog(Messages.CANDIDATE_NOT_DELETED_MESSAGE + candidateFirstname + " " + candidateLastname, Constants.DANGER_ALERT_DIALOG);
+			    } else {
+//			    	console.log("Candidate " + candidateId + " successfully deleted!!!");
+			    	this.props.notifyWithAlertDialog(Messages.CANDIDATE_SUCCESSFULLY_DELETED_MESSAGE + candidateFirstname + " " + candidateLastname, Constants.SUCCESS_ALERT_DIALOG);
 			    }
 			  })
 //			  .then((data) => {
@@ -45,8 +48,6 @@ class ListedCourseCandidate extends Component {
 //			    this.setState({ candidates: [] });
 //			  });
 	};
-//	<td><button onClick={this.updateCandidate(this.props.id)} >MODIFICA</button></td>
-//	<td><button onClick={this.deleteCandidate(this.props.id)} >ELIMINA</button></td>
 	
 	
 	render () {
