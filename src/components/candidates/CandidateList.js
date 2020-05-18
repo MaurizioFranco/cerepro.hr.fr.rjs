@@ -2,14 +2,12 @@ import React, {Component} from 'react';
 import ListedCourseCandidate from './ListedCourseCandidate';
 import CandidateFilterForm from './CandidateFilterForm';
 import './candidates.css';
-
 import * as Constants from '../../constants' ;
 import { withRouter } from "react-router";
 
-
-
-const CANDIDATE_API = '/api/v1/candidatecustom/paginated/1000/0/' ;
-const FULL_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_API ;
+const CANDIDATE_API = '/api/v1/candidatecustom/' ;
+const CANDIDATE_GET_LIST_API = CANDIDATE_API + 'paginated/1000/0/' ;
+const FULL_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_GET_LIST_API ;
 
 class CandidateList extends Component {
 	UNSAFE_componentWillReceiveProps(nextProps){
@@ -32,6 +30,7 @@ class CandidateList extends Component {
 		console.log("CandidateList.constructor() - START");
 		this.state = {
 				candidates : [],
+				selectedPositionCode: '',
 //				candidates : [
 //			{
 //				email:"pippolallo@ymail.com",
@@ -88,12 +87,14 @@ class CandidateList extends Component {
 				fetch(API_TO_CALL)
 				  .then((response) => {
 					  console.log(response.status); // Will show you the status
-				    if(!response.ok) throw new Error(response.status);
+				    if(!response.ok)
+				    	console.log("No candidates found!!");
+				    	//throw new Error(response.status);
 				    else return response.json();
 				  })
 				  .then((data) => {
 					this.setState({ candidates: data.content });
-				    console.log("DATA STORED");
+//				    console.log("DATA STORED");
 				  })
 				  .catch((error) => {
 				    console.log('error: ' + error);
@@ -113,6 +114,12 @@ class CandidateList extends Component {
 //		.catch(console.log)
 //		
 	}
+	
+	notifyDelete = (candidateFirstname, candidateLastname) =>{
+		console.log("CandidateList.notifyDelete - START - il candidato " + candidateFirstname + " " + candidateLastname + " è stato cancellato.");
+		this.fetchCandidates();
+	}
+	
 	componentDidMount() {			
 //		console.log("CandidateList.componentDidMount - START - FULL_API_URI: " + FULL_API_URI);
 		const { match: { params } } = this.props;
@@ -129,36 +136,85 @@ class CandidateList extends Component {
 //        .catch(console.log)
       }
 	
-	
-	
 	render () {
+		
+		
 		return (
 				<div className="panel-container">
-				<div className="panel">
-				<div className="panel-heading">
-				Lista candidati
-				</div>
+				    <div className="panel">
+				        <div className="panel-heading">
+				           Lista candidati
+				        </div>
 				
-				<CandidateFilterForm onSearchFormSubmit={this.listFiltering} />				
-				<table>
-		        <thead>
-		        <tr>
-		        <th></th>
-		        <th></th>
-		        <th>Email</th>
-		        <th>Nome</th>
-		        <th>Cognome</th>
-		        <th>CV</th>
-		        <th>inserito da</th>
-		        <th>&nbsp;</th>
-		        <th>&nbsp;</th>
-		        </tr>
-		        </thead>
-		        <tbody>	        
-		          { this.state.candidates.filter(item => (item.email.includes(this.state.filteredCandidateEmail))||(item.firstname.includes(this.state.filteredCandidateEmail))||(item.lastname.includes(this.state.filteredCandidateEmail))).map(item => <ListedCourseCandidate key={item.id} email={item.email} id={item.id} imgpath={item.imgpath} firstname={item.firstname} lastname={item.lastname} cvExternalPath={item.cvExternalPath} insertedByFirstname={item.insertedByFirstname}/>) }
-		        </tbody>  
-		        </table>
-		        </div>
+				        
+				        					
+						
+				        
+				        
+				        <div className="panel-body">
+							<div id="data-table-default_wrapper" className="dataTables_wrapper form-inline dt-bootstrap no-footer">
+								
+							
+							
+							
+								<div className="row">
+									<div className="col-sm-6">
+										<div className="dataTables_length" id="data-table-default_length">
+											<label>Visualizza <select id="mySelect">
+												</select> candidati
+											</label>
+										</div>
+									</div>
+									<div className="col-sm-6">
+										<div id="data-table-default_filter" className="dataTables_filter">
+										<CandidateFilterForm onSearchFormSubmit={this.listFiltering} />
+										</div>
+									</div>
+								</div>
+						
+						
+						
+						
+						
+						
+						
+						
+						
+								<div className="row">
+									<div className="table-responsive">
+										<table id="data-table-default" className="table table-striped table-bordered dataTable no-footer dtr-inline" role="grid" aria-describedby="data-table-default_info">
+												<thead>
+													<tr role="row">
+														<th>&nbsp;</th>
+														<th></th>
+														<th>Email</th>
+														<th>Nome</th>
+														<th>Cognome</th>
+														<th>CV</th>
+														<th>inserito da</th>
+														<th width="100"></th>
+														<th width="100"></th>
+													</tr>
+												</thead>
+												<tbody>
+												{ this.state.candidates.filter(item => (item.email.includes(this.state.filteredCandidateEmail))||(item.firstname.includes(this.state.filteredCandidateEmail))||(item.lastname.includes(this.state.filteredCandidateEmail))).map(item => <ListedCourseCandidate notifyDelete={this.notifyDelete} key={item.id} email={item.email} id={item.id} imgpath={item.imgpath} firstname={item.firstname} lastname={item.lastname} cvExternalPath={item.cvExternalPath} insertedByFirstname={item.insertedByFirstname}/>) }
+												</tbody>
+				
+										</table>
+									</div>
+								</div>
+							
+						
+							
+							
+							
+							
+							
+							
+						    </div>
+						</div>
+				        
+		            </div>
 		        </div>
 		);
 	}

@@ -30,7 +30,7 @@ class HeaderBarMenu extends Component {
 					  </button>
 					  </Link>
 					  <div className="collapse navbar-collapse" id="navbarSupportedContent">
-					    <ul className="navbar-nav mr-auto ">
+					    <ul className="navbar-nav ml-auto ">
 					      <li className="nav-item">
 					        <Link className="nav-link" to="/candidates">Candidati</Link>
 					      </li>

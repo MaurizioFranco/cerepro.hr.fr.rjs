@@ -19,16 +19,14 @@ function App() {
         
         
         <BrowserRouter>
-		  <div>
-		  <HeaderBarMenu userLoggedEmail="mau@bau.it" />
+		    <HeaderBarMenu userLoggedEmail="mau@bau.it" />
 			<Route exact path="/" component={HomeView}/>
-		    <Route path="/candidates/:id" component={CandidatesView}/>
             <Route exact path="/candidates" component={CandidatesView}/>
-            <Route exact path="/newCandidate" component={CandidateInsertView}/>
+            <Route path="/candidates/:id" component={CandidatesView}/>
+            <Route exact path="/insertNewCandidate" component={CandidateInsertView}/>
 			<Route exact path="/candidateStates" component={CandidateStatesListView}/>
 			<Route exact path="/newPosition" component={NewPositionView}/>
 		    <Route exact path="/positionsList" component={PositionsView}/>
-		  </div>
 		</BrowserRouter>
     </div>
   );

@@ -1,33 +1,67 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import CandidateProfileImage from './CandidateProfileImage.js';
+import CandidateProfileCVDownloadImage from './CandidateProfileCVDownloadImage.js';
+import * as Constants from '../../constants' ;
+import { Button } from 'react-bootstrap';
+
+const CANDIDATE_API = '/api/v1/candidatecustom/' ;
+const FULL_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_API ;
 
 class ListedCourseCandidate extends Component {
 //	constructor (props) {
 //		super(props);
-//		console.log(this.props);
-//		console.log("email ricevuta: " + this.props.email);
+////		console.log(this.props);
+////		console.log("email ricevuta: " + this.props.email);
+//		
 //	}
 	updateCandidate = (candidateId) => {
 		console.log("called update form for candidate with id: " + candidateId);
 	};
-    deleteCandidate = (candidateId) => {
+    deleteCandidate = (candidateId, candidateFirstname, candidateLastname) => {
     	console.log("called delete for candidate with id: " + candidateId);
+    	fetch(FULL_API_URI + candidateId, {
+    		  method: 'DELETE',
+    		})
+//    		.then(res => res.text()) // or res.json()
+//    		.then(res => console.log(res))
+    		.then((response) => {
+				  console.log(response.status); // Will show you the status
+			    if(!response.ok)
+			    	console.log("No candidate deleted!!");
+//			    	//throw new Error(response.status);
+			    else {
+			    	console.log("Candidate " + candidateId + " successfully deleted!!!");
+			    	this.props.notifyDelete(candidateFirstname, candidateLastname);
+			    }
+			  })
+//			  .then((data) => {
+//				this.setState({ candidates: data.content });
+////			    console.log("DATA STORED");
+//			  })
+//			  .catch((error) => {
+//			    console.log('error: ' + error);
+////			    this.setState({ requestFailed: true });
+//			    this.setState({ candidates: [] });
+//			  });
 	};
 //	<td><button onClick={this.updateCandidate(this.props.id)} >MODIFICA</button></td>
 //	<td><button onClick={this.deleteCandidate(this.props.id)} >ELIMINA</button></td>
+	
+	
 	render () {
 		return (
 				<React.Fragment>
-				<tr>
-				<td>{this.props.id}</td>
-				<td>{this.props.imgpath!=="null" && this.props.imgpath}</td>
+				<tr className="gradeX odd" role="row">
+				<td >{this.props.id}</td>
+				<td><CandidateProfileImage img={this.props.imgpath}/></td>
 				<td>{this.props.email}</td>
 				<td>{this.props.firstname}</td>
 				<td>{this.props.lastname}</td>
-				<td>{this.props.cvExternalPath!=="null" ? this.props.cvExternalPath : ''}</td>
+				<td><CandidateProfileCVDownloadImage cvExternalPath={this.props.cvExternalPath} /></td>
 				<td>{this.props.insertedByFirstname}</td>
-				<td><button onClick={() => this.updateCandidate(this.props.id)} >MODIFICA</button></td>
-				<td><button onClick={() => this.deleteCandidate(this.props.id)} > CANCELLA </button></td> 
+				<td><Button onClick={() => this.updateCandidate(this.props.id)} variant="primary">Modifica</Button></td>
+				<td><Button onClick={() => this.deleteCandidate(this.props.id, this.props.firstname, this.props.lastname)} variant="danger">Elimina</Button></td> 
 				</tr>
 				</React.Fragment>
 		);

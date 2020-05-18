@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import * as Constants from '../../constants' ;
-
-const CANDIDATE_API = '/api/v1/coursepage/' ;
-const FULL_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_API ;
+import './candidates.css';
+const COURSE_CODE_API = '/api/v1/coursepage/' ;
+const CANDIDATE_API = '/api/v1/candidatecustom/' ;
+const FULL_COURSECODE_API_URI = Constants.BACKEND_API_PREFIX + COURSE_CODE_API ;
+const FULL_CANDIDATE_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_API ;
 
 class CandidateInsertForm extends Component {
 	
@@ -18,13 +20,14 @@ class CandidateInsertForm extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 		
 		this.state = {
-				courseCodes : [{code: "MICEACFS01", title: "corso full stack java developer - MILANO - 01"}],
+				courseCodes : [],
 				selectedPositionCode: '',
 				
 				firstname : '',
 				lastname : '',
 				positionCode : '',
 				email: '',
+//				imgpath: ''
 //				candidateGraduate: false,
 //			    candidateHighGraduate:false,
 //			    candidateHighStillGraduating:false
@@ -32,9 +35,8 @@ class CandidateInsertForm extends Component {
 	}
 	
 	fetchCourseCodes = () =>{
-		const API_TO_CALL = FULL_API_URI ;
-		console.log("CandidateInsertForm.fetchCourseCodes - DEBUG - API_TO_CALL: " + API_TO_CALL);
-		fetch(API_TO_CALL)
+		console.log("CandidateInsertForm.fetchCourseCodes - DEBUG - FULL_COURSECODE_API_URI: " + FULL_COURSECODE_API_URI);
+		fetch(FULL_COURSECODE_API_URI)
 		  .then((response) => {
 			  console.log(response.status); // Will show you the status
 		    if(!response.ok) {
@@ -55,7 +57,49 @@ class CandidateInsertForm extends Component {
 	  handleSubmit(event) {
 	    console.log(this.state);
 	    event.preventDefault();
+	    this.sendInsertRequest();
 	  }
+	
+	sendInsertRequest = () => {
+		
+		const formData = new FormData();
+
+		const fileInput = document.querySelector("#imgpath");
+		if (fileInput.files[0]!==undefined) {
+			console.log("fileInput: " + fileInput);
+			console.log("fileInput.files[0]: " + fileInput.files[0]);
+			console.log("fileInput.files[0].name: " + fileInput.files[0].name);
+			formData.append("files", fileInput.files[0])
+			formData.append("imgpath", fileInput.files[0].name)
+		}
+		const fileInput2 = document.querySelector("#cvpath");
+		if (fileInput2.files[0]!==undefined) {
+			console.log("fileInput2: " + fileInput2);
+			console.log("fileInput2.files[0]: " + fileInput2.files[0]);
+			console.log("fileInput2.files[0].name: " + fileInput2.files[0].name);
+			formData.append("files", fileInput2.files[0])
+			formData.append("cvExternalPath", fileInput2.files[0].name)
+		}
+		
+//	    formData.append("file", fileInput.files[0]);
+	    formData.append("firstname", this.state.firstname);
+	    formData.append("lastname", this.state.lastname);
+	    formData.append("email", this.state.email);
+	    formData.append("userId", 13);
+	    formData.append("insertedBy", 13);
+	    formData.append("courseCode", this.state.positionCode);
+
+	    const options = {
+	      method: "POST",
+	      body: formData
+	      // If you add this, upload won't work
+	      // headers: {
+	      //   'Content-Type': 'multipart/form-data',
+	      // }
+	    };
+	    fetch(FULL_CANDIDATE_API_URI, options);
+		
+	}
 	
     handleInputChange(event) {
 	    const target = event.target;
@@ -65,60 +109,6 @@ class CandidateInsertForm extends Component {
 	    this.setState({
 	      [name]: value,    });
 	}
-//	
-	
-//	onChangeInputFirstname = (event) => {
-////		console.log(event.target.value);
-//		this.setState({firstname:event.target.value});
-//	} 
-//	onChangeInputLastname = (event) => {
-////		console.log(event.target.value);
-//		this.setState({lastname:event.target.value});
-//	} 
-//	onChangeInputEmail = (event) => {
-////		console.log(event.target.value);
-//		this.setState({email:event.target.value});
-//	} 
-//	onChangeInputPositionCode = (event) => {
-////		console.log(event.target.value);
-//		this.setState({positionCode:event.target.value});
-//	}
-//	onChangeInputMobile = (event) => {
-////		console.log(event.target.value);
-//		this.setState({candidateMobile:event.target.value});
-//	}
-//	
-//	onChangeInputStudyTitle = (event) => {
-////		console.log(event.target.value);
-//		this.setState({candidateStudyTitle:event.target.value});
-//	} 
-//	onChangeInputDomicileCity = (event) => {
-////		console.log(event.target.value);
-//		this.setState({candidateDomicileCity:event.target.value});
-//	}
-//	onChangeInputCandidateGraduate = (event) => {
-////		console.log(event.target.value);
-//		this.setState({[event.target.name]:event.target.checked});
-//	}
-//	onChangeInputCandidateHighGraduate = (event) => {
-////		console.log(event.target.value);
-//		this.setState({[event.target.name]:event.target.checked});
-//	}
-//	onChangeInputCandidateStillGraduating = (event) => {
-////		console.log(event.target.value);
-//		this.setState({[event.target.name]:event.target.checked});
-//	}
-//	
-//	insertNewCandidate = (event) => {
-////		console.log(event.target.value);
-////		this.setState({firstname:event.target.value});
-//		console.log(this.state);
-//		event.preventDefault();
-//	} 
-	
-//	printDebug = () => {
-//		console.log(this.props.selectedCourseCode);
-//	}
 	
 //	
 //	<input type="tel" name="mobile" placeholder="Numero di telefono" onChange={this.onChangeInputMobile}  />
@@ -132,8 +122,8 @@ class CandidateInsertForm extends Component {
 //	<label>Nome:</label>
 	render () {
 		return (
-				
-				<div className="CandidateInsertFormPanel">
+				<div className="row">
+				  <div className="col-md-12 underHeader">
 				    <form onSubmit={this.handleSubmit}>
 				        <input type="text" name="firstname" placeholder="Nome" onChange={this.handleInputChange} />
 				        <input type="text" name="lastname" placeholder="Cognome" onChange={this.handleInputChange} />
@@ -143,9 +133,11 @@ class CandidateInsertForm extends Component {
 				        	return <option key={key} value={e.code}>{e.title}</option>;
 				        })}
 				        </select>
-				        <input type="submit" value="Submit" />
-				        
+				        <input type="file" id="imgpath" accept=".png,.jpeg,.gif,.jpg" />
+				        <input type="file" id="cvpath" accept=".doc,.pdf,.docx,.odt" />
+				        <input type="submit" value="Submit" />				        
 				    </form>
+		        </div>
 		        </div>
 		);
 	}
