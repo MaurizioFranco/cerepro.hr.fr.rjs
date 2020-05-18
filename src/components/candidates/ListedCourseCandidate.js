@@ -26,7 +26,7 @@ class ListedCourseCandidate extends Component {
     		})
 //    		.then(res => res.text()) // or res.json()
 //    		.then(res => console.log(res))
-    		.then((response, data) => {
+    		.then((response) => {
 				  console.log(response.status); // Will show you the status
 				  console.log(response);
 			    if(!response.ok) {
@@ -38,10 +38,11 @@ class ListedCourseCandidate extends Component {
 			    	this.props.notifyWithAlertDialog(Messages.CANDIDATE_SUCCESSFULLY_DELETED_MESSAGE + candidateFirstname + " " + candidateLastname, Constants.SUCCESS_ALERT_DIALOG);
 			    }
 			  })
-//			  .then((data) => {
+			  .then((data) => {
 //				this.setState({ candidates: data.content });
-////			    console.log("DATA STORED");
-//			  })
+//			    console.log("DATA STORED");
+				  console.log(data);
+			  })
 //			  .catch((error) => {
 //			    console.log('error: ' + error);
 ////			    this.setState({ requestFailed: true });

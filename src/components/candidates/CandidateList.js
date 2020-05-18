@@ -11,6 +11,7 @@ const CANDIDATE_GET_LIST_API = CANDIDATE_API + 'paginated/1000/0/' ;
 const FULL_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_GET_LIST_API ;
 
 class CandidateList extends Component {
+	
 	UNSAFE_componentWillReceiveProps(nextProps){
 //		console.log("CandidateList.componentWillReceiveProps - START - FULL_API_URI: " + FULL_API_URI);
 ////		console.log(nextProps);
@@ -122,7 +123,6 @@ class CandidateList extends Component {
 	}
 	
 	notifyWithAlertDialog = (messageText, messageDialogType) =>{
-		//console.log("CandidateList.notifyWithAlertDialog - START - il candidato " + candidateFirstname + " " + candidateLastname + " è stato cancellato, this.state.selectedPositionCode: " + this.state.selectedPositionCode);
 		this.fetchCandidates(this.state.selectedPositionCode);
 		this.setState({ 
 			messageDialogVisibility: true, 
@@ -140,20 +140,9 @@ class CandidateList extends Component {
 	}
 	
 	componentDidMount() {			
-//		console.log("CandidateList.componentDidMount - START - FULL_API_URI: " + FULL_API_URI);
 		const { match: { params } } = this.props;
 		this.fetchCandidates(params.id);
-//		console.log("CandidateList.componentDidMount() - DEBUG - Selected params.id:" + params.id);
-//		let APT_TO_CALL = FULL_API_URI + (params.id!==undefined?params.id:'');
-//		console.log("CandidateList.componentDidMount - DEBUG - APT_TO_CALL: " + APT_TO_CALL);
-//		fetch(APT_TO_CALL, {"method": "GET"})
-//        .then(res => res.json())
-//        .then((data) => {
-//          this.setState({ candidates: data.content });	 
-////          console.log("CandidateList.componentDidMount - DEBUG - data.content.length: " + data.content.length);
-//        })
-//        .catch(console.log)
-      }
+    }
 	
 	render () {
 		
