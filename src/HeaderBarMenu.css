@@ -57,3 +57,8 @@ font-family: 'Open Sans',"Helvetica Neue",Helvetica,Arial,sans-serif;
 .buttonDropdown {
 	border:0px;
 }
+
+.logoutIcon {
+	height:30px;
+	width:30px;
+}

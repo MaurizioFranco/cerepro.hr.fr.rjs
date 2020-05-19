@@ -35,17 +35,17 @@
 	padding: 10px 15px;
 }
 
-.sidebarMenu {
-	height: 90vh;
-	background:#2D353C;
-	font-size: 12px;
-    font-family: 'Open Sans',"Helvetica Neue",Helvetica,Arial,sans-serif;
-    padding: 7px 20px;
-    line-height: 20px;
-    color: #a8acb1;
-/*     text-decoration: none; */
-/*     box-sizing: border-box; */
-}
+/* .sidebarMenu { */
+/* 	height: 90vh; */
+/* 	background:#2D353C; */
+/* 	font-size: 12px; */
+/*     font-family: 'Open Sans',"Helvetica Neue",Helvetica,Arial,sans-serif; */
+/*     padding: 7px 20px; */
+/*     line-height: 20px; */
+/*     color: #a8acb1; */
+/* /*     text-decoration: none; */ */
+/* /*     box-sizing: border-box; */ */
+/* } */
 .sidebarMenuItems > a {
 /*     color: #a8acb1; */
 /*     line-height: 20px; */

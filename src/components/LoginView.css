@@ -1,0 +1,46 @@
+.login-main-text{
+    padding: 60px;
+    color: #000000;
+}
+
+.btn-black{
+    background-color: #000 !important;
+    color: #fff;
+}
+
+@media screen and (max-width: 450px) {   
+    .login_logo {
+		height:15vh;
+		width:36vh;
+	}
+}
+	
+@media screen and (min-width: 768px){
+    .main{
+        margin-left: 40%; 
+    }
+
+    .product-info{
+        width: 40%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+    }
+
+    .login-form{
+        margin-top: 80%;
+    }
+
+    .register-form{
+        margin-top: 20%;
+    }
+    
+    .login_logo {
+		height:15vh;
+	}
+	
+	.login-main-text{
+	    margin-top: 20%;		   
+	}
+}

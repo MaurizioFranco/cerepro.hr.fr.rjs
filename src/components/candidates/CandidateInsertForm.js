@@ -10,7 +10,9 @@ class CandidateInsertForm extends Component {
 	
 	componentDidMount() {			
 //		const { match: { params } } = this.props;
+		this.fetchCourseCodes.bind(this);
 		this.fetchCourseCodes();
+		
       }
 	
 	constructor (props) {
@@ -61,7 +63,7 @@ class CandidateInsertForm extends Component {
 	  }
 	
 	sendInsertRequest = () => {
-		
+		const { match: history } = this.props;
 		const formData = new FormData();
 
 		const fileInput = document.querySelector("#imgpath");
@@ -97,7 +99,10 @@ class CandidateInsertForm extends Component {
 	      //   'Content-Type': 'multipart/form-data',
 	      // }
 	    };
-	    fetch(FULL_CANDIDATE_API_URI, options);
+	    fetch(FULL_CANDIDATE_API_URI, options).then(() => {
+	        history.push('/candidates');
+	    });
+	    
 		
 	}
 	

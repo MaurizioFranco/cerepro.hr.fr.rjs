@@ -6,24 +6,40 @@ import 'bootstrap/dist/css/bootstrap.css';
 import * as Constants from './constants.js' ;
 import HeaderBarMenuNavbarItem from './HeaderBarMenuNavbarItem.js' ;
 import 'bootstrap/dist/js/bootstrap.bundle';
-
+import logout_icon from './images/logout_icon.png';
 const POSITION_CODES_API = '/api/v1/coursepage/' ;
 const FULL_API_URI = Constants.BACKEND_API_PREFIX + POSITION_CODES_API ;
 
 class HeaderBarMenu extends Component {
 	
-	 
 	constructor (props) {
 		super(props);
+//		this.logout.bind(this);
+//		Constants.getAuthorizationHeader();
 //		const {userLoggedEmail} = this.props;
 ////		console.log(this.props);
 ////		console.log("email ricevuta: " + this.props.email);
 ////		this.courses = ['MICEACFS01', 'MICEACFS02', 'MICEACFS03', 'MICEACFS04', 'MICEACFS05'] ;
+		
+//		this.validateSession.bind(this);
+//		this.validateSession();
 		this.fetchPositionCodes();
 		this.state = {
 			position_codes: []
 		};
 	}
+	
+//	handleLogout = history => () => {
+//		  store.remove('loggedIn');
+//		  history.push('/login');
+//		};
+	
+//	validateSession = () => {
+//		console.log("validateSession - START");
+//		if (true) {
+//			this.props.history.push('/login');			
+//		}
+//	}
 	
 	fetchPositionCodes = () =>{
 		console.log("CandidateList.fetchPositionCodes - DEBUG - FULL_API_URI: " + FULL_API_URI);
@@ -44,6 +60,11 @@ class HeaderBarMenu extends Component {
 //		    this.setState({ candidates: [] });
 //		  });
 
+	}
+	
+	logout = () => {
+		console.log("LOGOUT - START");
+		this.props.logout();
 	}
 	
 	render () {
@@ -89,11 +110,14 @@ class HeaderBarMenu extends Component {
 					      </li>
 					      
 					      <li className="nav-item">
-					        <Link className="nav-link disabled" to="/editProfile">Benvenuto: {this.props.userLoggedEmail}</Link>
+					          <Link className="nav-link disabled" to="/editProfile">Benvenuto: {this.props.userLoggedEmail}</Link>
 					      </li>
 					      <li className="nav-item">					        
-					        <Link className="nav-link disabled" to="/logout">LOGOUT</Link>
+					          <button className="nav-link buttonDropdown" onClick={this.logout}>					          
+					              <img src={logout_icon} className="logoutIcon" alt='logout'/>
+					        </button>
 					      </li>
+					      
 					    </ul>	
 					  </div>
 					</nav>   
