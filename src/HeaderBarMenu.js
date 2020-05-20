@@ -11,7 +11,7 @@ const POSITION_CODES_API = '/api/v1/coursepage/' ;
 const FULL_API_URI = Constants.BACKEND_API_PREFIX + POSITION_CODES_API ;
 
 class HeaderBarMenu extends Component {
-	
+	_isMounted = false;
 	constructor (props) {
 		super(props);
 //		this.logout.bind(this);
@@ -23,12 +23,25 @@ class HeaderBarMenu extends Component {
 		
 //		this.validateSession.bind(this);
 //		this.validateSession();
-		this.fetchPositionCodes();
 		this.state = {
-			position_codes: []
+			position_codes: [],
+			userLoggedEmail: ''
 		};
 	}
-	
+	componentDidMount () {
+		this._isMounted = true;
+		let userLoggedEmail = localStorage.getItem('userLoggedEmail');
+		if (this._isMounted) {
+		    this.setState({				
+				userLoggedEmail: userLoggedEmail
+			});
+		    this.fetchPositionCodes();
+		}
+		
+	}
+	componentWillUnmount() {
+	    this._isMounted = false;
+	  }
 //	handleLogout = history => () => {
 //		  store.remove('loggedIn');
 //		  history.push('/login');
@@ -42,17 +55,19 @@ class HeaderBarMenu extends Component {
 //	}
 	
 	fetchPositionCodes = () =>{
-		console.log("CandidateList.fetchPositionCodes - DEBUG - FULL_API_URI: " + FULL_API_URI);
+//		console.log("CandidateList.fetchPositionCodes - DEBUG - FULL_API_URI: " + FULL_API_URI);
 		fetch(FULL_API_URI)
 		  .then((response) => {
-			  console.log(response.status); // Will show you the status
+//			  console.log(response.status); // Will show you the status
 		    if(!response.ok)
 		    	console.log("No position codes found!!");
 		    else return response.json();
 		  })
 		  .then((data) => {
-			this.setState({ position_codes: data });
-				    console.log(data);
+			  if (this._isMounted) {
+			      this.setState({ position_codes: data });
+			  }
+//				    console.log(data);
 		  })
 //		  .catch((error) => {
 //		    console.log('error: ' + error);
@@ -94,6 +109,7 @@ class HeaderBarMenu extends Component {
 						        { this.state.position_codes.map(item => <HeaderBarMenuNavbarItem key={item.code} code={item.code} />) }
 					        </div>
 					      </li>
+					      {/*
 					      <li className="nav-item">
 					        <Link className="nav-link" to="/candidateStates">Stati candidatura</Link>
 					      </li>
@@ -108,9 +124,9 @@ class HeaderBarMenu extends Component {
 						        <Link className="dropdown-item" to="/newPosition">Inserisci nuova posizione</Link>
 					        </div>
 					      </li>
-					      
+					      */}
 					      <li className="nav-item">
-					          <Link className="nav-link disabled" to="/editProfile">Benvenuto: {this.props.userLoggedEmail}</Link>
+					          <span className="nav-link">Benvenuto {this.state.userLoggedEmail}</span>
 					      </li>
 					      <li className="nav-item">					        
 					          <button className="nav-link buttonDropdown" onClick={this.logout}>					          

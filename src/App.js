@@ -13,7 +13,6 @@ import LoginView from "./components/LoginView.js";
 function App() {
   
   return (
-    <div className="container-fluid">
         <BrowserRouter>
 		    <Switch>
 		       <Route path='/login' component={LoginView} />
@@ -21,7 +20,6 @@ function App() {
 		    </Switch>
             
 		</BrowserRouter>
-    </div>
   );
 }
 
