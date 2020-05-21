@@ -10,10 +10,9 @@ export const ModalLoadingSpinnerComponent = (props) => {
     <div>
     {
        (promiseInProgress === true) ? 
-    		   /*<h3>Hey I'm a spinner loader wannabe !!!</h3>*/ 
     		   <div className="modalLoaderDialog">
 	    		   <div className="loader modalLoader">
-	                   <img src={proxima_arrow} alt="loading..." />
+	                   <img src={proxima_arrow} alt="loading..." className="proxima_arrow_spinner"/>
 	               </div>
                </div>
        : null
