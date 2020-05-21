@@ -78,19 +78,6 @@ class CandidateList extends Component {
 		console.log("CandidateList.fetchCandidates - DEBUG - API_TO_CALL: " + API_TO_CALL);
 		console.log(this.state.selectedPositionCode);
 		Commons.executeFetch (API_TO_CALL, 'GET', this.setCandidates);
-//				fetch(API_TO_CALL)
-//				  .then((response) => {
-//					  console.log(response.status); // Will show you the status
-//				    if(!response.ok)
-//				    	console.log("No candidates found!!");
-//				    	//throw new Error(response.status);
-//				    else return response.json();
-//				  })
-//				  .then((data) => {
-//					  if (data!==undefined) {
-//						  this.setState({ candidates: data.content });
-//					  }
-//				  })
 	}
 	setCandidates = (candidatesToSet) => {
 		Commons.debugMessage("setCandidates - START - candidatesToSet: " + candidatesToSet);
