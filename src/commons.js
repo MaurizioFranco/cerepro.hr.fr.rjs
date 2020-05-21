@@ -49,7 +49,13 @@ export function executeFetchWithHeader (uri, method, headerToken, callbackFuncti
 }
 
 const DEBUG_ENABLED = true ;
+const INFO_ENABLED = true ;
 
+export function infoMessage (message) {
+	if (INFO_ENABLED) {
+		console.info(message);
+	}
+}
 export function debugMessage (message) {
 	if (DEBUG_ENABLED) {
 		console.log(message);
