@@ -1,4 +1,6 @@
 
+import { trackPromise} from 'react-promise-tracker';
+
 export function getAuthorizationHeader(email, password) {
 	debugMessage("getAuthorizationHeader - START - email: " + email + " - password: " + password);
     let authdata = getAuthorizationToken(email, password);
@@ -16,25 +18,34 @@ export function getAuthorizationHeaderFromToken(token) {
 	return { 'Authorization': 'Basic ' + token };
 }
 
+
 export function executeFetch (uri, method, callbackFunction) {
 	debugMessage("Commons.executeFetch - START - uri: " + uri);
-	let token = localStorage.getItem('headerToken');
+	let token = sessionStorage.getItem('headerToken');
 	let headerToken = getAuthorizationHeaderFromToken(token);
-	fetch(uri , {
-        method: "GET",
-        headers: headerToken
-                  },)
-	  .then((response) => {
-	      if(!response.ok) {
-	    	  console.warn(response.status); // Will show you the status
-	    	  //throw new Error(response.status);
-	      } else return response.json();
-	  })
-	  .then((data) => {
-		  if (data!==undefined) {
-			  callbackFunction(data.content);
-		  }
-	  })
+	this.executeFetchWithHeader (uri, method, headerToken, callbackFunction)
+	
+}
+
+export function executeFetchWithHeader (uri, method, headerToken, callbackFunction) {
+	debugMessage("Commons.executeFetchWithHeader - START - uri: " + uri);
+	trackPromise(
+		fetch(uri , {
+	        method: "GET",
+	        headers: headerToken
+	                  },)
+		  .then((response) => {
+		      if(!response.ok) {
+		    	  console.warn(response.status); // Will show you the status
+		    	  //throw new Error(response.status);
+		      } else return response.json();
+		  })
+		  .then((data) => {
+			  if (data!==undefined) {
+				  callbackFunction(data);
+			  }
+		  })
+    );
 }
 
 const DEBUG_ENABLED = true ;

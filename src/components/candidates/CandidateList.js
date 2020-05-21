@@ -94,7 +94,7 @@ class CandidateList extends Component {
 	}
 	setCandidates = (candidatesToSet) => {
 		Commons.debugMessage("setCandidates - START - candidatesToSet: " + candidatesToSet);
-		this.setState({ candidates: candidatesToSet });
+		this.setState({ candidates: candidatesToSet.content });
 	}
 	
 	notifyWithAlertDialog = (messageText, messageDialogType) =>{

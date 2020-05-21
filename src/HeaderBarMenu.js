@@ -33,7 +33,7 @@ class HeaderBarMenu extends Component {
 	}
 	componentDidMount () {
 		this._isMounted = true;
-		let userLoggedEmail = localStorage.getItem('userLoggedEmail');
+		let userLoggedEmail = sessionStorage.getItem('userLoggedEmail');
 		if (this._isMounted) {
 		    this.setState({				
 				userLoggedEmail: userLoggedEmail
@@ -59,7 +59,7 @@ class HeaderBarMenu extends Component {
 	
 	fetchPositionCodes = () =>{
 //		console.log("CandidateList.fetchPositionCodes - DEBUG - FULL_API_URI: " + FULL_API_URI);
-		let token = localStorage.getItem('headerToken');
+		let token = sessionStorage.getItem('headerToken');
 		let headerToken = Commons.getAuthorizationHeaderFromToken(token);
 		fetch(FULL_API_URI, {
 	          method: "GET",

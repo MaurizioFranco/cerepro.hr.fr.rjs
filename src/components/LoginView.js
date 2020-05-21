@@ -3,70 +3,76 @@ import centauri_logo from '../images/header_logo.png' ;
 import './LoginView.css' ;
 import * as Commons from '../commons.js' ;
 import * as Constants from '../constants.js' ;
+import { ModalLoadingSpinnerComponent} from './loader/ModalLoadingSpinnerComponent';
 
 const AUTH_API = '/user' ;
 const FULL_API_URI = Constants.BACKEND_API_PREFIX + AUTH_API ;
 
 class LoginView extends Component {
-	    constructor (props) {
-	    	super(props);
-	    	this.state = {
-	    		    email:'', 
-	    		    psw:''
-	    		  };
-	    }
+    constructor (props) {
+    	super(props);
+    	this.state = {
+    		    email:'', 
+    		    psw:''
+    		  };
+    }
+
+	formSubmit(event) {
+		event.preventDefault();
+		this.checkCredentials2();
+		
+	};
+		
 	
-		formSubmit(event) {
-			event.preventDefault();
-//			console.log("login - START");
-//			console.log(this.state);
-			this.checkCredentials();
-			
-		};
+	checkCredentials2 = () => {
+		Commons.debugMessage("LoginView.checkCredentials2 - START - FULL_API_URI: " + FULL_API_URI);
+		let headerToken = Commons.getAuthorizationHeader(this.state.email, this.state.psw);
+		Commons.executeFetchWithHeader (FULL_API_URI, 'GET', headerToken, this.goAhead);
+	
+	}
+	
+	goAhead = (responseData) => {
+		console.log("LoginView.goAhead - START - responseData: " + responseData);
+		sessionStorage.setItem('userLoggedEmail', this.state.email);
+		sessionStorage.setItem('headerToken', Commons.getAuthorizationToken(this.state.email, this.state.psw));
+        this.props.history.push('/');
+	}
+	
+	
+//		checkCredentials = () => {
+//			let headerToken = Commons.getAuthorizationHeader(this.state.email, this.state.psw);
+//			fetch(FULL_API_URI, {
+//		          method: "GET",
+//		          headers: headerToken
+//		                    },)
+//			  .then((response) => {
+//				  console.log(response.status);
+//			    if(!response.ok) {
+//			    	console.log("Authentication KO!!");
+//			        return false;
+//			    } else {
+//			    	console.log("Authentication OK!!");
+//			    	return response.json();
+//			    }
+//			  })
+//			  .then((data) => {
+//				  sessionStorage.setItem('userLoggedEmail', this.state.email);
+//				  sessionStorage.setItem('headerToken', Commons.getAuthorizationToken(this.state.email, this.state.psw));
+//                  this.props.history.push('/');
+//			  })
+//		}
 		
-		checkCredentials = () => {
-			let headerToken = Commons.getAuthorizationHeader(this.state.email, this.state.psw);
-			fetch(FULL_API_URI, {
-		          method: "GET",
-		          headers: headerToken
-		                    },)
-			  .then((response) => {
-				  console.log(response.status);
-			    if(!response.ok) {
-			    	console.log("Authentication KO!!");
-			        return false;
-			        //throw new Error(response.status);
-			    } else {
-			    	console.log("Authentication OK!!");
-			    	return response.json();
-			    }
-			  })
-			  .then((data) => {
-//				this.setState({ candidates: data.content });
-			      localStorage.setItem('userLoggedEmail', this.state.email);
-//			      localStorage.setItem('headerToken', JSON.stringify(headerToken));
-			      localStorage.setItem('headerToken', Commons.getAuthorizationToken(this.state.email, this.state.psw));
-                  this.props.history.push('/');
-//			    console.log("DATA STORED");
-			  })
-//			  .catch((error) => {
-//			    console.log('error: ' + error);
-////			    this.setState({ requestFailed: true });
-//			    this.setState({ candidates: [] });
-//			  });
-		}
-		
-		handleChange = (event) => {
-		    const input = event.target;
-		    const value = input.type === 'checkbox' ? input.checked : input.value;
-		 
-		    this.setState({ [input.name]: value });
-//		    console.log(this.state);
-		};
+	handleChange = (event) => {
+	    const input = event.target;
+	    const value = input.type === 'checkbox' ? input.checked : input.value;
+	    this.setState({ [input.name]: value });
+	};
 		  
 		render() {
 			return (
-					<div className="container-fluid ">
+					
+					<div className="container-fluid ">					
+					<ModalLoadingSpinnerComponent />
 	                    <div id="login-view-main-container">
 						    <div className="product-info">
 							   <div className="login-main-text">
