@@ -1,14 +1,19 @@
-.main{
-	background:white;
+body{
+	background-color: #D9E0E7;
 	
 }
+
 
 .navbar{
 	position: fixed; /* Set the navbar to fixed position */
 	top: 0; /* Position the navbar at the top of the page */
     width: 100%; /* Full width */
     z-index:10000;
+    height:8vh;
+    min-height: 46px;
+    background-color: #fff;
 }
+
 
 .title{	
     
@@ -22,8 +27,7 @@
   height: 10vmin;
   max-width: 93px;
   max-height: 35px;
-  margin-left:8px;  
-  padding-top:7px;
+  margin-left:5px;  
 }
 
 .rightMenu{
@@ -56,9 +60,34 @@ font-family: 'Open Sans',"Helvetica Neue",Helvetica,Arial,sans-serif;
 
 .buttonDropdown {
 	border:0px;
+	background-color: white;
 }
 
 .logoutIcon {
 	height:30px;
 	width:30px;
+}
+.navigationBarItem{
+	font-size: 12px;
+    font-family: 'Open Sans',"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.container-fluid, .container-md, .container-lg, .container-xl {
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-top: 7vh;
+    background-color: #fff;
+    height:100vh;
+}
+.main {
+	padding-left: 5px;
+	padding-right: 5px;
+    background-color: #D9E0E7;
+    height:90vh;
+}
+.container-sm {
+	padding-top: 15vh;
+	
+}
+.dropdown-menu {
+    top: 80%;
 }

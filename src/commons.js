@@ -1,16 +1,46 @@
 
-export function getAuthorizationHeader() {
-    // return authorization header with basic auth credentials
-//    let user = JSON.parse(localStorage.getItem('user'));
-	let username = "m.franco@proximainformatica.com";
-	let password = "ciaoatutti";
-    let authdata = window.btoa(username + ':' + password);
-    console.log(authdata);
-//    if (user && user.authdata) {
-	if (authdata) {
-//        return { 'Authorization': 'Basic ' + user.authdata };
-		return { 'Authorization': 'Basic ' + authdata };
-    } else {
-        return {};
-    }
+export function getAuthorizationHeader(email, password) {
+	debugMessage("getAuthorizationHeader - START - email: " + email + " - password: " + password);
+    let authdata = getAuthorizationToken(email, password);
+    debugMessage("###"+authdata+"###");
+	return { 'Authorization': 'Basic ' + authdata };
+}
+export function getAuthorizationToken(email, password) {
+	debugMessage("getAuthorizationToken - START - email: " + email + " - password: " + password);
+    let authdata = window.btoa(email + ':' + password);
+    debugMessage("###"+authdata+"###");
+    return authdata;
+}
+export function getAuthorizationHeaderFromToken(token) {
+	debugMessage("getAuthorizationHeader - START - token: " + token);
+	return { 'Authorization': 'Basic ' + token };
+}
+
+export function executeFetch (uri, method, callbackFunction) {
+	debugMessage("Commons.executeFetch - START - uri: " + uri);
+	let token = localStorage.getItem('headerToken');
+	let headerToken = getAuthorizationHeaderFromToken(token);
+	fetch(uri , {
+        method: "GET",
+        headers: headerToken
+                  },)
+	  .then((response) => {
+	      if(!response.ok) {
+	    	  console.warn(response.status); // Will show you the status
+	    	  //throw new Error(response.status);
+	      } else return response.json();
+	  })
+	  .then((data) => {
+		  if (data!==undefined) {
+			  callbackFunction(data.content);
+		  }
+	  })
+}
+
+const DEBUG_ENABLED = true ;
+
+export function debugMessage (message) {
+	if (DEBUG_ENABLED) {
+		console.log(message);
+	}
 }

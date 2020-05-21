@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
+
 import ListedCourseCandidate from './ListedCourseCandidate';
 import CandidateFilterForm from './CandidateFilterForm';
 import './candidates.css';
 import * as Constants from '../../constants' ;
+import * as Commons from '../../commons.js' ;
 
 import { withRouter } from "react-router";
 import MessageDialog from './MessageDialog.js';
+
 const CANDIDATE_API = '/api/v1/candidatecustom/' ;
 const CANDIDATE_GET_LIST_API = CANDIDATE_API + 'paginated/1000/0/' ;
 const FULL_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_GET_LIST_API ;
@@ -32,6 +35,8 @@ class CandidateList extends Component {
 		super(props);
 		console.log("CandidateList.constructor() - START");
 		this.fetchCandidates.bind(this);
+		this.setCandidates.bind(this);
+		
 		this.state = {
 				candidates : [],
 				selectedPositionCode: '',
@@ -72,54 +77,24 @@ class CandidateList extends Component {
 		const API_TO_CALL = FULL_API_URI + (positionCode!==undefined?positionCode:'');
 		console.log("CandidateList.fetchCandidates - DEBUG - API_TO_CALL: " + API_TO_CALL);
 		console.log(this.state.selectedPositionCode);
-//		let data = [] ;
-//		fetch(APT_TO_CALL, {"method": "GET"
-////		    withCredentials: true,
-////		    headers: myHeaders
-//		})
-//		.then(function(response) {
-//		    console.log(response.status); // Will show you the status
-//		    if (!response.ok) {
-//		        throw new Error("HTTP status " + response.status);
-//		        data = [] ;
-//		    } else {
-//		    	console.log();
-//		    	data = response.json();
-//		    }
-//		}).then (
-//				//this.setState({ candidates: data.content })
-//				this.state = { candidates: data.content }
-//				)
-		
-				fetch(API_TO_CALL)
-				  .then((response) => {
-					  console.log(response.status); // Will show you the status
-				    if(!response.ok)
-				    	console.log("No candidates found!!");
-				    	//throw new Error(response.status);
-				    else return response.json();
-				  })
-				  .then((data) => {
-					this.setState({ candidates: data.content });
-//				    console.log("DATA STORED");
-				  })
-				  .catch((error) => {
-				    console.log('error: ' + error);
-//				    this.setState({ requestFailed: true });
-				    this.setState({ candidates: [] });
-				  });
-		
-//		.then(// ...
-//				
-//		fetch(APT_TO_CALL, {"method": "GET"})
-//		.then(res => res.json())
-//		.then((data) => {
-//			
-//			this.setState({ candidates: data.content });	 
-////          console.log("CandidateList.componentDidMount - DEBUG - data.content.length: " + data.content.length);
-//		})
-//		.catch(console.log)
-//		
+		Commons.executeFetch (API_TO_CALL, 'GET', this.setCandidates);
+//				fetch(API_TO_CALL)
+//				  .then((response) => {
+//					  console.log(response.status); // Will show you the status
+//				    if(!response.ok)
+//				    	console.log("No candidates found!!");
+//				    	//throw new Error(response.status);
+//				    else return response.json();
+//				  })
+//				  .then((data) => {
+//					  if (data!==undefined) {
+//						  this.setState({ candidates: data.content });
+//					  }
+//				  })
+	}
+	setCandidates = (candidatesToSet) => {
+		Commons.debugMessage("setCandidates - START - candidatesToSet: " + candidatesToSet);
+		this.setState({ candidates: candidatesToSet });
 	}
 	
 	notifyWithAlertDialog = (messageText, messageDialogType) =>{

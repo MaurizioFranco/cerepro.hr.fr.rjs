@@ -39,21 +39,24 @@ import HomeView from "./HomeView.js";
 		
 		logout = () => {
 			console.log("MainView.LOGOUT - START");
-			localStorage.setItem('userLoggedEmail', null);
+//			localStorage.setItem('userLoggedEmail', null);
+			localStorage.clear();
 			this.props.history.push('/login');
 		}
 		
 		render() {
 			return (
 					<div className="container-fluid">
-						<HeaderBarMenu logout={this.logout}/>
-						<Route exact path="/" component={HomeView}/>
-						<Route exact path="/candidates" component={CandidatesView}/>
-			            <Route path="/candidates/:id" component={CandidatesView}/>
-			            <Route exact path="/insertNewCandidate" component={CandidateInsertView}/>
-						<Route exact path="/candidateStates" component={CandidateStatesListView}/>
-						<Route exact path="/newPosition" component={NewPositionView}/>
-					    <Route exact path="/positionsList" component={PositionsView}/>
+					<HeaderBarMenu logout={this.logout}/>
+					    <div className="main pt-5">
+							<Route exact path="/" component={HomeView}/>
+							<Route exact path="/candidates" component={CandidatesView}/>
+				            <Route path="/candidates/:id" component={CandidatesView}/>
+				            <Route exact path="/insertNewCandidate" component={CandidateInsertView}/>
+							<Route exact path="/candidateStates" component={CandidateStatesListView}/>
+							<Route exact path="/newPosition" component={NewPositionView}/>
+						    <Route exact path="/positionsList" component={PositionsView}/>
+					    </div>
 				    </div>
 			);
 		}

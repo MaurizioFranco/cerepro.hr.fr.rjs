@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import centauri_logo from '../images/header_logo.png' ;
 import './LoginView.css' ;
+import * as Commons from '../commons.js' ;
+import * as Constants from '../constants.js' ;
+
+const AUTH_API = '/user' ;
+const FULL_API_URI = Constants.BACKEND_API_PREFIX + AUTH_API ;
 
 class LoginView extends Component {
 	    constructor (props) {
@@ -11,12 +16,45 @@ class LoginView extends Component {
 	    		  };
 	    }
 	
-		formSubmit(values) {
+		formSubmit(event) {
+			event.preventDefault();
 //			console.log("login - START");
 //			console.log(this.state);
-			localStorage.setItem('userLoggedEmail', this.state.email);
-			this.props.history.push('/');
+			this.checkCredentials();
+			
 		};
+		
+		checkCredentials = () => {
+			let headerToken = Commons.getAuthorizationHeader(this.state.email, this.state.psw);
+			fetch(FULL_API_URI, {
+		          method: "GET",
+		          headers: headerToken
+		                    },)
+			  .then((response) => {
+				  console.log(response.status);
+			    if(!response.ok) {
+			    	console.log("Authentication KO!!");
+			        return false;
+			        //throw new Error(response.status);
+			    } else {
+			    	console.log("Authentication OK!!");
+			    	return response.json();
+			    }
+			  })
+			  .then((data) => {
+//				this.setState({ candidates: data.content });
+			      localStorage.setItem('userLoggedEmail', this.state.email);
+//			      localStorage.setItem('headerToken', JSON.stringify(headerToken));
+			      localStorage.setItem('headerToken', Commons.getAuthorizationToken(this.state.email, this.state.psw));
+                  this.props.history.push('/');
+//			    console.log("DATA STORED");
+			  })
+//			  .catch((error) => {
+//			    console.log('error: ' + error);
+////			    this.setState({ requestFailed: true });
+//			    this.setState({ candidates: [] });
+//			  });
+		}
 		
 		handleChange = (event) => {
 		    const input = event.target;
@@ -24,7 +62,7 @@ class LoginView extends Component {
 		 
 		    this.setState({ [input.name]: value });
 //		    console.log(this.state);
-		;}
+		};
 		  
 		render() {
 			return (
