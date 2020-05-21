@@ -6,7 +6,7 @@
 .container-fluid, .container-md, .container-lg, .container-xl {
     padding-right: 0px;
     padding-left: 0px;
-    padding-top: 10vh;
+    padding-top: 6vh;
     background-color: #fff;
     height:100vh;
 }
@@ -15,6 +15,7 @@
 	padding-right: 5px;
     background-color: #D9E0E7;
     height:90vh;
+    padding-top: 3vh;
 }
 .container-sm {
 	padding-top: 15vh;
