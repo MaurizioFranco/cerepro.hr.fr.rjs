@@ -8,6 +8,7 @@ import PositionsView from "./PositionsView.js";
 import NewPositionView from "./NewPositionView.js";
 import HomeView from "./HomeView.js";
 import { ModalLoadingSpinnerComponent} from './loader/ModalLoadingSpinnerComponent';
+import './MainView.css';
 
 class MainView extends Component {
 	constructor (props) {
@@ -33,7 +34,7 @@ class MainView extends Component {
 				<div className="container-fluid">
 				    <ModalLoadingSpinnerComponent />
 				    <HeaderBarMenu logout={this.logout}/>
-				    <div className="main pt-5">
+				    <div className="main">
 						<Route exact path="/" component={HomeView}/>
 						<Route exact path="/candidates" component={CandidatesView}/>
 			            <Route path="/candidates/:id" component={CandidatesView}/>
