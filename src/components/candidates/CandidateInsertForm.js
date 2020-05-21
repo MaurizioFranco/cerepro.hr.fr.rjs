@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import * as Constants from '../../constants' ;
 import './candidates.css';
 import * as Commons from '../../commons.js' ;
+import { Redirect } from 'react-router-dom'
 
 const COURSE_CODE_API = '/api/v1/coursepage/' ;
 const CANDIDATE_API = '/api/v1/candidatecustom/' ;
@@ -12,8 +13,8 @@ class CandidateInsertForm extends Component {
 	
 	componentDidMount() {			
 		
-		this.fetchCourseCodes2.bind(this);
-		this.fetchCourseCodes2();
+		this.fetchCourseCodes.bind(this);
+		this.fetchCourseCodes();
 		
       }
 	
@@ -30,38 +31,33 @@ class CandidateInsertForm extends Component {
 				firstname : '',
 				lastname : '',
 				positionCode : '',
-				email: ''
+				email: '',
+				
+				redirect: false
 		}
 	}
 	
-	fetchCourseCodes2 = () =>{
-		console.log("CandidateInsertForm.fetchCourseCodes2 - DEBUG - FULL_COURSECODE_API_URI: " + FULL_COURSECODE_API_URI);
+	redirectToCandidatesList = () => {
+	    this.setState({
+	      redirect: true
+	    })
+	  }
+	
+	 renderRedirect = () => {
+	      if (this.state.redirect) {
+	    	  let target = '/candidates/'+this.state.positionCode ;
+	          return <Redirect to={target} />
+	      }
+	  }
+	
+	fetchCourseCodes = () =>{
+		console.log("CandidateInsertForm.fetchCourseCodes - DEBUG - FULL_COURSECODE_API_URI: " + FULL_COURSECODE_API_URI);
 		Commons.executeFetch (FULL_COURSECODE_API_URI, 'GET', this.setCourseCodes);
 	}
 	
 	setCourseCodes = (responseData) => {
 		this.setState({ courseCodes: responseData });
 	}
-	
-//	fetchCourseCodes = () =>{
-//		console.log("CandidateInsertForm.fetchCourseCodes - DEBUG - FULL_COURSECODE_API_URI: " + FULL_COURSECODE_API_URI);
-//		fetch(FULL_COURSECODE_API_URI)
-//		  .then((response) => {
-//			  console.log(response.status); // Will show you the status
-//		    if(!response.ok) {
-//		    	console.warn('Course codes NOT FOUND!');
-//			    this.setState({ courseCodes: [] });
-////			    this.courseCodes = [] ;
-//		    } else return response.json();
-//		  })
-//		  .then((data) => {
-//			  console.log(data);
-//			this.setState({ courseCodes: data });
-////			  this.courseCodes = data.content ;
-//		  });	
-//		console.log("CandidateInsertForm.fetchCourseCodes - DEBUG - courseCodes.length: " + this.state.courseCodes.length);
-//	}
-		  
 	  
 	  handleSubmit(event) {
 	    console.log(this.state);
@@ -70,8 +66,6 @@ class CandidateInsertForm extends Component {
 	  }
 	
 	sendInsertRequest = () => {
-		const { match: history } = this.props;
-//		const { match: { params } } = this.props;
 		const formData = new FormData();
 
 		const fileInput = document.querySelector("#imgpath");
@@ -102,13 +96,9 @@ class CandidateInsertForm extends Component {
 	    const options = {
 	      method: "POST",
 	      body: formData
-	      // If you add this, upload won't work
-	      // headers: {
-	      //   'Content-Type': 'multipart/form-data',
-	      // }
 	    };
 	    fetch(FULL_CANDIDATE_API_URI, options).then(() => {
-	        history.push('/candidates');
+	    	this.redirectToCandidatesList();
 	    });
 	    
 		
@@ -136,6 +126,7 @@ class CandidateInsertForm extends Component {
 	render () {
 		return (
 				<div className="row">
+				  {this.renderRedirect()}
 				  <div className="col-md-12">
 				    <form onSubmit={this.handleSubmit}>
 				        <input type="text" name="firstname" placeholder="Nome" onChange={this.handleInputChange} />

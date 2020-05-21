@@ -19,7 +19,11 @@ class CandidateList extends Component {
 //		console.log("CandidateList.componentWillReceiveProps - START - FULL_API_URI: " + FULL_API_URI);
 ////		console.log(nextProps);
 		const { match: { params } } = nextProps;
-		this.setState({selectedPositionCode:params.id});
+		Commons.debugMessage("UNSAFE_componentWillReceiveProps - params.id: " + params.id);
+		this.setState({
+			selectedPositionCode:params.id,
+			listLabel:params.id!==undefined?params.id:'(tutti)'
+		});
 		this.fetchCandidates(params.id);
 //		console.log("CandidateList.componentWillReceiveProps() - DEBUG - Selected params.id:" + params.id);
 //		let APT_TO_CALL = FULL_API_URI + (params.id!==undefined?params.id:'');
@@ -33,11 +37,14 @@ class CandidateList extends Component {
 	}
 	constructor (props) {
 		super(props);
-		console.log("CandidateList.constructor() - START");
+		const { match: { params } } = props;
+		Commons.debugMessage("UNSAFE_componentWillReceiveProps - params.id: " + params.id);
+		Commons.debugMessage("CandidateList.constructor() - START");
 		this.fetchCandidates.bind(this);
 		this.setCandidates.bind(this);
 		
 		this.state = {
+				listLabel:params.id!==undefined?params.id:'(tutti)',
 				candidates : [],
 				selectedPositionCode: '',
 				messageDialogVisibility: false,
@@ -113,7 +120,7 @@ class CandidateList extends Component {
 				<div className="panel-container">
 				    <div className="panel">
 				        <div className="panel-heading">
-				           Lista candidati
+				           Lista candidati {this.state.listLabel}
 				        </div>
 				
 				        
@@ -131,7 +138,7 @@ class CandidateList extends Component {
 									<div className="col-sm-6">
 										<div className="dataTables_length" id="data-table-default_length">
 											<label>Visualizza <select id="mySelect">
-												</select> candidati
+												</select> candidati 
 											</label>
 										</div>
 									</div>
