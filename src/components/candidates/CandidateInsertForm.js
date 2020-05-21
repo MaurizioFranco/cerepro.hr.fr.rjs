@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import * as Constants from '../../constants' ;
 import './candidates.css';
+import * as Commons from '../../commons.js' ;
+
 const COURSE_CODE_API = '/api/v1/coursepage/' ;
 const CANDIDATE_API = '/api/v1/candidatecustom/' ;
 const FULL_COURSECODE_API_URI = Constants.BACKEND_API_PREFIX + COURSE_CODE_API ;
@@ -9,9 +11,9 @@ const FULL_CANDIDATE_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_API ;
 class CandidateInsertForm extends Component {
 	
 	componentDidMount() {			
-//		const { match: { params } } = this.props;
-		this.fetchCourseCodes.bind(this);
-		this.fetchCourseCodes();
+		
+		this.fetchCourseCodes2.bind(this);
+		this.fetchCourseCodes2();
 		
       }
 	
@@ -28,32 +30,37 @@ class CandidateInsertForm extends Component {
 				firstname : '',
 				lastname : '',
 				positionCode : '',
-				email: '',
-//				imgpath: ''
-//				candidateGraduate: false,
-//			    candidateHighGraduate:false,
-//			    candidateHighStillGraduating:false
+				email: ''
 		}
 	}
 	
-	fetchCourseCodes = () =>{
-		console.log("CandidateInsertForm.fetchCourseCodes - DEBUG - FULL_COURSECODE_API_URI: " + FULL_COURSECODE_API_URI);
-		fetch(FULL_COURSECODE_API_URI)
-		  .then((response) => {
-			  console.log(response.status); // Will show you the status
-		    if(!response.ok) {
-		    	console.warn('Course codes NOT FOUND!');
-			    this.setState({ courseCodes: [] });
-//			    this.courseCodes = [] ;
-		    } else return response.json();
-		  })
-		  .then((data) => {
-			  console.log(data);
-			this.setState({ courseCodes: data });
-//			  this.courseCodes = data.content ;
-		  });	
-		console.log("CandidateInsertForm.fetchCourseCodes - DEBUG - courseCodes.length: " + this.state.courseCodes.length);
+	fetchCourseCodes2 = () =>{
+		console.log("CandidateInsertForm.fetchCourseCodes2 - DEBUG - FULL_COURSECODE_API_URI: " + FULL_COURSECODE_API_URI);
+		Commons.executeFetch (FULL_COURSECODE_API_URI, 'GET', this.setCourseCodes);
 	}
+	
+	setCourseCodes = (responseData) => {
+		this.setState({ courseCodes: responseData });
+	}
+	
+//	fetchCourseCodes = () =>{
+//		console.log("CandidateInsertForm.fetchCourseCodes - DEBUG - FULL_COURSECODE_API_URI: " + FULL_COURSECODE_API_URI);
+//		fetch(FULL_COURSECODE_API_URI)
+//		  .then((response) => {
+//			  console.log(response.status); // Will show you the status
+//		    if(!response.ok) {
+//		    	console.warn('Course codes NOT FOUND!');
+//			    this.setState({ courseCodes: [] });
+////			    this.courseCodes = [] ;
+//		    } else return response.json();
+//		  })
+//		  .then((data) => {
+//			  console.log(data);
+//			this.setState({ courseCodes: data });
+////			  this.courseCodes = data.content ;
+//		  });	
+//		console.log("CandidateInsertForm.fetchCourseCodes - DEBUG - courseCodes.length: " + this.state.courseCodes.length);
+//	}
 		  
 	  
 	  handleSubmit(event) {
@@ -64,6 +71,7 @@ class CandidateInsertForm extends Component {
 	
 	sendInsertRequest = () => {
 		const { match: history } = this.props;
+//		const { match: { params } } = this.props;
 		const formData = new FormData();
 
 		const fileInput = document.querySelector("#imgpath");
@@ -128,7 +136,7 @@ class CandidateInsertForm extends Component {
 	render () {
 		return (
 				<div className="row">
-				  <div className="col-md-12 underHeader">
+				  <div className="col-md-12">
 				    <form onSubmit={this.handleSubmit}>
 				        <input type="text" name="firstname" placeholder="Nome" onChange={this.handleInputChange} />
 				        <input type="text" name="lastname" placeholder="Cognome" onChange={this.handleInputChange} />
