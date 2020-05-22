@@ -6,7 +6,7 @@ class CandidatesView extends Component {
 	render() {
 		return (
 				<div className="row ">
-				  <div className="col-md-12 underHeader"><CandidateList/></div>
+				  <div className="col-md-12"><CandidateList/></div>
 				  
 				</div>
 					
