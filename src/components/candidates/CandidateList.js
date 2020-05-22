@@ -122,18 +122,8 @@ class CandidateList extends Component {
 				        <div className="panel-heading">
 				           Lista candidati {this.state.listLabel}
 				        </div>
-				
-				        
-				        					
-						
-				        
-				        
 				        <div className="panel-body">
 							<div id="data-table-default_wrapper" className="dataTables_wrapper form-inline dt-bootstrap no-footer">
-								
-							
-							
-							
 								<div className="row">
 									<div className="col-sm-6">
 										<div className="dataTables_length" id="data-table-default_length">
@@ -148,15 +138,6 @@ class CandidateList extends Component {
 										</div>
 									</div>
 								</div>
-						
-						
-						
-						
-						
-						
-						
-						
-						
 								<div className="row">
 									<div className="table-responsive">
 										<table id="data-table-default" className="table table-striped table-bordered dataTable no-footer dtr-inline" role="grid" aria-describedby="data-table-default_info">
@@ -180,17 +161,8 @@ class CandidateList extends Component {
 										</table>
 									</div>
 								</div>
-							
-						
-							
-							
-							
-							
-							
-							
 						    </div>
 						</div>
-				        
 		            </div>
 		            <MessageDialog visibility={this.state.messageDialogVisibility} message={this.state.messageDialogText} type={this.state.messageDialogType}/>
 		        </div>
