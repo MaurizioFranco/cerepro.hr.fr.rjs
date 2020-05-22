@@ -5,7 +5,7 @@ import CandidateFilterForm from './CandidateFilterForm';
 import './candidates.css';
 import * as Constants from '../../constants' ;
 import * as Commons from '../../commons.js' ;
-
+import { Button, Table } from 'react-bootstrap';
 import { withRouter } from "react-router";
 import MessageDialog from './MessageDialog.js';
 
@@ -16,8 +16,6 @@ const FULL_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_GET_LIST_API ;
 class CandidateList extends Component {
 	
 	UNSAFE_componentWillReceiveProps(nextProps){
-//		console.log("CandidateList.componentWillReceiveProps - START - FULL_API_URI: " + FULL_API_URI);
-////		console.log(nextProps);
 		const { match: { params } } = nextProps;
 		Commons.debugMessage("UNSAFE_componentWillReceiveProps - params.id: " + params.id);
 		this.setState({
@@ -25,16 +23,8 @@ class CandidateList extends Component {
 			listLabel:params.id!==undefined?params.id:'(tutti)'
 		});
 		this.fetchCandidates(params.id);
-//		console.log("CandidateList.componentWillReceiveProps() - DEBUG - Selected params.id:" + params.id);
-//		let APT_TO_CALL = FULL_API_URI + (params.id!==undefined?params.id:'');
-//		console.log("CandidateList.componentWillReceiveProps - DEBUG - APT_TO_CALL: " + APT_TO_CALL);
-//		fetch(APT_TO_CALL, {"method": "GET"})
-//        .then(res => res.json())
-//        .then((data) => {
-//          this.setState({ candidates: data.content });	 
-////          console.log("CandidateList.componentDidMount - DEBUG - data.content.length: " + data.content.length);
-//        })
 	}
+	
 	constructor (props) {
 		super(props);
 		const { match: { params } } = props;
@@ -49,34 +39,11 @@ class CandidateList extends Component {
 				selectedPositionCode: '',
 				messageDialogVisibility: false,
 				messageDialogText: '',
-//				candidates : [
-//			{
-//				email:"pippolallo@ymail.com",
-//				id:15,
-//				photoPath:"/aaa/1.png",
-//				name:"Pilato",
-//				surname:"Ponzio",
-//				cvPath:"/aaa/1.pdf"
-//			},
-//			{
-//				email:"pippolallo2@ymail.com",
-//				id:13,
-//				name:"Pilato",
-//				surname:"Ponzio",
-//			}
-//		],
-//		selectedCourseCode: this.props.selectedCourseCode,
 		filteredCandidateEmail : "" 
-		
 		}
 	}
 	
-//	printDebug = () => {
-//		console.log(this.props.selectedCourseCode);
-//	}
-	
 	listFiltering = (text) => {
-//		console.log(text);
 		this.setState({filteredCandidateEmail: text});
 	}
 	
@@ -86,6 +53,7 @@ class CandidateList extends Component {
 		console.log(this.state.selectedPositionCode);
 		Commons.executeFetch (API_TO_CALL, 'GET', this.setCandidates);
 	}
+	
 	setCandidates = (candidatesToSet) => {
 		Commons.debugMessage("setCandidates - START - candidatesToSet: " + candidatesToSet);
 		this.setState({ candidates: candidatesToSet.content });
@@ -121,9 +89,11 @@ class CandidateList extends Component {
 				    <div className="panel">
 				        <div className="panel-heading">
 				           Lista candidati {this.state.listLabel}
+				           <CandidateFilterForm onSearchFormSubmit={this.listFiltering} />
 				        </div>
 				        <div className="panel-body">
-							<div id="data-table-default_wrapper" className="dataTables_wrapper form-inline dt-bootstrap no-footer">
+							
+							    {/*
 								<div className="row">
 									<div className="col-sm-6">
 										<div className="dataTables_length" id="data-table-default_length">
@@ -138,11 +108,10 @@ class CandidateList extends Component {
 										</div>
 									</div>
 								</div>
-								<div className="row">
-									<div className="table-responsive">
-										<table id="data-table-default" className="table table-striped table-bordered dataTable no-footer dtr-inline" role="grid" aria-describedby="data-table-default_info">
+								*/}
+										<Table striped bordered hover>
 												<thead>
-													<tr role="row">
+													<tr>
 														<th>&nbsp;</th>
 														<th></th>
 														<th>Email</th>
@@ -155,13 +124,10 @@ class CandidateList extends Component {
 													</tr>
 												</thead>
 												<tbody>
-												{ this.state.candidates.filter(item => (item.email.includes(this.state.filteredCandidateEmail))||(item.firstname.includes(this.state.filteredCandidateEmail))||(item.lastname.includes(this.state.filteredCandidateEmail))).map(item => <ListedCourseCandidate notifyWithAlertDialog={this.notifyWithAlertDialog} key={item.id} email={item.email} id={item.id} imgpath={item.imgpath} firstname={item.firstname} lastname={item.lastname} cvExternalPath={item.cvExternalPath} insertedByFirstname={item.insertedByFirstname}/>) }
+												{ this.state.candidates.filter(item => (item.email.includes(this.state.filteredCandidateEmail))||(item.firstname.includes(this.state.filteredCandidateEmail))||(item.lastname.includes(this.state.filteredCandidateEmail))).map(item => <ListedCourseCandidate notifyWithAlertDialog={this.notifyWithAlertDialog} key={item.id} candidate={item}/>) }
 												</tbody>
 				
-										</table>
-									</div>
-								</div>
-						    </div>
+										</Table>
 						</div>
 		            </div>
 		            <MessageDialog visibility={this.state.messageDialogVisibility} message={this.state.messageDialogText} type={this.state.messageDialogType}/>

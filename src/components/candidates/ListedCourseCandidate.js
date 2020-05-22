@@ -55,13 +55,13 @@ class ListedCourseCandidate extends Component {
 		return (
 				<React.Fragment>
 				<tr className="gradeX odd" role="row">
-				<td >{this.props.id}</td>
-				<td><CandidateProfileImage img={this.props.imgpath}/></td>
-				<td>{this.props.email}</td>
-				<td>{this.props.firstname}</td>
-				<td>{this.props.lastname}</td>
-				<td><CandidateProfileCVDownloadImage cvExternalPath={this.props.cvExternalPath} /></td>
-				<td>{this.props.insertedByFirstname}</td>
+				<td style={{'background-color' : this.props.candidate.candidateStatusColor}}>&nbsp;</td>
+				<td><CandidateProfileImage img={this.props.candidate.imgpath}/></td>
+				<td>{this.props.candidate.email}</td>
+				<td>{this.props.candidate.firstname}</td>
+				<td>{this.props.candidate.lastname}</td>
+				<td><CandidateProfileCVDownloadImage cvExternalPath={this.props.candidate.cvExternalPath} /></td>
+				<td>{this.props.candidate.insertedByFirstname}</td>
 				<td><Button onClick={() => this.updateCandidate(this.props.id)} variant="primary">Modifica</Button></td>
 				<td><Button onClick={() => this.deleteCandidate(this.props.id, this.props.firstname, this.props.lastname)} variant="danger">Elimina</Button></td> 
 				</tr>
