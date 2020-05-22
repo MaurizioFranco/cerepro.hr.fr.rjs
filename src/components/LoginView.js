@@ -3,7 +3,9 @@ import centauri_logo from '../images/header_logo.png' ;
 import './LoginView.css' ;
 import * as Commons from '../commons.js' ;
 import * as Constants from '../constants.js' ;
+//import * as Messages from '../messages.js' ;
 import { ModalLoadingSpinnerComponent} from './loader/ModalLoadingSpinnerComponent';
+import LoginAuthenticationKOMessage from './login/LoginAuthenticationKOMessage.js'
 
 const AUTH_API = '/user' ;
 const FULL_API_URI = Constants.BACKEND_API_PREFIX + AUTH_API ;
@@ -13,7 +15,8 @@ class LoginView extends Component {
     	super(props);
     	this.state = {
     		    email:'', 
-    		    psw:''
+    		    psw:'',
+    		    authenticationKO: false
     		  };
     }
 
@@ -27,7 +30,7 @@ class LoginView extends Component {
 	checkCredentials2 = () => {
 		Commons.debugMessage("LoginView.checkCredentials2 - START - FULL_API_URI: " + FULL_API_URI);
 		let headerToken = Commons.getAuthorizationHeader(this.state.email, this.state.psw);
-		Commons.executeFetchWithHeader (FULL_API_URI, 'GET', headerToken, this.goAhead);
+		Commons.executeFetchWithHeader (FULL_API_URI, 'GET', headerToken, this.goAhead, this.showAuthenticationError);
 	
 	}
 	
@@ -38,30 +41,10 @@ class LoginView extends Component {
         this.props.history.push('/');
 	}
 	
+	showAuthenticationError = () => {
+		this.setState ({authenticationKO:true}) ;
+	}
 	
-//		checkCredentials = () => {
-//			let headerToken = Commons.getAuthorizationHeader(this.state.email, this.state.psw);
-//			fetch(FULL_API_URI, {
-//		          method: "GET",
-//		          headers: headerToken
-//		                    },)
-//			  .then((response) => {
-//				  console.log(response.status);
-//			    if(!response.ok) {
-//			    	console.log("Authentication KO!!");
-//			        return false;
-//			    } else {
-//			    	console.log("Authentication OK!!");
-//			    	return response.json();
-//			    }
-//			  })
-//			  .then((data) => {
-//				  sessionStorage.setItem('userLoggedEmail', this.state.email);
-//				  sessionStorage.setItem('headerToken', Commons.getAuthorizationToken(this.state.email, this.state.psw));
-//                  this.props.history.push('/');
-//			  })
-//		}
-		
 	handleChange = (event) => {
 	    const input = event.target;
 	    const value = input.type === 'checkbox' ? input.checked : input.value;
@@ -70,7 +53,6 @@ class LoginView extends Component {
 		  
 		render() {
 			return (
-					
 					<div className="container-fluid ">					
 					<ModalLoadingSpinnerComponent />
 	                    <div id="login-view-main-container">
@@ -82,19 +64,17 @@ class LoginView extends Component {
 							</div>
 					        <div className="login-form">
 					           <div className="col-md-6 col-sm-12">
-					              <div>
+					              <LoginAuthenticationKOMessage visibility={this.state.authenticationKO} />
 					              <label>Inserisci email aziendale e password</label>
-					                 <form onSubmit={this.formSubmit.bind(this)}>
-					                    <div className="form-group">
-					                       <input type="text" className="form-control"  name="email" value={this.state.user} onChange={this.handleChange} placeholder="email" required />
-					                    </div>
-					                    <div className="form-group">
-					                       
-					                       <input type="password" className="form-control" name="psw" value={this.state.user} onChange={this.handleChange} placeholder="password" required/>
-					                    </div>				                   
-					                    <input type="submit" className="btn btn-black" value="ENTRA"/>
-					                 </form>
-					              </div>
+				                 <form onSubmit={this.formSubmit.bind(this)}>
+				                    <div className="form-group">
+				                       <input type="text" className="form-control"  name="email" value={this.state.user} onChange={this.handleChange} placeholder="email" required />
+				                    </div>
+				                    <div className="form-group">					                       
+				                       <input type="password" className="form-control" name="psw" value={this.state.user} onChange={this.handleChange} placeholder="password" required/>
+				                    </div>				                   
+				                    <input type="submit" className="btn btn-black" value="ENTRA"/>
+				                 </form>
 					           </div>
 					        </div>
 					    </div>
