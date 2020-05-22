@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import * as Constants from '../../constants' ;
-import './candidates.css';
+import './CandidateInsertForm.css';
 import * as Commons from '../../commons.js' ;
 import { Redirect } from 'react-router-dom'
-
+import { Button } from 'react-bootstrap';
+import {withRouter} from 'react-router-dom'
 const COURSE_CODE_API = '/api/v1/coursepage/' ;
 const CANDIDATE_API = '/api/v1/candidatecustom/' ;
 const FULL_COURSECODE_API_URI = Constants.BACKEND_API_PREFIX + COURSE_CODE_API ;
@@ -20,7 +21,7 @@ class CandidateInsertForm extends Component {
 	
 	constructor (props) {
 		super(props);
-		
+		this.goBack = this.goBack.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		
@@ -85,7 +86,7 @@ class CandidateInsertForm extends Component {
 			formData.append("cvExternalPath", fileInput2.files[0].name)
 		}
 		
-//	    formData.append("file", fileInput.files[0]);
+// formData.append("file", fileInput.files[0]);
 	    formData.append("firstname", this.state.firstname);
 	    formData.append("lastname", this.state.lastname);
 	    formData.append("email", this.state.email);
@@ -98,6 +99,7 @@ class CandidateInsertForm extends Component {
 	      body: formData
 	    };
 	    fetch(FULL_CANDIDATE_API_URI, options).then(() => {
+	    	
 	    	this.redirectToCandidatesList();
 	    });
 	    
@@ -112,39 +114,105 @@ class CandidateInsertForm extends Component {
 	    this.setState({
 	      [name]: value,    });
 	}
+    
+    goBack(event){
+    	event.preventDefault();
+        this.props.history.goBack();
+    }
 	
 //	
-//	<input type="tel" name="mobile" placeholder="Numero di telefono" onChange={this.onChangeInputMobile}  />
-//	<input type="text" name="studyTitle" placeholder="titolo di studio" onChange={this.onChangeInputStudyTitle} />
-//	<input type="text" name="domicileCity" placeholder="domicilio" onChange={this.onChangeInputDomicileCity} />
-//	<label>Candidato a </label>
-//	<input type="checkbox" name="candidateGraduate" checked={this.state.candidateGraduate} onChange={this.onChangeInputCandidateGraduate} />Laurea
-//	<input type="checkbox" name="candidateHighGraduate" checked={this.state.candidateHighGraduate} onChange={this.onChangeInputCandidateHighGraduate} />Laurea magistrale
-//	<input type="checkbox" name="candidateHighStillGraduating" checked={this.state.candidateHighStillGraduating} onChange={this.onChangeInputCandidateStillGraduating} />Laurea/Laurea magistrale in corso
-//	<input type="submit" value="INSERISCI" /> 
-//	<label>Nome:</label>
+// <input type="tel" name="mobile" placeholder="Numero di telefono"
+// onChange={this.onChangeInputMobile} />
+// <input type="text" name="studyTitle" placeholder="titolo di studio"
+// onChange={this.onChangeInputStudyTitle} />
+// <input type="text" name="domicileCity" placeholder="domicilio"
+// onChange={this.onChangeInputDomicileCity} />
+// <label>Candidato a </label>
+// <input type="checkbox" name="candidateGraduate"
+// checked={this.state.candidateGraduate}
+// onChange={this.onChangeInputCandidateGraduate} />Laurea
+// <input type="checkbox" name="candidateHighGraduate"
+// checked={this.state.candidateHighGraduate}
+// onChange={this.onChangeInputCandidateHighGraduate} />Laurea magistrale
+// <input type="checkbox" name="candidateHighStillGraduating"
+// checked={this.state.candidateHighStillGraduating}
+// onChange={this.onChangeInputCandidateStillGraduating} />Laurea/Laurea
+// magistrale in corso
+// <input type="submit" value="INSERISCI" />
+// <label>Nome:</label>
 	render () {
 		return (
-				<div className="row">
-				  {this.renderRedirect()}
-				  <div className="col-md-12">
-				    <form onSubmit={this.handleSubmit}>
-				        <input type="text" name="firstname" placeholder="Nome" onChange={this.handleInputChange} />
-				        <input type="text" name="lastname" placeholder="Cognome" onChange={this.handleInputChange} />
-				        <input type="email" name="email" placeholder="Email" onChange={this.handleInputChange} />
-				        <select name="positionCode" defaultValue={this.state.selectedPositionCode} onChange={this.handleInputChange}>
-				        {this.state.courseCodes.map((e, key) => {
-				        	return <option key={key} value={e.code}>{e.title}</option>;
-				        })}
-				        </select>
-				        <input type="file" id="imgpath" accept=".png,.jpeg,.gif,.jpg" />
-				        <input type="file" id="cvpath" accept=".doc,.pdf,.docx,.odt" />
-				        <input type="submit" value="Submit" />				        
-				    </form>
-		        </div>
-		        </div>
+			<div className="panel-container">
+			    {this.renderRedirect()}
+			    <div className="panel">
+			        <div className="panel-heading">
+			           Lista candidati 
+			        </div>
+			        <div className="panel-body">
+			            <form onSubmit={this.handleSubmit}>
+				            <div className="row">
+				                <div className="col-25">
+                                    <label>Nome</label>
+                                </div>
+                                <div className="col-75">
+                                    <input type="text" name="firstname" placeholder="Nome" onChange={this.handleInputChange} required/>
+                                </div>
+				            </div>
+				            <div className="row">
+				                <div className="col-25">
+				                    <label >Cognome</label>
+				                </div>
+				                <div className="col-75">
+				                    <input type="text"  name="lastname" placeholder="Cognome" onChange={this.handleInputChange} required/>
+				                </div>
+				            </div>
+				            <div className="row">
+				                <div className="col-25">
+				                    <label>Email</label>
+				                </div>
+				                <div className="col-75">
+				                    <input type="email" name="email" placeholder="Email" onChange={this.handleInputChange} required/>
+				                </div>
+				            </div>
+				            <div className="row">
+				                <div className="col-25">
+				                    <label>Posizione</label>
+				              </div>
+				              <div className="col-75">
+					              <select name="positionCode" defaultValue={this.state.selectedPositionCode} onChange={this.handleInputChange} required>
+							        {this.state.courseCodes.map((e, key) => {
+							        	return <option key={key} value={e.code}>{e.title}</option>;
+							        })}
+						          </select>
+				              </div>
+				            </div>
+				            <div className="row">
+				                <div className="col-25">
+				                    <label>Allega CV(.doc,.pdf,.docx,.odt)</label>
+				                </div>
+				                <div className="col-75">
+				                    <input type="file" id="cvpath" accept=".doc,.pdf,.docx,.odt" />
+				                </div>
+				            </div>
+				            <div className="row">
+				                <div className="col-25">
+				                    <label>Allega immagine profilo(.png,.jpeg,.gif,.jpg)</label>
+				                </div>
+				                <div className="col-75">
+				                    <input type="file" id="imgpath" accept=".png,.jpeg,.gif,.jpg" />
+				                </div>
+				            </div>
+				            <div className="row insert-form-buttons">
+				                <Button type="submit" variant="secondary">INSERISCI</Button>
+				                &nbsp;&nbsp;&nbsp;&nbsp;
+				                <Button variant="warning" onClick={this.goBack}>Annulla</Button>
+				            </div>
+			            </form>
+		            </div>
+	            </div>
+	        </div>
 		);
 	}
 }
 
-export default CandidateInsertForm ;
+export default withRouter(CandidateInsertForm);
