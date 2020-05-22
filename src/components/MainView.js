@@ -9,6 +9,7 @@ import NewPositionView from "./NewPositionView.js";
 import HomeView from "./HomeView.js";
 import { ModalLoadingSpinnerComponent} from './loader/ModalLoadingSpinnerComponent';
 import './MainView.css';
+import { Container } from 'react-bootstrap';
 
 class MainView extends Component {
 	constructor (props) {
@@ -31,7 +32,7 @@ class MainView extends Component {
 	
 	render() {
 		return (
-				<div className="container-fluid">
+				<Container fluid>
 				    <ModalLoadingSpinnerComponent />
 				    <HeaderBarMenu logout={this.logout}/>
 				    <div className="main">
@@ -43,7 +44,7 @@ class MainView extends Component {
 						<Route exact path="/newPosition" component={NewPositionView}/>
 					    <Route exact path="/positionsList" component={PositionsView}/>
 				    </div>
-			    </div>
+			    </Container>
 		);
 	}
 }
