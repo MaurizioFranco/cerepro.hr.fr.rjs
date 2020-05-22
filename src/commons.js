@@ -19,15 +19,15 @@ export function getAuthorizationHeaderFromToken(token) {
 }
 
 
-export function executeFetch (uri, method, callbackFunction) {
+export function executeFetch (uri, method, callbackFunction, callbackFunctionKO) {
 	debugMessage("Commons.executeFetch - START - uri: " + uri);
 	let token = sessionStorage.getItem('headerToken');
 	let headerToken = getAuthorizationHeaderFromToken(token);
-	this.executeFetchWithHeader (uri, method, headerToken, callbackFunction)
+	this.executeFetchWithHeader (uri, method, headerToken, callbackFunction, callbackFunctionKO)
 	
 }
 
-export function executeFetchWithHeader (uri, method, headerToken, callbackFunction) {
+export function executeFetchWithHeader (uri, method, headerToken, callbackFunction, callbackFunctionKO) {
 	debugMessage("Commons.executeFetchWithHeader - START - uri: " + uri);
 	trackPromise(
 		fetch(uri , {
@@ -43,6 +43,8 @@ export function executeFetchWithHeader (uri, method, headerToken, callbackFuncti
 		  .then((data) => {
 			  if (data!==undefined) {
 				  callbackFunction(data);
+			  } else {
+				  callbackFunctionKO();
 			  }
 		  })
     );
