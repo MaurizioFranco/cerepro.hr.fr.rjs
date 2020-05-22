@@ -52,7 +52,7 @@ class CandidateInsertForm extends Component {
 	  }
 	
 	fetchCourseCodes = () =>{
-		console.log("CandidateInsertForm.fetchCourseCodes - DEBUG - FULL_COURSECODE_API_URI: " + FULL_COURSECODE_API_URI);
+//		console.log("CandidateInsertForm.fetchCourseCodes - DEBUG - FULL_COURSECODE_API_URI: " + FULL_COURSECODE_API_URI);
 		Commons.executeFetch (FULL_COURSECODE_API_URI, 'GET', this.setCourseCodes);
 	}
 	
@@ -146,7 +146,7 @@ class CandidateInsertForm extends Component {
 			    {this.renderRedirect()}
 			    <div className="panel">
 			        <div className="panel-heading">
-			           Lista candidati 
+			           Inserisci nuovo candidato
 			        </div>
 			        <div className="panel-body">
 			            <form onSubmit={this.handleSubmit}>
