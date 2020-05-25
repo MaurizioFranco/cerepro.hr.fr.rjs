@@ -3,9 +3,10 @@ import React, {Component} from 'react';
 import ListedCourseCandidate from './ListedCourseCandidate';
 import CandidateFilterForm from './CandidateFilterForm';
 import './candidates.css';
+import './CandidateList.css';
 import * as Constants from '../../constants' ;
 import * as Commons from '../../commons.js' ;
-import { Button, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import { withRouter } from "react-router";
 import MessageDialog from './MessageDialog.js';
 
@@ -34,12 +35,12 @@ class CandidateList extends Component {
 		this.setCandidates.bind(this);
 		
 		this.state = {
-				listLabel:params.id!==undefined?params.id:'(tutti)',
-				candidates : [],
-				selectedPositionCode: '',
-				messageDialogVisibility: false,
-				messageDialogText: '',
-		filteredCandidateEmail : "" 
+			listLabel:params.id!==undefined?params.id:'(tutti)',
+			candidates : [],
+			selectedPositionCode: '',
+			messageDialogVisibility: false,
+			messageDialogText: '',
+	        filteredCandidateEmail : "" 
 		}
 	}
 	

@@ -34,8 +34,15 @@ class CandidateFilterForm extends Component {
 	render () {
 		return (
 				
-				
+				<div>
+				{/*
+				<form onSubmit={this.searchFormSubmit}>
+				<input type="text" name="filter" value={this.state.filterInputText} onChange={this.onChangeFilter} />
+				<input type="submit" value="CERCA PER EMAIL" />
+				</form>
+				*/}
 				<input type="text" name="filter" className="candidates-list-input-filter" onChange={this.searchFormSubmit}/>
+		        </div>
 		);
 	}
 }

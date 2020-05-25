@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import * as Constants from '../../constants' ;
-import './CandidateInsertForm.css';
-import * as Commons from '../../commons.js' ;
+import './CandidateUpdateForm.css';
+import * as Constants from '../../../constants' ;
+import * as Commons from '../../../commons.js' ;
+import CandidateUpdateFormPositionCodeSelect from './CandidateUpdateFormPositionCodeSelect.js' ;
+
 import { Redirect } from 'react-router-dom'
 import { Button } from 'react-bootstrap';
 import {withRouter} from 'react-router-dom'
@@ -10,30 +12,35 @@ const CANDIDATE_API = '/api/v1/candidatecustom/' ;
 const FULL_COURSECODE_API_URI = Constants.BACKEND_API_PREFIX + COURSE_CODE_API ;
 const FULL_CANDIDATE_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_API ;
 
-class CandidateInsertForm extends Component {
+class CandidateUpdateForm extends Component {
 	
 	componentDidMount() {			
-		
-		this.fetchCourseCodes.bind(this);
-		this.fetchCourseCodes();
-		
+		Commons.debugMessage("CandidateUpdateForm.componentDidMount - START");
+//		this.fetchCourseCodes.bind(this);
+//		this.fetchCourseCodes();
+		this.fetchUserDetail();
       }
 	
 	constructor (props) {
 		super(props);
+		const { match: { params } } = props;
+		Commons.debugMessage("constructor - DEBUG - id: " + params.id);
 		this.goBack = this.goBack.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		
 		this.state = {
+				currentCandidateId : params.id,
 				courseCodes : [],
 				selectedPositionCode: '',
-				
-				firstname : '',
-				lastname : '',
-				positionCode : '',
-				email: '',
-				
+//				positionCode : '',
+				candidate : {
+					id: '',
+					firstname : '',
+					lastname : '',
+					email: '',
+					courseCode: ''
+				},
 				redirect: false
 		}
 	}
@@ -52,12 +59,36 @@ class CandidateInsertForm extends Component {
 	  }
 	
 	fetchCourseCodes = () =>{
-//		console.log("CandidateInsertForm.fetchCourseCodes - DEBUG - FULL_COURSECODE_API_URI: " + FULL_COURSECODE_API_URI);
 		Commons.executeFetch (FULL_COURSECODE_API_URI, 'GET', this.setCourseCodes);
 	}
 	
-	setCourseCodes = (responseData) => {
-		this.setState({ courseCodes: responseData });
+	fetchUserDetail = () =>{
+		Commons.debugMessage("CandidateUpdateForm.fetchUserDetail - DEBUG - id: " + this.state.currentCandidateId);
+		Commons.executeFetch (FULL_CANDIDATE_API_URI + this.state.currentCandidateId, 'GET', this.setCurrentCandidate);
+//		this.initializeSelectedPositionCode();
+	}
+	
+//	setCourseCodes = (responseData) => {
+//		this.setState({ courseCodes: responseData });
+//		this.initializeSelectedPositionCode();
+//	}
+	
+//	initializeSelectedPositionCode = () => {
+//		Commons.debugMessage("CandidateUpdateForm.initializeSelectedPositionCode - START - this.state.candidate.courseCode: " + this.state.candidate.courseCode + " - this.state.courseCodes.length: "  +  this.state.courseCodes.length);
+//		if ((this.state.courseCodes !== null) && (this.state.courseCodes.length>0) && (this.state.candidate.courseCode!==null)) {
+//			for (let currentPosition of this.state.courseCodes) {
+////				Commons.debugMessage("CandidateUpdateForm.initializeSelectedPositionCode - DEBUG - checking currentPosition.code: " + currentPosition.code + " - this.state.candidate.courseCode: " + this.state.candidate.courseCode);
+//				if (currentPosition.code===this.state.candidate.courseCode) {
+//					this.setState({selectedPositionCode:currentPosition.title});
+//					Commons.debugMessage("CandidateUpdateForm.initializeSelectedPositionCode - DEBUG - selectedPositionCode: " + currentPosition.title);
+//					break;
+//				}
+//			}
+//		}
+//	}
+	
+	setCurrentCandidate = (responseData) => {
+		this.setState({ candidate: responseData });
 	}
 	  
 	  handleSubmit(event) {
@@ -119,27 +150,12 @@ class CandidateInsertForm extends Component {
     	event.preventDefault();
         this.props.history.goBack();
     }
+    
+    setCandidateNewPositionCode = (code) => {
+    	Commons.debugMessage("code: " + code);
+    	this.setState({selectedPositionCode: code});
+    }
 	
-//	
-// <input type="tel" name="mobile" placeholder="Numero di telefono"
-// onChange={this.onChangeInputMobile} />
-// <input type="text" name="studyTitle" placeholder="titolo di studio"
-// onChange={this.onChangeInputStudyTitle} />
-// <input type="text" name="domicileCity" placeholder="domicilio"
-// onChange={this.onChangeInputDomicileCity} />
-// <label>Candidato a </label>
-// <input type="checkbox" name="candidateGraduate"
-// checked={this.state.candidateGraduate}
-// onChange={this.onChangeInputCandidateGraduate} />Laurea
-// <input type="checkbox" name="candidateHighGraduate"
-// checked={this.state.candidateHighGraduate}
-// onChange={this.onChangeInputCandidateHighGraduate} />Laurea magistrale
-// <input type="checkbox" name="candidateHighStillGraduating"
-// checked={this.state.candidateHighStillGraduating}
-// onChange={this.onChangeInputCandidateStillGraduating} />Laurea/Laurea
-// magistrale in corso
-// <input type="submit" value="INSERISCI" />
-// <label>Nome:</label>
 	render () {
 		return (
 			<div className="panel-container">
@@ -155,7 +171,7 @@ class CandidateInsertForm extends Component {
                                     <label>Nome</label>
                                 </div>
                                 <div className="col-75">
-                                    <input type="text" className="candidate-input-form" name="firstname" placeholder="Nome" onChange={this.handleInputChange} required/>
+                                    <input type="text" className="candidate-input-form" name="firstname" placeholder="Nome" onChange={this.handleInputChange} value={this.state.candidate.firstname} required/>
                                 </div>
 				            </div>
 				            <div className="row">
@@ -163,7 +179,7 @@ class CandidateInsertForm extends Component {
 				                    <label >Cognome</label>
 				                </div>
 				                <div className="col-75">
-				                    <input type="text" className="candidate-input-form" name="lastname" placeholder="Cognome" onChange={this.handleInputChange} required/>
+				                    <input type="text" className="candidate-input-form" name="lastname" placeholder="Cognome" onChange={this.handleInputChange} value={this.state.candidate.lastname} required/>
 				                </div>
 				            </div>
 				            <div className="row">
@@ -171,7 +187,7 @@ class CandidateInsertForm extends Component {
 				                    <label>Email</label>
 				                </div>
 				                <div className="col-75">
-				                    <input type="email" className="candidate-input-form" name="email" placeholder="Email" onChange={this.handleInputChange} required/>
+				                    <input type="email" className="candidate-input-form" name="email" placeholder="Email" onChange={this.handleInputChange} value={this.state.candidate.email} required/>
 				                </div>
 				            </div>
 				            <div className="row">
@@ -179,11 +195,18 @@ class CandidateInsertForm extends Component {
 				                    <label>Posizione</label>
 				              </div>
 				              <div className="col-75">
-					              <select name="positionCode" className="candidate-input-form" defaultValue={this.state.selectedPositionCode} onChange={this.handleInputChange} required>
-							        {this.state.courseCodes.map((e, key) => {
-							        	return <option key={key} value={e.code}>{e.title}</option>;
+				              {/*
+					              <select name="positionCode" className="candidate-input-form" onChange={this.handleInputChange} required>
+					              {this.state.courseCodes.map((e, key) => {
+							        	if (this.state.candidate.courseCode===e.code) {
+							        		return <option key={key} defaultValue value={e.code}>{e.title}</option>;	
+							        	} else {
+							        		return <option key={key} value={e.code}>{e.title}</option>;
+							        	}
 							        })}
 						          </select>
+						       */}
+						          <CandidateUpdateFormPositionCodeSelect defaultValue={this.state.candidate.courseCode} setCandidateNewPositionCode={this.setCandidateNewPositionCode}/>
 				              </div>
 				            </div>
 				            <div className="row">
@@ -215,4 +238,4 @@ class CandidateInsertForm extends Component {
 	}
 }
 
-export default withRouter(CandidateInsertForm);
+export default withRouter(CandidateUpdateForm);
