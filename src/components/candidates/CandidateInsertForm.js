@@ -36,6 +36,8 @@ class CandidateInsertForm extends Component {
 				
 				redirect: false
 		}
+		
+		this.loggedUserId = Commons.getUserLoggedId() ;
 	}
 	
 	redirectToCandidatesList = () => {
@@ -43,7 +45,7 @@ class CandidateInsertForm extends Component {
 	      redirect: true
 	    })
 	  }
-	
+
 	 renderRedirect = () => {
 	      if (this.state.redirect) {
 	    	  let target = '/candidates/'+this.state.positionCode ;
@@ -90,20 +92,26 @@ class CandidateInsertForm extends Component {
 	    formData.append("firstname", this.state.firstname);
 	    formData.append("lastname", this.state.lastname);
 	    formData.append("email", this.state.email);
-	    formData.append("userId", 13);
-	    formData.append("insertedBy", 13);
+	    formData.append("userId", this.loggedUserId );
+	    formData.append("insertedBy", this.loggedUserId );
 	    formData.append("courseCode", this.state.positionCode);
 
-	    const options = {
-	      method: "POST",
-	      body: formData
-	    };
-	    fetch(FULL_CANDIDATE_API_URI, options).then(() => {
-	    	
-	    	this.redirectToCandidatesList();
-	    });
+//	    Commons.debugMessage(formData);
+	    Commons.executeFetch (FULL_CANDIDATE_API_URI, 'POST', this.redirectToCandidatesList, this.callbackKoFunction, formData);
+//	    const options = {
+//	      method: "POST",
+//	      body: formData
+//	    };
+//	    fetch(FULL_CANDIDATE_API_URI, options).then(() => {
+//	    	
+//	    	this.redirectToCandidatesList();
+//	    });
 	    
 		
+	}
+	
+	callbackKoFunction = () => {
+		alert ("INSERIMENTO KO") ;
 	}
 	
     handleInputChange(event) {
