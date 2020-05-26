@@ -18,20 +18,28 @@ export function getAuthorizationHeaderFromToken(token) {
 	return { 'Authorization': 'Basic ' + token };
 }
 
-
-export function executeFetch (uri, method, callbackFunction, callbackFunctionKO) {
-	debugMessage("Commons.executeFetch - START - uri: " + uri);
-	let token = sessionStorage.getItem('headerToken');
-	let headerToken = getAuthorizationHeaderFromToken(token);
-	this.executeFetchWithHeader (uri, method, headerToken, callbackFunction, callbackFunctionKO)
+export function getUserLoggedId () {
+	debugMessage("Commons.getUserLoggedId - START");
+	let userId = sessionStorage.getItem('userId');
+	return userId ;
 	
 }
 
-export function executeFetchWithHeader (uri, method, headerToken, callbackFunction, callbackFunctionKO) {
+export function executeFetch (uri, method, callbackFunction, callbackFunctionKO, body) {
+	debugMessage("Commons.executeFetch - START - uri: " + uri);
+	let token = sessionStorage.getItem('headerToken');
+	let headerToken = getAuthorizationHeaderFromToken(token);
+	this.executeFetchWithHeader (uri, method, headerToken, callbackFunction, callbackFunctionKO, body)
+	
+}
+
+export function executeFetchWithHeader (uri, method, headerToken, callbackFunction, callbackFunctionKO, body) {
 	debugMessage("Commons.executeFetchWithHeader - START - uri: " + uri);
+	
 	trackPromise(
 		fetch(uri , {
-	        method: "GET",
+	        method: method,
+	        body: body,
 	        headers: headerToken
 	                  },)
 		  .then((response) => {

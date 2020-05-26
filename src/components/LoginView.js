@@ -14,6 +14,7 @@ class LoginView extends Component {
     constructor (props) {
     	super(props);
     	this.state = {
+    			id:'',
     		    email:'', 
     		    psw:'',
     		    authenticationKO: false
@@ -22,21 +23,24 @@ class LoginView extends Component {
 
 	formSubmit(event) {
 		event.preventDefault();
-		this.checkCredentials2();
+		this.checkCredentials();
 		
 	};
 		
 	
-	checkCredentials2 = () => {
-		Commons.debugMessage("LoginView.checkCredentials2 - START - FULL_API_URI: " + FULL_API_URI);
+	checkCredentials = () => {
+		Commons.debugMessage("LoginView.checkCredentials - START - FULL_API_URI: " + FULL_API_URI);
 		let headerToken = Commons.getAuthorizationHeader(this.state.email, this.state.psw);
 		Commons.executeFetchWithHeader (FULL_API_URI, 'GET', headerToken, this.goAhead, this.showAuthenticationError);
 	
 	}
 	
 	goAhead = (responseData) => {
-		console.log("LoginView.goAhead - START - responseData: " + responseData);
+//		console.log("LoginView.goAhead - START");
+//		console.log(responseData);
+//		console.log(responseData.principal.id);
 		sessionStorage.setItem('userLoggedEmail', this.state.email);
+		sessionStorage.setItem('userId', responseData.principal.id);
 		sessionStorage.setItem('headerToken', Commons.getAuthorizationToken(this.state.email, this.state.psw));
         this.props.history.push('/');
 	}
