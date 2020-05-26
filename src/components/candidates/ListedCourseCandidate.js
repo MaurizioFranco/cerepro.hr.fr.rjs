@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CandidateProfileImage from './CandidateProfileImage.js';
 import CandidateProfileCVDownloadImage from './CandidateProfileCVDownloadImage.js';
 import * as Constants from '../../constants' ;
+import * as Commons from '../../commons' ;
 import * as Messages from '../../messages.js' ;
 import { Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
@@ -20,30 +21,41 @@ class ListedCourseCandidate extends Component {
 //	updateCandidate = (candidateId) => {
 //		console.log("called update form for candidate with id: " + candidateId);
 //	};
+	showDeleteKo = () => {
+		Commons.debugMessage("showDeleteKo");
+		this.props.notifyWithAlertDialog(Messages.CANDIDATE_NOT_DELETED_MESSAGE + this.props.candidate.firstname + " " + this.props.candidate.lastname, Constants.DANGER_ALERT_DIALOG);
+	}
+	
+	showDeleteOk = () => {
+		Commons.debugMessage("showDeleteOk");
+		this.props.notifyWithAlertDialog(Messages.CANDIDATE_SUCCESSFULLY_DELETED_MESSAGE + this.props.candidate.firstname + " " + this.props.candidate.lastname, Constants.SUCCESS_ALERT_DIALOG);
+	}
+	
     deleteCandidate = () => {
     	console.log("called delete for candidate with id: " + this.props.candidate.id);
-    	fetch(FULL_API_URI + this.props.candidate.id, {
-    		  method: 'DELETE',
-    		})
-//    		.then(res => res.text()) // or res.json()
-//    		.then(res => console.log(res))
-    		.then((response) => {
-				  console.log(response.status); // Will show you the status
-				  console.log(response);
-			    if(!response.ok) {
-//			    	console.log("No candidate deleted!!");
-//			    	//throw new Error(response.status);
-			    	this.props.notifyWithAlertDialog(Messages.CANDIDATE_NOT_DELETED_MESSAGE + this.props.candidate.firstname + " " + this.props.candidate.lastname, Constants.DANGER_ALERT_DIALOG);
-			    } else {
-//			    	console.log("Candidate " + candidateId + " successfully deleted!!!");
-			    	this.props.notifyWithAlertDialog(Messages.CANDIDATE_SUCCESSFULLY_DELETED_MESSAGE + this.props.candidate.firstname + " " + this.props.candidate.lastname, Constants.SUCCESS_ALERT_DIALOG);
-			    }
-			  })
-			  .then((data) => {
-//				this.setState({ candidates: data.content });
-//			    console.log("DATA STORED");
-				  console.log(data);
-			  })
+    	Commons.executeFetch (FULL_API_URI + this.props.candidate.id, 'DELETE', this.showDeleteOk, this.showDeleteKo);
+//    	fetch(FULL_API_URI + this.props.candidate.id, {
+//    		  method: 'DELETE',
+//    		})
+////    		.then(res => res.text()) // or res.json()
+////    		.then(res => console.log(res))
+//    		.then((response) => {
+//				  console.log(response.status); // Will show you the status
+//				  console.log(response);
+//			    if(!response.ok) {
+////			    	console.log("No candidate deleted!!");
+////			    	//throw new Error(response.status);
+//			    	this.props.notifyWithAlertDialog(Messages.CANDIDATE_NOT_DELETED_MESSAGE + this.props.candidate.firstname + " " + this.props.candidate.lastname, Constants.DANGER_ALERT_DIALOG);
+//			    } else {
+////			    	console.log("Candidate " + candidateId + " successfully deleted!!!");
+//			    	this.props.notifyWithAlertDialog(Messages.CANDIDATE_SUCCESSFULLY_DELETED_MESSAGE + this.props.candidate.firstname + " " + this.props.candidate.lastname, Constants.SUCCESS_ALERT_DIALOG);
+//			    }
+//			  })
+//			  .then((data) => {
+////				this.setState({ candidates: data.content });
+////			    console.log("DATA STORED");
+//				  console.log(data);
+//			  })
 //			  .catch((error) => {
 //			    console.log('error: ' + error);
 ////			    this.setState({ requestFailed: true });

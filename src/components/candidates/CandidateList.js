@@ -51,7 +51,7 @@ class CandidateList extends Component {
 	fetchCandidates = (positionCode) =>{
 		const API_TO_CALL = FULL_API_URI + (positionCode!==undefined?positionCode:'');
 		console.log("CandidateList.fetchCandidates - DEBUG - API_TO_CALL: " + API_TO_CALL);
-		console.log(this.state.selectedPositionCode);
+//		console.log(this.state.selectedPositionCode);
 		Commons.executeFetch (API_TO_CALL, 'GET', this.setCandidates);
 	}
 	
