@@ -66,8 +66,8 @@ class ListedCourseCandidate extends Component {
 				<td>
 					{/*<Button onClick={() => this.updateCandidate(this.props.id)} variant="primary">Modifica</Button>*/}
 					<Link to={"/editCandidate/" + this.props.candidate.id}>
-				     <Button variant="primary" type="button">
-				          Click Me!
+				     <Button variant="primary">
+				          Modifica
 				     </Button>
 				    </Link>
 			    </td>

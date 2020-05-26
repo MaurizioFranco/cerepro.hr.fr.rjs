@@ -32,31 +32,33 @@ class CandidateUpdateForm extends Component {
 		this.state = {
 				currentCandidateId : params.id,
 				courseCodes : [],
-				selectedPositionCode: '',
+//				selectedPositionCode: '',
 //				positionCode : '',
-				candidate : {
+//				candidate : {
 					id: '',
 					firstname : '',
 					lastname : '',
 					email: '',
-					courseCode: ''
-				},
+					courseCode: '',
+//				},
 				redirect: false
 		}
+		
+		this.loggedUserId = Commons.getUserLoggedId() ;
 	}
 	
-	redirectToCandidatesList = () => {
-	    this.setState({
-	      redirect: true
-	    })
-	  }
-	
-	 renderRedirect = () => {
-	      if (this.state.redirect) {
-	    	  let target = '/candidates/'+this.state.positionCode ;
-	          return <Redirect to={target} />
-	      }
-	  }
+//	redirectToCandidatesList = () => {
+//	    this.setState({
+//	      redirect: true
+//	    })
+//	  }
+//	
+//	 renderRedirect = () => {
+//	      if (this.state.redirect) {
+//	    	  let target = '/candidates/'+this.state.positionCode ;
+//	          return <Redirect to={target} />
+//	      }
+//	  }
 	
 	fetchCourseCodes = () =>{
 		Commons.executeFetch (FULL_COURSECODE_API_URI, 'GET', this.setCourseCodes);
@@ -70,7 +72,8 @@ class CandidateUpdateForm extends Component {
 	
 //	setCourseCodes = (responseData) => {
 //		this.setState({ courseCodes: responseData });
-//		this.initializeSelectedPositionCode();
+////		this.initializeSelectedPositionCode();
+//		
 //	}
 	
 //	initializeSelectedPositionCode = () => {
@@ -88,16 +91,27 @@ class CandidateUpdateForm extends Component {
 //	}
 	
 	setCurrentCandidate = (responseData) => {
-		this.setState({ candidate: responseData });
+		Commons.debugMessage("CandidateUpdateForm.setCurrentCandidate - START - destructuring");
+		let {id, firstname, lastname, email, courseCode} = responseData ;
+		this.setState({ 
+			    id: id,
+			    firstname: firstname,
+			    lastname: lastname,
+			    email: email,
+			    courseCode: courseCode
+			});
+		
+//		this.setState({ positionCode: this.state.candidate.courseCode });
 	}
 	  
 	  handleSubmit(event) {
-	    console.log(this.state);
-	    event.preventDefault();
-	    this.sendInsertRequest();
+   	      Commons.debugMessage("CandidateUpdateForm.handleSubmit - START");
+   	      Commons.debugMessage(this.state);
+	      event.preventDefault();
+	    this.sendUpdateRequest();
 	  }
 	
-	sendInsertRequest = () => {
+	sendUpdateRequest = () => {
 		const formData = new FormData();
 
 		const fileInput = document.querySelector("#imgpath");
@@ -121,20 +135,43 @@ class CandidateUpdateForm extends Component {
 	    formData.append("firstname", this.state.firstname);
 	    formData.append("lastname", this.state.lastname);
 	    formData.append("email", this.state.email);
-	    formData.append("userId", 13);
-	    formData.append("insertedBy", 13);
-	    formData.append("courseCode", this.state.positionCode);
-
-	    const options = {
-	      method: "POST",
-	      body: formData
-	    };
-	    fetch(FULL_CANDIDATE_API_URI, options).then(() => {
-	    	
-	    	this.redirectToCandidatesList();
-	    });
+	    formData.append("userId", this.loggedUserId);
+	    formData.append("insertedBy", this.loggedUserId);
+	    formData.append("courseCode", this.state.courseCode);
+	    formData.append("candidateStatusCode", 100);
 	    
+	    Commons.debugMessage(formData);
+//	    const options = {
+//	      method: "PUT",
+//	      body: formData
+//	    };
+//	    fetch(FULL_CANDIDATE_API_URI, options).then(() => {
+//	    	
+//	    	this.redirectToCandidatesList();
+//	    });
+	    
+	    Commons.executeFetch (FULL_CANDIDATE_API_URI + this.state.currentCandidateId, 'PUT', this.redirectToCandidatesList, this.callbackKoFunction, formData);
 		
+	}
+	
+	callbackKoFunction = () => {
+		alert ("INSERIMENTO KO") ;
+	}
+	
+	redirectToCandidatesList = () => {
+	    this.setState({
+	      redirect: true
+	    })
+	}
+	
+	renderRedirect = () => {
+	    Commons.debugMessage("CandidateUpdateForm.renderRedirect - START - this.state.redirect: " + this.state.redirect);
+	    if (this.state.redirect) {
+	    	Commons.debugMessage("CandidateUpdateForm.renderRedirect - START - this.state.courseCode: " + this.state.courseCode);
+//	    	  let target = '/candidates/'+this.state.positionCode ;
+	    	let target = '/candidates/' + this.state.courseCode;
+	        return <Redirect to={target} />
+	    }
 	}
 	
     handleInputChange(event) {
@@ -142,8 +179,10 @@ class CandidateUpdateForm extends Component {
 	    const value = target.value;
 	    const name = target.name;
 
+//	    this.setState({
+//	      [name]: value,    });
 	    this.setState({
-	      [name]: value,    });
+		      [name]: value,    });
 	}
     
     goBack(event){
@@ -153,7 +192,10 @@ class CandidateUpdateForm extends Component {
     
     setCandidateNewPositionCode = (code) => {
     	Commons.debugMessage("code: " + code);
-    	this.setState({selectedPositionCode: code});
+//    	this.setState({candidate: { courseCode: code}});
+//    	this.state.courseCode = code ;
+    	this.setState({courseCode: code});
+//    	this.setState({positionCode: this.state.candidate.courseCode });
     }
 	
 	render () {
@@ -162,7 +204,7 @@ class CandidateUpdateForm extends Component {
 			    {this.renderRedirect()}
 			    <div className="panel">
 			        <div className="panel-heading">
-			           Inserisci nuovo candidato
+			           Modifica candidato
 			        </div>
 			        <div className="panel-body">
 			            <form onSubmit={this.handleSubmit}>
@@ -171,7 +213,7 @@ class CandidateUpdateForm extends Component {
                                     <label>Nome</label>
                                 </div>
                                 <div className="col-75">
-                                    <input type="text" className="candidate-input-form" name="firstname" placeholder="Nome" onChange={this.handleInputChange} value={this.state.candidate.firstname} required/>
+                                    <input type="text" className="candidate-input-form" name="firstname" placeholder="Nome" onChange={this.handleInputChange} value={this.state.firstname} required/>
                                 </div>
 				            </div>
 				            <div className="row">
@@ -179,7 +221,7 @@ class CandidateUpdateForm extends Component {
 				                    <label >Cognome</label>
 				                </div>
 				                <div className="col-75">
-				                    <input type="text" className="candidate-input-form" name="lastname" placeholder="Cognome" onChange={this.handleInputChange} value={this.state.candidate.lastname} required/>
+				                    <input type="text" className="candidate-input-form" name="lastname" placeholder="Cognome" onChange={this.handleInputChange} value={this.state.lastname} required/>
 				                </div>
 				            </div>
 				            <div className="row">
@@ -187,7 +229,7 @@ class CandidateUpdateForm extends Component {
 				                    <label>Email</label>
 				                </div>
 				                <div className="col-75">
-				                    <input type="email" className="candidate-input-form" name="email" placeholder="Email" onChange={this.handleInputChange} value={this.state.candidate.email} required/>
+				                    <input type="email" className="candidate-input-form" name="email" placeholder="Email" onChange={this.handleInputChange} value={this.state.email} required/>
 				                </div>
 				            </div>
 				            <div className="row">
@@ -206,7 +248,7 @@ class CandidateUpdateForm extends Component {
 							        })}
 						          </select>
 						       */}
-						          <CandidateUpdateFormPositionCodeSelect defaultValue={this.state.candidate.courseCode} setCandidateNewPositionCode={this.setCandidateNewPositionCode}/>
+						          <CandidateUpdateFormPositionCodeSelect defaultValue={this.state.courseCode} setCandidateNewPositionCode={this.setCandidateNewPositionCode}/>
 				              </div>
 				            </div>
 				            <div className="row">
@@ -226,7 +268,7 @@ class CandidateUpdateForm extends Component {
 				                </div>
 				            </div>
 				            <div className="row insert-form-buttons">
-				                <Button type="submit" variant="secondary">INSERISCI</Button>
+				                <Button type="submit" variant="secondary">MODIFICA</Button>
 				                &nbsp;&nbsp;&nbsp;&nbsp;
 				                <Button variant="warning" onClick={this.goBack}>Annulla</Button>
 				            </div>
