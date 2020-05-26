@@ -3,7 +3,9 @@ import './CandidateUpdateForm.css';
 import * as Constants from '../../../constants' ;
 import * as Commons from '../../../commons.js' ;
 import CandidateUpdateFormPositionCodeSelect from './CandidateUpdateFormPositionCodeSelect.js' ;
+import CandidateProfileCVDownloadImage from '../CandidateProfileCVDownloadImage.js' ;
 
+import CandidateProfileImage from '../CandidateProfileImage.js';
 import { Redirect } from 'react-router-dom'
 import { Button } from 'react-bootstrap';
 import {withRouter} from 'react-router-dom'
@@ -35,11 +37,13 @@ class CandidateUpdateForm extends Component {
 //				selectedPositionCode: '',
 //				positionCode : '',
 //				candidate : {
-					id: '',
-					firstname : '',
-					lastname : '',
-					email: '',
-					courseCode: '',
+				id: '',
+				firstname : '',
+				lastname : '',
+				email: '',
+				courseCode: '',
+				oldCV: '',
+				oldImg: '',
 //				},
 				redirect: false
 		}
@@ -92,13 +96,15 @@ class CandidateUpdateForm extends Component {
 	
 	setCurrentCandidate = (responseData) => {
 		Commons.debugMessage("CandidateUpdateForm.setCurrentCandidate - START - destructuring");
-		let {id, firstname, lastname, email, courseCode} = responseData ;
+		let {id, firstname, lastname, email, courseCode, imgpath, cvExternalPath} = responseData ;
 		this.setState({ 
 			    id: id,
 			    firstname: firstname,
 			    lastname: lastname,
 			    email: email,
-			    courseCode: courseCode
+			    courseCode: courseCode,
+			    oldImg: imgpath,
+			    oldCV: cvExternalPath
 			});
 		
 //		this.setState({ positionCode: this.state.candidate.courseCode });
@@ -135,6 +141,8 @@ class CandidateUpdateForm extends Component {
 	    formData.append("firstname", this.state.firstname);
 	    formData.append("lastname", this.state.lastname);
 	    formData.append("email", this.state.email);
+	    formData.append("oldImg", this.state.oldImg);
+	    formData.append("oldCV", this.state.oldCV);
 	    formData.append("userId", this.loggedUserId);
 	    formData.append("insertedBy", this.loggedUserId);
 	    formData.append("courseCode", this.state.courseCode);
@@ -256,6 +264,8 @@ class CandidateUpdateForm extends Component {
 				                    <label>Allega CV(.doc,.pdf,.docx,.odt)</label>
 				                </div>
 				                <div className="col-75">
+				                    <CandidateProfileCVDownloadImage cvExternalPath={this.state.oldCV} />
+				                    &nbsp;&nbsp;&nbsp;
 				                    <input type="file" id="cvpath" accept=".doc,.pdf,.docx,.odt" />
 				                </div>
 				            </div>
@@ -264,6 +274,8 @@ class CandidateUpdateForm extends Component {
 				                    <label>Allega immagine profilo(.png,.jpeg,.gif,.jpg)</label>
 				                </div>
 				                <div className="col-75">
+				                    <CandidateProfileImage img={this.state.oldImg}/>
+				                    &nbsp;&nbsp;&nbsp;
 				                    <input type="file" id="imgpath" accept=".png,.jpeg,.gif,.jpg" />
 				                </div>
 				            </div>
