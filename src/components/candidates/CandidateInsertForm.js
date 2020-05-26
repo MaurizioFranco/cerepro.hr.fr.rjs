@@ -5,10 +5,6 @@ import * as Commons from '../../commons.js' ;
 import { Redirect } from 'react-router-dom'
 import { Button } from 'react-bootstrap';
 import {withRouter} from 'react-router-dom'
-const COURSE_CODE_API = '/api/v1/coursepage/' ;
-const CANDIDATE_API = '/api/v1/candidatecustom/' ;
-const FULL_COURSECODE_API_URI = Constants.BACKEND_API_PREFIX + COURSE_CODE_API ;
-const FULL_CANDIDATE_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_API ;
 
 class CandidateInsertForm extends Component {
 	
@@ -55,7 +51,7 @@ class CandidateInsertForm extends Component {
 	
 	fetchCourseCodes = () =>{
 //		console.log("CandidateInsertForm.fetchCourseCodes - DEBUG - FULL_COURSECODE_API_URI: " + FULL_COURSECODE_API_URI);
-		Commons.executeFetch (FULL_COURSECODE_API_URI, 'GET', this.setCourseCodes);
+		Commons.executeFetch (Constants.FULL_COURSECODE_API_URI, 'GET', this.setCourseCodes);
 	}
 	
 	setCourseCodes = (responseData) => {
@@ -97,7 +93,7 @@ class CandidateInsertForm extends Component {
 	    formData.append("courseCode", this.state.positionCode);
 
 //	    Commons.debugMessage(formData);
-	    Commons.executeFetch (FULL_CANDIDATE_API_URI, 'POST', this.redirectToCandidatesList, this.callbackKoFunction, formData);
+	    Commons.executeFetch (Constants.FULL_CANDIDATE_API_URI, 'POST', this.redirectToCandidatesList, this.callbackKoFunction, formData);
 //	    const options = {
 //	      method: "POST",
 //	      body: formData

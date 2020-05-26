@@ -3,13 +3,6 @@ import React, {Component} from 'react';
 import * as Constants from '../../../constants' ;
 import * as Commons from '../../../commons.js' ;
 import Select from 'react-select';
-//import { Redirect } from 'react-router-dom'
-//import { Button } from 'react-bootstrap';
-//import {withRouter} from 'react-router-dom'
-const COURSE_CODE_API = '/api/v1/coursepage/' ;
-//const CANDIDATE_API = '/api/v1/candidatecustom/' ;
-const FULL_COURSECODE_API_URI = Constants.BACKEND_API_PREFIX + COURSE_CODE_API ;
-//const FULL_CANDIDATE_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_API ;
 
 export default class CandidateUpdateFormPositionCodeSelect extends Component {
 
@@ -33,7 +26,7 @@ export default class CandidateUpdateFormPositionCodeSelect extends Component {
 //	    }
 
 	    fetchCourseCodes = () =>{
-			Commons.executeFetch (FULL_COURSECODE_API_URI, 'GET', this.setPositionCodes);
+			Commons.executeFetch (Constants.FULL_COURSECODE_API_URI, 'GET', this.setPositionCodes);
 		}
 	    
 	    setPositionCodes = (responseData) => {

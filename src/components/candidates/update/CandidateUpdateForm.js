@@ -6,13 +6,8 @@ import CandidateUpdateFormPositionCodeSelect from './CandidateUpdateFormPosition
 import CandidateProfileCVDownloadImage from '../CandidateProfileCVDownloadImage.js' ;
 
 import CandidateProfileImage from '../CandidateProfileImage.js';
-import { Redirect } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom'
 import { Button } from 'react-bootstrap';
-import {withRouter} from 'react-router-dom'
-const COURSE_CODE_API = '/api/v1/coursepage/' ;
-const CANDIDATE_API = '/api/v1/candidatecustom/' ;
-const FULL_COURSECODE_API_URI = Constants.BACKEND_API_PREFIX + COURSE_CODE_API ;
-const FULL_CANDIDATE_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_API ;
 
 class CandidateUpdateForm extends Component {
 	
@@ -65,12 +60,12 @@ class CandidateUpdateForm extends Component {
 //	  }
 	
 	fetchCourseCodes = () =>{
-		Commons.executeFetch (FULL_COURSECODE_API_URI, 'GET', this.setCourseCodes);
+		Commons.executeFetch (Constants.FULL_COURSECODE_API_URI, 'GET', this.setCourseCodes);
 	}
 	
 	fetchUserDetail = () =>{
 		Commons.debugMessage("CandidateUpdateForm.fetchUserDetail - DEBUG - id: " + this.state.currentCandidateId);
-		Commons.executeFetch (FULL_CANDIDATE_API_URI + this.state.currentCandidateId, 'GET', this.setCurrentCandidate);
+		Commons.executeFetch (Constants.FULL_CANDIDATE_API_URI + this.state.currentCandidateId, 'GET', this.setCurrentCandidate);
 //		this.initializeSelectedPositionCode();
 	}
 	
@@ -137,7 +132,6 @@ class CandidateUpdateForm extends Component {
 			formData.append("cvExternalPath", fileInput2.files[0].name)
 		}
 		
-// formData.append("file", fileInput.files[0]);
 	    formData.append("firstname", this.state.firstname);
 	    formData.append("lastname", this.state.lastname);
 	    formData.append("email", this.state.email);
@@ -149,16 +143,7 @@ class CandidateUpdateForm extends Component {
 	    formData.append("candidateStatusCode", 100);
 	    
 	    Commons.debugMessage(formData);
-//	    const options = {
-//	      method: "PUT",
-//	      body: formData
-//	    };
-//	    fetch(FULL_CANDIDATE_API_URI, options).then(() => {
-//	    	
-//	    	this.redirectToCandidatesList();
-//	    });
-	    
-	    Commons.executeFetch (FULL_CANDIDATE_API_URI + this.state.currentCandidateId, 'PUT', this.redirectToCandidatesList, this.callbackKoFunction, formData);
+	    Commons.executeFetch (Constants.FULL_CANDIDATE_API_URI + this.state.currentCandidateId, 'PUT', this.redirectToCandidatesList, this.callbackKoFunction, formData);
 		
 	}
 	
