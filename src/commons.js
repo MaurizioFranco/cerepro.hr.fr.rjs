@@ -46,9 +46,12 @@ export function executeFetchWithHeader (uri, method, headerToken, callbackFuncti
 		      if(!response.ok) {
 		    	  console.warn(response.status); // Will show you the status
 		    	  //throw new Error(response.status);
+		      } else if (method==="DELETE") {
+		    	  return "" ;
 		      } else return response.json();
 		  })
 		  .then((data) => {
+			  debugMessage("Commons.executeFetchWithHeader - DEBUG - data: " + data);
 			  if (data!==undefined) {
 				  callbackFunction(data);
 			  } else {
