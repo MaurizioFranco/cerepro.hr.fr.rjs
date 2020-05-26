@@ -13,16 +13,16 @@ const FULL_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_API ;
 class ListedCourseCandidate extends Component {
 //	constructor (props) {
 //		super(props);
-////		console.log(this.props);
-////		console.log("email ricevuta: " + this.props.email);
-//		
+//		console.log(this.props);
+//////		console.log("email ricevuta: " + this.props.email);
+////		
 //	}
-	updateCandidate = (candidateId) => {
-		console.log("called update form for candidate with id: " + candidateId);
-	};
-    deleteCandidate = (candidateId, candidateFirstname, candidateLastname) => {
-//    	console.log("called delete for candidate with id: " + candidateId);
-    	fetch(FULL_API_URI + candidateId, {
+//	updateCandidate = (candidateId) => {
+//		console.log("called update form for candidate with id: " + candidateId);
+//	};
+    deleteCandidate = () => {
+    	console.log("called delete for candidate with id: " + this.props.candidate.id);
+    	fetch(FULL_API_URI + this.props.candidate.id, {
     		  method: 'DELETE',
     		})
 //    		.then(res => res.text()) // or res.json()
@@ -33,10 +33,10 @@ class ListedCourseCandidate extends Component {
 			    if(!response.ok) {
 //			    	console.log("No candidate deleted!!");
 //			    	//throw new Error(response.status);
-			    	this.props.notifyWithAlertDialog(Messages.CANDIDATE_NOT_DELETED_MESSAGE + candidateFirstname + " " + candidateLastname, Constants.DANGER_ALERT_DIALOG);
+			    	this.props.notifyWithAlertDialog(Messages.CANDIDATE_NOT_DELETED_MESSAGE + this.props.candidate.firstname + " " + this.props.candidate.lastname, Constants.DANGER_ALERT_DIALOG);
 			    } else {
 //			    	console.log("Candidate " + candidateId + " successfully deleted!!!");
-			    	this.props.notifyWithAlertDialog(Messages.CANDIDATE_SUCCESSFULLY_DELETED_MESSAGE + candidateFirstname + " " + candidateLastname, Constants.SUCCESS_ALERT_DIALOG);
+			    	this.props.notifyWithAlertDialog(Messages.CANDIDATE_SUCCESSFULLY_DELETED_MESSAGE + this.props.candidate.firstname + " " + this.props.candidate.lastname, Constants.SUCCESS_ALERT_DIALOG);
 			    }
 			  })
 			  .then((data) => {
@@ -61,7 +61,9 @@ class ListedCourseCandidate extends Component {
 				<td>{this.props.candidate.email}</td>
 				<td>{this.props.candidate.firstname}</td>
 				<td>{this.props.candidate.lastname}</td>
-				<td><CandidateProfileCVDownloadImage cvExternalPath={this.props.candidate.cvExternalPath} /></td>
+				<td>
+				    <CandidateProfileCVDownloadImage cvExternalPath={this.props.candidate.cvExternalPath} />
+				</td>
 				<td>{this.props.candidate.insertedByFirstname}</td>
 				<td>
 					{/*<Button onClick={() => this.updateCandidate(this.props.id)} variant="primary">Modifica</Button>*/}
@@ -71,7 +73,7 @@ class ListedCourseCandidate extends Component {
 				     </Button>
 				    </Link>
 			    </td>
-				<td><Button onClick={() => this.deleteCandidate(this.props.id, this.props.firstname, this.props.lastname)} variant="danger">Elimina</Button></td> 
+				<td><Button onClick={() => this.deleteCandidate()} variant="danger">Elimina</Button></td> 
 				</tr>
 				</React.Fragment>
 		);
