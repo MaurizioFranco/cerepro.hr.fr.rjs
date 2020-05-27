@@ -29,7 +29,7 @@ export function executeFetch (uri, method, callbackFunction, callbackFunctionKO,
 	debugMessage("Commons.executeFetch - START - uri: " + uri);
 	let token = sessionStorage.getItem('headerToken');
 	let headerToken = getAuthorizationHeaderFromToken(token);
-	this.executeFetchWithHeader (uri, method, headerToken, callbackFunction, callbackFunctionKO, body)
+	executeFetchWithHeader (uri, method, headerToken, callbackFunction, callbackFunctionKO, body)
 	
 }
 
