@@ -24,14 +24,12 @@ class CandidateUpdateForm extends Component {
 		Commons.debugMessage("constructor - DEBUG - id: " + params.id);
 		this.goBack = this.goBack.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
+		this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		
 		this.state = {
 				currentCandidateId : params.id,
 				courseCodes : [],
-//				selectedPositionCode: '',
-//				positionCode : '',
-//				candidate : {
 				id: '',
 				firstname : '',
 				lastname : '',
@@ -39,25 +37,20 @@ class CandidateUpdateForm extends Component {
 				courseCode: '',
 				oldCV: '',
 				oldImg: '',
-//				},
+				domicileCity: '',
+				studyQualification: '',
+				graduate: false,
+				highGraduate: false,
+				stillHighStudy: false,
+				
+				
+				
+				
 				redirect: false
 		}
 		
 		this.loggedUserId = Commons.getUserLoggedId() ;
 	}
-	
-//	redirectToCandidatesList = () => {
-//	    this.setState({
-//	      redirect: true
-//	    })
-//	  }
-//	
-//	 renderRedirect = () => {
-//	      if (this.state.redirect) {
-//	    	  let target = '/candidates/'+this.state.positionCode ;
-//	          return <Redirect to={target} />
-//	      }
-//	  }
 	
 	fetchCourseCodes = () =>{
 		Commons.executeFetch (Constants.FULL_COURSECODE_API_URI, 'GET', this.setCourseCodes);
@@ -66,32 +59,12 @@ class CandidateUpdateForm extends Component {
 	fetchUserDetail = () =>{
 		Commons.debugMessage("CandidateUpdateForm.fetchUserDetail - DEBUG - id: " + this.state.currentCandidateId);
 		Commons.executeFetch (Constants.FULL_CANDIDATE_API_URI + this.state.currentCandidateId, 'GET', this.setCurrentCandidate);
-//		this.initializeSelectedPositionCode();
 	}
-	
-//	setCourseCodes = (responseData) => {
-//		this.setState({ courseCodes: responseData });
-////		this.initializeSelectedPositionCode();
-//		
-//	}
-	
-//	initializeSelectedPositionCode = () => {
-//		Commons.debugMessage("CandidateUpdateForm.initializeSelectedPositionCode - START - this.state.candidate.courseCode: " + this.state.candidate.courseCode + " - this.state.courseCodes.length: "  +  this.state.courseCodes.length);
-//		if ((this.state.courseCodes !== null) && (this.state.courseCodes.length>0) && (this.state.candidate.courseCode!==null)) {
-//			for (let currentPosition of this.state.courseCodes) {
-////				Commons.debugMessage("CandidateUpdateForm.initializeSelectedPositionCode - DEBUG - checking currentPosition.code: " + currentPosition.code + " - this.state.candidate.courseCode: " + this.state.candidate.courseCode);
-//				if (currentPosition.code===this.state.candidate.courseCode) {
-//					this.setState({selectedPositionCode:currentPosition.title});
-//					Commons.debugMessage("CandidateUpdateForm.initializeSelectedPositionCode - DEBUG - selectedPositionCode: " + currentPosition.title);
-//					break;
-//				}
-//			}
-//		}
-//	}
 	
 	setCurrentCandidate = (responseData) => {
 		Commons.debugMessage("CandidateUpdateForm.setCurrentCandidate - START - destructuring");
-		let {id, firstname, lastname, email, courseCode, imgpath, cvExternalPath} = responseData ;
+		let {id, firstname, lastname, email, courseCode, imgpath, cvExternalPath, 
+			domicileCity, studyQualification, graduate, highGraduate, stillHighStudy} = responseData ;
 		this.setState({ 
 			    id: id,
 			    firstname: firstname,
@@ -99,10 +72,13 @@ class CandidateUpdateForm extends Component {
 			    email: email,
 			    courseCode: courseCode,
 			    oldImg: imgpath,
-			    oldCV: cvExternalPath
+			    oldCV: cvExternalPath,
+			    domicileCity: (domicileCity!==null?domicileCity:''),
+			    studyQualification: (studyQualification!==null?studyQualification:''),
+			    graduate: (graduate!==null?graduate:false),
+			    highGraduate: (highGraduate!==null?highGraduate:false),
+			    stillHighStudy: (stillHighStudy!==null?stillHighStudy:false),
 			});
-		
-//		this.setState({ positionCode: this.state.candidate.courseCode });
 	}
 	  
 	  handleSubmit(event) {
@@ -139,10 +115,23 @@ class CandidateUpdateForm extends Component {
 	    formData.append("oldCV", this.state.oldCV);
 	    formData.append("userId", this.loggedUserId);
 	    formData.append("insertedBy", this.loggedUserId);
-	    formData.append("courseCode", this.state.courseCode);
+	    formData.append("positionCode", this.state.courseCode);
+	    
+	    formData.append("domicileCity", this.state.domicileCity);
+	    formData.append("studyQualification", this.state.studyQualification);
+//	    Commons.debugMessage("this.state.graduate: " + this.state.graduate);
+	    formData.append("graduate", this.state.graduate);
+	    formData.append("highGraduate", this.state.highGraduate);
+	    formData.append("stillHighStudy", this.state.stillHighStudy);
+	    
+	    
+	    
+	    
+	    
+	    
 	    formData.append("candidateStatusCode", 100);
 	    
-	    Commons.debugMessage(formData);
+//	    Commons.debugMessage(formData);
 	    Commons.executeFetch (Constants.FULL_CANDIDATE_API_URI + this.state.currentCandidateId, 'PUT', this.redirectToCandidatesList, this.callbackKoFunction, formData);
 		
 	}
@@ -168,14 +157,18 @@ class CandidateUpdateForm extends Component {
 	}
 	
     handleInputChange(event) {
-	    const target = event.target;
-	    const value = target.value;
-	    const name = target.name;
-
-//	    this.setState({
-//	      [name]: value,    });
+	    const value = event.target.value;
+	    const name = event.target.name;
 	    this.setState({
 		      [name]: value,    });
+	}
+
+    handleCheckboxChange(event) {
+	    const checked = event.target.checked;
+	    const name = event.target.name;
+	    Commons.debugMessage("CandidateUpdateForm.handleCheckboxChange - START - name: " + name + " - checked: " + checked);
+	    this.setState({[name]: checked});
+	    console.log(this.state);
 	}
     
     goBack(event){
@@ -223,6 +216,61 @@ class CandidateUpdateForm extends Component {
 				                </div>
 				                <div className="col-75">
 				                    <input type="email" className="candidate-input-form" name="email" placeholder="Email" onChange={this.handleInputChange} value={this.state.email} required/>
+				                </div>
+				            </div>
+				            <div className="row">
+				                <div className="col-25">
+				                    <label>Domicilio</label>
+				                </div>
+				                <div className="col-75">
+				                    <input type="text" className="candidate-input-form" name="domicileCity" placeholder="Domicilio" onChange={this.handleInputChange} value={this.state.domicileCity} />
+				                </div>
+				            </div>
+				            <div className="row">
+				                <div className="col-25">
+				                    <label>Titolo di studio</label>
+				                </div>
+				                <div className="col-75">
+				                    <input type="text" className="candidate-input-form" name="studyQualification" placeholder="Laurea/Diploma in..." onChange={this.handleInputChange} value={this.state.studyQualification} />
+				                </div>
+				            </div>
+				            <div className="row">
+				                <div className="col-25">
+				                    <label>Laureato</label>
+				                </div>
+				                <div className="col-75">
+				                    <input
+				                    name="graduate"
+				                    type="checkbox"
+				                    checked={this.state.graduate}
+				                    onChange={this.handleCheckboxChange} 
+				                    className="form-control" />
+				                </div>
+				            </div>
+				            <div className="row">
+				                <div className="col-25">
+				                    <label>Laurea Magistrale (già conseguita)</label>
+				                </div>
+				                <div className="col-75">
+				                    <input
+				                    name="highGraduate"
+				                    type="checkbox"
+				                    checked={this.state.highGraduate}
+				                    onChange={this.handleCheckboxChange} 
+				                    className="form-control" />
+				                </div>
+				            </div>
+				            <div className="row">
+				                <div className="col-25">
+				                    <label>Laurea in corso</label>
+				                </div>
+				                <div className="col-75">
+				                    <input
+				                    name="stillHighStudy"
+				                    type="checkbox"
+				                    checked={this.state.stillHighStudy}
+				                    onChange={this.handleCheckboxChange} 
+				                    className="form-control" />
 				                </div>
 				            </div>
 				            <div className="row">
