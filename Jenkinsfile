@@ -25,7 +25,7 @@ pipeline {
             }
             steps {
                 echo "ready to download dependencies"
-	            sh "npm install"
+	            sh "npm install && npm audit fix"
 	            echo "ready to build optimized build"
 	            sh "npm run build"
 	            sh "cd build && tar -cvf ${ARTIFACT_FULL_FILE_NAME} ."
