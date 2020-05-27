@@ -42,8 +42,9 @@ class CandidateUpdateForm extends Component {
 				graduate: false,
 				highGraduate: false,
 				stillHighStudy: false,
-				
-				
+				mobile: '',
+				birthdate: '',
+				note: '',
 				
 				
 				redirect: false
@@ -64,7 +65,8 @@ class CandidateUpdateForm extends Component {
 	setCurrentCandidate = (responseData) => {
 		Commons.debugMessage("CandidateUpdateForm.setCurrentCandidate - START - destructuring");
 		let {id, firstname, lastname, email, courseCode, imgpath, cvExternalPath, 
-			domicileCity, studyQualification, graduate, highGraduate, stillHighStudy} = responseData ;
+			domicileCity, studyQualification, graduate, highGraduate, stillHighStudy,
+			mobile, note, dateOfBirth:birthdate} = responseData ;
 		this.setState({ 
 			    id: id,
 			    firstname: firstname,
@@ -78,6 +80,9 @@ class CandidateUpdateForm extends Component {
 			    graduate: (graduate!==null?graduate:false),
 			    highGraduate: (highGraduate!==null?highGraduate:false),
 			    stillHighStudy: (stillHighStudy!==null?stillHighStudy:false),
+			    birthdate: (birthdate!==null?birthdate:''),
+			    note: (note!==null?note:''),
+			    mobile: (mobile!==null?mobile:''),
 			});
 	}
 	  
@@ -123,6 +128,18 @@ class CandidateUpdateForm extends Component {
 	    formData.append("graduate", this.state.graduate);
 	    formData.append("highGraduate", this.state.highGraduate);
 	    formData.append("stillHighStudy", this.state.stillHighStudy);
+	    
+	    if ((this.state.mobile!==undefined)&&(this.state.mobile!==null)&&(this.state.mobile.length==10)) {	    	
+	    	formData.append("mobile", this.state.mobile);
+	    }
+	    if ((this.state.birthdate!==undefined)&&(this.state.birthdate!==null)&&(this.state.birthdate.length>0)) {
+	    	let appoDate = new Date(this.state.birthdate) ;	    	
+	    	appoDate = new Date(appoDate.setTime( appoDate.getTime() + 1 * 86400000 ));
+	    	formData.append("dateOfBirth", appoDate);
+	    }
+	    if ((this.state.note!==undefined)&&(this.state.note!==null)&&(this.state.note.length>0)) {
+	        formData.append("note", this.state.note);
+	    }
 	    
 	    
 	    
@@ -220,6 +237,22 @@ class CandidateUpdateForm extends Component {
 				            </div>
 				            <div className="row">
 				                <div className="col-25">
+				                    <label>Numero di telefono(personale)</label>
+				                </div>
+				                <div className="col-75">
+				                    <input type="tel" className="candidate-input-form" name="mobile" placeholder="10 cifre" pattern="[0-9]{10}" onChange={this.handleInputChange} value={this.state.mobile} />
+				                </div>
+				            </div>
+				            <div className="row">
+				                <div className="col-25">
+				                    <label>Data di nascita</label>
+				                </div>
+				                <div className="col-75">
+				                    <input type="date" className="candidate-input-form" name="birthdate" onChange={this.handleInputChange} value={this.state.birthdate} />
+				                </div>
+				            </div>
+				            <div className="row">
+				                <div className="col-25">
 				                    <label>Domicilio</label>
 				                </div>
 				                <div className="col-75">
@@ -312,6 +345,14 @@ class CandidateUpdateForm extends Component {
 				                    <input type="file" id="imgpath" accept=".png,.jpeg,.gif,.jpg" />
 				                </div>
 				            </div>
+				            <div className="row">
+			                <div className="col-25">
+			                    <label>Note tecniche</label>
+			                </div>
+			                <div className="col-75">
+			                    <textarea value={this.state.note} name="note" onChange={this.handleInputChange} rows="10" className="note-textarea" />
+			                </div>
+			            </div>
 				            <div className="row insert-form-buttons">
 				                <Button type="submit" variant="secondary">MODIFICA</Button>
 				                &nbsp;&nbsp;&nbsp;&nbsp;
