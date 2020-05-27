@@ -28,6 +28,7 @@ pipeline {
 	            sh "npm install"
 	            echo "ready to build optimized build"
 	            sh "npm run build"
+	            sh "cd build && tar -cvf ${ARTIFACT_FULL_FILE_NAME} ."
 	            /*
 	            sh "mkdir -p ${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/${ENV}"
 	            sh "cp ./target/${ARTIFACT_FULL_FILE_NAME} ${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/${ENV}"
