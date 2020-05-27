@@ -6,7 +6,7 @@ pipeline {
             description: 'Al termine di questa pipeline, vuoi consentire la promozione in ambiente di Produzione?')
     }
     environment {                    
-        PACKAGE_FILE_NAME = cerepro.hr.fe.rjs ;
+        PACKAGE_FILE_NAME = "cerepro.hr.fe.rjs" ;
         ARTIFACT_FULL_FILE_NAME = "centauri.tar"              
         APPLICATION_DOCKER_HOST = "rastaban"
         DEV_SERVICES_EXPOSED_PORT="9060"
