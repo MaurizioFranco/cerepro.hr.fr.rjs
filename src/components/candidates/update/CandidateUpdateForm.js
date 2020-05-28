@@ -4,7 +4,7 @@ import * as Constants from '../../../constants' ;
 import * as Commons from '../../../commons.js' ;
 import CandidateUpdateFormPositionCodeSelect from './CandidateUpdateFormPositionCodeSelect.js' ;
 import CandidateProfileCVDownloadImage from '../CandidateProfileCVDownloadImage.js' ;
-
+import Select from 'react-select';
 import CandidateProfileImage from '../CandidateProfileImage.js';
 import { Redirect, withRouter } from 'react-router-dom'
 import { Button } from 'react-bootstrap';
@@ -13,9 +13,8 @@ class CandidateUpdateForm extends Component {
 	
 	componentDidMount() {			
 		Commons.debugMessage("CandidateUpdateForm.componentDidMount - START");
-//		this.fetchCourseCodes.bind(this);
-//		this.fetchCourseCodes();
 		this.fetchUserDetail();
+		this.fetchCandidateStates();
       }
 	
 	constructor (props) {
@@ -25,6 +24,7 @@ class CandidateUpdateForm extends Component {
 		this.goBack = this.goBack.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+		this.handleCandidatesStatesChange = this.handleCandidatesStatesChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		
 		this.state = {
@@ -45,12 +45,25 @@ class CandidateUpdateForm extends Component {
 				mobile: '',
 				birthdate: '',
 				note: '',
+				candidateStatusCode: '',
 				
-				
-				redirect: false
+				redirect: false,
+				candidateStates : [{label: "aaa 100", value: 100}, {label: "bbb 200", value: 200}]
 		}
 		
 		this.loggedUserId = Commons.getUserLoggedId() ;
+	}
+	
+	fetchCandidateStates = () =>{
+		Commons.executeFetch (Constants.FULL_CANDIDATE_STATES_API_URI, 'GET', this.setCandidateStates);
+	}
+    
+	setCandidateStates = (responseData) => {
+    	let newOptions = [] ;
+    	for (let currOpt of responseData) {
+    		newOptions.push({label: currOpt.statusLabel, value: currOpt.statusCode});
+    	}
+		this.setState({ candidateStates: newOptions });
 	}
 	
 	fetchCourseCodes = () =>{
@@ -66,7 +79,7 @@ class CandidateUpdateForm extends Component {
 		Commons.debugMessage("CandidateUpdateForm.setCurrentCandidate - START - destructuring");
 		let {id, firstname, lastname, email, courseCode, imgpath, cvExternalPath, 
 			domicileCity, studyQualification, graduate, highGraduate, stillHighStudy,
-			mobile, note, dateOfBirth:birthdate} = responseData ;
+			mobile, note, dateOfBirth:birthdate, candidateStatusCode} = responseData ;
 		this.setState({ 
 			    id: id,
 			    firstname: firstname,
@@ -83,6 +96,7 @@ class CandidateUpdateForm extends Component {
 			    birthdate: (birthdate!==null?birthdate:''),
 			    note: (note!==null?note:''),
 			    mobile: (mobile!==null?mobile:''),
+			    candidateStatusCode: candidateStatusCode
 			});
 	}
 	  
@@ -129,7 +143,7 @@ class CandidateUpdateForm extends Component {
 	    formData.append("highGraduate", this.state.highGraduate);
 	    formData.append("stillHighStudy", this.state.stillHighStudy);
 	    
-	    if ((this.state.mobile!==undefined)&&(this.state.mobile!==null)&&(this.state.mobile.length==10)) {	    	
+	    if ((this.state.mobile!==undefined)&&(this.state.mobile!==null)&&(this.state.mobile.length===10)) {	    	
 	    	formData.append("mobile", this.state.mobile);
 	    }
 	    if ((this.state.birthdate!==undefined)&&(this.state.birthdate!==null)&&(this.state.birthdate.length>0)) {
@@ -141,12 +155,12 @@ class CandidateUpdateForm extends Component {
 	        formData.append("note", this.state.note);
 	    }
 	    
+	    formData.append("candidateStatusCode", this.state.candidateStatusCode);
 	    
 	    
 	    
 	    
-	    
-	    formData.append("candidateStatusCode", 100);
+//	    formData.append("candidateStatusCode", 100);
 	    
 //	    Commons.debugMessage(formData);
 	    Commons.executeFetch (Constants.FULL_CANDIDATE_API_URI + this.state.currentCandidateId, 'PUT', this.redirectToCandidatesList, this.callbackKoFunction, formData);
@@ -154,7 +168,7 @@ class CandidateUpdateForm extends Component {
 	}
 	
 	callbackKoFunction = () => {
-		alert ("INSERIMENTO KO") ;
+		alert ("MODIFICA KO") ;
 	}
 	
 	redirectToCandidatesList = () => {
@@ -187,6 +201,12 @@ class CandidateUpdateForm extends Component {
 	    this.setState({[name]: checked});
 	    console.log(this.state);
 	}
+    
+    handleCandidatesStatesChange(selectedOption) {
+    	console.log(selectedOption);
+        this.setState({candidateStatusCode: selectedOption.value});
+//        this.props.setCandidateNewPositionCode(selectedOption.value);
+    }
     
     goBack(event){
     	event.preventDefault();
@@ -309,21 +329,21 @@ class CandidateUpdateForm extends Component {
 				            <div className="row">
 				                <div className="col-25">
 				                    <label>Posizione</label>
-				              </div>
-				              <div className="col-75">
-				              {/*
-					              <select name="positionCode" className="candidate-input-form" onChange={this.handleInputChange} required>
-					              {this.state.courseCodes.map((e, key) => {
-							        	if (this.state.candidate.courseCode===e.code) {
-							        		return <option key={key} defaultValue value={e.code}>{e.title}</option>;	
-							        	} else {
-							        		return <option key={key} value={e.code}>{e.title}</option>;
-							        	}
-							        })}
-						          </select>
-						       */}
-						          <CandidateUpdateFormPositionCodeSelect defaultValue={this.state.courseCode} setCandidateNewPositionCode={this.setCandidateNewPositionCode}/>
-				              </div>
+				                </div>
+								<div className="col-75">
+								  {/*
+								      <select name="positionCode" className="candidate-input-form" onChange={this.handleInputChange} required>
+								      {this.state.courseCodes.map((e, key) => {
+								        	if (this.state.candidate.courseCode===e.code) {
+								        		return <option key={key} defaultValue value={e.code}>{e.title}</option>;	
+								        	} else {
+								        		return <option key={key} value={e.code}>{e.title}</option>;
+								        	}
+								        })}
+								      </select>
+								   */}
+								  <CandidateUpdateFormPositionCodeSelect defaultValue={this.state.courseCode} setCandidateNewPositionCode={this.setCandidateNewPositionCode}/>
+								</div>
 				            </div>
 				            <div className="row">
 				                <div className="col-25">
@@ -346,13 +366,25 @@ class CandidateUpdateForm extends Component {
 				                </div>
 				            </div>
 				            <div className="row">
-			                <div className="col-25">
-			                    <label>Note tecniche</label>
-			                </div>
-			                <div className="col-75">
-			                    <textarea value={this.state.note} name="note" onChange={this.handleInputChange} rows="10" className="note-textarea" />
-			                </div>
-			            </div>
+				                <div className="col-25">
+				                    <label>Note tecniche</label>
+				                </div>
+				                <div className="col-75">
+				                    <textarea value={this.state.note} name="note" onChange={this.handleInputChange} rows="10" className="note-textarea" />
+				                </div>
+				            </div>
+				            <div className="row">
+				                <div className="col-25">
+				                    <label>Stato candidatura</label>
+				                </div>
+								<div className="col-75">
+								<Select
+					                value={this.state.candidateStates.filter(({value}) => value === this.state.candidateStatusCode)}
+					                onChange={this.handleCandidatesStatesChange}
+					                options={this.state.candidateStates}
+					            />
+								</div>
+				            </div>
 				            <div className="row insert-form-buttons">
 				                <Button type="submit" variant="secondary">MODIFICA</Button>
 				                &nbsp;&nbsp;&nbsp;&nbsp;

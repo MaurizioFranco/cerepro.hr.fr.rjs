@@ -11,5 +11,7 @@ export const DANGER_ALERT_DIALOG = "danger" ;
 
 export const COURSE_CODE_API = '/api/v1/coursepage/' ;
 export const CANDIDATE_API = '/api/v1/candidatecustom/' ;
+export const CANDIDATE_STATES_API = '/api/v1/candidateStates/' ;
 export const FULL_COURSECODE_API_URI = BACKEND_API_PREFIX + COURSE_CODE_API ;
 export const FULL_CANDIDATE_API_URI  = BACKEND_API_PREFIX + CANDIDATE_API ;
+export const FULL_CANDIDATE_STATES_API_URI  = BACKEND_API_PREFIX + CANDIDATE_STATES_API ;
