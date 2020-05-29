@@ -7,7 +7,8 @@ pipeline {
     }
     environment {                    
         PACKAGE_FILE_NAME = "cerepro.hr.fe.rjs" ;
-        ARTIFACT_FULL_FILE_NAME = "centauri.tar"              
+        ARTIFACT_FILE_NAME = "centauri"
+        ARTIFACT_FILE_EXTENSION = ".tar"              
         APPLICATION_DOCKER_HOST = "rastaban"
         DEV_SERVICES_EXPOSED_PORT="9060"
         STAGE_SERVICES_EXPOSED_PORT="9061"
@@ -22,6 +23,7 @@ pipeline {
             environment {
                 ENV = "dev"
                 SERVICES_EXPOSED_PORT = "${DEV_SERVICES_EXPOSED_PORT}" 
+                ARTIFACT_FULL_FILE_NAME = ${ARTIFACT_FILE_NAME}_${ENV}${ARTIFACT_FILE_EXTENSION}
             }
             steps {
                 echo "ready to download dependencies"
@@ -29,7 +31,8 @@ pipeline {
 	            echo "ready to build optimized build"
 	            sh "npm run build"
 	            sh "cd build && tar -cvf ${ARTIFACT_FULL_FILE_NAME} ."
-	            
+	            archiveArtifacts artifacts: "${ARTIFACT_FULL_FILE_NAME}", onlyIfSuccessful: true
+                archiveArtifacts artifacts: "Dockerfile", onlyIfSuccessful: true
 	            /*
 	            sh "mkdir -p ${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/${ENV}"
 	            sh "cp ./target/${ARTIFACT_FULL_FILE_NAME} ${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/${ENV}"
