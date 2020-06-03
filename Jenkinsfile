@@ -23,7 +23,7 @@ pipeline {
             environment {
                 ENV = "dev"
                 SERVICES_EXPOSED_PORT = "${DEV_SERVICES_EXPOSED_PORT}" 
-                ARTIFACT_FULL_FILE_NAME = ${ARTIFACT_FILE_NAME}_${ENV}${ARTIFACT_FILE_EXTENSION}
+                ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}${ARTIFACT_FILE_EXTENSION}"
             }
             steps {
                 echo "ready to download dependencies"
