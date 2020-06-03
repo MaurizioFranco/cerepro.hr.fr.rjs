@@ -4,7 +4,7 @@ import './App.css';
 
 
 
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 
 import MainView from "./components/MainView.js";
 import LoginView from "./components/LoginView.js";
@@ -13,13 +13,13 @@ import LoginView from "./components/LoginView.js";
 function App() {
   
   return (
-        <BrowserRouter>
+        <HashRouter>
 		    <Switch>
 		       <Route path='/login' component={LoginView} />
 		       <Route path="/" component={MainView}/>
 		    </Switch>
             
-		</BrowserRouter>
+		</HashRouter>
   );
 }
 
