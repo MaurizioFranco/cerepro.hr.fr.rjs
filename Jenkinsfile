@@ -5,8 +5,9 @@ pipeline {
         booleanParam(name: 'PROMOTE_ON_PRODUCTION', defaultValue: false,
             description: 'Al termine di questa pipeline, vuoi consentire la promozione in ambiente di Produzione?')
     }
-    environment {                    
+    environment {  
         ARTIFACT_FILE_NAME = "cerepro.hr.fe.rjs" 
+        REMOTE_WORKING_DIR = "${ARTIFACT_FILE_NAME}"
         ARTIFACT_FILE_EXTENSION = ".tar"              
         APPLICATION_DOCKER_HOST = "rastaban"
         SERVICE_SOURCE_PORT = "80"
@@ -44,8 +45,8 @@ pipeline {
             }
             steps {
 	            echo "MOVING files on docker host"
-                sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} ${ARTIFACT_FULL_FILE_NAME} cerepro_resources ${APPLICATION_DOCKER_HOST} ${ENV}"
-                sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} Dockerfile cerepro_resources ${APPLICATION_DOCKER_HOST} ${ENV}"	            
+                sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} ${ARTIFACT_FULL_FILE_NAME} cerepro_resources/${REMOTE_WORKING_DIR} ${APPLICATION_DOCKER_HOST} ${ENV}"
+                sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} Dockerfile cerepro_resources/${REMOTE_WORKING_DIR} ${APPLICATION_DOCKER_HOST} ${ENV}"	            
             }
         }
         stage ("DELIVERY DEVELOPMENT ARTIFACT") {
@@ -56,7 +57,7 @@ pipeline {
             }
             steps {
                 echo "EXECUTING ${ENV} ENVIRONEMNT PROMOTION"
-                sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER} ${SERVICE_SOURCE_PORT}"	            
+                sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER} ${SERVICE_SOURCE_PORT} ${REMOTE_WORKING_DIR}"	            
             }
         }
         /*
@@ -76,7 +77,7 @@ pipeline {
                 sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} ${ARTIFACT_FULL_FILE_NAME} cerepro_resources ${APPLICATION_DOCKER_HOST} ${ENV}"
                 sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} Dockerfile cerepro_resources ${APPLICATION_DOCKER_HOST} ${ENV}"
                 echo "EXECUTING DEV ENVIRONEMNT PROMOTION"
-                sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER}"
+                sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER} ${SERVICE_SOURCE_PORT}"
             }
         }
         stage ("PREPARE AND DELIVERY FOR PRODUCTION ENVIRONMENT --> DOCKERIZED") {
@@ -96,7 +97,7 @@ pipeline {
                 sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} ${ARTIFACT_FULL_FILE_NAME} cerepro_resources ${APPLICATION_DOCKER_HOST} ${ENV}"
                 sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} Dockerfile cerepro_resources ${APPLICATION_DOCKER_HOST} ${ENV}"
                 echo "EXECUTING DEV ENVIRONEMNT PROMOTION"
-                sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER}"
+                sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER} ${SERVICE_SOURCE_PORT}"
             }
         }
         */
