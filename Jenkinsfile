@@ -28,6 +28,8 @@ pipeline {
             steps {
                 echo "ready to download dependencies"
 	            sh "npm install && npm audit fix"
+	            echo "preparing .env"
+	            sh "rm .env && cp .env.DEV .env"
 	            echo "preparing env.js"
 	            sh "rm ./src/env.js && cp ./src/env.js.DEV ./src/env.js"
 	            echo "ready to build optimized build"
