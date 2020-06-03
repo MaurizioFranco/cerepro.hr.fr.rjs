@@ -28,6 +28,8 @@ pipeline {
             steps {
                 echo "ready to download dependencies"
 	            sh "npm install && npm audit fix"
+	            echo "preparing env.js"
+	            sh "rm ./src/env.js && cp ./src/env.js.DEV ./src/env.js"
 	            echo "ready to build optimized build"
 	            sh "npm run build"
 	            sh "cd build && rm -Rf cancv && rm -Rf canimg && tar -cvf ${ARTIFACT_FULL_FILE_NAME} ."
