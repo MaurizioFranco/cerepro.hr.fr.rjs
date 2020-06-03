@@ -23,14 +23,14 @@ pipeline {
             environment {
                 ENV = "dev"
                 SERVICES_EXPOSED_PORT = "${DEV_SERVICES_EXPOSED_PORT}" 
-                ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}${ARTIFACT_FILE_EXTENSION}"
+                ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
             }
             steps {
                 echo "ready to download dependencies"
 	            sh "npm install && npm audit fix"
 	            echo "ready to build optimized build"
 	            sh "npm run build"
-	            sh "cd build && tar -cvf ${ARTIFACT_FULL_FILE_NAME} ."
+	            sh "cd build && rm -Rf cancv && rm -Rf canimg && tar -cvf ${ARTIFACT_FULL_FILE_NAME} ."
 	            sh "cp ./build/${ARTIFACT_FULL_FILE_NAME} ."
 	            archiveArtifacts artifacts: "${ARTIFACT_FULL_FILE_NAME}", onlyIfSuccessful: true
                 archiveArtifacts artifacts: "Dockerfile", onlyIfSuccessful: true
