@@ -19,7 +19,7 @@ pipeline {
         PROD_info_app_environment_PROPERTY="PROD"        
     }
     stages {   
-        stage ("PREPARE AND DELIVERY FOR DEVELOPMENT ENVIRONMENT --> DOCKERIZED") {
+        stage ("BUILD AND ARCHIVE DEVELOPMENT ARTIFACT") {
             environment {
                 ENV = "dev"
                 SERVICES_EXPOSED_PORT = "${DEV_SERVICES_EXPOSED_PORT}" 
@@ -34,15 +34,40 @@ pipeline {
 	            sh "cp ./build/${ARTIFACT_FULL_FILE_NAME} ."
 	            archiveArtifacts artifacts: "${ARTIFACT_FULL_FILE_NAME}", onlyIfSuccessful: true
                 archiveArtifacts artifacts: "Dockerfile", onlyIfSuccessful: true
+            }
+        }
+        stage ("DEPLOY DEVELOPMENT ARTIFACT") {
+            environment {
+                ENV = "dev"
+                SERVICES_EXPOSED_PORT = "${DEV_SERVICES_EXPOSED_PORT}" 
+                ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
+            }
+            steps {
+	            echo "MOVING files on docker host"
+                sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} ${ARTIFACT_FULL_FILE_NAME} cerepro_resources ${APPLICATION_DOCKER_HOST} ${ENV}"
+                sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} Dockerfile cerepro_resources ${APPLICATION_DOCKER_HOST} ${ENV}"
 	            /*
 	            sh "mkdir -p ${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/${ENV}"
 	            sh "cp ./Dockerfile ${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/${ENV}"
-	            echo "MOVING files on docker host"
 	            sh "cp ./target/${ARTIFACT_FULL_FILE_NAME} ./${ARTIFACT_FULL_FILE_NAME}"
-                sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} ${ARTIFACT_FULL_FILE_NAME} cerepro_resources ${APPLICATION_DOCKER_HOST} ${ENV}"
-                sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} Dockerfile cerepro_resources ${APPLICATION_DOCKER_HOST} ${ENV}"
-                echo "EXECUTING DEV ENVIRONEMNT PROMOTION"
+                echo "EXECUTING ${ENV} ENVIRONEMNT PROMOTION"
                 sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER}"
+                */
+            }
+        }
+        stage ("DELIVERY DEVELOPMENT ARTIFACT") {
+            environment {
+                ENV = "dev"
+                SERVICES_EXPOSED_PORT = "${DEV_SERVICES_EXPOSED_PORT}" 
+                ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
+            }
+            steps {
+                echo "EXECUTING ${ENV} ENVIRONEMNT PROMOTION"
+                sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER}"
+	            /*
+	            sh "mkdir -p ${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/${ENV}"
+	            sh "cp ./Dockerfile ${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/${ENV}"
+	            sh "cp ./target/${ARTIFACT_FULL_FILE_NAME} ./${ARTIFACT_FULL_FILE_NAME}"
                 */
             }
         }
