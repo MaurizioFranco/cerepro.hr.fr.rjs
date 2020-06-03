@@ -31,11 +31,11 @@ pipeline {
 	            echo "ready to build optimized build"
 	            sh "npm run build"
 	            sh "cd build && tar -cvf ${ARTIFACT_FULL_FILE_NAME} ."
+	            sh "cp ./build/${ARTIFACT_FULL_FILE_NAME} ."
 	            archiveArtifacts artifacts: "${ARTIFACT_FULL_FILE_NAME}", onlyIfSuccessful: true
                 archiveArtifacts artifacts: "Dockerfile", onlyIfSuccessful: true
 	            /*
 	            sh "mkdir -p ${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/${ENV}"
-	            sh "cp ./target/${ARTIFACT_FULL_FILE_NAME} ${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/${ENV}"
 	            sh "cp ./Dockerfile ${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/${ENV}"
 	            echo "MOVING files on docker host"
 	            sh "cp ./target/${ARTIFACT_FULL_FILE_NAME} ./${ARTIFACT_FULL_FILE_NAME}"
