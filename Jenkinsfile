@@ -23,7 +23,6 @@ pipeline {
         stage ("BUILD AND ARCHIVE DEVELOPMENT ARTIFACT") {
             environment {
                 ENV = "dev"
-                SERVICES_EXPOSED_PORT = "${DEV_SERVICES_EXPOSED_PORT}" 
                 ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
             }
             steps {
@@ -40,7 +39,6 @@ pipeline {
         stage ("DEPLOY DEVELOPMENT ARTIFACT") {
             environment {
                 ENV = "dev"
-                SERVICES_EXPOSED_PORT = "${DEV_SERVICES_EXPOSED_PORT}" 
                 ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
             }
             steps {
@@ -57,7 +55,7 @@ pipeline {
             }
             steps {
                 echo "EXECUTING ${ENV} ENVIRONEMNT PROMOTION"
-                sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER} ${SERVICE_SOURCE_PORT} ${REMOTE_WORKING_DIR}"	            
+                sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER} ${SERVICE_SOURCE_PORT} ${REMOTE_WORKING_DIR} ${ARTIFACT_FULL_FILE_NAME}"	            
             }
         }
         /*
