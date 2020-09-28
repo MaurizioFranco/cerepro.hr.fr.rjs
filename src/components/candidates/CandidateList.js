@@ -115,7 +115,7 @@ class CandidateList extends Component {
 													<tr>
 														<th>&nbsp;</th>
 														<th></th>
-														<th>Email</th>
+														<th>EMAIL</th>
 														<th>Nome</th>
 														<th>Cognome</th>
 														<th>CV</th>
