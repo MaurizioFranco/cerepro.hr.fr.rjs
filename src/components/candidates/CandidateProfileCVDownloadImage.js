@@ -9,9 +9,9 @@ import { Link } from "react-router-dom";
 class CandidateProfileCVDownloadImage extends Component {
 	
 	render () {
-		if (this.props.cvExternalPath!==null) {
+		if (this.props.cvExternalPath!==null) {			
 			return (
-				    <Link to={Constants.CANDIDATE_PROFILE_CV_RELATIVE_FOLDER+this.props.cvExternalPath} rel="noopener noreferrer" target="_blank" download>
+				    <Link to={process.env.PUBLIC_URL+Constants.CANDIDATE_PROFILE_CV_RELATIVE_FOLDER+this.props.cvExternalPath} rel="noopener noreferrer" target="_blank" download>
 				        <img alt="" src={download_icon} className="profileCvImages" />
 				    </Link>
 				        
