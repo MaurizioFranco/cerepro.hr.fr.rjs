@@ -9,7 +9,6 @@ class CandidateProfileCVDownloadImage extends Component {
 	render () {
 		if (this.props.cvExternalPath!==null) {			
 			return (
-					
 				    <a href={process.env.PUBLIC_URL+Constants.CANDIDATE_PROFILE_CV_RELATIVE_FOLDER+this.props.cvExternalPath} >
 				        <img alt="" src={download_icon} className="profileCvImages" />
 				    </a>
