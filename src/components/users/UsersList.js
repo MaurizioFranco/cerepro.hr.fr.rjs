@@ -140,19 +140,19 @@ class UsersList extends Component {
         }, {
             Header: 'email',
             accessor: 'email',
-            Cell: this.renderEditable
+            // Cell: this.renderEditable
         }, {
             Header: 'firstname',
             accessor: 'firstname',
-            Cell: this.renderEditable
+            // Cell: this.renderEditable
         }, {
             Header: 'lastname',
             accessor: 'lastname',
-            Cell: this.renderEditable
-        }, {
-            Header: 'Price €',
-            accessor: 'price',
-            Cell: this.renderEditable
+            // Cell: this.renderEditable
+        // }, {
+        //     Header: 'Price €',
+        //     accessor: 'price',
+        //     Cell: this.renderEditable
         }, {
             id: 'savebutton',
             sortable: false,
