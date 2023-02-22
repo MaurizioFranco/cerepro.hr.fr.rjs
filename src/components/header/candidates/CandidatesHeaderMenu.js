@@ -19,31 +19,11 @@ export class CandidatesHeaderMenu extends Component {
 		};
 	}
 
-	// fetchPositionCodes = () => {
-	// 	//		console.log("CandidateList.fetchPositionCodes - DEBUG - FULL_API_URI: " + FULL_API_URI);
-	// 	let token = sessionStorage.getItem('headerToken');
-	// 	let headerToken = Commons.getAuthorizationHeaderFromToken(token);
-	// 	fetch(FULL_API_URI, {
-	// 		method: "GET",
-	// 		headers: headerToken
-	// 	})
-	// 		.then((response) => {
-	// 			if (!response.ok) {
-	// 				console.warn(response.status);
-	// 			}
-	// 			else return response.json();
-	// 		})
-	// 		.then((data) => {
-	// 			this.setState({ position_codes: data });
-	// 		})
-	// }
-
 	setPositionCodes = (data) => {
 		this.setState({ position_codes: data });
 	}
 
 	componentDidMount() {
-		// this.fetchPositionCodes();
 		Commons.executeFetch(FULL_API_URI, "GET", this.setPositionCodes);
 	}
 

@@ -7,6 +7,7 @@ import CandidateInsertView from "./CandidateInsertView.js";
 import PositionsView from "./PositionsView.js";
 import NewPositionView from "./NewPositionView.js";
 import CandidatesStatisticsView from "./candidates/statistics/CandidatesStatisticsView.js";
+import UsersView from "./users/UsersView.js";
 import HomeView from "./HomeView.js";
 import CandidateUpdateView from "./candidates/update/CandidateUpdateView.js" ;
 import { ModalLoadingSpinnerComponent} from './loader/ModalLoadingSpinnerComponent';
@@ -47,6 +48,8 @@ class MainView extends Component {
 						<Route exact path="/newPosition" component={NewPositionView}/>
 					    <Route exact path="/positionsList" component={PositionsView}/>
 						<Route exact path="/candidatesStatistics" component={CandidatesStatisticsView}/>
+						<Route exact path="/users" component={UsersView}/>
+						<Route exact path="/roles" component={CandidatesStatisticsView}/>
 						
 				    </div>
 			    </Container>
