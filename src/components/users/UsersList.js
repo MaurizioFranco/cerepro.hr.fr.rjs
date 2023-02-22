@@ -24,6 +24,10 @@ class UsersList extends Component {
         this.state = { cars: [] };
     }
 
+    getUsers = () => {
+        Commons.executeFetch(Constants.USER_API_URI, "GET", this.setUsers);
+    }
+
     setUsers = (data) => {
         this.setState({
             cars: data
@@ -31,7 +35,7 @@ class UsersList extends Component {
     }
 
     componentDidMount() {        
-        Commons.executeFetch(Constants.USER_API_URI, "GET", this.setUsers);
+        this.getUsers () ;
     }
 
     confirmDelete = (id) => {
@@ -49,44 +53,46 @@ class UsersList extends Component {
         })
     }
 
-    insertError = (err) => {
-        toast.error("Error when deleting", {
-            position: toast.POSITION.BOTTOM_LEFT
-        });
-        console.error(err)
-    }
-
+    
     // Delete car
     onDelClick = (id) => {
         // fetch(BACKEND_APPLICATION_ROOT + 'v1/cars/' + id, { method: 'DELETE' })
         // .then(res => {
         //         if (res.status===200) {
-        //             toast.success("Car deleted OK!!!!!!!!", {
-        //             position: toast.POSITION.BOTTOM_LEFT
-        //             });
+            //             toast.success("Car deleted OK!!!!!!!!", {
+                //             position: toast.POSITION.BOTTOM_LEFT
+                //             });
         //             this.fetchCars();
         //         } else {
-        //             this.insertError (res) ;
-        //         }
-        //     })
-        //     .catch(err => {
-        //         this.insertError (err) ;            
+            //             this.insertError (res) ;
+            //         }
+            //     })
+            //     .catch(err => {
+                //         this.insertError (err) ;            
         //     })
     }
+    
+    // addUser(item) {
+    //     Commons.executeFetch(Constants.USER_API_URI, "POST", this.insertSuccess, this.insertError, item);        
+    // }
+    
+    // insertError = (err) => {
+    //     toast.error("Error when trying to deleting user...", {
+    //         position: toast.POSITION.BOTTOM_LEFT
+    //     });
+    //     console.error(err)
+    // }
 
-    // Add new car
-    addCar(car) {
-        // fetch(BACKEND_APPLICATION_ROOT + 'v1/cars',
-        //     {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(car)
-        //     })
-        //     .then(res => this.fetchCars())
-        //     .catch(err => console.error(err))
-    }
+    // insertSuccess = (response) => {
+    //     if (response.status===201) {
+    //         toast.success("User successfully inserted", {
+    //             position: toast.POSITION.BOTTOM_LEFT
+    //         });
+    //         this.fetchCars();
+    //     } else {
+    //         this.insertError (response) ;
+    //     }
+    // }
 
     renderEditable = (cellInfo) => {
         return (
@@ -172,7 +178,8 @@ class UsersList extends Component {
         return (
             <div className="App">
                     {/* <CSVLink data={this.state.cars} separator=";">Export CSV</CSVLink> */}
-                    <AddUser addCar={this.addCar} fetchCars={this.fetchCars}/>
+                    {/* <AddUser addUser={this.addUser} fetchCars={this.fetchCars}/> */}
+                    <AddUser refreshUserList={this.getUsers}/>
                     <ReactTable data={this.state.cars} columns={columns} filterable={true} />
                     <ToastContainer autoClose={1500} />
             </div>

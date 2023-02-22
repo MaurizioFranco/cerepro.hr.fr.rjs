@@ -1,6 +1,12 @@
 import React from 'react';
 import SkyLight from 'react-skylight';
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import * as Commons from '../../commons.js';
+import * as Constants from '../../constants.js';
+
 class AddUser extends React.Component {
     constructor(props) {
         super(props);
@@ -17,14 +23,45 @@ class AddUser extends React.Component {
     // Save car and close modal form
     handleSubmit = (event) => {
         event.preventDefault();
-        var newCar = {
-            brand: this.state.brand, model: this.state.model,
-            color: this.state.color, years: this.state.years,
-            price: this.state.price
+        var item = {
+            email: this.state.email, firstname: this.state.firstname,
+            lastname: this.state.lastname, password: this.state.password            
         };
-        this.props.addCar(newCar);
-        this.gridRef.current.hide();
+        // const formData = new FormData();
+	    // formData.append("firstname", this.state.firstname);
+	    // formData.append("lastname", this.state.lastname);
+	    // formData.append("email", this.state.email);
+	    // formData.append("password", this.password );
+        // console.log(item);
+        this.addUser(item);        
     }
+
+    addUser(item) {
+        Commons.executeFetch(Constants.USER_API_URI, "POST", this.insertSuccess, this.insertError, JSON.stringify(item), true);        
+    }
+    
+    insertError = (err) => {
+        console.log("INSERT USER KO");
+        toast.error(err.errorMessage, {
+            position: toast.POSITION.BOTTOM_LEFT
+        });
+        console.error(err)
+    }
+
+    insertSuccess = (response) => {
+        console.log("INSERT USER SUCCESS");
+        console.log(response);
+        // if (response.status===201) {
+            toast.success("User successfully inserted", {
+                position: toast.POSITION.BOTTOM_LEFT
+            });
+            this.gridRef.current.hide();
+            this.props.refreshUserList();
+        // } else {
+            // this.insertError (response) ;
+        // }
+    }
+
     // Cancel and close modal form
     cancelSubmit = (event) => {
         event.preventDefault();
@@ -35,17 +72,17 @@ class AddUser extends React.Component {
         return (
             <div>
                 <SkyLight hideOnOverlayClicked ref={this.gridRef}>
-                    <h3>New car</h3>
+                    <h3>New user</h3>
                     <form>
-                        <input type="text" placeholder="Brand" name="brand"
+                        <input type="text" placeholder="email" name="email"
                             onChange={this.handleChange} /><br />
-                        <input type="text" placeholder="Model" name="model"
+                        <input type="text" placeholder="firstname" name="firstname"
                             onChange={this.handleChange} /><br />
-                        <input type="text" placeholder="Color" name="color"
+                        <input type="text" placeholder="lastname" name="lastname"
                             onChange={this.handleChange} /><br />
-                        <input type="text" placeholder="Year" name="years"
+                        <input type="password" placeholder="password" name="password"
                             onChange={this.handleChange} /><br />
-                        <input type="text" placeholder="Price" name="price"
+                        <input type="password" placeholder="repeat-password" name="repeat-password"
                             onChange={this.handleChange} /><br />
                         <button onClick={this.handleSubmit}>Save</button>
                         <button onClick={this.cancelSubmit}>Cancel</button>
@@ -53,7 +90,7 @@ class AddUser extends React.Component {
                 </SkyLight>
                 <div>
                     <button style={{ 'margin': '10px' }}
-                        onClick={() => this.gridRef.current.show()}>New car</button>
+                        onClick={() => this.gridRef.current.show()}>New User</button>
                 </div>
             </div>
         );
