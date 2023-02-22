@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './CandidatesStatisticsView.css';
 import * as Constants from '../../../constants';
 import * as Commons from '../../../commons.js';
-import BarChart from './BarChart';
+// import BarChart from './BarChart';
 
 const CANDIDATE_API = '/api/v1/candidate/';
 const FULL_API_URI = Constants.BACKEND_API_PREFIX + CANDIDATE_API;
@@ -55,7 +55,7 @@ class CandidatesStatisticsView extends Component {
 	render() {
 		return (
 			<div>
-				<BarChart labels={this.state.labels} data={this.state.data} />
+				{/* <BarChart labels={this.state.labels} data={this.state.data} /> */}
 			</div>
 		);
 	}
