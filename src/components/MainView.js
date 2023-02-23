@@ -14,6 +14,7 @@ import CandidateUpdateView from "./candidates/update/CandidateUpdateView.js" ;
 import { ModalLoadingSpinnerComponent} from './loader/ModalLoadingSpinnerComponent';
 import './MainView.css';
 import { Container } from 'react-bootstrap';
+import QuestionView from './QuestionView';
 
 class MainView extends Component {
 	constructor (props) {
@@ -52,6 +53,7 @@ class MainView extends Component {
 						<Route exact path="/users" component={UsersView}/>
 						<Route exact path="/roles" component={CandidatesStatisticsView}/>
 						<Route exact path="/coursepage" component={CoursePagesView}/>
+						<Route exact path="/question" component={QuestionView}/>
 						
 				    </div>
 			    </Container>
