@@ -1,366 +1,219 @@
-import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router";
+import React, { Component } from 'react';
+
+import * as Commons from '../../commons.js';
+import * as Constants from '../../constants.js';
+import AddCandidateStates from './AddCandidateStates.js';
+
 import ReactTable from "react-table-6";
-import "react-table-6/react-table.css";
-import * as Constants from "../../constants";
+import 'react-table-6/react-table.css';
 
-function CandidateStatesList() {
-  const [candidateStates, setCandidateStates] = useState([]);
-  const [showInsertModal, setShowInsertModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedState, setSelectedState] = useState(null);
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(Constants.FULL_CANDIDATE_STATES_API_URI, {
-        headers: {
-          Authorization: "Basic " + btoa("9@9.9:9"),
-        },
-      });
-      const data = await response.json();
-      setCandidateStates(data);
-    };
-    fetchData();
-  }, []);
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
-  async function handleInsertSubmit(formData) {
-    const response = await fetch(
-        Constants.FULL_CANDIDATE_STATES_API_URI,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Basic ' + btoa('9@9.9:9'),
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-      const data = await response.json();
-    setCandidateStates([...candidateStates, formData]);
-    setShowInsertModal(false);
-  }
+// import { CSVLink } from 'react-csv';
 
-  async function handleEditSubmit(formData) {
-    const response = await fetch(
-      Constants.FULL_CANDIDATE_STATES_API_URI + '/' + formData.id,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + btoa('9@9.9:9'),
-        },
-        body: JSON.stringify(formData),
-      }
-    );
-    const data = await response.json();
-    setCandidateStates(
-      candidateStates.map((state) => {
-        if (state.id === formData.id) {
-          return data;
-        }
-        return state;
-      })
-    );
-    setShowEditModal(false);
-  }
+class CandidateStatesList extends Component {
 
-  async function handleDeleteClick(state) {
-    const response = await fetch(
-      Constants.FULL_CANDIDATE_STATES_API_URI + '/' + state.id,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: 'Basic ' + btoa('9@9.9:9'),
-        },
-      }
-    );
-    if (response.ok) {
-      setCandidateStates(
-        candidateStates.filter((s) => s.id !== state.id)
-      );
+    constructor(props) {
+        super(props);
+        this.state = { candidateStates: [] };
     }
-  }
 
+    getCandidateStates = () => {
+        Commons.executeFetch(Constants.FULL_CANDIDATE_STATES_API_URI, "GET", this.setCandidateStates);
+    }
 
-  function CustomColorCell(props) {
-    const { value } = props;
-    return (
-      <div style={{ backgroundColor: value, height: "100%", width: "100%" }} />
-    );
-  }
+    setCandidateStates = (data) => {
+        this.setState({
+            candidateStates: data
+        });
+    }
 
-  const columns = [
-    {
-      Header: "ID",
-      accessor: "id",
-      width: 42,
-    },
-    {
-      Header: "Status Code",
-      accessor: "statusCode",
-      width: 90,
-    },
-    {
-      Header: "Status Label",
-      accessor: "statusLabel",
-    },
-    {
-      Header: "Status Description",
-      accessor: "statusDescription",
-    },
-    {
-      Header: "Status Color",
-      accessor: "statusColor",
-      Cell: CustomColorCell,
-      width: 100,
-    },
-    {
-      Header: "Actions",
-      Cell: (props) => {
-        const { original } = props;
+    componentDidMount() {        
+        this.getCandidateStates () ;
+    }
+
+    confirmDelete = (id) => {
+        confirmAlert({
+            message: 'Are you sure to delete?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => this.onDelClick(id)
+                },
+                {
+                    label: 'No',
+                }
+            ]
+        })
+    }
+
+    
+    // Delete candidateState
+    onDelClick = (id) => {
+    //const accessToken = localStorage.getItem('accessToken');
+    fetch(`http://centauri.proximainformatica.com/cerepro.hr.backend/dev/api/v1/candidateStates/${id}`, {
+    method: 'DELETE',
+    headers: {
+        //'Authorization': `Bearer ${accessToken}`
+        Authorization: 'Basic ' + btoa('9@9.9:9')
+      }
+  })
+    .then(response => {
+      if (response.ok) {
+        toast.success("Candidate state deleted successfully!", {
+          position: toast.POSITION.BOTTOM_LEFT
+        });
+        const candidateStates = this.state.candidateStates.filter(candidateState => candidateState.id !== id);
+        this.setState({ candidateStates: candidateStates });
+      } else {
+        toast.error("Error deleting the candidate state!", {
+          position: toast.POSITION.BOTTOM_LEFT
+        });
+      }
+    })
+    .catch(error => {
+      toast.error("Error deleting the candidate state!", {
+        position: toast.POSITION.BOTTOM_LEFT
+      });
+      console.error('Error:', error);
+    });
+}
+    
+    // addCandidateStates(item) {
+    //     Commons.executeFetch(Constants.FULL_CANDIDATE_STATES_API_URI, "POST", this.insertSuccess, this.insertError, item);        
+    // }
+    
+    // insertError = (err) => {
+    //     toast.error("Error when trying to deleting user...", {
+    //         position: toast.POSITION.BOTTOM_LEFT
+    //     });
+    //     console.error(err)
+    // }
+
+    // insertSuccess = (response) => {
+    //     if (response.status===201) {
+    //         toast.success("CandidateStates successfully inserted", {
+    //             position: toast.POSITION.BOTTOM_LEFT
+    //         });
+    //         this.fetchCandidateStates();
+    //     } else {
+    //         this.insertError (response) ;
+    //     }
+    // }
+
+    renderEditable = (cellInfo) => {
         return (
-          <div>
-            <button
-              onClick={() => {
-                setSelectedState(original);
-                setShowEditModal(true);
-              }}
-            >
-              Edit
-            </button>
-            <button onClick={() => handleDeleteClick(original)}>Delete</button>
-          </div>
+            <div
+                style={{ backgroundColor: "#fafafa" }}
+                contentEditable
+                suppressContentEditableWarning
+                onBlur={e => {
+                    const data = [...this.state.candidateStates];
+                    data[cellInfo.index][cellInfo.column.id] =
+                        e.target.innerHTML;
+                    this.setState({ candidateStates: data });
+                }}
+                dangerouslySetInnerHTML={{
+                    __html: this.state.candidateStates[cellInfo.index][cellInfo.column.id]
+                }}
+            />
         );
-      },
-      width: 100,
-    },
-  ];
+    }
 
-  return (
-    <div style={{ margin: "20px" }}>
-      <div style={{ marginBottom: "10px" }}>
-        <button onClick={() => setShowInsertModal(true)}>
-          Add Candidate State
-        </button>
-      </div>
-      <ReactTable
-        data={candidateStates}
-        columns={columns}
-        defaultPageSize={13}
-        style={{ fontSize: "15px" }}
-        getTrProps={(state, rowInfo, column, instance) => {
-          return {
-            style: {
-              backgroundColor:
-                rowInfo && rowInfo.index % 2 === 0 ? "#efefef" : "#fff",
-            },
-          };
-        }}
-      />
-      {showInsertModal && (
-        <Insert
-          onHide={() => setShowInsertModal(false)}
-          onSubmit={handleInsertSubmit}
-        />
-      )}
-      {showEditModal && (
-        <Edit
-          state={selectedState}
-          onHide={() => setShowEditModal(false)}
-          onSubmit={handleEditSubmit}
-        />
-      )}
-    </div>
-  );
+    // Update candidateState
+    updateCandidateState(candidateState, id) {
+        // console.log(candidateState);
+        // const itemToUpdate = {...candidateState};
+        // itemToUpdate.id = id ;
+        // fetch(BACKEND_APPLICATION_ROOT + 'v1/candidateStates',
+        //     {
+        //         method: 'PUT',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(itemToUpdate)
+        //     })
+        //     .then(res =>
+        //         toast.success("Changes saved", {
+        //             position: toast.POSITION.BOTTOM_LEFT
+        //         })
+        //     )
+        //     .catch(err =>
+        //         toast.error("Error when saving", {
+        //             position: toast.POSITION.BOTTOM_LEFT
+        //         })
+        //     )
+    }
+
+    render() {
+        const columns = [{
+            Header: 'ID',
+            accessor: 'id',
+            width: 35,
+            // Cell: this.renderEditable
+        }, {
+            Header: 'Status Code',
+            accessor: 'statusCode',
+            width: 95,
+            // Cell: this.renderEditable
+        }, {
+            Header: 'Status Label',
+            accessor: 'statusLabel',
+            // Cell: this.renderEditable
+        }, {
+            Header: 'Status Description',
+            accessor: 'statusDescription',
+            // Cell: this.renderEditable
+        }, {
+            Header: 'Status Color',
+            accessor: 'statusColor',
+            width: 100,
+            Cell: row => (
+                <div style={{ backgroundColor: row.value, width: '100%', height: '100%' }}>
+                  &nbsp;
+                </div>
+              )
+            // Cell: this.renderEditable
+        }, {
+            id: 'savebutton',
+            sortable: false,
+            filterable: false,
+            width: 70,
+            accessor: 'id',
+            Cell: ({value, row}) =>
+            (<button onClick={()=>{this.updateCandidateState(row, value)}}>
+            Save</button>)
+            }, {
+            id: 'delbutton',
+            sortable: false,
+            filterable: false, width: 70,
+            accessor: 'id',
+            Cell: ({ value }) => (<button onClick={() => { this.confirmDelete(value) }}>Delete</button>)
+        }]
+        return (
+            <div className="App">
+                    {/* <CSVLink data={this.state.candidateStates} separator=";">Export CSV</CSVLink> */}
+                    {/* <AddCandidateStates addCandidateStates={this.addCandidateStates} fetchCandidateStates={this.fetchCandidateStates}/> */}
+                    <AddCandidateStates refreshCandidateStatesList={this.getCandidateStates}/>
+                    <ReactTable
+                    data={this.state.candidateStates} 
+                    columns={columns}
+                    filterable={true}
+                    style={{ fontSize: "15px" }}
+                    getTrProps={(state, rowInfo, column, instance) => {
+                    return {
+                    style: {
+                    backgroundColor: rowInfo && rowInfo.index % 2 === 0 ? "#efefef" : "#fff",
+                            },
+                        };
+                    }} />
+                    <ToastContainer autoClose={1500} />
+            </div>
+        );
+    }
 }
-
-function Insert(props) {
-  const { onHide, onSubmit } = props;
-  const [formData, setFormData] = useState({
-    roleId: "",
-    statusCode: "",
-    statusLabel: "",
-    statusDescription: "",
-    statusColor: "",
-  });
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    onSubmit(formData);
-  }
-
-  return (
-    <div
-      className="modal"
-      style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-    >
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h4 className="modal-title">Add Candidate State</h4>
-            <button type="button" className="close" onClick={onHide}>
-              ×
-            </button>
-          </div>
-          <div className="modal-body">
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="roleId">Role ID</label>
-                <input
-                  type="text"
-                  id="roleId"
-                  name="roleId"
-                  value={formData.roleId}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="statusCode">Status Code</label>
-                <input
-                  type="text"
-                  id="statusCode"
-                  name="statusCode"
-                  value={formData.statusCode}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="statusLabel">Status Label</label>
-                <input
-                  type="text"
-                  id="statusLabel"
-                  name="statusLabel"
-                  value={formData.statusLabel}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="statusDescription">Status Description</label>
-                <input
-                  type="text"
-                  id="statusDescription"
-                  name="statusDescription"
-                  value={formData.statusDescription}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="statusColor">Status Color</label>
-                <input
-                  type="text"
-                  id="statusColor"
-                  name="statusColor"
-                  value={formData.statusColor}
-                  onChange={handleChange}
-                />
-              </div>
-              <button type="submit">Submit</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Edit(props) {
-  const { state, onHide, onSubmit } = props;
-  const [formData, setFormData] = useState({
-    id: state.id,
-    roleId: state.roleId,
-    statusCode: state.statusCode,
-    statusLabel: state.statusLabel,
-    statusDescription: state.statusDescription,
-    statusColor: state.statusColor,
-  });
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    onSubmit(formData);
-  }
-
-  return (
-    <div
-      className="modal"
-      style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-    >
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h4 className="modal-title">Edit Candidate State</h4>
-            <button type="button" className="close" onClick={onHide}>
-              ×
-            </button>
-          </div>
-          <div className="modal-body">
-            <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                <label htmlFor="roleId">Role ID</label>
-                <input
-                  type="text"
-                  id="roleId"
-                  name="roleId"
-                  value={formData.roleId}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="statusCode">Status Code</label>
-                <input
-                  type="text"
-                  id="statusCode"
-                  name="statusCode"
-                  value={formData.statusCode}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="statusLabel">Status Label</label>
-                <input
-                  type="text"
-                  id="statusLabel"
-                  name="statusLabel"
-                  value={formData.statusLabel}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="statusDescription">Status Description</label>
-                <input
-                  type="text"
-                  id="statusDescription"
-                  name="statusDescription"
-                  value={formData.statusDescription}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="statusColor">Status Color</label>
-                <input
-                  type="text"
-                  id="statusColor"
-                  name="statusColor"
-                  value={formData.statusColor}
-                  onChange={handleChange}
-                />
-              </div>
-              <button type="submit">Submit</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default withRouter(CandidateStatesList);
+export default CandidateStatesList ;

@@ -26,7 +26,7 @@ export default class CandidateUpdateFormPositionCodeSelect extends Component {
 //	    }
 
 	    fetchCourseCodes = () =>{
-			Commons.executeFetch (Constants.FULL_COURSECODE_API_URI, 'GET', this.setPositionCodes);
+			Commons.executeFetch (Constants.FULL_COURSEPAGE_API_URI, 'GET', this.setPositionCodes);
 		}
 	    
 	    setPositionCodes = (responseData) => {
