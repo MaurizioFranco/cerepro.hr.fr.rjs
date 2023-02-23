@@ -44,7 +44,7 @@ class UsersList extends Component {
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => this.onDelClick(id)
+                    onClick: () => this.deleteItem(id)
                 },
                 {
                     label: 'No',
@@ -53,24 +53,17 @@ class UsersList extends Component {
         })
     }
 
-    
-    // Delete car
-    onDelClick = (id) => {
-        this.deleteUser(id);
-    }
-    
-    deleteUser(id) {
-        //Commons.executeFetch(Constants.USER_API_URI+id, "DELETE", this.deleteSuccess, Commons.operationError);        
+    deleteItem(id) {
         Commons.executeDelete(Constants.USER_API_URI+id, this.deleteSuccess, Commons.operationError);   
     }
     
-    operationError = (err) => {
-        console.log("INSERT USER KO");
-        toast.error(err.errorMessage, {
-            position: toast.POSITION.BOTTOM_LEFT
-        });
-        console.error(err)
-    }
+    // operationError = (err) => {
+    //     console.log("INSERT USER KO");
+    //     toast.error(err.errorMessage, {
+    //         position: toast.POSITION.BOTTOM_LEFT
+    //     });
+    //     console.error(err)
+    // }
 
     deleteSuccess = (response) => {
         console.log("DELETE USER SUCCESS");

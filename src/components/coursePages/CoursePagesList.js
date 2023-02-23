@@ -43,7 +43,7 @@ class CoursePagesList extends Component {
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => this.onDelClick(id)
+                    onClick: () => this.deleteItem(id)
                 },
                 {
                     label: 'No',
@@ -52,59 +52,54 @@ class CoursePagesList extends Component {
         })
     }
 
-    
-    // Delete coursePage
-    onDelClick = (id) => {
-    //const accessToken = localStorage.getItem('accessToken');
-    fetch(`http://centauri.proximainformatica.com/cerepro.hr.backend/dev/api/v1/coursepage/${id}`, {
-    method: 'DELETE',
-    headers: {
-        //'Authorization': `Bearer ${accessToken}`
-        Authorization: 'Basic ' + btoa('9@9.9:9')
-      }
-  })
-    .then(response => {
-      if (response.ok) {
-        toast.success("Course page deleted successfully!", {
-          position: toast.POSITION.BOTTOM_LEFT
-        });
-        const coursePages = this.state.coursePages.filter(coursePage => coursePage.id !== id);
-        this.setState({ coursePages: coursePages });
-      } else {
-        toast.error("Error deleting the course page!", {
-          position: toast.POSITION.BOTTOM_LEFT
-        });
-      }
-    })
-    .catch(error => {
-      toast.error("Error deleting the course page!", {
-        position: toast.POSITION.BOTTOM_LEFT
-      });
-      console.error('Error:', error);
-    });
-}
-    
-    // addCoursePages(item) {
-    //     Commons.executeFetch(Constants.FULL_CANDIDATE_STATES_API_URI, "POST", this.insertSuccess, this.insertError, item);        
-    // }
-    
-    // insertError = (err) => {
-    //     toast.error("Error when trying to deleting user...", {
-    //         position: toast.POSITION.BOTTOM_LEFT
-    //     });
-    //     console.error(err)
-    // }
+    deleteItem(id) {
+        Commons.executeDelete(Constants.FULL_COURSEPAGE_API_URI+id, this.deleteSuccess, Commons.operationError);   
+    }
 
-    // insertSuccess = (response) => {
-    //     if (response.status===201) {
-    //         toast.success("CoursePages successfully inserted", {
-    //             position: toast.POSITION.BOTTOM_LEFT
-    //         });
-    //         this.fetchCoursePages();
-    //     } else {
-    //         this.insertError (response) ;
-    //     }
-    // }
+    deleteSuccess = (response) => {
+        console.log("DELETE COURSE PAGE SUCCESS");
+        console.log(response);
+        // if (response.status===201) {
+            toast.success("Course page successfully deleted", {
+                position: toast.POSITION.BOTTOM_LEFT
+            });
+            this.getCoursePages();
+        // } else {
+            // this.insertError (response) ;
+        // }
+    }
+
+
+//     // Delete coursePage
+//     onDelClick = (id) => {
+//     //const accessToken = localStorage.getItem('accessToken');
+//     fetch(`http://centauri.proximainformatica.com/cerepro.hr.backend/dev/api/v1/coursepage/${id}`, {
+//     method: 'DELETE',
+//     headers: {
+//         //'Authorization': `Bearer ${accessToken}`
+//         Authorization: 'Basic ' + btoa('9@9.9:9')
+//       }
+//   })
+//     .then(response => {
+//       if (response.ok) {
+//         toast.success("Course page deleted successfully!", {
+//           position: toast.POSITION.BOTTOM_LEFT
+//         });
+//         const coursePages = this.state.coursePages.filter(coursePage => coursePage.id !== id);
+//         this.setState({ coursePages: coursePages });
+//       } else {
+//         toast.error("Error deleting the course page!", {
+//           position: toast.POSITION.BOTTOM_LEFT
+//         });
+//       }
+//     })
+//     .catch(error => {
+//       toast.error("Error deleting the course page!", {
+//         position: toast.POSITION.BOTTOM_LEFT
+//       });
+//       console.error('Error:', error);
+//     });
+// }
 
     renderEditable = (cellInfo) => {
         return (
