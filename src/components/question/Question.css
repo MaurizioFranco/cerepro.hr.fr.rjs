@@ -1,0 +1,51 @@
+#page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #e6e8ec;
+    z-index: 9999;
+  }
+  
+  #page-loader.fade {
+      display:none
+     }
+     #page-loader.fade.in,
+     #page-loader.fade.show {
+      display:block
+     }
+  
+  .h1,
+  h1 {
+    font-size: 36px;
+  }
+  
+  label {
+    color: #242a30;
+    font-weight: 600;
+  }
+  
+  .boxed-layout .page-container {
+    width: 1080px;
+    margin: 0 auto;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    min-height: 100%;
+    background: #d9e0e7;
+    overflow: hidden;
+    position: relative;
+  }
+  .boxed-layout .page-container #header,
+  .boxed-layout .page-container .sidebar,
+  .boxed-layout .page-container .sidebar-bg {
+   left:auto
+  }
+  .boxed-layout .page-container #header {
+   width:1080px;
+   right:auto
+  }
+  .boxed-layout .pace .pace-activity,
+  .boxed-layout .pace .pace-progress,
+  .boxed-layout .page-with-top-menu .top-menu {
+   position:absolute
+  }
