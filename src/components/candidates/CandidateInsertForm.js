@@ -51,7 +51,7 @@ class CandidateInsertForm extends Component {
 	
 	fetchCourseCodes = () =>{
 //		console.log("CandidateInsertForm.fetchCourseCodes - DEBUG - FULL_COURSECODE_API_URI: " + FULL_COURSECODE_API_URI);
-		Commons.executeFetch (Constants.FULL_COURSECODE_API_URI, 'GET', this.setCourseCodes);
+		Commons.executeFetch (Constants.FULL_COURSEPAGE_API_URI, 'GET', this.setCourseCodes);
 	}
 	
 	setCourseCodes = (responseData) => {
