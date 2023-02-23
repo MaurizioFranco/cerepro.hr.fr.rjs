@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    options { timeout(time: 5) }
+    options { timeout(time: 1, unit: 'HOURS') }
     parameters {
         booleanParam(name: 'PROMOTE_ON_PRODUCTION', defaultValue: false,
             description: 'Al termine di questa pipeline, vuoi consentire la promozione in ambiente di Produzione?')
