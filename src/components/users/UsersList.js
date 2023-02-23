@@ -170,7 +170,7 @@ class UsersList extends Component {
             <div className="App">
                     {/* <CSVLink data={this.state.cars} separator=";">Export CSV</CSVLink> */}
                     {/* <AddUser addUser={this.addUser} fetchCars={this.fetchCars}/> */}
-                    <AddUser refreshUserList={this.getUsers}/>
+                    <AddUser refreshUsersList={this.getUsers}/>
                     <ReactTable data={this.state.cars} columns={columns} filterable={true} />
                     <ToastContainer autoClose={1500} />
             </div>

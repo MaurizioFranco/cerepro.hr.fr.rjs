@@ -125,6 +125,9 @@ export function executeFetchWithHeader(uri, method, headerToken, successCallback
 			//   })
 			.then((data) => {
 				console.log("Commons.executeFetchWithHeader - DEBUG - data: " + data);
+				//console.log(data);
+				//console.log(data.status);
+				//console.log(data.status===201);
 				if (method == 'DELETE' && data.status === 204) {
 					successCallbackFunction(data.body);
 				} else if (data.status === 200 || data.status === 201) {

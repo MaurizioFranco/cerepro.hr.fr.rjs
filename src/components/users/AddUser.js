@@ -73,7 +73,7 @@ class AddUser extends React.Component {
                 position: toast.POSITION.BOTTOM_LEFT
             });
             this.gridRef.current.hide();
-            this.props.refreshUserList();
+            this.props.refreshUsersList();
         // } else {
             // this.insertError (response) ;
         // }

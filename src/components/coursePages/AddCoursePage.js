@@ -56,7 +56,7 @@ class AddCoursePages extends React.Component {
                 position: toast.POSITION.BOTTOM_LEFT
             });
             this.gridRef.current.hide();
-            this.props.refreshCoursePageList();
+            this.props.refreshCoursePagesList();
         // } else {
             // this.insertError (response) ;
         // }
