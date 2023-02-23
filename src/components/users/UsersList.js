@@ -55,6 +55,8 @@ class UsersList extends Component {
 
     deleteItem(id) {
         Commons.executeDelete(Constants.USER_API_URI+id, this.deleteSuccess, Commons.operationError);   
+        // Commons.executeDeleteAsync(Constants.USER_API_URI+id, this.deleteSuccess, Commons.operationError);   
+        
     }
     
     // operationError = (err) => {

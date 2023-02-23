@@ -53,12 +53,13 @@ class CoursePagesList extends Component {
     }
 
     deleteItem(id) {
-        Commons.executeDelete(Constants.FULL_COURSEPAGE_API_URI+id, this.deleteSuccess, Commons.operationError);   
+        // Commons.executeDelete(Constants.FULL_COURSEPAGE_API_URI+id, this.deleteSuccess, Commons.operationError);  
+        Commons.executeDelete(Constants.FULL_COURSEPAGE_API_URI+id, this.deleteSuccess, Commons.operationError);  
+        
     }
 
-    deleteSuccess = (response) => {
+    deleteSuccess = () => {
         console.log("DELETE COURSE PAGE SUCCESS");
-        console.log(response);
         // if (response.status===201) {
             toast.success("Course page successfully deleted", {
                 position: toast.POSITION.BOTTOM_LEFT

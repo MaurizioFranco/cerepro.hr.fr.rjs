@@ -39,35 +39,82 @@ export function getUserLoggedId() {
 
 }
 
-export function executeDelete(uri, successCallbackFunction, callbackFunctionKO) {
+// export function executeDelete(uri, successCallbackFunction, callbackFunctionKO) {
+// 	console.log("Commons.executeDelete - START - uri: " + uri);
+// 	let token = sessionStorage.getItem('headerToken');
+// 	let headerToken = getAuthorizationHeaderFromToken(token);
+
+// 	// trackPromise(
+// 		fetch(uri, {
+// 			method: 'DELETE',
+// 			headers: headerToken
+// 		})
+// 			//   .then((response) => {
+// 			//.then(response => response.json()
+// 			//.then(response => response.then(response => (response.status===204?{ status: response.status, body: "sticazzi" }:{ status: response.status, body: "stimazzi" }))
+// 			.then(
+// 				response => response
+// 				//response => response.json().then(data => ({ status: response.status, body: data }))
+// 				)
+// 			.then((response) => {
+// 				console.log("Commons.executeDelete - DEBUG - response: " + response);
+// 				console.log(response.status);
+// 				console.log(response);
+// 				 if (response.status === 204) {
+// 				 	successCallbackFunction();
+// 				// 	//   } else if (data.status===200||data.status===201) {
+// 				// 	// 		  successCallbackFunction(data.body);
+// 				 } else {//ERROR
+// 					 //callbackFunctionKO(response.body);
+// 					 console.log("DEBUG1");
+// 					 let responseData = response.json() ;
+// 					 console.log(responseData);
+// 					 //console.log(responseData.errorMessage);
+// 					 console.log("DEBUG2");
+// 					 callbackFunctionKO(response);
+// 				 }
+// 			})
+// 			.catch((response) => {
+// 				console.log("ERRORE");
+// 				console.log(response);
+// 			})
+			
+// 	// )
+// }
+
+export const executeDelete = async (uri, successCallbackFunction, callbackFunctionKO) => {
 	console.log("Commons.executeDelete - START - uri: " + uri);
 	let token = sessionStorage.getItem('headerToken');
 	let headerToken = getAuthorizationHeaderFromToken(token);
+	const response = await fetch(uri, {
+		method: 'DELETE',
+		headers: headerToken
+	})
+  
+	console.log(response);
+	console.log(response.status);
 
-	trackPromise(
-		fetch(uri, {
-			method: 'DELETE',
-			headers: headerToken
-		})
-			//   .then((response) => {
-			//.then(response => response.json()
-			//.then(response => response.then(response => (response.status===204?{ status: response.status, body: "sticazzi" }:{ status: response.status, body: "stimazzi" }))
-			.then(response => response
-				)
-			.then((response) => {
-				console.log("Commons.executeDelete - DEBUG - response: " + response);
-				console.log(response.status);
-				// console.log(response);
-				 if (response.status === 204) {
-				 	successCallbackFunction();
-				// 	//   } else if (data.status===200||data.status===201) {
-				// 	// 		  successCallbackFunction(data.body);
-				 } else {//ERROR
-				 	callbackFunctionKO(response);
-				 }
-			})
-	)
-}
+	// const data = await response.json()
+	
+	// console.log(data);
+
+	if (response.status === 204) {
+		successCallbackFunction();
+	} else {//ERROR
+		console.log("DEBUG1");
+
+		const responseData = await response.json()
+
+		// let responseData = response.json() ;
+		// console.log(responseData);
+		// console.log("DEBUG2");
+		callbackFunctionKO(responseData);
+	}
+	// console.log(JSON.parse(data))
+  
+	//return JSON.parse(data)
+	//console.log()
+  }
 
 export function executeFetch(uri, method, successCallbackFunction, callbackFunctionKO, body, isBodyAJSON) {
 	console.log("Commons.executeFetch - START - uri: " + uri);
@@ -96,7 +143,7 @@ export function executeFetchWithHeader(uri, method, headerToken, successCallback
 		})
 			//   .then((response) => {
 			.then(
-				r => r.json().then(data => ({ status: r.status, body: data }))
+				response => response.json().then(data => ({ status: response.status, body: data }))
 			)
 			//   console.log(response);
 			// //   if (method==="POST" && response.status===201) {
@@ -146,10 +193,11 @@ export function executeFetchWithHeader(uri, method, headerToken, successCallback
 
 export function operationError(err) {
 	console.log("OPERATION KO");
-	toast.error(err.errorMessage, {
+	let errorMessage = (err!=null&&err!==undefined&&err.errorMessage!=undefined)?err.errorMessage:"errore del cazzo!!!";
+	toast.error(errorMessage, {
 		position: toast.POSITION.BOTTOM_LEFT
 	});
-	console.error(err)
+	console.warn(err)
 }
 
 const DEBUG_ENABLED = true;
