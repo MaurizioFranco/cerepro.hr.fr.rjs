@@ -56,43 +56,34 @@ class UsersList extends Component {
     
     // Delete car
     onDelClick = (id) => {
-        // fetch(BACKEND_APPLICATION_ROOT + 'v1/cars/' + id, { method: 'DELETE' })
-        // .then(res => {
-        //         if (res.status===200) {
-            //             toast.success("Car deleted OK!!!!!!!!", {
-                //             position: toast.POSITION.BOTTOM_LEFT
-                //             });
-        //             this.fetchCars();
-        //         } else {
-            //             this.insertError (res) ;
-            //         }
-            //     })
-            //     .catch(err => {
-                //         this.insertError (err) ;            
-        //     })
+        this.deleteUser(id);
     }
     
-    // addUser(item) {
-    //     Commons.executeFetch(Constants.USER_API_URI, "POST", this.insertSuccess, this.insertError, item);        
-    // }
+    deleteUser(id) {
+        //Commons.executeFetch(Constants.USER_API_URI+id, "DELETE", this.deleteSuccess, Commons.operationError);        
+        Commons.executeDelete(Constants.USER_API_URI+id, this.deleteSuccess, Commons.operationError);   
+    }
     
-    // insertError = (err) => {
-    //     toast.error("Error when trying to deleting user...", {
-    //         position: toast.POSITION.BOTTOM_LEFT
-    //     });
-    //     console.error(err)
-    // }
+    operationError = (err) => {
+        console.log("INSERT USER KO");
+        toast.error(err.errorMessage, {
+            position: toast.POSITION.BOTTOM_LEFT
+        });
+        console.error(err)
+    }
 
-    // insertSuccess = (response) => {
-    //     if (response.status===201) {
-    //         toast.success("User successfully inserted", {
-    //             position: toast.POSITION.BOTTOM_LEFT
-    //         });
-    //         this.fetchCars();
-    //     } else {
-    //         this.insertError (response) ;
-    //     }
-    // }
+    deleteSuccess = (response) => {
+        console.log("DELETE USER SUCCESS");
+        console.log(response);
+        // if (response.status===201) {
+            toast.success("User successfully deleted", {
+                position: toast.POSITION.BOTTOM_LEFT
+            });
+            this.getUsers();
+        // } else {
+            // this.insertError (response) ;
+        // }
+    }
 
     renderEditable = (cellInfo) => {
         return (

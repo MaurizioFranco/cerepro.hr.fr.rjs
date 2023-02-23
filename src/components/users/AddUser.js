@@ -37,16 +37,33 @@ class AddUser extends React.Component {
     }
 
     addUser(item) {
-        Commons.executeFetch(Constants.USER_API_URI, "POST", this.insertSuccess, this.insertError, JSON.stringify(item), true);        
+        Commons.executeFetch(Constants.USER_API_URI, "POST", this.insertSuccess, Commons.operationError, JSON.stringify(item), true);        
     }
+
     
-    insertError = (err) => {
-        console.log("INSERT USER KO");
-        toast.error(err.errorMessage, {
-            position: toast.POSITION.BOTTOM_LEFT
-        });
-        console.error(err)
+    // operationError = (err) => {
+    //     console.log("INSERT USER KO");
+    //     toast.error(err.errorMessage, {
+    //         position: toast.POSITION.BOTTOM_LEFT
+    //     });
+    //     console.error(err)
+    // }
+
+    insertSuccess = (response) => {
+        console.log("INSERT USER SUCCESS");
+        console.log(response);
+        // if (response.status===201) {
+            toast.success("User successfully inserted", {
+                position: toast.POSITION.BOTTOM_LEFT
+            });
+            this.gridRef.current.hide();
+            this.props.refreshUserList();
+        // } else {
+            // this.insertError (response) ;
+        // }
     }
+
+    
 
     insertSuccess = (response) => {
         console.log("INSERT USER SUCCESS");
