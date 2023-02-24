@@ -12,8 +12,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Link } from "react-router-dom";
 
-
-
 class Question extends Component {
 
     constructor(props) {
@@ -37,6 +35,14 @@ class Question extends Component {
 
     fetchDelete = (value) => {
         Commons.executeDelete(Constants.DELETE_SURVEYTOKEN_API_URI + value, this.deleteSuccess, Commons.operationError);
+    }
+
+    fetchSendQuestion = (id) => {
+        Commons.executeFetch(Constants.FULL_ST_SENDEMAIL_API_URI + id, 'GET', this.consoleLog);
+    }
+
+    consoleLog = () => {
+        console.log("email inviata");
     }
 
     deleteSuccess = () => {
@@ -91,6 +97,12 @@ class Question extends Component {
             console.log(this.state.selectedValueActive);
             this.fetchUserActive(this.state.selectedValueActive);
         });
+    }
+
+    sendQuestion = (event) => {
+        const id = event.target.dataset.id;
+        console.log(id);
+        this.fetchSendQuestion(id);
     }
 
     handleDelete = (event) => {
@@ -158,7 +170,7 @@ class Question extends Component {
                                             <button type="button" class="btn btn-danger custom-width" data-id={user.id} onClick={this.handleDelete}>Delete</button>
                                         </this.StyledTableCell>
                                         <this.StyledTableCell>
-                                            <button type="button" class="btn btn-success custom-width">Invia Questionario</button>
+                                            <button type="button" class="btn btn-success custom-width" data-id={user.id} onClick={this.sendQuestion}>Invia Questionario</button>
                                         </this.StyledTableCell>
                                     </this.StyledTableRow>
                                 ))}
