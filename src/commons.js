@@ -175,7 +175,7 @@ export function executeFetchWithHeader(uri, method, headerToken, successCallback
 				//console.log(data);
 				//console.log(data.status);
 				//console.log(data.status===201);
-				if (method == 'DELETE' && data.status === 204) {
+				if (method === 'DELETE' && data.status === 204) {
 					successCallbackFunction(data.body);
 				} else if (data.status === 200 || data.status === 201) {
 					successCallbackFunction(data.body);
@@ -193,7 +193,7 @@ export function executeFetchWithHeader(uri, method, headerToken, successCallback
 
 export function operationError(err) {
 	console.log("OPERATION KO");
-	let errorMessage = (err!=null&&err!==undefined&&err.errorMessage!=undefined)?err.errorMessage:"errore del cazzo!!!";
+	let errorMessage = (err!==null&&err!==undefined&&err.errorMessage!==undefined)?err.errorMessage:"errore del cazzo!!!";
 	toast.error(errorMessage, {
 		position: toast.POSITION.BOTTOM_LEFT
 	});
