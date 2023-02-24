@@ -1,4 +1,4 @@
-#page-loader {
+/* #page-loader {
     position: fixed;
     top: 0;
     left: 0;
@@ -14,11 +14,11 @@
      #page-loader.fade.in,
      #page-loader.fade.show {
       display:block
-     }
+     } */
   
   .h1,
   h1 {
-    font-size: 36px;
+    font-size: 20px;
   }
   
   label {
@@ -26,7 +26,7 @@
     font-weight: 600;
   }
   
-  .boxed-layout .page-container {
+  /* .boxed-layout .page-container {
     width: 1080px;
     margin: 0 auto;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
@@ -48,4 +48,28 @@
   .boxed-layout .pace .pace-progress,
   .boxed-layout .page-with-top-menu .top-menu {
    position:absolute
-  }
+  } */
+
+  .control-table a {
+    color: white;
+    font-size: 30px;
+ }
+
+ .control-table {
+  width: 30%;
+  padding-bottom: 1%;
+  float: right;
+  margin-top: -0.6%;
+}
+
+.btn.btn-success, .btn.btn-success.disabled, .btn.btn-success.disabled:focus, .btn.btn-success.disabled:hover, .btn.btn-success[disabled], .btn.btn-success[disabled]:focus, .btn.btn-success[disabled]:hover {
+  color: #fff;
+  background: #00acac;
+  border-color: #00acac;
+}
+
+.btn.btn-danger, .btn.btn-danger.disabled, .btn.btn-danger.disabled:focus, .btn.btn-danger.disabled:hover, .btn.btn-danger[disabled], .btn.btn-danger[disabled]:focus, .btn.btn-danger[disabled]:hover {
+  color: #fff;
+  background: #ff5b57;
+  border-color: #ff5b57;
+}

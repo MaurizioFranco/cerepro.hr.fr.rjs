@@ -10,6 +10,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Link } from "react-router-dom";
+
+
 
 class Question extends Component {
 
@@ -21,6 +24,7 @@ class Question extends Component {
             selectedValueExpired: '5',
             selectedValueActive: '5',
         }
+        this.reloadData = this.reloadData.bind(this);
     }
 
     fetchUserExpired = (value) => {
@@ -31,8 +35,14 @@ class Question extends Component {
         Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'active/' + value + '/0/', 'GET', this.setUserActive);
     }
 
-    fetchDelete = (value) =>{
-        Commons.executeFetch(Constants.DELETE_SURVEYTOKEN_API_URI  + value , 'DELETE');
+    fetchDelete = (value) => {
+        Commons.executeDelete(Constants.DELETE_SURVEYTOKEN_API_URI + value, this.deleteSuccess, Commons.operationError);
+    }
+
+    deleteSuccess = () => {
+        console.log("DELETE COURSE PAGE SUCCESS");
+        this.fetchUserExpired(this.state.selectedValueExpired);
+        this.fetchUserActive(this.state.selectedValueActive);
     }
 
     setUserExpired = (userExpiredToSet) => {
@@ -86,12 +96,18 @@ class Question extends Component {
     handleDelete = (event) => {
         const id = event.target.dataset.id;
         console.log(id)
-        // this.fetchDelete(id)
+        this.fetchDelete(id)
+        // this.fetchUserExpired(this.state.selectedValueExpired);
+        // this.fetchUserActive(this.state.selectedValueActive);
+    }
+
+    reloadData(){
+        this.fetchUserExpired(this.state.selectedValueExpired);
+        this.fetchUserActive(this.state.selectedValueActive);
     }
 
     componentDidMount() {
-        this.fetchUserExpired(this.state.selectedValueExpired);
-        this.fetchUserActive(this.state.selectedValueActive);
+        this.reloadData()
     }
 
     render() {
@@ -101,6 +117,10 @@ class Question extends Component {
                     <div class="panel-heading">
                         <h1 class="panel-title">
                             Lista questionari ancora da compilare
+                            <div class="control-table" align="right">
+                                <button style={{ marginRight: "10px" }} onClick={this.reloadData}>RELOAD</button>
+                                <Link to="/registerQuestion" >+</Link>
+                            </div>
                         </h1>
                     </div>
                     <div>
@@ -135,20 +155,20 @@ class Question extends Component {
                                         <this.StyledTableCell align="left">{user.surveyLabel}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.expirationdate}</this.StyledTableCell>
                                         <this.StyledTableCell>
-                                        <button type="button" class="btn btn-danger custom-width" data-id={user.id} onClick={this.handleDelete}>Delete</button>
+                                            <button type="button" class="btn btn-danger custom-width" data-id={user.id} onClick={this.handleDelete}>Delete</button>
                                         </this.StyledTableCell>
                                         <this.StyledTableCell>
-                                        <button type="button" class="btn btn-success custom-width">Invia Questionario</button>
+                                            <button type="button" class="btn btn-success custom-width">Invia Questionario</button>
                                         </this.StyledTableCell>
                                     </this.StyledTableRow>
                                 ))}
-                                
+
                             </TableBody>
                         </Table>
                     </TableContainer>
                 </div>
                 <br>
-                    </br>
+                </br>
                 <div class="container-lg">
                     <div class="panel-heading">
                         <h1 class="panel-title">
@@ -186,7 +206,7 @@ class Question extends Component {
                                         <this.StyledTableCell align="left">{user.surveyLabel}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.expirationdate}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">
-                                        <button type="button" class="btn btn-danger custom-width" data-id={user.id} onClick={this.handleDelete}>Delete</button>
+                                            <button type="button" class="btn btn-danger custom-width" data-id={user.id} onClick={this.handleDelete}>Delete</button>
                                         </this.StyledTableCell>
                                     </this.StyledTableRow>
                                 ))}

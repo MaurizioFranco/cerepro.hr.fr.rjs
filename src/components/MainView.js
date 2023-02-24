@@ -15,6 +15,7 @@ import { ModalLoadingSpinnerComponent} from './loader/ModalLoadingSpinnerCompone
 import './MainView.css';
 import { Container } from 'react-bootstrap';
 import QuestionView from './QuestionView';
+import RegisterQuestionView from './RegisterQuestionView';
 
 class MainView extends Component {
 	constructor (props) {
@@ -54,6 +55,7 @@ class MainView extends Component {
 						<Route exact path="/roles" component={CandidatesStatisticsView}/>
 						<Route exact path="/coursepage" component={CoursePagesView}/>
 						<Route exact path="/question" component={QuestionView}/>
+						<Route exact path="/registerQuestion" component={RegisterQuestionView}/>
 						
 				    </div>
 			    </Container>
