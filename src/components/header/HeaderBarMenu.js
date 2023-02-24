@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 
-import centauri_academy_header_logo from './images/header_logo.png';
+import centauri_academy_header_logo from '../../images/header_logo.png';
 import './HeaderBarMenu.css';
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
-//import * as Constants from './constants.js';
-//import HeaderBarMenuNavbarItem from './HeaderBarMenuNavbarItem.js';
 import 'bootstrap/dist/js/bootstrap.bundle';
-import logout_icon from './images/logout_icon.png';
-//import * as Commons from './commons.js';
-import CandidatesHeaderMenu from './components/header/candidates/CandidatesHeaderMenu.js';
-import AdministrationHeaderMenu from './components/header/administration/AdministrationHeaderMenu.js';
+import logout_icon from '../../images/logout_icon.png';
+import CandidatesHeaderMenu from '../../components/header/candidates/CandidatesHeaderMenu.js';
+import AdministrationHeaderMenu from '../../components/header/administration/AdministrationHeaderMenu.js';
 
 class HeaderBarMenu extends Component {
 	constructor(props) {
@@ -51,7 +48,7 @@ class HeaderBarMenu extends Component {
 							<CandidatesHeaderMenu />
 
 							<li className="nav-item">
-								<span className="nav-link navigationBarItem">Benvenuto {this.state.userLoggedEmail}</span>
+								<span className="nav-link navigationBarItem">Welcome {this.state.userLoggedEmail}</span>
 							</li>
 							<li className="nav-item">
 								<button className="nav-link buttonDropdown" onClick={this.logout}>
