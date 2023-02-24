@@ -86,9 +86,6 @@ class AddCandidateStates extends React.Component {
   };
 
   render() {
-    const marginBottom = { marginBottom: "7px" };
-    const marginRight = { marginRight: "14px" };
-    const moreMarginBottom = { marginBottom: "28px" };
     return (
       <div>
         <Dialog
@@ -102,39 +99,43 @@ class AddCandidateStates extends React.Component {
               label="Status Code"
               name="statusCode"
               onChange={this.handleChange}
-              style={marginBottom}
+              style={{ marginBottom: "10px" }}
             />
             <TextField
               fullWidth
               label="Status Label"
               name="statusLabel"
               onChange={this.handleChange}
-              style={marginBottom}
+              style={{ marginBottom: "10px" }}
             />
             <TextField
               fullWidth
               label="Status Description"
               name="statusDescription"
               onChange={this.handleChange}
-              style={marginBottom}
+              style={{ marginBottom: "10px" }}
             />
             <TextField
               fullWidth
               label="Status Color"
               name="statusColor"
               onChange={this.handleChange}
-              style={moreMarginBottom}
+              style={{ marginBottom: "20px" }}
             />
           </DialogContent>
           <DialogActions>
-            <Button
+          <Button
               onClick={this.handleSubmit}
-              style={marginRight}
+              style={{ marginRight: "14px" }}
               color="primary"
             >
               Save
             </Button>
-            <Button onClick={this.cancelSubmit} color="secondary">
+            <Button 
+              onClick={this.cancelSubmit}
+              style={{ margin: "7px" }}
+              color="secondary"
+            >
               Cancel
             </Button>
           </DialogActions>

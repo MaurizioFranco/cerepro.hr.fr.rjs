@@ -77,9 +77,6 @@ class AddCoursePages extends React.Component {
   };
 
   render() {
-    const marginBottom = { marginBottom: "7px" };
-    const marginRight = { marginRight: "14px" };
-    const moreMarginBottom = { marginBottom: "28px" };
     return (
       <div>
         <Dialog
@@ -93,33 +90,37 @@ class AddCoursePages extends React.Component {
               label="Title"
               name="title"
               onChange={this.handleChange}
-              style={marginBottom}
+              style={{ marginBottom: "10px" }}
             />
             <TextField
               fullWidth
               label="Code"
               name="code"
               onChange={this.handleChange}
-              style={marginBottom}
+              style={{ marginBottom: "10px" }}
             />
             <TextField
               fullWidth
               label="Body Text"
               name="bodyText"
               onChange={this.handleChange}
-              style={moreMarginBottom}
+              style={{ marginBottom: "20px" }}
             />
             {/* <TextField fullWidth label="File Name" name="fileName" onChange={this.handleChange} style={moreMarginBottom} /> */}
           </DialogContent>
           <DialogActions>
             <Button
               onClick={this.handleSubmit}
-              style={marginRight}
+              style={{ marginRight: "14px" }}
               color="primary"
             >
               Save
             </Button>
-            <Button onClick={this.cancelSubmit} color="secondary">
+            <Button 
+              onClick={this.cancelSubmit}
+              style={{ margin: "7px" }}
+              color="secondary"
+            >
               Cancel
             </Button>
           </DialogActions>

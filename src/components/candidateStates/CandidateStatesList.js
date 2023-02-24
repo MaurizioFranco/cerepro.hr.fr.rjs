@@ -206,7 +206,7 @@ class CandidateStatesList extends Component {
                           )
                         }
                       >
-                        Save
+                        Edit
                       </Button>
                     </TableCell>
                     <TableCell>

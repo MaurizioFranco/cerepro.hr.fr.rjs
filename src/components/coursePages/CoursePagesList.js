@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import AddCoursePages from "./AddCoursePage.js";
+import UpdateCoursePage from "./UpdateCoursePage.js";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 
@@ -90,30 +91,6 @@ class CoursePagesList extends Component {
     // }
   };
 
-  updateCoursePage(coursePage, id) {
-    // console.log(coursePage);
-    // const itemToUpdate = {...coursePage};
-    // itemToUpdate.id = id ;
-    // fetch(BACKEND_APPLICATION_ROOT + 'v1/coursePages',
-    //     {
-    //         method: 'PUT',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(itemToUpdate)
-    //     })
-    //     .then(res =>
-    //         toast.success("Changes saved", {
-    //             position: toast.POSITION.BOTTOM_LEFT
-    //         })
-    //     )
-    //     .catch(err =>
-    //         toast.error("Error when saving", {
-    //             position: toast.POSITION.BOTTOM_LEFT
-    //         })
-    //     )
-  }
-
   render() {
     const { classes } = this.props;
     return (
@@ -154,15 +131,7 @@ class CoursePagesList extends Component {
                     <TableCell>{coursePage.code}</TableCell>
                     <TableCell>{coursePage.bodyText}</TableCell>
                     <TableCell>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() =>
-                          this.updateCoursePage(coursePage, coursePage.id)
-                        }
-                      >
-                        Edit
-                      </Button>
+                    <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} idItemToUpdate={coursePage.id} />
                     </TableCell>
                     <TableCell>
                       <Button
