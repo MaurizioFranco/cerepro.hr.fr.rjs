@@ -14,10 +14,16 @@ import "react-toastify/dist/ReactToastify.css";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 
-class UpdateCoursePages extends React.Component {
+class UpdateCandidateStates extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { idItemToLoad: null, title: '', code: '', bodyText: '' };
+        this.state = { idItemToLoad: null,
+            roleId: props.roleId || 4,
+            statusCode: "",
+            statusLabel: "",
+            statusDescription: "",
+            statusColor: "",
+        };
         this.gridRef = React.createRef();
     }
 
@@ -30,19 +36,23 @@ class UpdateCoursePages extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
         var item = {
-            title: this.state.title, code: this.state.code, bodyText: this.state.bodyText
+            roleId: this.state.roleId,
+            statusCode: this.state.statusCode,
+            statusLabel: this.state.statusLabel,
+            statusDescription: this.state.statusDescription,
+            statusColor: this.state.statusColor
         };
-        Commons.executeFetch(Constants.FULL_COURSEPAGE_API_URI + this.props.idItemToUpdate, "PUT", this.updateSuccess, Commons.operationError, JSON.stringify(item), true);
+        Commons.executeFetch(Constants.FULL_CANDIDATE_STATES_API_URI + this.props.idItemToUpdate, "PUT", this.updateSuccess, Commons.operationError, JSON.stringify(item), true);
     }
 
     updateSuccess = (response) => {
-        console.log("COURSE PAGE SUCCESSFULLY UPDATED");
+        console.log("CANDIDATE STATE SUCCESSFULLY UPDATED");
         console.log(response);
-        toast.success("Course Page successfully updated", {
+        toast.success("Candidate State successfully updated", {
             position: toast.POSITION.BOTTOM_LEFT
         });
         this.setState({ isModalOpen: false });
-        this.props.refreshCoursePagesList();
+        this.props.refreshCandidateStatesList();
     }
 
     cancelSubmit = (event) => {
@@ -57,15 +67,17 @@ class UpdateCoursePages extends React.Component {
     }
 
     getItemById = () => {
-        Commons.executeFetch(Constants.FULL_COURSEPAGE_API_URI + this.props.idItemToUpdate, "GET", this.setItemToUpdate);
+        Commons.executeFetch(Constants.FULL_CANDIDATE_STATES_API_URI + this.props.idItemToUpdate, "GET", this.setItemToUpdate);
     }
 
     setItemToUpdate = (responseData) => {
         this.setState({
             itemLoaded: true,
-            title: responseData.title,
-            code: responseData.code,
-            bodyText: responseData.bodyText
+            roleId: responseData.roleId,
+            statusCode: responseData.statusCode,
+            statusLabel: this.state.statusLabel,
+            statusDescription: this.state.statusDescription,
+            statusColor: this.state.statusColor
         });
     }
 
@@ -76,29 +88,37 @@ class UpdateCoursePages extends React.Component {
           open={this.state.isModalOpen}
           onClose={() => this.setState({ isModalOpen: false })}
         >
-          <DialogTitle>Edit Course Page</DialogTitle>
+          <DialogTitle>Edit Candidate States</DialogTitle>
           <DialogContent>
             <TextField
               fullWidth
-              label="Title"
-              name="title"
-              value={this.state.title}
+              label="Status Code"
+              name="statusCode"
+              value={this.state.statusCode}
               onChange={this.handleChange}
               style={{ marginBottom: "10px" }}
             />
             <TextField
               fullWidth
-              label="Code"
-              name="code"
-              value={this.state.code}
+              label="Status Label"
+              name="statusLabel"
+              value={this.state.statusLabel}
               onChange={this.handleChange}
               style={{ marginBottom: "10px" }}
             />
             <TextField
               fullWidth
-              label="Body Text"
-              name="bodyText"
-              value={this.state.bodyText}
+              label="Status Description"
+              name="statusDescription"
+              value={this.state.statusDescription}
+              onChange={this.handleChange}
+              style={{ marginBottom: "10px" }}
+            />
+            <TextField
+              fullWidth
+              label="Status Color"
+              name="statusColor"
+              value={this.state.statusColor}
               onChange={this.handleChange}
               style={{ marginBottom: "20px" }}
             />
@@ -134,4 +154,4 @@ class UpdateCoursePages extends React.Component {
 }
 }
 
-export default UpdateCoursePages;
+export default UpdateCandidateStates;

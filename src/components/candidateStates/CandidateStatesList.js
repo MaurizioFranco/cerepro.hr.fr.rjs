@@ -2,7 +2,9 @@ import React, { Component } from "react";
 
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
+
 import AddCandidateStates from "./AddCandidateStates.js";
+import UpdateCandidateStates from "./UpdateCandidateStates.js";
 
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -99,49 +101,6 @@ class CandidateStatesList extends Component {
     // }
   };
 
-  renderEditable = (cellInfo) => {
-    return (
-      <div
-        style={{ backgroundColor: "#fafafa" }}
-        contentEditable
-        suppressContentEditableWarning
-        onBlur={(e) => {
-          const data = [...this.state.candidateStates];
-          data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
-          this.setState({ candidateStates: data });
-        }}
-        dangerouslySetInnerHTML={{
-          __html:
-            this.state.candidateStates[cellInfo.index][cellInfo.column.id],
-        }}
-      />
-    );
-  };
-
-  updateCandidateState(candidateState, id) {
-    // console.log(candidateState);
-    // const itemToUpdate = {...candidateState};
-    // itemToUpdate.id = id ;
-    // fetch(BACKEND_APPLICATION_ROOT + 'v1/candidateStates',
-    //     {
-    //         method: 'PUT',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(itemToUpdate)
-    //     })
-    //     .then(res =>
-    //         toast.success("Changes saved", {
-    //             position: toast.POSITION.BOTTOM_LEFT
-    //         })
-    //     )
-    //     .catch(err =>
-    //         toast.error("Error when saving", {
-    //             position: toast.POSITION.BOTTOM_LEFT
-    //         })
-    //     )
-  }
-
   render() {
     const { classes } = this.props;
     return (
@@ -196,18 +155,7 @@ class CandidateStatesList extends Component {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() =>
-                          this.updateCandidateState(
-                            candidateState,
-                            candidateState.id
-                          )
-                        }
-                      >
-                        Edit
-                      </Button>
+                    <UpdateCandidateStates refreshCandidateStatesList={this.getCandidateStates} idItemToUpdate={candidateState.id} />
                     </TableCell>
                     <TableCell>
                       <Button
