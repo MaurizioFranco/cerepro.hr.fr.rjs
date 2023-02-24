@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route} from "react-router-dom";
-import HeaderBarMenu from '../HeaderBarMenu';
+import HeaderBarMenu from './header/HeaderBarMenu';
 import CandidateStatesView from "./candidateStates/CandidateStatesView.js";
 import CandidatesView from "./CandidatesView.js";
 import CandidateInsertView from "./CandidateInsertView.js";

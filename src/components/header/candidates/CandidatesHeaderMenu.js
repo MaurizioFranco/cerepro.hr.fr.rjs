@@ -31,7 +31,7 @@ export class CandidatesHeaderMenu extends Component {
 		return (
 			<li className="nav-item dropdown">
 				<button className="nav-link dropdown-toggle buttonDropdown navigationBarItem" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Candidati
+					Candidates
 		</button>
 
 				<div className="dropdown-menu" aria-labelledby="navbarDropdown">
