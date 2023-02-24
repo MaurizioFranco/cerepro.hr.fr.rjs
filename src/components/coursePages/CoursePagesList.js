@@ -1,212 +1,189 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+} from "@material-ui/core";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import AddCoursePages from "./AddCoursePage.js";
+import * as Commons from "../../commons.js";
+import * as Constants from "../../constants.js";
 
-import * as Commons from '../../commons.js';
-import * as Constants from '../../constants.js';
-
-import AddCoursePages from './AddCoursePage.js';
-
-import ReactTable from "react-table-6";
-import 'react-table-6/react-table.css';
-
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css'
-
-// import { CSVLink } from 'react-csv';
+const styles = {
+  table: {
+    minWidth: 650,
+  },
+  evenRow: {
+    backgroundColor: "#fff",
+  },
+  oddRow: {
+    backgroundColor: "#f2f2f2",
+  },
+};
 
 class CoursePagesList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { coursePages: [] };
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = { coursePages: [] };
-    }
+  componentDidMount() {
+    this.getCoursePages();
+  }
 
-    getCoursePages = () => {
-        Commons.executeFetch(Constants.FULL_COURSEPAGE_API_URI, "GET", this.setCoursePages);
-    }
+  getCoursePages = () => {
+    Commons.executeFetch(
+      Constants.FULL_COURSEPAGE_API_URI,
+      "GET",
+      this.setCoursePages
+    );
+  };
 
-    setCoursePages = (data) => {
-        this.setState({
-            coursePages: data
-        });
-    }
+  setCoursePages = (data) => {
+    this.setState({
+      coursePages: data,
+    });
+  };
 
-    componentDidMount() {        
-        this.getCoursePages () ;
-    }
+  confirmDelete = (id) => {
+    confirmAlert({
+      message: "Are you sure to delete?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => this.deleteItem(id),
+        },
+        {
+          label: "No",
+        },
+      ],
+    });
+  };
 
-    confirmDelete = (id) => {
-        confirmAlert({
-            message: 'Are you sure to delete?',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => this.deleteItem(id)
-                },
-                {
-                    label: 'No',
-                }
-            ]
-        })
-    }
+  deleteItem(id) {
+    Commons.executeDelete(
+      Constants.FULL_COURSEPAGE_API_URI + id,
+      this.deleteSuccess,
+      Commons.operationError
+    );
+  }
 
-    deleteItem(id) {
-        // Commons.executeDelete(Constants.FULL_COURSEPAGE_API_URI+id, this.deleteSuccess, Commons.operationError);  
-        Commons.executeDelete(Constants.FULL_COURSEPAGE_API_URI+id, this.deleteSuccess, Commons.operationError);  
-        
-    }
+  deleteSuccess = (response) => {
+    console.log("DELETE COURSE PAGE SUCCESS");
+    console.log(response);
+    // if (response.status===201) {
+    toast.success("Course page successfully deleted", {
+      position: toast.POSITION.BOTTOM_LEFT,
+    });
+    this.getCoursePages();
+    // } else {
+    // this.insertError (response) ;
+    // }
+  };
 
-    deleteSuccess = () => {
-        console.log("DELETE COURSE PAGE SUCCESS");
-        // if (response.status===201) {
-            toast.success("Course page successfully deleted", {
-                position: toast.POSITION.BOTTOM_LEFT
-            });
-            this.getCoursePages();
-        // } else {
-            // this.insertError (response) ;
-        // }
-    }
+  updateCoursePage(coursePage, id) {
+    // console.log(coursePage);
+    // const itemToUpdate = {...coursePage};
+    // itemToUpdate.id = id ;
+    // fetch(BACKEND_APPLICATION_ROOT + 'v1/coursePages',
+    //     {
+    //         method: 'PUT',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify(itemToUpdate)
+    //     })
+    //     .then(res =>
+    //         toast.success("Changes saved", {
+    //             position: toast.POSITION.BOTTOM_LEFT
+    //         })
+    //     )
+    //     .catch(err =>
+    //         toast.error("Error when saving", {
+    //             position: toast.POSITION.BOTTOM_LEFT
+    //         })
+    //     )
+  }
 
-
-//     // Delete coursePage
-//     onDelClick = (id) => {
-//     //const accessToken = localStorage.getItem('accessToken');
-//     fetch(`http://centauri.proximainformatica.com/cerepro.hr.backend/dev/api/v1/coursepage/${id}`, {
-//     method: 'DELETE',
-//     headers: {
-//         //'Authorization': `Bearer ${accessToken}`
-//         Authorization: 'Basic ' + btoa('9@9.9:9')
-//       }
-//   })
-//     .then(response => {
-//       if (response.ok) {
-//         toast.success("Course page deleted successfully!", {
-//           position: toast.POSITION.BOTTOM_LEFT
-//         });
-//         const coursePages = this.state.coursePages.filter(coursePage => coursePage.id !== id);
-//         this.setState({ coursePages: coursePages });
-//       } else {
-//         toast.error("Error deleting the course page!", {
-//           position: toast.POSITION.BOTTOM_LEFT
-//         });
-//       }
-//     })
-//     .catch(error => {
-//       toast.error("Error deleting the course page!", {
-//         position: toast.POSITION.BOTTOM_LEFT
-//       });
-//       console.error('Error:', error);
-//     });
-// }
-
-    renderEditable = (cellInfo) => {
-        return (
-            <div
-                style={{ backgroundColor: "#fafafa" }}
-                contentEditable
-                suppressContentEditableWarning
-                onBlur={e => {
-                    const data = [...this.state.coursePages];
-                    data[cellInfo.index][cellInfo.column.id] =
-                        e.target.innerHTML;
-                    this.setState({ coursePages: data });
-                }}
-                dangerouslySetInnerHTML={{
-                    __html: this.state.coursePages[cellInfo.index][cellInfo.column.id]
-                }}
-            />
-        );
-    }
-
-    // Update coursePage
-    updateCoursePage(coursePage, id) {
-        // console.log(coursePage);
-        // const itemToUpdate = {...coursePage};
-        // itemToUpdate.id = id ;
-        // fetch(BACKEND_APPLICATION_ROOT + 'v1/coursePages',
-        //     {
-        //         method: 'PUT',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(itemToUpdate)
-        //     })
-        //     .then(res =>
-        //         toast.success("Changes saved", {
-        //             position: toast.POSITION.BOTTOM_LEFT
-        //         })
-        //     )
-        //     .catch(err =>
-        //         toast.error("Error when saving", {
-        //             position: toast.POSITION.BOTTOM_LEFT
-        //         })
-        //     )
-    }
-
-    render() {
-        const columns = [{
-            Header: 'ID',
-            accessor: 'id',
-            width: 35,
-            // Cell: this.renderEditable
-        }, {
-            Header: 'Title',
-            accessor: 'title',
-            width: 350,
-            // Cell: this.renderEditable
-        }, {
-            Header: 'Code',
-            accessor: 'code',
-            width: 135,
-            // Cell: this.renderEditable
-        }, {
-            Header: 'Body Text',
-            accessor: 'bodyText',
-            // Cell: this.renderEditable
-        }, {
-            Header: 'File Name',
-            accessor: 'fileName',
-            width: 70,
-            // Cell: this.renderEditable
-        }, {
-            id: 'savebutton',
-            sortable: false,
-            filterable: false,
-            width: 70,
-            accessor: 'id',
-            Cell: ({value, row}) =>
-            (<button onClick={()=>{this.updateCoursePage(row, value)}}>
-            Save</button>)
-            }, {
-            id: 'delbutton',
-            sortable: false,
-            filterable: false, width: 70,
-            accessor: 'id',
-            Cell: ({ value }) => (<button onClick={() => { this.confirmDelete(value) }}>Delete</button>)
-        }]
-        return (
-            <div className="App">
-                    {/* <CSVLink data={this.state.coursePages} separator=";">Export CSV</CSVLink> */}
-                    {/* <AddCoursePages addCoursePages={this.addCoursePages} fetchCoursePages={this.fetchCoursePages}/> */}
-                    <AddCoursePages refreshCoursePagesList={this.getCoursePages}/>
-                    <ReactTable
-                    data={this.state.coursePages} 
-                    columns={columns}
-                    filterable={true}
-                    style={{ fontSize: "15px" }}
-                    getTrProps={(state, rowInfo, column, instance) => {
-                    return {
-                    style: {
-                    backgroundColor: rowInfo && rowInfo.index % 2 === 0 ? "#efefef" : "#fff",
-                            },
-                        };
-                    }} />
-                    <ToastContainer autoClose={1500} />
-            </div>
-        );
-    }
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className="App">
+        {/* <CSVLink data={this.state.candidateStates} separator=";">Export CSV</CSVLink> */}
+        <AddCoursePages refreshCoursePagesList={this.getCoursePages} />
+        <br></br>
+        <TableContainer
+          style={{
+            paddingLeft: "40px",
+            paddingRight: "40px",
+            paddingBottom: "140px",
+          }}
+        >
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="course pages table">
+              <TableHead>
+                <TableRow style={{ backgroundColor: "#333", color: "#fff" }}>
+                  <TableCell style={{ color: "#fff" }}>ID</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Title</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Code</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Body Text</TableCell>
+                  <TableCell style={{ color: "#333" }}></TableCell>
+                  <TableCell style={{ color: "#333" }}></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {this.state.coursePages.map((coursePage, index) => (
+                  <TableRow
+                    key={index}
+                    className={
+                      index % 2 === 0 ? classes.evenRow : classes.oddRow
+                    }
+                  >
+                    <TableCell component="th" scope="row">
+                      {coursePage.id}
+                    </TableCell>
+                    <TableCell>{coursePage.title}</TableCell>
+                    <TableCell>{coursePage.code}</TableCell>
+                    <TableCell>{coursePage.bodyText}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() =>
+                          this.updateCoursePage(coursePage, coursePage.id)
+                        }
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => this.confirmDelete(coursePage.id)}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </TableContainer>
+        <ToastContainer autoClose={1500} />
+      </div>
+    );
+  }
 }
-export default CoursePagesList ;
+
+export default withStyles(styles)(CoursePagesList);
