@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import * as Commons from '../../commons.js';
 import * as Constants from '../../constants.js';
 import AddUser from './AddUser.js';
+import UpdateUser from './UpdateUser.js';
 
 
 import ReactTable from "react-table-6";
@@ -34,8 +35,8 @@ class UsersList extends Component {
         });
     }
 
-    componentDidMount() {        
-        this.getUsers () ;
+    componentDidMount() {
+        this.getUsers();
     }
 
     confirmDelete = (id) => {
@@ -54,11 +55,11 @@ class UsersList extends Component {
     }
 
     deleteItem(id) {
-        Commons.executeDelete(Constants.USER_API_URI+id, this.deleteSuccess, Commons.operationError);   
+        Commons.executeDelete(Constants.USER_API_URI + id, this.deleteSuccess, Commons.operationError);
         // Commons.executeDeleteAsync(Constants.USER_API_URI+id, this.deleteSuccess, Commons.operationError);   
-        
+
     }
-    
+
     // operationError = (err) => {
     //     console.log("INSERT USER KO");
     //     toast.error(err.errorMessage, {
@@ -71,12 +72,12 @@ class UsersList extends Component {
         console.log("DELETE USER SUCCESS");
         console.log(response);
         // if (response.status===201) {
-            toast.success("User successfully deleted", {
-                position: toast.POSITION.BOTTOM_LEFT
-            });
-            this.getUsers();
+        toast.success("User successfully deleted", {
+            position: toast.POSITION.BOTTOM_LEFT
+        });
+        this.getUsers();
         // } else {
-            // this.insertError (response) ;
+        // this.insertError (response) ;
         // }
     }
 
@@ -99,63 +100,27 @@ class UsersList extends Component {
         );
     }
 
-    // Update car
-    updateCar(car, id) {
-        // console.log(car);
-        // const itemToUpdate = {...car};
-        // itemToUpdate.id = id ;
-        // fetch(BACKEND_APPLICATION_ROOT + 'v1/cars',
-        //     {
-        //         method: 'PUT',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(itemToUpdate)
-        //     })
-        //     .then(res =>
-        //         toast.success("Changes saved", {
-        //             position: toast.POSITION.BOTTOM_LEFT
-        //         })
-        //     )
-        //     .catch(err =>
-        //         toast.error("Error when saving", {
-        //             position: toast.POSITION.BOTTOM_LEFT
-        //         })
-        //     )
-    }
-
     render() {
         const columns = [{
             Header: 'id',
-            accessor: 'id',
-            // Cell: this.renderEditable
+            accessor: 'id'
         }, {
             Header: 'email',
-            accessor: 'email',
-            // Cell: this.renderEditable
+            accessor: 'email'
         }, {
             Header: 'firstname',
-            accessor: 'firstname',
-            // Cell: this.renderEditable
+            accessor: 'firstname'
         }, {
             Header: 'lastname',
-            accessor: 'lastname',
-            // Cell: this.renderEditable
-        // }, {
-        //     Header: 'Price €',
-        //     accessor: 'price',
-        //     Cell: this.renderEditable
+            accessor: 'lastname'
         }, {
-            id: 'savebutton',
+            id: 'updateButton',
             sortable: false,
-            filterable: false,
-            width: 100,
+            filterable: false, width: 100,
             accessor: 'id',
-            Cell: ({value, row}) =>
-            (<button onClick={()=>{this.updateCar(row, value)}}>
-            Save</button>)
-            }, {
-            id: 'delbutton',
+            Cell: ({ value }) => (<UpdateUser refreshUsersList={this.getUsers} idItemToUpdate={value} />)
+        }, {
+            id: 'deleteButton',
             sortable: false,
             filterable: false, width: 100,
             accessor: 'id',
@@ -163,13 +128,11 @@ class UsersList extends Component {
         }]
         return (
             <div className="App">
-                    {/* <CSVLink data={this.state.cars} separator=";">Export CSV</CSVLink> */}
-                    {/* <AddUser addUser={this.addUser} fetchCars={this.fetchCars}/> */}
-                    <AddUser refreshUsersList={this.getUsers}/>
-                    <ReactTable data={this.state.cars} columns={columns} filterable={true} />
-                    <ToastContainer autoClose={1500} />
+                <AddUser refreshUsersList={this.getUsers} />
+                <ReactTable data={this.state.cars} columns={columns} filterable={true} />
+                <ToastContainer autoClose={2500} />
             </div>
         );
     }
 }
-export default UsersList ;
+export default UsersList;

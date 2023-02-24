@@ -10,7 +10,7 @@ import * as Constants from '../../constants.js';
 class AddUser extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { brand: '', model: '', year: '', color: '', price: '' };
+        //this.state = { brand: '', model: '', year: '', color: '', price: '' };
         this.gridRef = React.createRef();
     }
 
@@ -27,43 +27,12 @@ class AddUser extends React.Component {
             email: this.state.email, firstname: this.state.firstname,
             lastname: this.state.lastname, password: this.state.password            
         };
-        // const formData = new FormData();
-	    // formData.append("firstname", this.state.firstname);
-	    // formData.append("lastname", this.state.lastname);
-	    // formData.append("email", this.state.email);
-	    // formData.append("password", this.password );
-        // console.log(item);
         this.addUser(item);        
     }
 
     addUser(item) {
         Commons.executeFetch(Constants.USER_API_URI, "POST", this.insertSuccess, Commons.operationError, JSON.stringify(item), true);        
     }
-
-    
-    // operationError = (err) => {
-    //     console.log("INSERT USER KO");
-    //     toast.error(err.errorMessage, {
-    //         position: toast.POSITION.BOTTOM_LEFT
-    //     });
-    //     console.error(err)
-    // }
-
-    insertSuccess = (response) => {
-        console.log("INSERT USER SUCCESS");
-        console.log(response);
-        // if (response.status===201) {
-            toast.success("User successfully inserted", {
-                position: toast.POSITION.BOTTOM_LEFT
-            });
-            this.gridRef.current.hide();
-            this.props.refreshUserList();
-        // } else {
-            // this.insertError (response) ;
-        // }
-    }
-
-    
 
     insertSuccess = (response) => {
         console.log("INSERT USER SUCCESS");
@@ -106,8 +75,7 @@ class AddUser extends React.Component {
                     </form>
                 </SkyLight>
                 <div>
-                    <button style={{ 'margin': '10px' }}
-                        onClick={() => this.gridRef.current.show()}>New User</button>
+                    <button onClick={() => this.gridRef.current.show()}>New User</button>
                 </div>
             </div>
         );
