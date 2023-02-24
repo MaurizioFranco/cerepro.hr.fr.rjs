@@ -120,7 +120,6 @@ class CoursePagesList extends Component {
       <div className="App">
         {/* <CSVLink data={this.state.candidateStates} separator=";">Export CSV</CSVLink> */}
         <AddCoursePages refreshCoursePagesList={this.getCoursePages} />
-        <br></br>
         <TableContainer
           style={{
             paddingLeft: "40px",

@@ -128,13 +128,15 @@ class AddCoursePages extends React.Component {
           <Button
             variant="contained"
             style={{
-              marginLeft: "40px",
+              marginRight: "40px",
+              marginBottom: "40px",
               backgroundColor: "green",
               color: "#fff",
+              float: "right",
             }}
             onClick={() => this.setState({ isModalOpen: true })}
           >
-            New Course Page
+            +
           </Button>
         </div>
       </div>
