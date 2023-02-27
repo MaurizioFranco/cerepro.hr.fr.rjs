@@ -13,6 +13,7 @@ class RegisterQuestion extends Component {
             users: [],
             uniqueEmails: [],
             uniqueSurveyLabels: [],
+            surveyToken: [],
             selectedEmail: '',
             selectedSurveyLabel: '',
             selectedDate: '',
@@ -22,7 +23,11 @@ class RegisterQuestion extends Component {
     }
 
     fetchUser = () => {
-        Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI, 'GET', this.setUser);
+        Commons.executeFetch(Constants.FULL_USER_COURSEPAGE_API_URI, 'GET', this.setUser);
+    }
+
+    fetchQuestion = () =>{
+        Commons.executeFetch(Constants.FULL_SURVEY_API_URI, 'GET', this.setQuestion);
     }
 
     handleSubmit = () => {
@@ -31,19 +36,18 @@ class RegisterQuestion extends Component {
         if (selectedDate >= currentDate) {
             this.fetchInsert()
         } else {
-            // La data inserita è precedente alla data corrente
             alert("La data inserita non è valida. Inserire una data successiva o uguale a oggi.");
         }
     }
 
     fetchInsert = () => {
         const user = this.state.users.find(u => u.email === this.state.selectedEmail);
+
+        const question = this.state.surveyToken.find(u => u.label === this.state.selectedSurveyLabel);
         if (user) {
-            console.log(user)
-            const userid = user.userId;
-            const surveyid = user.surveyId;
+            const userid = user.id;
+            const surveyid = question.id;
             const expirationdate = new Date(this.state.selectedDate);
-            // qui puoi usare userid e surveyid per fare la tua chiamata fetch
             var item = {
                 userid: userid,
                 surveyid: surveyid,
@@ -65,17 +69,20 @@ class RegisterQuestion extends Component {
 
     setUser = (userToSet) => {
         Commons.debugMessage("userToSet - START - userToSet: " + userToSet);
-
         const uniqueEmails = [...new Set(userToSet.map(user => user.email))];
-        const uniqueSurveyLabels = [...new Set(userToSet.map(user => user.surveyLabel))];
-
         this.setState({
             users: userToSet,
             uniqueEmails: uniqueEmails,
+        });
+    }
+
+    setQuestion = (questionToSet) =>{
+        Commons.debugMessage("questionToSet - START - " + questionToSet);
+        const uniqueSurveyLabels = [...new Set(questionToSet.map(question => question.label))];
+        this.setState({
+            surveyToken : questionToSet,
             uniqueSurveyLabels: uniqueSurveyLabels
         });
-
-        console.log(this.state.users);
     }
 
     handleEmailSelect = (e) => {
@@ -102,6 +109,7 @@ class RegisterQuestion extends Component {
 
     componentDidMount() {
         this.fetchUser()
+        this.fetchQuestion()
     }
 
 

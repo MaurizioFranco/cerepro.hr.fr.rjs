@@ -54,13 +54,13 @@ class Question extends Component {
     setUserExpired = (userExpiredToSet) => {
         Commons.debugMessage("userExpiredToSet - START - userExpiredToSet: " + userExpiredToSet);
         this.setState({ usersExipred: userExpiredToSet.content });
-        console.log(this.state.usersExipred);
+        console.log("USER EXPIRED == " + this.state.usersExipred);
     }
 
     setUserActive = (userActiveToSet) => {
         Commons.debugMessage("userActiveToSet - START - userActiveToSet: " + userActiveToSet);
         this.setState({ usersActive: userActiveToSet.content });
-        console.log(this.state.usersActive);
+        console.log("USER ACTIVE == " + this.state.usersActive);
     }
 
     StyledTableCell = styled(TableCell)(({ theme }) => ({
