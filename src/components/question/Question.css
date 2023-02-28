@@ -1,65 +1,55 @@
-/* #page-loader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: #e6e8ec;
-    z-index: 9999;
-  }
-  
-  #page-loader.fade {
-      display:none
-     }
-     #page-loader.fade.in,
-     #page-loader.fade.show {
-      display:block
-     } */
-  
-  .h1,
-  h1 {
-    font-size: 20px;
-  }
-  
-  label {
-    color: #242a30;
-    font-weight: 600;
-  }
-  
-  /* .boxed-layout .page-container {
-    width: 1080px;
-    margin: 0 auto;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-    min-height: 100%;
-    background: #d9e0e7;
-    overflow: hidden;
-    position: relative;
-  }
-  .boxed-layout .page-container #header,
-  .boxed-layout .page-container .sidebar,
-  .boxed-layout .page-container .sidebar-bg {
-   left:auto
-  }
-  .boxed-layout .page-container #header {
-   width:1080px;
-   right:auto
-  }
-  .boxed-layout .pace .pace-activity,
-  .boxed-layout .pace .pace-progress,
-  .boxed-layout .page-with-top-menu .top-menu {
-   position:absolute
-  } */
+.h1,
+h1 {
+  font-size: 20px;
+}
 
-  .control-table a {
-    color: white;
-    font-size: 30px;
- }
+#labelQuestion {
+  color: #ffffff;
+  font-weight: 600;
+  margin-right: 10px;
+  margin-left: 10px;
+}
 
- .control-table {
-  width: 30%;
-  padding-bottom: 1%;
+#reload{
+  margin-right: 20px;
+  background-color: transparent; 
+  border: none; 
+}
+
+#buttonInsert{
+  background-color: green;
+  color: #fff;
   float: right;
-  margin-top: -0.6%;
+  margin-bottom: 0px;
+  margin-top: 10px;
+}
+
+#container{
+  padding: "15px";
+}
+
+#active{
+  margin-right: auto; 
+}
+
+
+#expired{
+  flex: 1;
+}
+
+#buttonDelete{
+  background-color: #f50057;
+  color: #fff;
+}
+
+#cellRight{
+  text-align: right;
+  width: 190px;
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
 }
 
 .btn.btn-success, .btn.btn-success.disabled, .btn.btn-success.disabled:focus, .btn.btn-success.disabled:hover, .btn.btn-success[disabled], .btn.btn-success[disabled]:focus, .btn.btn-success[disabled]:hover {
@@ -68,8 +58,9 @@
   border-color: #00acac;
 }
 
-.btn.btn-danger, .btn.btn-danger.disabled, .btn.btn-danger.disabled:focus, .btn.btn-danger.disabled:hover, .btn.btn-danger[disabled], .btn.btn-danger[disabled]:focus, .btn.btn-danger[disabled]:hover {
-  color: #fff;
-  background: #ff5b57;
-  border-color: #ff5b57;
-}
+/* #allContainer{
+  display: flex; 
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 0;
+} */

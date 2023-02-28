@@ -11,6 +11,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Link } from "react-router-dom";
+import { Button } from "@material-ui/core";
+import reload from "../../images/reload.png";
+
 
 class Question extends Component {
 
@@ -106,14 +109,14 @@ class Question extends Component {
     }
 
     handleDelete = (event) => {
-        const id = event.target.dataset.id;
+        const id = event.currentTarget.dataset.id;
         console.log(id)
         this.fetchDelete(id)
         // this.fetchUserExpired(this.state.selectedValueExpired);
         // this.fetchUserActive(this.state.selectedValueActive);
     }
 
-    reloadData(){
+    reloadData() {
         this.fetchUserExpired(this.state.selectedValueExpired);
         this.fetchUserActive(this.state.selectedValueActive);
     }
@@ -125,25 +128,27 @@ class Question extends Component {
     render() {
         return (
             <div>
-                <div class="container-lg">
+                <div id="container">
                     <div class="panel-heading">
                         <h1 class="panel-title">
-                            Lista questionari ancora da compilare
-                            <div class="control-table" align="right">
-                                <button style={{ marginRight: "10px" }} onClick={this.reloadData}>RELOAD</button>
-                                <Link to="/registerQuestion" >+</Link>
+                            <span id="active">Lista questionari ancora da compilare</span>
+                            <div className="control-table">
+                                <label id="labelQuestion">Visualizza</label>
+                                <select value={this.selectedValueActive} onChange={this.handleChangeActive}>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <label id="labelQuestion">Questionari</label>
+                                <button id="reload" onClick={this.reloadData}>
+                                    <img src={reload} alt="Reload" />
+                                </button>
+                                <Link to="/registerQuestion">
+                                    <Button id="buttonInsert" variant="contained">+</Button>
+                                </Link>
                             </div>
                         </h1>
-                    </div>
-                    <div>
-                        <label>Visualizza</label>
-                        <select select value={this.selectedValueActive} onChange={this.handleChangeActive}>
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                        <label style={{ marginLeft: "10px" }}>Questionari</label>
                     </div>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -154,8 +159,8 @@ class Question extends Component {
                                     <this.StyledTableCell align="left">Lastname</this.StyledTableCell>
                                     <this.StyledTableCell align="left">Question</this.StyledTableCell>
                                     <this.StyledTableCell align="left">Expirationdate</this.StyledTableCell>
-                                    <this.StyledTableCell align="left"></this.StyledTableCell>
-                                    <this.StyledTableCell align="left"></this.StyledTableCell>
+                                    <this.StyledTableCell align="right"></this.StyledTableCell>
+                                    <this.StyledTableCell align="right"></this.StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -166,10 +171,10 @@ class Question extends Component {
                                         <this.StyledTableCell align="left">{user.lastname}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.surveyLabel}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.expirationdate}</this.StyledTableCell>
-                                        <this.StyledTableCell>
-                                            <button type="button" class="btn btn-danger custom-width" data-id={user.id} onClick={this.handleDelete}>Delete</button>
+                                        <this.StyledTableCell id="cellRight">
+                                            <Button id="buttonDelete" data-id={user.id} onClick={this.handleDelete}>Delete</Button>
                                         </this.StyledTableCell>
-                                        <this.StyledTableCell>
+                                        <this.StyledTableCell id="cellRight">
                                             <button type="button" class="btn btn-success custom-width" data-id={user.id} onClick={this.sendQuestion}>Invia Questionario</button>
                                         </this.StyledTableCell>
                                     </this.StyledTableRow>
@@ -181,21 +186,21 @@ class Question extends Component {
                 </div>
                 <br>
                 </br>
-                <div class="container-lg">
+                <div id="container">
                     <div class="panel-heading">
                         <h1 class="panel-title">
-                            Lista questionari scaduti
+                            <span id="expired">Lista questionari scaduti</span>
+                            <div className="control-table">
+                                <label id="labelQuestion">Visualizza</label>
+                                <select value={this.selectedValueExpired} onChange={this.handleChangeExpired}>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <label id="labelQuestion">Questionari</label>
+                            </div>
                         </h1>
-                    </div>
-                    <div>
-                        <label>Visualizza</label>
-                        <select value={this.selectedValueExpired} onChange={this.handleChangeExpired}>
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                        <label style={{ marginLeft: "10px" }}>Questionari</label>
                     </div>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -217,8 +222,8 @@ class Question extends Component {
                                         <this.StyledTableCell align="left">{user.lastname}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.surveyLabel}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.expirationdate}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">
-                                            <button type="button" class="btn btn-danger custom-width" data-id={user.id} onClick={this.handleDelete}>Delete</button>
+                                        <this.StyledTableCell id="cellRight">
+                                            <Button id="buttonDelete" data-id={user.id} onClick={this.handleDelete}>Delete</Button>
                                         </this.StyledTableCell>
                                     </this.StyledTableRow>
                                 ))}
@@ -226,7 +231,7 @@ class Question extends Component {
                         </Table>
                     </TableContainer>
                 </div>
-            </div>
+            </div >
         );
     }
 }
