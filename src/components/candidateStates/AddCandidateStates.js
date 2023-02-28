@@ -32,7 +32,6 @@ class AddCandidateStates extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  // Save candidate state and close modal form
   handleSubmit = (event) => {
     event.preventDefault();
     var item = {

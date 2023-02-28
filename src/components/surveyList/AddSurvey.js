@@ -29,7 +29,6 @@ class AddSurvey extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  // Save survey and close modal form
   handleSubmit = (event) => {
     event.preventDefault();
     var item = {

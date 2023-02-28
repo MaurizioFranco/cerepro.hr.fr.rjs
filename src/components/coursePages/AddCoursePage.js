@@ -30,7 +30,6 @@ class AddCoursePages extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  // Save course page and close modal form
   handleSubmit = (event) => {
     event.preventDefault();
     var item = {
