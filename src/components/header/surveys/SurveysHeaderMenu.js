@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import * as Constants from '../../../constants.js';
 import * as Commons from '../../../commons.js';
-import HeaderBarMenuNavbarItem from '../../../HeaderBarMenuNavbarItem.js';
+//import HeaderBarMenuNavbarItem from '../../../HeaderBarMenuNavbarItem.js';
 import 'bootstrap/dist/js/bootstrap.bundle';
 
-const POSITION_CODES_API = '/api/v1/coursepage/';
+const POSITION_CODES_API = '/api/v1/survey/';
 const FULL_API_URI = Constants.BACKEND_API_PREFIX + POSITION_CODES_API;
 
 export class CandidatesHeaderMenu extends Component {
@@ -35,7 +35,7 @@ export class CandidatesHeaderMenu extends Component {
 
 				<div className="dropdown-menu" aria-labelledby="navbarDropdown">
 					<Link className="dropdown-item navigationBarItem" to="/surveys">Tutti i surveys</Link>
-					{this.state.position_codes.map(item => <HeaderBarMenuNavbarItem key={item.code} code={item.code} />)}
+					{/* {this.state.position_codes.map(item => <HeaderBarMenuNavbarItem key={item.code} code={item.code} />)} */}
 				</div>
 			</li>
 		);
