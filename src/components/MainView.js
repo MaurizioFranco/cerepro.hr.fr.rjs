@@ -8,6 +8,7 @@ import PositionsView from "./PositionsView.js";
 import NewPositionView from "./NewPositionView.js";
 import CandidatesStatisticsView from "./candidates/statistics/CandidatesStatisticsView.js";
 import CoursePagesView from './coursePages/CoursePagesView';
+import SurveysView from './surveyList/SurveyView'
 import UsersView from "./users/UsersView.js";
 import HomeView from "./HomeView.js";
 import CandidateUpdateView from "./candidates/update/CandidateUpdateView.js" ;
@@ -56,6 +57,7 @@ class MainView extends Component {
 						<Route exact path="/coursepage" component={CoursePagesView}/>
 						<Route exact path="/question" component={QuestionView}/>
 						<Route exact path="/registerQuestion" component={RegisterQuestionView}/>
+						<Route exact path="/surveys" component={SurveysView}/>
 						
 				    </div>
 			    </Container>

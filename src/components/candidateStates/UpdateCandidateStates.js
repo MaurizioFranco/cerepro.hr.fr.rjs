@@ -27,6 +27,24 @@ class UpdateCandidateStates extends React.Component {
         this.gridRef = React.createRef();
     }
 
+    componentDidMount() {
+      Commons.executeFetch(
+        Constants.FULL_CANDIDATE_STATES_API_URI + this.props.idItemToUpdate,
+        "GET",
+        this.setCandidateStates,
+        Commons.operationError
+      );
+    }
+    
+    setCandidateStates = (data) => {
+      this.setState({
+        statusCode: data.statusCode,
+        statusLabel: data.statusLabel,
+        statusDescription: data.statusDescription,
+        statusColor: data.statusColor,
+      });
+    };
+
     handleChange = (event) => {
         this.setState(
             { [event.target.name]: event.target.value }
