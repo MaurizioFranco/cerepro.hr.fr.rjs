@@ -29,8 +29,9 @@ pipeline {
                 echo "ready to download dependencies"
                 sh "npm -v"
                 sh "node -v"
-                sh "npm install && npm audit fix"
+                sh "npm install"
                 /*
+                 && npm audit fix
                 sh "npm config set legacy-peer-deps true --location global"
 	            sh "npm install --legacy-peer-deps && npm audit fix --force && npm audit fix --force"
 	            */
