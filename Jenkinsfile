@@ -29,6 +29,7 @@ pipeline {
                 echo "ready to download dependencies"
                 sh "npm -v"
                 sh "node -v"
+                sh "npm cache clean –force"
 	            sh "npm install && npm audit fix"
 	            echo "preparing .env"
 	            sh "rm .env && cp .env.DEV .env"
@@ -57,6 +58,28 @@ pipeline {
             environment {
                 ENV = "dev"
                 SERVICES_EXPOSED_PORT = "${DEV_SERVICES_EXPOSED_PORT}" 
+                ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
+            }
+            steps {
+                echo "EXECUTING ${ENV} ENVIRONEMNT PROMOTION"
+                sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER} ${SERVICE_SOURCE_PORT} ${REMOTE_WORKING_DIR} ${ARTIFACT_FULL_FILE_NAME}"	            
+            }
+        }
+        stage ("DEPLOY STAGE ARTIFACT") {
+            environment {
+                ENV = "stage"
+                ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
+            }
+            steps {
+	            echo "MOVING files on docker host"
+                sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} ${ARTIFACT_FULL_FILE_NAME} cerepro_resources/${REMOTE_WORKING_DIR} ${APPLICATION_DOCKER_HOST} ${ENV}"
+                sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} Dockerfile cerepro_resources/${REMOTE_WORKING_DIR} ${APPLICATION_DOCKER_HOST} ${ENV}"	            
+            }
+        }
+        stage ("DELIVERY STAGE ARTIFACT") {
+            environment {
+                ENV = "dev"
+                SERVICES_EXPOSED_PORT = "${STAGE_SERVICES_EXPOSED_PORT}" 
                 ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
             }
             steps {
