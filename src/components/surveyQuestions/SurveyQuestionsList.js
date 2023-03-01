@@ -40,6 +40,7 @@ class SurveyQuestionsList extends Component {
       sortOrder: "asc",
       sortColumn: "position",
       showArrow: false,
+      hideDefaultArrow: false,
     };
   }
 
@@ -116,7 +117,7 @@ class SurveyQuestionsList extends Component {
     );
   };
 
-  handleSort = () => {
+  sortByPosition = () => {
     const newSortOrder = this.state.sortOrder === "asc" ? "desc" : "asc";
     this.setState({
       surveyQuestions: this.state.surveyQuestions.sort((a, b) =>
@@ -127,6 +128,7 @@ class SurveyQuestionsList extends Component {
       sortOrder: newSortOrder,
       sortColumn: "position",
       showArrow: true,
+      hideDefaultArrow: true,
     });
   };
 
@@ -174,12 +176,13 @@ class SurveyQuestionsList extends Component {
                   </TableCell>
                   <TableCell
                     style={{ color: "#fff", cursor: "pointer" }}
-                    onClick={this.handleSort}
+                    onClick={this.sortByPosition}
                   >
-                    Position{" "}
+                    Position{ }
+                    {this.state.hideDefaultArrow === false && <span> ↕</span>}
                     {this.state.sortColumn === "position" &&
                       this.state.showArrow &&
-                      (this.state.sortOrder === "asc" ? "↓" : "↑")}
+                      (this.state.sortOrder === "asc" ? " ↓" : " ↑")}
                   </TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
