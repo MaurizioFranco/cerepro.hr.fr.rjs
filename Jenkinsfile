@@ -27,6 +27,8 @@ pipeline {
             }
             steps {
                 echo "ready to download dependencies"
+                sh "npm -v"
+                sh "node -v"
 	            sh "npm install && npm audit fix"
 	            echo "preparing .env"
 	            sh "rm .env && cp .env.DEV .env"
