@@ -30,8 +30,7 @@ pipeline {
                 sh "npm -v"
                 sh "node -v"
                 
-	            sh "npm install --legacy-peer-deps"
-	            sh "npm audit fix --force"
+	            sh "npm install --legacy-peer-deps && npm audit fix --force"
 	            echo "preparing .env"
 	            sh "rm .env && cp .env.DEV .env"
 	            echo "preparing env.js"
