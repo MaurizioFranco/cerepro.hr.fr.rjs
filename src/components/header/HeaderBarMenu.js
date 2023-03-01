@@ -9,6 +9,7 @@ import logout_icon from '../../images/logout_icon.png';
 import CandidatesHeaderMenu from '../../components/header/candidates/CandidatesHeaderMenu.js';
 import AdministrationHeaderMenu from '../../components/header/administration/AdministrationHeaderMenu.js';
 import SurveysHeaderMenu from '../../components/header/surveys/SurveysHeaderMenu.js';
+import QuestionsHeaderMenu from '../../components/header/questions/QuestionsHeaderMenu.js';
 
 class HeaderBarMenu extends Component {
 	constructor(props) {
@@ -48,6 +49,7 @@ class HeaderBarMenu extends Component {
 						    <AdministrationHeaderMenu />
 							<CandidatesHeaderMenu />
 							<SurveysHeaderMenu />
+							<QuestionsHeaderMenu />
 
 							<li className="nav-item">
 								<span className="nav-link navigationBarItem">Welcome {this.state.userLoggedEmail}</span>

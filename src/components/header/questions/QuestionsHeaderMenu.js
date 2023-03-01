@@ -6,10 +6,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 //import HeaderBarMenuNavbarItem from '../../../HeaderBarMenuNavbarItem.js';
 import 'bootstrap/dist/js/bootstrap.bundle';
 
-//const POSITION_CODES_API = '/api/v1/survey/';
+//const POSITION_CODES_API = '/api/v1/question/';
 //const FULL_API_URI = Constants.BACKEND_API_PREFIX + POSITION_CODES_API;
 
-export class SurveysHeaderMenu extends Component {
+export class QuestionsHeaderMenu extends Component {
 
 	// constructor(props) {
 	// 	super(props);
@@ -30,11 +30,11 @@ export class SurveysHeaderMenu extends Component {
 		return (
 			<li className="nav-item dropdown">
 				<button className="nav-link dropdown-toggle buttonDropdown navigationBarItem" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Surveys
+					Questions
 		</button>
 
 				<div className="dropdown-menu" aria-labelledby="navbarDropdown">
-					<Link className="dropdown-item navigationBarItem" to="/surveys">Tutti i surveys</Link>
+					<Link className="dropdown-item navigationBarItem" to="/surveyquestions">Tutti le survey questions</Link>
 					{/* {this.state.position_codes.map(item => <HeaderBarMenuNavbarItem key={item.code} code={item.code} />)} */}
 				</div>
 			</li>
@@ -42,4 +42,4 @@ export class SurveysHeaderMenu extends Component {
 	}
 }
 
-export default SurveysHeaderMenu;
+export default QuestionsHeaderMenu;
