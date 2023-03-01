@@ -30,7 +30,7 @@ pipeline {
                 sh "npm -v"
                 sh "node -v"
                 
-	            sh "npm install --force && npm audit fix"
+	            sh "npm install --force && npm audit fix --force"
 	            echo "preparing .env"
 	            sh "rm .env && cp .env.DEV .env"
 	            echo "preparing env.js"
