@@ -14,6 +14,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import AddSurveyQuestions from "./AddSurveyQuestion.js";
+//import UpdateSurveyQuestion from "./UpdateSurveyQuestion.js";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 
@@ -32,16 +34,21 @@ const styles = {
 class SurveyQuestionsList extends Component {
   constructor(props) {
     super(props);
-    this.state = { surveyQuestions: [] };
+    this.state = {
+      surveyQuestions: [],
+      surveyLabels: [],
+      selectedSurveyLabel: "",
+    };
   }
 
   componentDidMount() {
     this.getSurveyQuestions();
+    this.getSurveyQuestionsLabel();
   }
 
   getSurveyQuestions = () => {
     Commons.executeFetch(
-      Constants.FULL_SURVEYQUESTIONS_API_URI,
+      Constants.FULL_SURVEYQUESTIONCUSTOM_API_URI,
       "GET",
       this.setSurveyQuestions
     );
@@ -70,7 +77,7 @@ class SurveyQuestionsList extends Component {
 
   deleteItem(id) {
     Commons.executeDelete(
-      Constants.FULL_SURVEYQUESTIONS_API_URI + id,
+      Constants.FULL_SURVEYQUESTIONCUSTOM_API_URI + id,
       this.deleteSuccess,
       Commons.operationError
     );
@@ -89,11 +96,29 @@ class SurveyQuestionsList extends Component {
     // }
   };
 
+  handleSelectSurveyLabel = (event) => {
+    this.setState({ selectedSurveyLabel: event.target.value });
+  };
+
+  getSurveyQuestionsLabel = () => {
+    Commons.executeFetch(
+      Constants.FULL_SURVEYQUESTIONCUSTOM_API_URI,
+      "GET",
+      (data) => {
+        const surveyLabels = data.map((item) => item.surveyLabel);
+        this.setState({ surveyLabels });
+      }
+    );
+  };
+
   render() {
     const { classes } = this.props;
     return (
       <div className="App">
         {/* <CSVLink data={this.state.candidateStates} separator=";">Export CSV</CSVLink> */}
+        <AddSurveyQuestions
+          refreshSurveyQuestionsList={this.getSurveyQuestions}
+        />
         <TableContainer
           style={{
             paddingLeft: "40px",
@@ -101,39 +126,75 @@ class SurveyQuestionsList extends Component {
             paddingBottom: "140px",
           }}
         >
+          <div>
+            <label htmlFor="survey-label-select">Survey Label: </label>
+            <select
+              id="survey-label-select"
+              value={this.state.selectedSurveyLabel}
+              onChange={this.handleSelectSurveyLabel}
+            >
+              <option value="">All</option>
+              {this.state.surveyLabels.map((label) => (
+                <option key={label} value={label}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
           <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="Survey questions table">
+            <Table className={classes.table} aria-label="survey table">
               <TableHead>
                 <TableRow style={{ backgroundColor: "#333", color: "#fff" }}>
                   <TableCell style={{ color: "#fff" }}>ID</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Label</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Time</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Description</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Survey Label</TableCell>
+                  <TableCell style={{ color: "#fff" }}>
+                    Question Label
+                  </TableCell>
+                  <TableCell style={{ color: "#fff" }}>Position</TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.surveyQuestions.map((surveyQuestion, index) => (
-                  <TableRow
-                    key={index}
-                    className={
-                      index % 2 === 0 ? classes.evenRow : classes.oddRow
-                    }
-                  >
-                    <TableCell component="th" scope="row">
-                      {surveyQuestion.id}
-                    </TableCell>
-                    <TableCell>{surveyQuestion.label}</TableCell>
-                    <TableCell>{surveyQuestion.time}</TableCell>
-                    <TableCell>{surveyQuestion.description}</TableCell>
-                  </TableRow>
-                ))}
+                {this.state.surveyQuestions
+                  .filter(
+                    (surveyQuestion) =>
+                      !this.state.selectedSurveyLabel ||
+                      surveyQuestion.surveyLabel ===
+                        this.state.selectedSurveyLabel
+                  )
+                  .map((surveyQuestion, index) => (
+                    <TableRow
+                      key={index}
+                      className={
+                        index % 2 === 0 ? classes.evenRow : classes.oddRow
+                      }
+                    >
+                      <TableCell component="th" scope="row">
+                        {surveyQuestion.id}
+                      </TableCell>
+                      <TableCell>{surveyQuestion.surveyLabel}</TableCell>
+                      <TableCell>{surveyQuestion.questionLabel}</TableCell>
+                      <TableCell>{surveyQuestion.position}</TableCell>
+                      {/* <TableCell>
+                    <UpdateSurveyQuestion refreshSurveyQuestionsList={this.getSurveyQuestions} idItemToUpdate={surveyQuestion.id} />
+                    </TableCell> */}
+                      <TableCell>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={() => this.confirmDelete(surveyQuestion.id)}
+                        >
+                          Delete
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
         </TableContainer>
-        {/* <ToastContainer autoClose={1500} /> */}
+        <ToastContainer autoClose={1500} />
       </div>
     );
   }
