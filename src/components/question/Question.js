@@ -194,6 +194,54 @@ class Question extends Component {
                         </Table>
                     </TableContainer>
                 </div>
+                
+                <br>
+                </br>
+                <div id="container">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">
+                            <span id="expired">Lista questionari scaduti</span>
+                            <div className="control-table">
+                                <label id="labelQuestion">Visualizza</label>
+                                <select value={this.selectedValueExpired} onChange={this.handleChangeExpired}>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <label id="labelQuestion">Questionari</label>
+                            </div>
+                        </h1>
+                    </div>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <this.StyledTableCell align="left">Email</this.StyledTableCell>
+                                    <this.StyledTableCell align="left">Name</this.StyledTableCell>
+                                    <this.StyledTableCell align="left">Lastname</this.StyledTableCell>
+                                    <this.StyledTableCell align="left">Question</this.StyledTableCell>
+                                    <this.StyledTableCell align="left">Expirationdate</this.StyledTableCell>
+                                    <this.StyledTableCell align="left"></this.StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {this.state.usersExipred.map((user) => (
+                                    <this.StyledTableRow key={user.id}>
+                                        <this.StyledTableCell align="left">{user.email}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{user.firstname}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{user.lastname}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{user.surveyLabel}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{user.expirationdate}</this.StyledTableCell>
+                                        <this.StyledTableCell id="cellRight">
+                                            <Button id="buttonDelete" data-id={user.id} onClick={this.handleDelete}>Delete</Button>
+                                        </this.StyledTableCell>
+                                    </this.StyledTableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
                 <ToastContainer autoClose={2500} />
             </div >
         );
