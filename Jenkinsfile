@@ -29,8 +29,12 @@ pipeline {
                 echo "ready to download dependencies"
                 sh "npm -v"
                 sh "node -v"
-                sh "npm cache clean –force"
-	            sh "npm install && npm audit fix"
+                sh "npm install"
+                /*
+                 && npm audit fix
+                sh "npm config set legacy-peer-deps true --location global"
+	            sh "npm install --legacy-peer-deps && npm audit fix --force && npm audit fix --force"
+	            */
 	            echo "preparing .env"
 	            sh "rm .env && cp .env.DEV .env"
 	            echo "preparing env.js"
@@ -65,6 +69,7 @@ pipeline {
                 sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER} ${SERVICE_SOURCE_PORT} ${REMOTE_WORKING_DIR} ${ARTIFACT_FULL_FILE_NAME}"	            
             }
         }
+        /*
         stage ("DEPLOY STAGE ARTIFACT") {
             environment {
                 ENV = "stage"
@@ -87,6 +92,7 @@ pipeline {
                 sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER} ${SERVICE_SOURCE_PORT} ${REMOTE_WORKING_DIR} ${ARTIFACT_FULL_FILE_NAME}"	            
             }
         }
+        */
         /*
         stage ("PREPARE AND DELIVERY FOR STAGE ENVIRONMENT --> DOCKERIZED") {
             environment {
