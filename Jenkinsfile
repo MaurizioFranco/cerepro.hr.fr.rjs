@@ -68,8 +68,7 @@ pipeline {
                 echo "EXECUTING ${ENV} ENVIRONEMNT PROMOTION"
                 sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER} ${SERVICE_SOURCE_PORT} ${REMOTE_WORKING_DIR} ${ARTIFACT_FULL_FILE_NAME}"	            
             }
-        }
-        /*
+        }        
         stage ("DEPLOY STAGE ARTIFACT") {
             environment {
                 ENV = "stage"
@@ -83,7 +82,7 @@ pipeline {
         }
         stage ("DELIVERY STAGE ARTIFACT") {
             environment {
-                ENV = "dev"
+                ENV = "stage"
                 SERVICES_EXPOSED_PORT = "${STAGE_SERVICES_EXPOSED_PORT}" 
                 ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
             }
@@ -91,8 +90,7 @@ pipeline {
                 echo "EXECUTING ${ENV} ENVIRONEMNT PROMOTION"
                 sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER} ${SERVICE_SOURCE_PORT} ${REMOTE_WORKING_DIR} ${ARTIFACT_FULL_FILE_NAME}"	            
             }
-        }
-        */
+        }        
         /*
         stage ("PREPARE AND DELIVERY FOR STAGE ENVIRONMENT --> DOCKERIZED") {
             environment {
