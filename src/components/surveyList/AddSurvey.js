@@ -65,7 +65,7 @@ class AddSurvey extends React.Component {
       position: toast.POSITION.BOTTOM_LEFT,
     });
     this.setState({ isModalOpen: false });
-    this.props.refreshSurveyList();
+    this.props.refreshSurveysList();
   };
 
   cancelSubmit = (event) => {
