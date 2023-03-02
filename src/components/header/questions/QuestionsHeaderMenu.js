@@ -30,7 +30,7 @@ export class QuestionsHeaderMenu extends Component {
 		return (
 			<li className="nav-item dropdown">
 				<button className="nav-link dropdown-toggle buttonDropdown navigationBarItem" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Questions
+					SurveyQuestions
 		</button>
 
 				<div className="dropdown-menu" aria-labelledby="navbarDropdown">
