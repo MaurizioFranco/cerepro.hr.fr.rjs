@@ -42,7 +42,11 @@ class AddSurveyQuestions extends React.Component {
       (data) => {
         const options = [];
         for (let i = 0; i < data.length; i++) {
-          options.push({ value: data[i].label, label: data[i].label });
+          options.push({
+            value: data[i].label,
+            label: data[i].label,
+            id: data[i].id,
+          });
         }
         this.setState({ surveyLabelOptions: options });
       },
@@ -56,7 +60,11 @@ class AddSurveyQuestions extends React.Component {
       (data) => {
         const options = [];
         for (let i = 0; i < data.length; i++) {
-          options.push({ value: data[i].label, label: data[i].label });
+          options.push({
+            value: data[i].label,
+            label: data[i].label,
+            id: data[i].id,
+          });
         }
         this.setState({ questionLabelOptions: options });
       },
@@ -70,17 +78,24 @@ class AddSurveyQuestions extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    const selectedSurveyLabelOption = this.state.surveyLabelOptions.find(
+      (option) => option.label === this.state.selectedSurveyLabel
+    );
+    const selectedQuestionLabelOption = this.state.questionLabelOptions.find(
+      (option) => option.label === this.state.selectedQuestionLabel
+    );
+
     const item = {
-      surveyLabel: this.state.selectedSurveyLabel,
-      questionLabel: this.state.selectedQuestionLabel,
-      position: this.state.position,
+      surveyId: selectedSurveyLabelOption.id,
+      questionId: selectedQuestionLabelOption.id,
+      position: parseInt(this.state.position),
     };
     this.addSurveyQuestion(item);
   }
 
   addSurveyQuestion(item) {
     Commons.executeFetch(
-      Constants.FULL_SURVEYQUESTIONCUSTOM_API_URI,
+      Constants.FULL_SURVEYQUESTIONS_API_URI,
       "POST",
       this.insertSuccess,
       this.insertError,
@@ -153,6 +168,7 @@ class AddSurveyQuestions extends React.Component {
               fullWidth
               label="Position"
               name="position"
+              type="number"
               onChange={this.handleChange}
               style={{ marginBottom: "20px" }}
             />
