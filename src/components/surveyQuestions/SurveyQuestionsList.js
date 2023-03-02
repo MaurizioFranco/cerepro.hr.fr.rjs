@@ -46,7 +46,7 @@ class SurveyQuestionsList extends Component {
 
   componentDidMount() {
     this.getSurveyQuestions();
-    this.getSurveyQuestionsLabel();
+    this.getSurveyLabels();
   }
 
   getSurveyQuestions = () => {
@@ -103,18 +103,11 @@ class SurveyQuestionsList extends Component {
     this.setState({ selectedSurveyLabel: event.target.value });
   };
 
-  getSurveyQuestionsLabel = () => {
-    Commons.executeFetch(
-      Constants.FULL_SURVEYQUESTIONCUSTOM_API_URI,
-      "GET",
-      (data) => {
-        let surveyLabels = data.map((item) => item.surveyLabel);
-        surveyLabels = surveyLabels.filter((value, index, self) => {
-          return self.indexOf(value) === index;
-        });
-        this.setState({ surveyLabels });
-      }
-    );
+  getSurveyLabels = () => {
+    Commons.executeFetch(Constants.FULL_SURVEY_API_URI, "GET", (data) => {
+      const labels = data.map((survey) => survey.label);
+      this.setState({ surveyLabels: labels });
+    });
   };
 
   sortByPosition = () => {
@@ -178,7 +171,7 @@ class SurveyQuestionsList extends Component {
                     style={{ color: "#fff", cursor: "pointer" }}
                     onClick={this.sortByPosition}
                   >
-                    Position{ }
+                    Position{}
                     {this.state.hideDefaultArrow === false && <span> ↕</span>}
                     {this.state.sortColumn === "position" &&
                       this.state.showArrow &&
