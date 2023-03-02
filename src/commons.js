@@ -39,6 +39,13 @@ export function getUserLoggedId() {
 
 }
 
+export function getUserLoggedRole() {
+	console.log("Commons.getUserLoggedRole - START");
+	let role = sessionStorage.getItem('role');
+	return role;
+
+}
+
 // export function executeDelete(uri, successCallbackFunction, callbackFunctionKO) {
 // 	console.log("Commons.executeDelete - START - uri: " + uri);
 // 	let token = sessionStorage.getItem('headerToken');
