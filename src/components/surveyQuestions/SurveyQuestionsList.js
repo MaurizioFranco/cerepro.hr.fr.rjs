@@ -37,10 +37,7 @@ class SurveyQuestionsList extends Component {
     this.state = {
       surveyQuestions: [],
       surveyLabels: [],
-      sortOrder: "asc",
-      sortColumn: "position",
-      showArrow: false,
-      hideDefaultArrow: false,
+      selectedSurveyLabel: "",
     };
   }
 
@@ -108,33 +105,14 @@ class SurveyQuestionsList extends Component {
       Constants.FULL_SURVEYQUESTIONCUSTOM_API_URI,
       "GET",
       (data) => {
-        let surveyLabels = data.map((item) => item.surveyLabel);
-        surveyLabels = surveyLabels.filter((value, index, self) => {
-          return self.indexOf(value) === index;
-        });
+        const surveyLabels = data.map((item) => item.surveyLabel);
         this.setState({ surveyLabels });
       }
     );
   };
 
-  sortByPosition = () => {
-    const newSortOrder = this.state.sortOrder === "asc" ? "desc" : "asc";
-    this.setState({
-      surveyQuestions: this.state.surveyQuestions.sort((a, b) =>
-        this.state.sortOrder === "asc"
-          ? a[this.state.sortColumn] - b[this.state.sortColumn]
-          : b[this.state.sortColumn] - a[this.state.sortColumn]
-      ),
-      sortOrder: newSortOrder,
-      sortColumn: "position",
-      showArrow: true,
-      hideDefaultArrow: true,
-    });
-  };
-
   render() {
     const { classes } = this.props;
-
     return (
       <div className="App">
         {/* <CSVLink data={this.state.candidateStates} separator=";">Export CSV</CSVLink> */}
@@ -148,42 +126,31 @@ class SurveyQuestionsList extends Component {
             paddingBottom: "140px",
           }}
         >
+          <div>
+            <label htmlFor="survey-label-select">Survey Label: </label>
+            <select
+              id="survey-label-select"
+              value={this.state.selectedSurveyLabel}
+              onChange={this.handleSelectSurveyLabel}
+            >
+              <option value="">All</option>
+              {this.state.surveyLabels.map((label) => (
+                <option key={label} value={label}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="survey table">
               <TableHead>
                 <TableRow style={{ backgroundColor: "#333", color: "#fff" }}>
                   <TableCell style={{ color: "#fff" }}>ID</TableCell>
-                  <TableCell style={{ color: "#fff" }}>
-                    Survey Label
-                    <br></br>
-                    <div>
-                      <select
-                        id="survey-label-select"
-                        value={this.state.selectedSurveyLabel}
-                        onChange={this.handleSelectSurveyLabel}
-                      >
-                        <option value="">All</option>
-                        {this.state.surveyLabels.map((label) => (
-                          <option key={label} value={label}>
-                            {label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </TableCell>
+                  <TableCell style={{ color: "#fff" }}>Survey Label</TableCell>
                   <TableCell style={{ color: "#fff" }}>
                     Question Label
                   </TableCell>
-                  <TableCell
-                    style={{ color: "#fff", cursor: "pointer" }}
-                    onClick={this.sortByPosition}
-                  >
-                    Position{ }
-                    {this.state.hideDefaultArrow === false && <span> ↕</span>}
-                    {this.state.sortColumn === "position" &&
-                      this.state.showArrow &&
-                      (this.state.sortOrder === "asc" ? " ↓" : " ↑")}
-                  </TableCell>
+                  <TableCell style={{ color: "#fff" }}>Position</TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                 </TableRow>
