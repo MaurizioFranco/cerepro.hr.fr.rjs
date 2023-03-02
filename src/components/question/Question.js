@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as Constants from '../../constants';
 import * as Commons from '../../commons.js';
-// import './Question.css';
+import './Question.css';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,12 +10,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import reload from "../../images/reload.png";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AddQuestion from './AddQuestion';
 
 
 class Question extends Component {
@@ -152,11 +152,9 @@ class Question extends Component {
                                 </select>
                                 <label id="labelQuestion">Questionari</label>
                                 <button id="reload" onClick={this.reloadData}>
-                                    <img src={reload} alt="Reload" />
+                                    <img src={reload} alt="Reload" style={{marginRight:"50px"}} />
                                 </button>
-                                <Link to="/registerQuestion">
-                                    <Button id="buttonInsert" variant="contained">+</Button>
-                                </Link>
+                                <AddQuestion refreshSurveysList={this.reloadData} />
                             </div>
                         </h1>
                     </div>
