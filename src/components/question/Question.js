@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as Constants from '../../constants';
 import * as Commons from '../../commons.js';
-import './Question.css';
+// import './Question.css';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,6 +13,8 @@ import Paper from '@mui/material/Paper';
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import reload from "../../images/reload.png";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 class Question extends Component {
@@ -41,17 +43,28 @@ class Question extends Component {
     }
 
     fetchSendQuestion = (id) => {
-        Commons.executeFetch(Constants.FULL_ST_SENDEMAIL_API_URI + id, 'GET', this.consoleLog);
+        Commons.executeFetch(Constants.FULL_ST_SENDEMAIL_API_URI + id, 'GET', this.sendSuccess, this.sendError);
     }
 
-    consoleLog = () => {
-        console.log("email inviata");
+    sendError(err) {
+        toast.error(err.errorMessage, {
+            position: toast.POSITION.BOTTOM_LEFT,
+        });
     }
 
-    deleteSuccess = () => {
-        console.log("DELETE COURSE PAGE SUCCESS");
-        this.fetchUserExpired(this.state.selectedValueExpired);
-        this.fetchUserActive(this.state.selectedValueActive);
+    sendSuccess(response) {
+        console.log("Send email successsss");
+        toast.success("Email successfully send", {
+            position: toast.POSITION.BOTTOM_LEFT,
+        });
+    }
+
+    deleteSuccess = (response) => {
+        console.log("DELETE Candidates SUCCESS");
+        toast.success("Delete successfully", {
+            position: toast.POSITION.BOTTOM_LEFT,
+        });
+        this.reloadData();
     }
 
     setUserExpired = (userExpiredToSet) => {
@@ -104,16 +117,12 @@ class Question extends Component {
 
     sendQuestion = (event) => {
         const id = event.target.dataset.id;
-        console.log(id);
         this.fetchSendQuestion(id);
     }
 
     handleDelete = (event) => {
         const id = event.currentTarget.dataset.id;
-        console.log(id)
         this.fetchDelete(id)
-        // this.fetchUserExpired(this.state.selectedValueExpired);
-        // this.fetchUserActive(this.state.selectedValueActive);
     }
 
     reloadData() {
@@ -129,8 +138,8 @@ class Question extends Component {
         return (
             <div>
                 <div id="container">
-                    <div class="panel-heading">
-                        <h1 class="panel-title">
+                    <div className="panel-heading">
+                        <h1 className="panel-title">
                             <span id="active">Lista questionari ancora da compilare</span>
                             <div className="control-table">
                                 <label id="labelQuestion">Visualizza</label>
@@ -175,7 +184,7 @@ class Question extends Component {
                                             <Button id="buttonDelete" data-id={user.id} onClick={this.handleDelete}>Delete</Button>
                                         </this.StyledTableCell>
                                         <this.StyledTableCell id="cellRight">
-                                            <button type="button" class="btn btn-success custom-width" data-id={user.id} onClick={this.sendQuestion}>Invia Questionario</button>
+                                            <button type="button" className="btn btn-success custom-width" data-id={user.id} onClick={this.sendQuestion}>Invia Questionario</button>
                                         </this.StyledTableCell>
                                     </this.StyledTableRow>
                                 ))}
@@ -187,8 +196,8 @@ class Question extends Component {
                 <br>
                 </br>
                 <div id="container">
-                    <div class="panel-heading">
-                        <h1 class="panel-title">
+                    <div className="panel-heading">
+                        <h1 className="panel-title">
                             <span id="expired">Lista questionari scaduti</span>
                             <div className="control-table">
                                 <label id="labelQuestion">Visualizza</label>

@@ -121,19 +121,19 @@ class RegisterQuestion extends Component {
         }
         return (
             <div>
-                <div class="container-lg">
-                    <div class="panel-heading">
-                        <h1 class="panel-title">
+                <div className="container-lg">
+                    <div className="panel-heading">
+                        <h1 className="panel-title">
                             Registra un nuovo questionario
                         </h1>
                     </div>
-                    <div class="panel-body">
-                        <div class="container">
-                            <form class="form-horizontal">
-                                <div class="form-group col-md-12">
-                                    <div class="form-group col-md-12">
+                    <div className="panel-body">
+                        <div className="container">
+                            <form className="form-horizontal">
+                                <div className="form-group col-md-12">
+                                    <div className="form-group col-md-12">
                                         <label>Utente</label>
-                                        <div class="col-md-7">
+                                        <div className="col-md-7">
                                             <select value={this.state.selectedEmail} onChange={(e) => this.setState({ selectedEmail: e.target.value })}>
                                                 <option value="">Seleziona utente</option>
                                                 {this.state.uniqueEmails.map(email => (
@@ -142,9 +142,9 @@ class RegisterQuestion extends Component {
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-12">
+                                    <div className="form-group col-md-12">
                                         <label>Questionario</label>
-                                        <div class="col-md-7">
+                                        <div className="col-md-7">
                                             <select value={this.state.selectedSurveyLabel} onChange={(e) => this.setState({ selectedSurveyLabel: e.target.value })}>
                                                 <option value="">Seleziona questionario</option>
                                                 {this.state.uniqueSurveyLabels.map(label => (
@@ -153,16 +153,16 @@ class RegisterQuestion extends Component {
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-12">
+                                    <div className="form-group col-md-12">
                                         <label>Giorno Scadenza Questionario</label>
-                                        <div class="col-md-7" value={this.state.selectedDate} onChange={this.handleDateSelect}>
+                                        <div className="col-md-7" value={this.state.selectedDate} onChange={this.handleDateSelect}>
                                             <input id="date-input" type="date"></input>
                                         </div>
                                     </div>
                                     <div align="center">
-                                        <input type="submit" class="btn btn-primary btn-sm" style={{ marginRight: "10px" }} value="Inserisci" disabled={!this.state.selectedEmail || !this.state.selectedSurveyLabel || !this.state.selectedDate} onClick={this.handleSubmit} />
-                                        <button class="btn btn-warning btn-sm" style={{ marginRight: "10px" }} onClick={this.resetData}>Reset</button>
-                                        <Link to="/question" class="btn btn-danger btn-sm" style={{ marginRight: "10px" }}>Indietro e Annulla</Link>
+                                        <input type="submit" className="btn btn-primary btn-sm" style={{ marginRight: "10px" }} value="Inserisci" disabled={!this.state.selectedEmail || !this.state.selectedSurveyLabel || !this.state.selectedDate} onClick={this.handleSubmit} />
+                                        <button className="btn btn-warning btn-sm" style={{ marginRight: "10px" }} onClick={this.resetData}>Reset</button>
+                                        <Link to="/question" className="btn btn-danger btn-sm" style={{ marginRight: "10px" }}>Indietro e Annulla</Link>
                                     </div>
 
                                 </div>
