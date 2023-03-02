@@ -183,7 +183,7 @@ class SurveyQuestionsList extends Component {
                     {this.state.sortColumn === "position" &&
                       this.state.showArrow &&
                       (this.state.sortOrder === "asc" ? " ↓" : " ↑")}
-                  </TableCell>
+                  </TableCell> 
                   <TableCell style={{ color: "#333" }}></TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                 </TableRow>
