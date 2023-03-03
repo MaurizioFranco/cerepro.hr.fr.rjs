@@ -11,6 +11,9 @@ import AdministrationHeaderMenu from '../../components/header/administration/Adm
 import SurveysHeaderMenu from '../../components/header/surveys/SurveysHeaderMenu.js';
 import QuestionsHeaderMenu from '../../components/header/questions/QuestionsHeaderMenu.js';
 
+import * as Constants from '../../constants.js';
+import * as Commons from '../../commons.js';
+
 class HeaderBarMenu extends Component {
 	constructor(props) {
 		super(props);
@@ -21,9 +24,17 @@ class HeaderBarMenu extends Component {
 
 	componentDidMount() {
 		let userLoggedEmail = sessionStorage.getItem('userLoggedEmail');
+		console.log("##########################################");
+		Commons.executeFetch(Constants.FULL_APPLICATION_VERSION_URI, "GET", this.setApplicationVersion);
+		console.log("##########################################");
 		this.setState({
 			userLoggedEmail: userLoggedEmail
 		});
+	}
+
+	setApplicationVersion = (data) => {
+		console.log("##########################################"+data);
+		console.log(data);
 	}
 
 	logout = () => {
@@ -37,6 +48,7 @@ class HeaderBarMenu extends Component {
 				<nav className="navbar navbar-expand-lg navbar-light  ">
 					<Link to="/">
 						<img alt="centauri-academy-logo" src={centauri_academy_header_logo} className="logo" />
+						<span className="navbar-brand title">CeRePro.HR</span>
 						<span className="navbar-brand title">CeRePro.HR</span>
 						<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 							<span className="navbar-toggler-icon"></span>

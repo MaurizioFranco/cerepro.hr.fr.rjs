@@ -72,7 +72,7 @@ class CandidateUpdateForm extends Component {
 	
 	fetchUserDetail = () =>{
 		Commons.debugMessage("CandidateUpdateForm.fetchUserDetail - DEBUG - id: " + this.state.currentCandidateId);
-		Commons.executeFetch (Constants.FULL_CANDIDATE_API_URI + this.state.currentCandidateId, 'GET', this.setCurrentCandidate);
+		Commons.executeFetch (Constants.FULL_CANDIDATE_CUSTOM_API_URI + this.state.currentCandidateId, 'GET', this.setCurrentCandidate);
 	}
 	
 	setCurrentCandidate = (responseData) => {
@@ -163,7 +163,7 @@ class CandidateUpdateForm extends Component {
 //	    formData.append("candidateStatusCode", 100);
 	    
 //	    Commons.debugMessage(formData);
-	    Commons.executeFetch (Constants.FULL_CANDIDATE_API_URI + this.state.currentCandidateId, 'PUT', this.redirectToCandidatesList, this.callbackKoFunction, formData);
+	    Commons.executeFetch (Constants.FULL_CANDIDATE_CUSTOM_API_URI + this.state.currentCandidateId, 'PUT', this.redirectToCandidatesList, this.callbackKoFunction, formData);
 		
 	}
 	

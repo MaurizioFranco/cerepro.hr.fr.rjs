@@ -93,12 +93,12 @@ class CandidateInsertForm extends Component {
 	    formData.append("courseCode", this.state.positionCode);
 
 //	    Commons.debugMessage(formData);
-	    Commons.executeFetch (Constants.FULL_CANDIDATE_API_URI, 'POST', this.redirectToCandidatesList, this.callbackKoFunction, formData);
+	    Commons.executeFetch (Constants.FULL_CANDIDATE_CUSTOM_API_URI, 'POST', this.redirectToCandidatesList, this.callbackKoFunction, formData);
 //	    const options = {
 //	      method: "POST",
 //	      body: formData
 //	    };
-//	    fetch(FULL_CANDIDATE_API_URI, options).then(() => {
+//	    fetch(FULL_CANDIDATE_CUSTOM_API_URI, options).then(() => {
 //	    	
 //	    	this.redirectToCandidatesList();
 //	    });

@@ -168,7 +168,7 @@ class Question extends Component {
                                     <this.StyledTableCell align="left">Name</this.StyledTableCell>
                                     <this.StyledTableCell align="left">Lastname</this.StyledTableCell>
                                     <this.StyledTableCell align="left">Question</this.StyledTableCell>
-                                    <this.StyledTableCell align="left">Expirationdate</this.StyledTableCell>
+                                    <this.StyledTableCell align="left">Expiration Date Time</this.StyledTableCell>
                                     <this.StyledTableCell align="right"></this.StyledTableCell>
                                     <this.StyledTableCell align="right"></this.StyledTableCell>
                                 </TableRow>
@@ -180,7 +180,7 @@ class Question extends Component {
                                         <this.StyledTableCell align="left">{user.firstname}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.lastname}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.surveyLabel}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.expirationdate}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{user.expirationDateTime}</this.StyledTableCell>
                                         <this.StyledTableCell id="cellRight">
                                             <Button id="buttonDelete" data-id={user.id} onClick={this.handleDelete}>Delete</Button>
                                         </this.StyledTableCell>
@@ -221,7 +221,7 @@ class Question extends Component {
                                     <this.StyledTableCell align="left">Name</this.StyledTableCell>
                                     <this.StyledTableCell align="left">Lastname</this.StyledTableCell>
                                     <this.StyledTableCell align="left">Question</this.StyledTableCell>
-                                    <this.StyledTableCell align="left">Expirationdate</this.StyledTableCell>
+                                    <this.StyledTableCell align="left">expiration Date Time</this.StyledTableCell>
                                     <this.StyledTableCell align="left"></this.StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -232,7 +232,7 @@ class Question extends Component {
                                         <this.StyledTableCell align="left">{user.firstname}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.lastname}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.surveyLabel}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.expirationdate}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{user.expirationDateTime}</this.StyledTableCell>
                                         <this.StyledTableCell id="cellRight">
                                             <Button id="buttonDelete" data-id={user.id} onClick={this.handleDelete}>Delete</Button>
                                         </this.StyledTableCell>
