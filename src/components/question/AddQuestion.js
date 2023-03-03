@@ -10,7 +10,7 @@ class AddQuestion extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: [],
+            candidates: [],
             uniqueEmails: [],
             uniqueSurveyLabels: [],
             surveyToken: [],
@@ -22,11 +22,11 @@ class AddQuestion extends React.Component {
         this.gridRef = React.createRef();
     }
 
-    fetchUser = () => {
-        Commons.executeFetch(Constants.FULL_USER_COURSEPAGE_API_URI, 'GET', this.setUser);
+    fetchCandidates = () => {
+        Commons.executeFetch(Constants.FULL_ALL_CANDIDATES_API_URI, 'GET', this.setCandidates);
     }
 
-    fetchQuestion = () => {
+    fetchQuestion = () =>{
         Commons.executeFetch(Constants.FULL_SURVEY_API_URI, 'GET', this.setQuestion);
     }
 
@@ -44,17 +44,17 @@ class AddQuestion extends React.Component {
     }
 
     fetchInsert = () => {
-        const user = this.state.users.find(u => u.email === this.state.selectedEmail);
+        const candidate = this.state.candidates.find(u => u.email === this.state.selectedEmail);
 
         const question = this.state.surveyToken.find(u => u.label === this.state.selectedSurveyLabel);
-        if (user) {
-            const userid = user.id;
-            const surveyid = question.id;
-            const expirationdate = new Date(this.state.selectedDate);
+        if (candidate) {
+            const candidateId = candidate.id;
+            const surveyId = question.id;
+            const expirationDateTime = new Date(this.state.selectedDate);
             var item = {
-                userid: userid,
-                surveyid: surveyid,
-                expirationdate: expirationdate
+                candidateId: candidateId,
+                surveyId: surveyId,
+                expirationDateTime: expirationDateTime
             };
             Commons.executeFetch(Constants.INSERT_SURVEYTOKEN_API_URI, "POST", this.insertSuccess, this.insertError, JSON.stringify(item), true);
         }
@@ -72,11 +72,11 @@ class AddQuestion extends React.Component {
         console.log("noooooooooo")
     }
 
-    setUser = (userToSet) => {
-        Commons.debugMessage("userToSet - START - userToSet: " + userToSet);
-        const uniqueEmails = [...new Set(userToSet.map(user => user.email))];
+    setCandidates = (candidates) => {
+        Commons.debugMessage("setCandidates - START - candidates: " + candidates);
+        const uniqueEmails = [...new Set(candidates.map(candidate => candidate.email))];
         this.setState({
-            users: userToSet,
+            candidates: candidates,
             uniqueEmails: uniqueEmails,
         });
     }
@@ -113,7 +113,7 @@ class AddQuestion extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchUser()
+        this.fetchCandidates()
         this.fetchQuestion()
     }
 
