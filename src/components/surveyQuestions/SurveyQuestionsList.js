@@ -80,7 +80,7 @@ class SurveyQuestionsList extends Component {
 
   deleteItem(id) {
     Commons.executeDelete(
-      Constants.FULL_SURVEYQUESTIONCUSTOM_API_URI + id,
+      Constants.FULL_SURVEYQUESTIONS_API_URI + id,
       this.deleteSuccess,
       Commons.operationError
     );

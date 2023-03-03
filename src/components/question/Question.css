@@ -6,8 +6,26 @@ h1 {
 #labelQuestion {
   color: #ffffff;
   font-weight: 600;
-  margin-right: 10px;
+  margin-right: 0px;
   margin-left: 10px;
+}
+
+#buttonCancelForm {
+  background-color: transparent;
+  border: none;
+  color: red;
+}
+
+#buttonInsertForm {
+  background-color: transparent;
+  border: none;
+  color: blue;
+}
+
+#buttonResetForm {
+  background-color: transparent;
+  border: none;
+  color: orange;
 }
 
 #reload{
@@ -25,7 +43,7 @@ h1 {
 }
 
 #container{
-  padding: "15px";
+  padding: "10px";
 }
 
 #active{
@@ -64,3 +82,4 @@ h1 {
   justify-content: flex-end;
   margin-bottom: 0;
 } */
+
