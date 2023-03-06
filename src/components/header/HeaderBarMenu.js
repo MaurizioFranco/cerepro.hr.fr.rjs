@@ -18,17 +18,25 @@ class HeaderBarMenu extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			userLoggedEmail: ''
+			// userLoggedEmail: '',
+			username: '',
 		};
 	}
 
 	componentDidMount() {
-		let userLoggedEmail = sessionStorage.getItem('userLoggedEmail');
 		console.log("##########################################");
 		Commons.executeFetch(Constants.FULL_APPLICATION_VERSION_URI, "GET", this.setApplicationVersion);
 		console.log("##########################################");
+		
+		let userLoggedEmail = sessionStorage.getItem('userLoggedEmail');
 		this.setState({
 			userLoggedEmail: userLoggedEmail
+		});
+		
+		let loggedUser = JSON.parse(sessionStorage.getItem("user"));
+		
+		this.setState({
+			username: loggedUser.firstname
 		});
 	}
 
@@ -64,7 +72,7 @@ class HeaderBarMenu extends Component {
 							<QuestionsHeaderMenu />
 
 							<li className="nav-item">
-								<span className="nav-link navigationBarItem">Welcome {this.state.userLoggedEmail}</span>
+								<span className="nav-link navigationBarItem">Welcome {this.state.username}</span>
 							</li>
 							<li className="nav-item">
 								<button className="nav-link buttonDropdown" onClick={this.logout}>

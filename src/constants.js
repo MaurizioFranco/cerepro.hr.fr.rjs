@@ -38,3 +38,9 @@ export const FULL_SURVEYQUESTIONCUSTOM_API_URI = BACKEND_API_PREFIX + SURVEYQUES
 export const FULL_APPLICATION_VERSION_URI  = BACKEND_API_PREFIX + '/api/v1/application/info/' ;
 
 export const USER_API_URI  = BACKEND_API_PREFIX + '/api/v1/user/' ;
+
+export const AUTH_API = '/user' ;
+// eslint-disable-next-line no-template-curly-in-string
+export const GET_USER_BY_EMAIL_API = '/api/v1/user/email/' ;
+export const FULL_API_URI = BACKEND_API_PREFIX + AUTH_API ;
+export const FULL_GET_USER_BY_EMAIL_API = BACKEND_API_PREFIX + GET_USER_BY_EMAIL_API;

@@ -7,9 +7,6 @@ import * as Commons from '../../../commons.js';
 import HeaderBarMenuNavbarItem from '../../../HeaderBarMenuNavbarItem.js';
 import 'bootstrap/dist/js/bootstrap.bundle';
 
-const POSITION_CODES_API = '/api/v1/coursepage/';
-const FULL_API_URI = Constants.BACKEND_API_PREFIX + POSITION_CODES_API;
-
 export class CandidatesHeaderMenu extends Component {
 
 	constructor(props) {
@@ -24,7 +21,7 @@ export class CandidatesHeaderMenu extends Component {
 	}
 
 	componentDidMount() {
-		Commons.executeFetch(FULL_API_URI, "GET", this.setPositionCodes);
+		Commons.executeFetch(Constants.FULL_COURSEPAGE_API_URI, "GET", this.setPositionCodes);
 	}
 
 	render() {
