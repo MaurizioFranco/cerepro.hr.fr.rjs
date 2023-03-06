@@ -78,8 +78,9 @@ class LoginView extends Component {
     this.setState({ user: responseData }); 
 	sessionStorage.setItem("user", JSON.stringify(responseData));
 
-	const userExample = JSON.parse(sessionStorage.getItem("user"));
-	const firstname = userExample.firstname;
+
+//	const userExample = JSON.parse(sessionStorage.getItem("user"));
+//	const firstname = userExample.firstname;
 
 //	Commons.debugMessage(
 //			"IL NOME È: " +
