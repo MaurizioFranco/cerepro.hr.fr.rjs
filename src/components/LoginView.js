@@ -81,10 +81,10 @@ class LoginView extends Component {
 	const userExample = JSON.parse(sessionStorage.getItem("user"));
 	const firstname = userExample.firstname;
 
-	Commons.debugMessage(
-			"IL NOME È: " +
-		 	  firstname
-		   );
+//	Commons.debugMessage(
+//			"IL NOME È: " +
+//		 	  firstname
+//		   );
 
     // const { email, firstname, lastname, role } = responseData;
     // //sessionStorage.setItem("id", id);
