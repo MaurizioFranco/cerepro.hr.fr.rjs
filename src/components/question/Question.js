@@ -138,7 +138,7 @@ class Question extends Component {
     render() {
         return (
             <div>
-                <div id="container">
+                <div style={{padding:"10px"}}>
                     <div className="panel-heading">
                         <h1 className="panel-title">
                             <span id="active">Lista questionari ancora da compilare</span>
@@ -195,7 +195,7 @@ class Question extends Component {
                 
                 <br>
                 </br>
-                <div id="container">
+                <div  style={{padding:"10px"}}>
                     <div class="panel-heading">
                         <h1 class="panel-title">
                             <span id="expired">Lista questionari scaduti</span>
