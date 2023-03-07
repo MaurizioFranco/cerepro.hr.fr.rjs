@@ -20,6 +20,7 @@ class HeaderBarMenu extends Component {
 		this.state = {
 			// userLoggedEmail: '',
 			username: '',
+			role: null,
 		};
 	}
 
@@ -36,7 +37,8 @@ class HeaderBarMenu extends Component {
 		let loggedUser = JSON.parse(sessionStorage.getItem("user"));
 		
 		this.setState({
-			username: loggedUser.firstname
+			username: loggedUser.firstname,
+			role: loggedUser.role
 		});
 	}
 
@@ -66,10 +68,10 @@ class HeaderBarMenu extends Component {
 						<ul className="navbar-nav ml-auto ">
 
 
-						    <AdministrationHeaderMenu />
-							<CandidatesHeaderMenu />
-							<SurveysHeaderMenu />
-							<QuestionsHeaderMenu />
+							{this.state.role === 0 && <AdministrationHeaderMenu />}
+            				<CandidatesHeaderMenu />
+            				{(this.state.role === 0 || this.state.role === 10 || this.state.role === 50) && <SurveysHeaderMenu />}
+            				{(this.state.role === 0 || this.state.role === 10 || this.state.role === 50) && <QuestionsHeaderMenu />}
 
 							<li className="nav-item">
 								<span className="nav-link navigationBarItem">Welcome {this.state.username}</span>
