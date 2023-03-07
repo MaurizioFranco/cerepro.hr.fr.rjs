@@ -18,6 +18,7 @@ import './MainView.css';
 import { Container } from 'react-bootstrap';
 import QuestionView from './QuestionView';
 import RegisterQuestionView from './RegisterQuestionView';
+import Surveys from './survey/Surveys';
 
 class MainView extends Component {
 	constructor (props) {
@@ -60,6 +61,7 @@ class MainView extends Component {
 						<Route exact path="/registerQuestion" component={RegisterQuestionView}/>
 						<Route exact path="/surveys" component={SurveysView}/>
 						<Route exact path="/surveyquestions" component={SurveyQuestionsView}/>
+						<Route exact path="/survey" component={Surveys}/>
 						
 				    </div>
 			    </Container>
