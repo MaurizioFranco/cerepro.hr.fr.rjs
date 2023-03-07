@@ -59,7 +59,6 @@ class HeaderBarMenu extends Component {
 					<Link to="/">
 						<img alt="centauri-academy-logo" src={centauri_academy_header_logo} className="logo" />
 						<span className="navbar-brand title">CeRePro.HR</span>
-						<span className="navbar-brand title">CeRePro.HR</span>
 						<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 							<span className="navbar-toggler-icon"></span>
 						</button>
