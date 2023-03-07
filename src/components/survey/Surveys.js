@@ -2,7 +2,11 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
-import * as Commons from '../../commons.js' ;
+// import * as Environment from '../env.js';
+// import { LoadingSpinnerComponent } from "../loader/LoadingSpinnerComponent.js";
+import Timer from "./Timer.js";
+import * as Commons from '../../commons.js';
+import * as Constants from '../../constants';
 
 class Surveys extends React.Component {
     constructor(props) {
@@ -13,62 +17,122 @@ class Surveys extends React.Component {
             questions: [],
             questionsDiv: [],
             survey: "",
-            timer: ""
+            timer: "",
+            surveyLoading: true,
+            errore: false,
+            buttonReady: false,
+            formatTimer: "",
+            shouldRenderTime: false,
+            idUpdate: "",
         };
     }
 
     componentDidMount() {
         // const queryParameters = new URLSearchParams(window.location.search)
-        // const tokenId = queryParameters.get("token")
+        // const tokenId = queryParameters.get("tokenId")
         // console.log(tokenId)
-        const tokenId = "ATRUYEDS"
+        document.getElementsByClassName("navbar")[0].style.display = "none";
 
-        fetch('http://centauri.proximainformatica.com/cerepro.hr.backend/dev//api/v1/usersurveytokencustom').then(response => response.json())
-            .then(responseData => {
-                this.setState({
-                    questions: responseData.questions,
-                    survey: responseData,
-                    timer: responseData.time,
-                    surveyLoading: false
-                })
-            })
-            .catch(err => console.error(err));
+        const hashParameters = new URLSearchParams(window.location.hash.substring(10))
+        console.log("--------------" + hashParameters)
+        const tokenId = hashParameters.get("tokenId")
+        console.log(tokenId)
+
+        Commons.executeFetch(Constants.FULL_QUESTIONCANDIDATE_API_URI + tokenId, 'GET', this.successFetch, this.unSuccessFetch)
+
+        // fetch(Environment.APPLICATION_BACKEND_PREFIX_URL + 'survey/getSurveyForCandidate/' + tokenId).then(response => response.json())
+        //     .then(responseData => {
+        //         this.setState({
+        //             questions: responseData.questions,
+        //             survey: responseData,
+        //             timer: responseData.time * 60,
+        //             surveyLoading: false
+        //         })
+        //     })
+        //     .catch(err => {
+        //         console.error(err)
+        //         window.alert(`Error loading survey: ${err.message}`)
+        //         this.setState({ error: true, surveyLoading: false })
+        //     });
+    }
+
+    successFetch = (responseData) => {
+        this.setState({
+            questions: responseData.questions,
+            survey: responseData,
+            timer: responseData.time * 60,
+            surveyLoading: false
+        })
+    }
+
+    unSuccessFetch = (err) => {
+        console.error(err)
+        window.alert(`Error loading survey: ${err.message}`)
+        this.setState({ error: true, surveyLoading: false })
     }
 
     createSurveyreplies = () => {
         console.log("createSurveyreplies")
         const item = {
             surveyId: this.state.survey.surveyId,
-            userId: this.state.survey.userId,
-            userTokenId: this.state.survey.userTokenId
+            userTokenId: this.state.survey.candidateTokenId,
+            candidateId: this.state.survey.candidateId
         };
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(item)
-        };
-        // fetch('http://centauri.proximainformatica.com/cerepro.hr.backend/dev/api/v1/surveyreplyrequest/start/', requestOptions)
-        //     .then(response => response.json())
+        // const requestOptions = {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(item)
+        // };
+        // fetch(Environment.APPLICATION_BACKEND_PREFIX_URL + 'surveyreplyrequest/start/', requestOptions)
+        //     .then(response => {
+        //         if (response.status === 201) {
+        //             return response.json();
+        //         } else {
+        //             console.log(response.status);
+        //         }
+        //     })
+        //     .then(data => {
+        //         console.log("risposta del json: " + JSON.stringify(data));
+        //         this.setState({
+        //             idUpdate: data.id
+        //         })
+        //     })
+
+        Commons.executeFetch(Constants.FULL_QUESTIONSTART_API_URI, 'POST', this.successStart, this.error, JSON.stringify(item), true)
+    }
+
+    successStart = (data) => {
+        console.log("survey creatoo")
+        console.log("risposta del json: " + JSON.stringify(data));
+                this.setState({
+                    idUpdate: data.id
+                })
     }
 
     getButtons() {
-        // console.log("getButtons")
+        console.log("getButtons")
         const button = []
         const numSlides = document.getElementsByClassName("slide").length;
         for (let i = 0; i < numSlides; i++) {
-            var idButton = 'Button'+(i+1);
+            var idButton = 'Button' + (i + 1);
             button.push(<Button variant="outline-secondary" id={idButton} onClick={() => this.handleSelectedSlide(i)}>{i + 1}</Button>)
+        }
+        if (numSlides > 0 && this.state.buttonReady === false) {
+            console.log("sono maggiore di zero")
+            this.setState({
+                buttonReady: true
+            });
         }
         return button;
     }
 
-    highlightButton(index){
+    highlightButton(index) {
         var indexButtons = document.getElementById("indexButton").children
         for (var i = 0; i < indexButtons.length; i++) {
             var buttonChild = indexButtons[i];
             buttonChild.setAttribute("class", "btn btn-outline-secondary")
-          }
-        var button = document.getElementById("Button"+(index+1))
+        }
+        var button = document.getElementById("Button" + (index + 1))
         button.setAttribute("class", "btn btn-dark")
 
     }
@@ -110,9 +174,9 @@ class Surveys extends React.Component {
         document.getElementsByClassName("slide")[index].style.display = "block";
         this.setState({ currentSlide: index });
         this.highlightButton(index)
-        if (index === numSlides-1){
+        if (index === numSlides - 1) {
             document.getElementsByClassName("sendSurvey")[0].style.display = "block";
-        }else{
+        } else {
             document.getElementsByClassName("sendSurvey")[0].style.display = "none";
         }
     };
@@ -122,7 +186,7 @@ class Surveys extends React.Component {
         document.getElementsByClassName("start")[0].style.display = "none";
         document.getElementsByClassName("movementButtons")[0].style.display = "block";
         document.getElementsByClassName("slide")[0].style.display = "block";
-
+        this.setState({ shouldRenderTime: true })
     };
 
     sendSurvey = () => {
@@ -148,13 +212,47 @@ class Surveys extends React.Component {
             jsonArrayResponse.push(jsonResponse)
         }
 
-        const requestOptions = {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(jsonArrayResponse)
+        const item = {
+            surveyId: this.state.survey.surveyId,
+            userTokenId: this.state.survey.candidateTokenId,
+            candidateId: this.state.survey.candidateId,
+            answers: jsonArrayResponse,
         };
-        // fetch('http://centauri.proximainformatica.com/cerepro.hr.backend/dev/api/v1/surveyreplyrequest/start/', requestOptions)
-        //     .then(response => response.json())
+
+        console.log(jsonArrayResponse)
+
+        // const requestOptions = {
+        //     method: 'PUT',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(item)
+        // };
+        const id = this.state.idUpdate
+        // fetch(Environment.APPLICATION_BACKEND_PREFIX_URL + 'surveyreplyrequest/end/' + id, requestOptions)
+        //     .then(response => {
+        //         if (response.status === 200) {
+        //             response.json()
+        //             this.completeQuestion()
+        //         } else {
+        //             console.log(response.status);
+        //         }
+        //     })
+        console.log(" file da modificare problema jsojn" +JSON.stringify(item));
+        Commons.executeFetchWithHeader(Constants.FULL_QUESTIONSEND_API_URI + id, 'PUT',{
+            'Content-Type': 'application/json'
+		}, this.successEnd,this.error, JSON.stringify(item))
+    }
+
+    successEnd = () => {
+        this.completeQuestion()
+    }
+
+    completeQuestion = () => {
+        document.getElementsByClassName("sendSurvey")[0].style.display = "none";
+        document.getElementsByClassName("movementButtons")[0].style.display = "none";
+        document.getElementsByClassName("questionComplete")[0].style.display = "block";
+        document.getElementsByClassName("slide")[0].style.display = "none";
+        document.getElementsByClassName("list")[0].style.display = "none";
+        this.setState({ shouldRenderTime: false })
     }
 
     switchResponse(index, value, jsonResponse) {
@@ -178,7 +276,18 @@ class Surveys extends React.Component {
             default: ;
         }
     }
+
     render() {
+        const { surveyLoading, error, shouldRenderTime } = this.state;
+
+        if (surveyLoading) {
+            return <div></div>
+        }
+
+        if (error) {
+            return <div>Error loading survey</div>;
+        }
+
         const list = this.state.questions.map((element, i) => {
             return (
 
@@ -257,9 +366,14 @@ class Surveys extends React.Component {
                         <br />Avrà solo una possibilità di compilare il questionario.
                     </p>
                     <br />
-                    <Button id="startSurvey" variant="dark" onClick={() => { this.startSurvey(); this.createSurveyreplies(); this.highlightButton(0) }}>Inizia il questionario</Button>
+                    <Button id="startSurvey" variant="dark" onClick={() => { this.startSurvey(); this.createSurveyreplies(); this.highlightButton(0); }}>Inizia il questionario</Button>
                 </div>
-                {list}
+                <div className="questionComplete" style={{ display: "none" }} >
+                    Questionario Inviato
+                </div>
+                <div className="list" style={{ display: "block" }}>
+                    {list}
+                </div>
                 <ButtonToolbar className="movementButtons" style={{ display: "none" }}>
                     <ButtonGroup className="me-2" aria-label="First group">
                         <Button variant="dark" onClick={this.handlePrevSlide}>Indietro</Button>
@@ -268,9 +382,12 @@ class Surveys extends React.Component {
                         {this.getButtons()}
                     </ButtonGroup>
                     <ButtonGroup>
-                        <Button variant="dark" onClick={this.handleNextSlide}>Avanti</Button>
+                        <Button variant="dark" className="me-2" onClick={this.handleNextSlide}>Avanti</Button>
                     </ButtonGroup>
                 </ButtonToolbar>
+                <h3 className="time">
+                    {shouldRenderTime && <Timer duration={this.state.timer} sendSurveyProp={this.sendSurvey} />}
+                </h3>
                 <br />
                 <br />
                 <br />
