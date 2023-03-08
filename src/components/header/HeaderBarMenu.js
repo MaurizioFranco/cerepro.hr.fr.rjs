@@ -25,9 +25,9 @@ class HeaderBarMenu extends Component {
 	}
 
 	componentDidMount() {
-		// console.log("##########################################");
-		// Commons.executeFetch(Constants.FULL_APPLICATION_VERSION_URI, "GET", this.setApplicationVersion);
-		// console.log("##########################################");
+		console.log("##########################################");
+		Commons.executeFetch(Constants.FULL_APPLICATION_VERSION_URI, "GET", this.setApplicationVersion);
+		console.log("##########################################");
 		
 		// let userLoggedEmail = sessionStorage.getItem('userLoggedEmail');
 		// this.setState({
@@ -37,10 +37,9 @@ class HeaderBarMenu extends Component {
 		//let loggedUser = JSON.parse(sessionStorage.getItem("user"));
 
 		let loggedUser = JSON.parse(sessionStorage.getItem("user"));
-		let firstname = loggedUser.firstname;
 		
 		this.setState({
-			username: firstname,
+			username: loggedUser.firstname,
 			role: loggedUser.role,
 		});
 	}
@@ -52,6 +51,7 @@ class HeaderBarMenu extends Component {
 
 	logout = () => {
 		console.log("LOGOUT - START");
+		sessionStorage.clear();
 		this.props.logout();
 	}
 
