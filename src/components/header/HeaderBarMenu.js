@@ -36,11 +36,11 @@ class HeaderBarMenu extends Component {
 		
 		//let loggedUser = JSON.parse(sessionStorage.getItem("user"));
 
-		let loggedUser = JSON.parse(sessionStorage.getItem("user"));
+		let { firstname, role } = JSON.parse(sessionStorage.getItem("user"));
 		
 		this.setState({
-			username: loggedUser.firstname,
-			role: loggedUser.role,
+			username: firstname,
+			role: role
 		});
 	}
 
@@ -56,6 +56,8 @@ class HeaderBarMenu extends Component {
 	}
 
 	render() {
+		const { username } = this.state;
+
 		return (
 			<React.Fragment>
 				<nav className="navbar navbar-expand-lg navbar-light  ">
@@ -76,7 +78,7 @@ class HeaderBarMenu extends Component {
             				{(this.state.role === 0 || this.state.role === 10 || this.state.role === 50) && <QuestionsHeaderMenu />}
 
 							<li className="nav-item">
-								<span className="nav-link navigationBarItem">Welcome {this.state.username}</span>
+								<span className="nav-link navigationBarItem">Welcome {username}</span>
 							</li>
 							<li className="nav-item">
 								<button className="nav-link buttonDropdown" onClick={this.logout}>
