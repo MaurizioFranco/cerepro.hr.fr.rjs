@@ -51,6 +51,9 @@ class AddQuestion extends React.Component {
             const candidateId = candidate.id;
             const surveyId = question.id;
             const expirationDateTime = new Date(this.state.selectedDate);
+            expirationDateTime.setHours(24);
+            expirationDateTime.setMinutes(59);
+            expirationDateTime.setSeconds(59);
             var item = {
                 candidateId: candidateId,
                 surveyId: surveyId,
@@ -70,6 +73,9 @@ class AddQuestion extends React.Component {
 
     insertError = () => {
         console.log("noooooooooo")
+        toast.error("Insert unSuccessfully", {
+            position: toast.POSITION.BOTTOM_LEFT,
+        });
     }
 
     setCandidates = (candidates) => {
@@ -197,7 +203,6 @@ class AddQuestion extends React.Component {
                         +
                     </Button>
                 </div>
-                <ToastContainer autoClose={2500} />
             </div>
         );
     }

@@ -54,14 +54,14 @@ class Question extends Component {
     }
 
     sendSuccess(response) {
-        console.log("Send email successsss");
+        // console.log("Send email successsss");
         toast.success("Email successfully send", {
             position: toast.POSITION.BOTTOM_LEFT,
         });
     }
 
     deleteSuccess = (response) => {
-        console.log("DELETE Candidates SUCCESS");
+        // console.log("DELETE Candidates SUCCESS");
         toast.success("Delete successfully", {
             position: toast.POSITION.BOTTOM_LEFT,
         });
@@ -77,7 +77,17 @@ class Question extends Component {
     setUserActive = (userActiveToSet) => {
         Commons.debugMessage("userActiveToSet - START - userActiveToSet: " + userActiveToSet);
         this.setState({ usersActive: userActiveToSet.content });
-        console.log("USER ACTIVE == " + this.state.usersActive);
+    }
+
+    setTime = (expirationDateTime) => {
+        const expirationTime = new Date(expirationDateTime)
+        expirationTime.setHours(23);
+        expirationTime.setMinutes(59);
+        expirationTime.setSeconds(59);
+        const date = expirationTime.toLocaleDateString();
+        const time = expirationTime.toLocaleTimeString();
+        const separator = ' '; // Puoi usare lo spazio o un altro carattere come separatore
+        return `${date}${separator}${time}`;
     }
 
     StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -138,7 +148,7 @@ class Question extends Component {
     render() {
         return (
             <div>
-                <div style={{padding:"10px"}}>
+                <div style={{ padding: "10px" }}>
                     <div className="panel-heading">
                         <h1 className="panel-title">
                             <span id="active">Lista questionari ancora da compilare</span>
@@ -152,7 +162,7 @@ class Question extends Component {
                                 </select>
                                 <label id="labelQuestion">Questionari</label>
                                 <button id="reload" onClick={this.reloadData}>
-                                    <img src={reload} alt="Reload" style={{marginRight:"50px"}} />
+                                    <img src={reload} alt="Reload" style={{ marginRight: "50px" }} />
                                 </button>
                                 <AddQuestion refreshSurveysList={this.reloadData} />
                             </div>
@@ -178,7 +188,7 @@ class Question extends Component {
                                         <this.StyledTableCell align="left">{user.firstname}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.lastname}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.surveyLabel}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.expirationDateTime}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{this.setTime(user.expirationDateTime)}</this.StyledTableCell>
                                         <this.StyledTableCell id="cellRight">
                                             <Button id="buttonDelete" data-id={user.id} onClick={this.handleDelete}>Delete</Button>
                                         </this.StyledTableCell>
@@ -192,10 +202,10 @@ class Question extends Component {
                         </Table>
                     </TableContainer>
                 </div>
-                
+
                 <br>
                 </br>
-                <div  style={{padding:"10px"}}>
+                <div style={{ padding: "10px" }}>
                     <div class="panel-heading">
                         <h1 class="panel-title">
                             <span id="expired">Lista questionari scaduti</span>
@@ -230,7 +240,7 @@ class Question extends Component {
                                         <this.StyledTableCell align="left">{user.firstname}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.lastname}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.surveyLabel}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.expirationDateTime}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{this.setTime(user.expirationDateTime)}</this.StyledTableCell>
                                         <this.StyledTableCell id="cellRight">
                                             <Button id="buttonDelete" data-id={user.id} onClick={this.handleDelete}>Delete</Button>
                                         </this.StyledTableCell>

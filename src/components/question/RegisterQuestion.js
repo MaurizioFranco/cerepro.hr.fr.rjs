@@ -26,17 +26,19 @@ class RegisterQuestion extends Component {
         Commons.executeFetch(Constants.FULL_ALL_CANDIDATES_API_URI, 'GET', this.setCandidates);
     }
 
-    fetchQuestion = () =>{
+    fetchQuestion = () => {
         Commons.executeFetch(Constants.FULL_SURVEY_API_URI, 'GET', this.setQuestion);
     }
 
     handleSubmit = () => {
+        console.log("ciaooooooooooooooooooooooooooooo")
         const currentDate = new Date();
         const selectedDate = new Date(this.state.selectedDate);
         if (selectedDate >= currentDate) {
             this.fetchInsert()
+            console.log("sto per mandare il tempo")
         } else {
-            alert("La data inserita non è valida. Inserire una data successiva o uguale a oggi.");
+            //alert("La data inserita non è valida. Inserire una data successiva o uguale a oggi.");
         }
     }
 
@@ -48,6 +50,9 @@ class RegisterQuestion extends Component {
             const candidateId = candidate.id;
             const surveyId = question.id;
             const expirationDateTime = new Date(this.state.selectedDate);
+            expirationDateTime.setHours(23);
+            expirationDateTime.setMinutes(59);
+            expirationDateTime.setSeconds(59);
             var item = {
                 candidateId: candidateId,
                 surveyId: surveyId,
@@ -76,11 +81,11 @@ class RegisterQuestion extends Component {
         });
     }
 
-    setQuestion = (questionToSet) =>{
+    setQuestion = (questionToSet) => {
         Commons.debugMessage("questionToSet - START - " + questionToSet);
         const uniqueSurveyLabels = [...new Set(questionToSet.map(question => question.label))];
         this.setState({
-            surveyToken : questionToSet,
+            surveyToken: questionToSet,
             uniqueSurveyLabels: uniqueSurveyLabels
         });
     }
