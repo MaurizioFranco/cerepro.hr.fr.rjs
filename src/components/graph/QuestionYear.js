@@ -17,8 +17,8 @@ class QuestionYear extends React.Component {
     }
 
     setQuestionYear = (questionYearToSet) => {
-        const labels = questionYearToSet.map(q => q.date);
-        const data = questionYearToSet.map(q => q.number);
+        const labels = questionYearToSet.map(q => q.date).reverse();
+        const data = questionYearToSet.map(q => q.number).reverse();
         this.setState({ questionYear: questionYearToSet, labels, data }, () => {
             const canvasRef = this.refs.canvas;
 
