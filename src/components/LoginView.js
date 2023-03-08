@@ -43,8 +43,8 @@ class LoginView extends Component {
       this.showAuthenticationError
     );
 
-	Commons.debugMessage(
-		"getUserByEmail - START - FULL_GET_USER_BY_EMAIL_API: " +
+	  Commons.debugMessage(
+		  "getUserByEmail - START - FULL_GET_USER_BY_EMAIL_API: " +
 		  Constants.FULL_GET_USER_BY_EMAIL_API
 	  );
 
@@ -52,9 +52,9 @@ class LoginView extends Component {
     Commons.executeFetchWithHeader(
       Constants.FULL_GET_USER_BY_EMAIL_API + this.state.formEmail,
       "GET",
-	  headerToken,
+	    headerToken,
       this.setUserData,
-	  this.showAuthenticationError
+	    this.showAuthenticationError
     );
   };
 
@@ -73,35 +73,9 @@ class LoginView extends Component {
   };
 
   setUserData = (responseData) => {
-
-	//salvataggio variabili user su sessionStorage
+	  //salvataggio variabili user su sessionStorage
     this.setState({ user: responseData }); 
-	sessionStorage.setItem("user", JSON.stringify(responseData));
-
-  this.props.history.push("/");
-
-
-//	const userExample = JSON.parse(sessionStorage.getItem("user"));
-//	const firstname = userExample.firstname;
-
-//	Commons.debugMessage(
-//			"IL NOME È: " +
-//		 	  firstname
-//		   );
-
-    // const { email, firstname, lastname, role } = responseData;
-    // //sessionStorage.setItem("id", id);
-    // sessionStorage.setItem("email", email);
-    // sessionStorage.setItem("firstname", firstname);
-    // sessionStorage.setItem("lastname", lastname);
-    // sessionStorage.setItem("role", role);
-    // //sessionStorage.setItem("enabled", enabled);
-
-	// const nomeEsempio = firstname;
-	// Commons.debugMessage(
-	// 	"IL NOME È: " +
-	// 	  nomeEsempio
-	//   );
+	  sessionStorage.setItem("user", JSON.stringify(responseData));
   }
 
   showAuthenticationError = () => {

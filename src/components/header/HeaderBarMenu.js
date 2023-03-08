@@ -60,12 +60,7 @@ class HeaderBarMenu extends Component {
 	}
 
 	render() {
-		const { username } = this.state.username;
-
-		if (username === null) {
-			this.setUserValues();
-			return <div>Loading...</div>;
-		}
+		const { username } = this.state;
 
 		return (
 			<React.Fragment>
