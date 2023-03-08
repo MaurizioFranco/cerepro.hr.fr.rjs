@@ -29,10 +29,10 @@ class HeaderBarMenu extends Component {
 		Commons.executeFetch(Constants.FULL_APPLICATION_VERSION_URI, "GET", this.setApplicationVersion);
 		console.log("##########################################");
 		
-		let userLoggedEmail = sessionStorage.getItem('userLoggedEmail');
-		this.setState({
-			userLoggedEmail: userLoggedEmail
-		});
+		// let userLoggedEmail = sessionStorage.getItem('userLoggedEmail');
+		// this.setState({
+		// 	userLoggedEmail: userLoggedEmail
+		// });
 		
 		let loggedUser = JSON.parse(sessionStorage.getItem("user"));
 		
