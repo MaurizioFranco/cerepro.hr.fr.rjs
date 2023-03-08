@@ -21,18 +21,39 @@ class LoginView extends Component {
 
   formSubmit(event) {
     event.preventDefault();
-    this.checkCredentials();
+    this.getUserByEmail();
+  }
+
+  getUserByEmail = () => {
+    let headerToken = Commons.getAuthorizationHeader(
+      this.state.formEmail,
+      this.state.psw
+    );
+
+    Commons.debugMessage(
+		  "getUserByEmail - START - FULL_GET_USER_BY_EMAIL_API: " +
+		  Constants.FULL_GET_USER_BY_EMAIL_API
+	  );
+
+    Commons.executeFetchWithHeader(
+      Constants.FULL_GET_USER_BY_EMAIL_API + this.state.formEmail,
+      "GET",
+	    headerToken,
+      this.setUserData,
+	    this.showAuthenticationError
+    );
   }
 
   checkCredentials = () => {
-    Commons.debugMessage(
-      "LoginView.checkCredentials - START - FULL_API_URI: " +
-        Constants.FULL_API_URI
-    );
 
     let headerToken = Commons.getAuthorizationHeader(
       this.state.formEmail,
       this.state.psw
+    );
+
+    Commons.debugMessage(
+      "LoginView.checkCredentials - START - FULL_API_URI: " +
+        Constants.FULL_API_URI
     );
 
     Commons.executeFetchWithHeader(
@@ -41,20 +62,6 @@ class LoginView extends Component {
       headerToken,
       this.goAhead,
       this.showAuthenticationError
-    );
-
-	  Commons.debugMessage(
-		  "getUserByEmail - START - FULL_GET_USER_BY_EMAIL_API: " +
-		  Constants.FULL_GET_USER_BY_EMAIL_API
-	  );
-
-    //GET USER BY EMAIL
-    Commons.executeFetchWithHeader(
-      Constants.FULL_GET_USER_BY_EMAIL_API + this.state.formEmail,
-      "GET",
-	    headerToken,
-      this.setUserData,
-	    this.showAuthenticationError
     );
   };
 
@@ -76,6 +83,8 @@ class LoginView extends Component {
 	  //salvataggio variabili user su sessionStorage
     this.setState({ user: responseData }); 
 	  sessionStorage.setItem("user", JSON.stringify(responseData));
+
+    this.checkCredentials();
   }
 
   showAuthenticationError = () => {

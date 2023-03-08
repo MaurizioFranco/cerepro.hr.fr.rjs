@@ -36,7 +36,7 @@ class HeaderBarMenu extends Component {
 		
 		//let loggedUser = JSON.parse(sessionStorage.getItem("user"));
 
-		this.setUserValues();
+		this.getUserValues();
 	}
 
 	setApplicationVersion = (data) => {
@@ -44,14 +44,20 @@ class HeaderBarMenu extends Component {
 		console.log(data);
 	}
 
-	setUserValues = () => {
-		let { firstname, role } = JSON.parse(sessionStorage.getItem("user"));
-		
-		this.setState({
+	getUserValues = () => {
+		try {
+		  let { firstname, role } = JSON.parse(sessionStorage.getItem("user"));
+		  this.setState({
 			username: firstname,
 			role: role
-		});
-	}
+		  });
+		} catch(error) {
+		  console.error(error);
+		  this.setState({
+			username: "Loading..."
+		  });
+		}
+	  }
 
 	logout = () => {
 		console.log("LOGOUT - START");
