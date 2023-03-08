@@ -34,10 +34,13 @@ class HeaderBarMenu extends Component {
 		// 	userLoggedEmail: userLoggedEmail
 		// });
 		
+		//let loggedUser = JSON.parse(sessionStorage.getItem("user"));
+
 		let loggedUser = JSON.parse(sessionStorage.getItem("user"));
+		let firstname = loggedUser.firstname;
 		
 		this.setState({
-			username: loggedUser.firstname,
+			username: firstname,
 			role: loggedUser.role,
 		});
 	}
