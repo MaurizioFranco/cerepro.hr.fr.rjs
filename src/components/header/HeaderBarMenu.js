@@ -36,17 +36,21 @@ class HeaderBarMenu extends Component {
 		
 		//let loggedUser = JSON.parse(sessionStorage.getItem("user"));
 
+		this.setUserValues();
+	}
+
+	setApplicationVersion = (data) => {
+		console.log("##########################################"+data);
+		console.log(data);
+	}
+
+	setUserValues = () => {
 		let { firstname, role } = JSON.parse(sessionStorage.getItem("user"));
 		
 		this.setState({
 			username: firstname,
 			role: role
 		});
-	}
-
-	setApplicationVersion = (data) => {
-		console.log("##########################################"+data);
-		console.log(data);
 	}
 
 	logout = () => {
@@ -56,7 +60,12 @@ class HeaderBarMenu extends Component {
 	}
 
 	render() {
-		const { username } = this.state;
+		const { username } = this.state.username;
+
+		if (username === null) {
+			this.setUserValues();
+			return <div>Loading...</div>;
+		}
 
 		return (
 			<React.Fragment>
