@@ -17,8 +17,8 @@ class QuestionWeek extends React.Component {
     }
 
     setQuestionWeek = (questionWeekToSet) => {
-        const labels = questionWeekToSet.map(q => q.date);
-        const data = questionWeekToSet.map(q => q.number);
+        const labels = questionWeekToSet.map(q => q.date).reverse();
+        const data = questionWeekToSet.map(q => q.number).reverse();
         this.setState({ questionWeek: questionWeekToSet, labels, data }, () => {
             const canvasRef = this.refs.canvas;
 

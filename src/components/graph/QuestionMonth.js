@@ -17,8 +17,8 @@ class QuestionMonth extends React.Component {
     }
 
     setQuestionMonth = (questionMonthToSet) => {
-        const labels = questionMonthToSet.map(q => q.date);
-        const data = questionMonthToSet.map(q => q.number);
+        const labels = questionMonthToSet.map(q => q.date).reverse();
+        const data = questionMonthToSet.map(q => q.number).reverse();
         this.setState({ questionMonth: questionMonthToSet, labels, data }, () => {
             const canvasRef = this.refs.canvas;
 
