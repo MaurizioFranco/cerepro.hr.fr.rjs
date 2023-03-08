@@ -54,7 +54,7 @@ class HeaderBarMenu extends Component {
 		} catch(error) {
 		  console.error(error);
 		  this.setState({
-			username: "Loading..."
+			username: "User"
 		  });
 		}
 	  }
