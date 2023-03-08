@@ -17,7 +17,6 @@ class QuestionWeek extends React.Component {
     }
 
     setQuestionWeek = (questionWeekToSet) => {
-        Commons.debugMessage("setCandidates - START - candidatesToSet: " + questionWeekToSet);
         const labels = questionWeekToSet.map(q => q.date);
         const data = questionWeekToSet.map(q => q.number);
         this.setState({ questionWeek: questionWeekToSet, labels, data }, () => {
@@ -54,8 +53,6 @@ class QuestionWeek extends React.Component {
                 // }
             });
         });
-        console.log(this.state.questionWeek);
-
     }
 
     componentDidMount() {
@@ -64,7 +61,7 @@ class QuestionWeek extends React.Component {
 
     render() {
         return (
-            <div style={{ width: "1000px", height: "500px" , margin:"auto" }}>
+            <div style={{ width: "1000px", height: "500px", margin: "auto" }}>
                 <canvas ref="canvas"></canvas>
 
             </div>

@@ -17,7 +17,6 @@ class QuestionMonth extends React.Component {
     }
 
     setQuestionMonth = (questionMonthToSet) => {
-        Commons.debugMessage("setCandidates - START - candidatesToSet: " + questionMonthToSet);
         const labels = questionMonthToSet.map(q => q.date);
         const data = questionMonthToSet.map(q => q.number);
         this.setState({ questionMonth: questionMonthToSet, labels, data }, () => {
@@ -54,8 +53,6 @@ class QuestionMonth extends React.Component {
                 // }
             });
         });
-        console.log(this.state.questionMonth);
-
     }
 
     componentDidMount() {

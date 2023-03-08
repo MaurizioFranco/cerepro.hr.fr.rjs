@@ -17,7 +17,6 @@ class QuestionYear extends React.Component {
     }
 
     setQuestionYear = (questionYearToSet) => {
-        Commons.debugMessage("setCandidates - START - candidatesToSet: " + questionYearToSet);
         const labels = questionYearToSet.map(q => q.date);
         const data = questionYearToSet.map(q => q.number);
         this.setState({ questionYear: questionYearToSet, labels, data }, () => {
@@ -54,8 +53,6 @@ class QuestionYear extends React.Component {
                 // }
             });
         });
-        console.log(this.state.questionYear);
-
     }
 
     componentDidMount() {
