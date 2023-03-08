@@ -61,7 +61,6 @@ class MainView extends Component {
 						<Route exact path="/registerQuestion" component={RegisterQuestionView}/>
 						<Route exact path="/surveys" component={SurveysView}/>
 						<Route exact path="/surveyquestions" component={SurveyQuestionsView}/>
-						<Route exact path="/survey" component={Surveys}/>
 						
 				    </div>
 			    </Container>

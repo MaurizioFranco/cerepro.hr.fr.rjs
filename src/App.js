@@ -8,6 +8,7 @@ import { HashRouter, Route, Switch } from "react-router-dom";
 
 import MainView from "./components/MainView.js";
 import LoginView from "./components/LoginView.js";
+import SurveyView from './components/SurveyView';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <HashRouter>
 		    <Switch>
 		       <Route path='/login' component={LoginView} />
+			   <Route path="/survey" component={SurveyView}/>
 		       <Route path="/" component={MainView}/>
 		    </Switch>
             

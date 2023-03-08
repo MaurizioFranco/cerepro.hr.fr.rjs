@@ -2,11 +2,13 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
-// import * as Environment from '../env.js';
-// import { LoadingSpinnerComponent } from "../loader/LoadingSpinnerComponent.js";
 import Timer from "./Timer.js";
 import * as Commons from '../../commons.js';
 import * as Constants from '../../constants';
+import '../loader/LoadingSpinnerComponent.css';
+import proxima_arrow from '../../images/proxima_red_great_arrow.png'
+import { ToastContainer, toast } from 'react-toastify';
+import pathToRegexp from 'path-to-regexp';
 
 class Surveys extends React.Component {
     constructor(props) {
@@ -24,6 +26,7 @@ class Surveys extends React.Component {
             formatTimer: "",
             shouldRenderTime: false,
             idUpdate: "",
+            errorMessage: "",
         };
     }
 
@@ -31,14 +34,19 @@ class Surveys extends React.Component {
         // const queryParameters = new URLSearchParams(window.location.search)
         // const tokenId = queryParameters.get("tokenId")
         // console.log(tokenId)
-        document.getElementsByClassName("navbar")[0].style.display = "none";
 
-        const hashParameters = new URLSearchParams(window.location.hash.substring(10))
-        console.log("--------------" + hashParameters)
-        const tokenId = hashParameters.get("tokenId")
-        console.log(tokenId)
+        // const hashParameters = new URLSearchParams(window.location.hash.substring(10))
+        // const tokenId = hashParameters.get("tokenId")
+        // console.log(tokenId)
 
-        Commons.executeFetch(Constants.FULL_QUESTIONCANDIDATE_API_URI + tokenId, 'GET', this.successFetch, this.unSuccessFetch)
+        const hashString = window.location.hash.slice(1);
+        const url = new URL(hashString, window.location.href);
+        const tokenId = url.searchParams.get("tokenId");
+        console.log(tokenId);
+
+        Commons.executeFetchWithHeader(Constants.FULL_QUESTIONCANDIDATE_API_URI + tokenId, 'GET', {
+            'Content-Type': 'application/json'
+        }, this.successFetch, this.unSuccessFetch)
 
         // fetch(Environment.APPLICATION_BACKEND_PREFIX_URL + 'survey/getSurveyForCandidate/' + tokenId).then(response => response.json())
         //     .then(responseData => {
@@ -57,18 +65,27 @@ class Surveys extends React.Component {
     }
 
     successFetch = (responseData) => {
-        this.setState({
-            questions: responseData.questions,
-            survey: responseData,
-            timer: responseData.time * 60,
-            surveyLoading: false
-        })
+        if (responseData.expiredToken != null) {
+            this.setState({ error: true, surveyLoading: false, errorMessage: responseData.expiredToken })
+        } else {
+            this.setState({
+                questions: responseData.questions,
+                survey: responseData,
+                timer: responseData.time * 60,
+                surveyLoading: false
+            })
+        }
     }
 
-    unSuccessFetch = (err) => {
-        console.error(err)
-        window.alert(`Error loading survey: ${err.message}`)
-        this.setState({ error: true, surveyLoading: false })
+    // unSuccessFetch = (error) => {
+    //     this.setState({ error: true, surveyLoading: false })
+    //     toast.error(error.status, {
+    //         position: toast.POSITION.BOTTOM_LEFT,
+    //     });
+    // }
+
+    unSuccessFetch = (responseData) => {
+        this.setState({ error: true, surveyLoading: false, errorMessage: responseData.invalidToken })
     }
 
     createSurveyreplies = () => {
@@ -98,15 +115,23 @@ class Surveys extends React.Component {
         //         })
         //     })
 
-        Commons.executeFetch(Constants.FULL_QUESTIONSTART_API_URI, 'POST', this.successStart, this.error, JSON.stringify(item), true)
+        Commons.executeFetchWithHeader(Constants.FULL_QUESTIONSTART_API_URI, 'POST', {
+            'Content-Type': 'application/json'
+        }, this.successStart, this.unSuccessStart, JSON.stringify(item), true)
     }
 
     successStart = (data) => {
         console.log("survey creatoo")
         console.log("risposta del json: " + JSON.stringify(data));
-                this.setState({
-                    idUpdate: data.id
-                })
+        this.setState({
+            idUpdate: data.id
+        })
+    }
+
+    unSuccessStart = (error) => {
+        toast.error(error.status, {
+            position: toast.POSITION.BOTTOM_LEFT,
+        });
     }
 
     getButtons() {
@@ -182,7 +207,7 @@ class Surveys extends React.Component {
     };
 
     startSurvey = () => {
-        console.log("startSurvey")
+        document.getElementsByClassName("startSurvey")[0].style.display = "none";
         document.getElementsByClassName("start")[0].style.display = "none";
         document.getElementsByClassName("movementButtons")[0].style.display = "block";
         document.getElementsByClassName("slide")[0].style.display = "block";
@@ -236,14 +261,20 @@ class Surveys extends React.Component {
         //             console.log(response.status);
         //         }
         //     })
-        console.log(" file da modificare problema jsojn" +JSON.stringify(item));
-        Commons.executeFetchWithHeader(Constants.FULL_QUESTIONSEND_API_URI + id, 'PUT',{
+        console.log(" file da modificare problema jsojn" + JSON.stringify(item));
+        Commons.executeFetchWithHeader(Constants.FULL_QUESTIONSEND_API_URI + id, 'PUT', {
             'Content-Type': 'application/json'
-		}, this.successEnd,this.error, JSON.stringify(item))
+        }, this.successEnd, this.unSuccessEnd, JSON.stringify(item))
     }
 
     successEnd = () => {
         this.completeQuestion()
+    }
+
+    unSuccessEnd = (error) => {
+        toast.error(error.status, {
+            position: toast.POSITION.BOTTOM_LEFT,
+        });
     }
 
     completeQuestion = () => {
@@ -281,11 +312,17 @@ class Surveys extends React.Component {
         const { surveyLoading, error, shouldRenderTime } = this.state;
 
         if (surveyLoading) {
-            return <div></div>
+            return <div className="modalLoaderDialog">
+                <div className="loader modalLoader">
+                    <img src={proxima_arrow} alt="loading..." className="proxima_arrow_spinner" />
+                </div>
+            </div>
         }
 
         if (error) {
-            return <div>Error loading survey</div>;
+            return <div>
+                <div><b>{this.state.errorMessage}</b></div>
+            </div>;
         }
 
         const list = this.state.questions.map((element, i) => {
@@ -351,22 +388,7 @@ class Surveys extends React.Component {
         return (
             <div align="center">
                 <div id="start" className="start">
-                    <h1>Corso Full Stack Developer.</h1>
-                    <h2>Questionario d'ingresso.</h2>
-                    <br />
-                    <p>
-                        Gentile candidato, questa è la pagina di presentazione del questionario d'ingresso utile per la partecipazione al prossimo
-                        corso Full Stack Developer in partenza.
-                        <br /> La preghiamo di compilare il questionario in base alle sue attuali conoscenze. Questo
-                        ci permetterà di avere idea delle sue attuali competenze, e poter quindi, organizzare al meglio il corso stesso.
-                    </p>
-                    <p>
-                        Attenzione, il questionario va terminato entro il tempo massimo che vedrà in alto a sinistra, una volta iniziata la compilazione.
-                        <br />Clicchi sul link qui in basso solo quando effettivamente vorrà compilare il questionario.
-                        <br />Avrà solo una possibilità di compilare il questionario.
-                    </p>
-                    <br />
-                    <Button id="startSurvey" variant="dark" onClick={() => { this.startSurvey(); this.createSurveyreplies(); this.highlightButton(0); }}>Inizia il questionario</Button>
+                    <Button className="startSurvey" id="startSurvey" variant="dark" onClick={() => { this.startSurvey(); this.createSurveyreplies(); this.highlightButton(0); }}>Inizia il questionario</Button>
                 </div>
                 <div className="questionComplete" style={{ display: "none" }} >
                     Questionario Inviato
