@@ -130,7 +130,7 @@ pipeline {
                 archiveArtifacts artifacts: "Dockerfile", onlyIfSuccessful: true
             }
         }     
-        stage ("DEPLOY STAGE ARTIFACT") {
+        stage ("DEPLOY PRODUCTION ARTIFACT") {
             environment {
                 ENV = "prod"
                 ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
@@ -141,7 +141,7 @@ pipeline {
                 sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} Dockerfile cerepro_resources/${REMOTE_WORKING_DIR} ${APPLICATION_DOCKER_HOST} ${ENV}"	            
             }
         }
-        stage ("DELIVERY STAGE ARTIFACT") {
+        stage ("DELIVERY PRODUCTION ARTIFACT") {
             environment {
                 ENV = "prod"
                 SERVICES_EXPOSED_PORT = "${PROD_SERVICES_EXPOSED_PORT}" 
