@@ -36,7 +36,7 @@ pipeline {
 	            sh "rm ./src/env.js && cp ./src/env.js.DEV ./src/env.js"
 	            echo "ready to build optimized build"
 	            sh "npm run build"
-	            sh "cd build && rm -Rf cancv && rm -Rf canimg && tar -cvf ${ARTIFACT_FULL_FILE_NAME} ."
+	            sh "cd build && rm -Rf cancv && rm -Rf canimg && rm -Rf cansurv && tar -cvf ${ARTIFACT_FULL_FILE_NAME} ."
 	            sh "cp ./build/${ARTIFACT_FULL_FILE_NAME} ."
 	            archiveArtifacts artifacts: "${ARTIFACT_FULL_FILE_NAME}", onlyIfSuccessful: true
                 archiveArtifacts artifacts: "Dockerfile", onlyIfSuccessful: true
@@ -80,7 +80,7 @@ pipeline {
 	            sh "rm ./src/env.js && cp ./src/env.js.STAGE ./src/env.js"
 	            echo "ready to build optimized build"
 	            sh "npm run build"
-	            sh "cd build && rm -Rf cancv && rm -Rf canimg && tar -cvf ${ARTIFACT_FULL_FILE_NAME} ."
+	            sh "cd build && rm -Rf cancv && rm -Rf canimg && rm -Rf cansurv && tar -cvf ${ARTIFACT_FULL_FILE_NAME} ."
 	            sh "cp ./build/${ARTIFACT_FULL_FILE_NAME} ."
 	            archiveArtifacts artifacts: "${ARTIFACT_FULL_FILE_NAME}", onlyIfSuccessful: true
                 archiveArtifacts artifacts: "Dockerfile", onlyIfSuccessful: true
@@ -108,8 +108,29 @@ pipeline {
                 sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER} ${SERVICE_SOURCE_PORT} ${REMOTE_WORKING_DIR} ${ARTIFACT_FULL_FILE_NAME}"	            
             }
         }        
-        /*
-        stage ("DEPLOY PRODUCTION ARTIFACT") {
+        stage ("BUILD AND ARCHIVE PRODUCTION ARTIFACT") {
+            environment {
+                ENV = "prod"
+                ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
+            }
+            steps {
+                echo "ready to download dependencies"
+                sh "npm -v"
+                sh "node -v"
+                sh "npm install"
+	            echo "preparing .env"
+	            sh "rm .env && cp .env.PROD .env"
+	            echo "preparing env.js"
+	            sh "rm ./src/env.js && cp ./src/env.js.PROD ./src/env.js"
+	            echo "ready to build optimized build"
+	            sh "npm run build"
+	            sh "cd build && rm -Rf cancv && rm -Rf canimg && rm -Rf cansurv && tar -cvf ${ARTIFACT_FULL_FILE_NAME} ."
+	            sh "cp ./build/${ARTIFACT_FULL_FILE_NAME} ."
+	            archiveArtifacts artifacts: "${ARTIFACT_FULL_FILE_NAME}", onlyIfSuccessful: true
+                archiveArtifacts artifacts: "Dockerfile", onlyIfSuccessful: true
+            }
+        }     
+        stage ("DEPLOY STAGE ARTIFACT") {
             environment {
                 ENV = "prod"
                 ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
@@ -120,18 +141,17 @@ pipeline {
                 sh "/cerepro_resources/scp_on_docker_host.sh ${JOB_NAME} ${BUILD_NUMBER} Dockerfile cerepro_resources/${REMOTE_WORKING_DIR} ${APPLICATION_DOCKER_HOST} ${ENV}"	            
             }
         }
-        stage ("PRODUCTION STAGE ARTIFACT") {
+        stage ("DELIVERY STAGE ARTIFACT") {
             environment {
                 ENV = "prod"
-                SERVICES_EXPOSED_PORT = "${STAGE_SERVICES_EXPOSED_PORT}" 
+                SERVICES_EXPOSED_PORT = "${PROD_SERVICES_EXPOSED_PORT}" 
                 ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
             }
             steps {
                 echo "EXECUTING ${ENV} ENVIRONEMNT PROMOTION"
                 sh "/cerepro_resources/delivery_on_docker@env.sh ${SERVICES_EXPOSED_PORT} ${ENV} ${DOCKER_HOST_CONTAINER_NAME_PREFIX} ${BUILD_NUMBER} ${SERVICE_SOURCE_PORT} ${REMOTE_WORKING_DIR} ${ARTIFACT_FULL_FILE_NAME}"	            
             }
-        } 
-        */
+        }   
         
     }
     post {
