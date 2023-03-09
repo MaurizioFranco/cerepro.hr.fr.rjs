@@ -24,7 +24,8 @@ class MainView extends Component {
 	constructor(props) {
 	  super(props);
 	  this.validateSession();
-	  this.checkRole();
+	  this.checkRoleForHR();
+	  this.checkRoleForAccount();
 	}
   
 	checkRoleForAccount(role) {
