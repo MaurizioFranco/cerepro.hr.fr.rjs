@@ -4,6 +4,7 @@ import "./LoginView.css";
 import * as Commons from "../commons.js";
 import * as Constants from "../constants.js";
 //import * as Messages from '../messages.js' ;
+import { ToastContainer, toast } from 'react-toastify';
 import { ModalLoadingSpinnerComponent } from "./loader/ModalLoadingSpinnerComponent";
 import LoginAuthenticationKOMessage from "./login/LoginAuthenticationKOMessage.js";
 import RegistrationView from './RegistrationView.js';
@@ -84,8 +85,12 @@ class LoginView extends Component {
 	  //salvataggio variabili user su sessionStorage
     this.setState({ user: responseData }); 
 	  sessionStorage.setItem("user", JSON.stringify(responseData));
-
-    this.checkCredentials();
+    if (this.state.user.enabled) {
+      this.checkCredentials();
+    } else {
+      Commons.operationError({errorMessage: "User is not enabled, check your emails to enable your account"});
+    }
+    
   }
 
   showAuthenticationError = () => {
