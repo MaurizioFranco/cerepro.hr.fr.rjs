@@ -6,6 +6,7 @@ import * as Constants from '../constants.js' ;
 //import * as Messages from '../messages.js' ;
 import { ModalLoadingSpinnerComponent} from './loader/ModalLoadingSpinnerComponent';
 import LoginAuthenticationKOMessage from './login/LoginAuthenticationKOMessage.js'
+import RegistrationView from './RegistrationView.js';
 
 const AUTH_API = '/user' ;
 const FULL_API_URI = Constants.BACKEND_API_PREFIX + AUTH_API ;
@@ -54,6 +55,10 @@ class LoginView extends Component {
 	    const value = input.type === 'checkbox' ? input.checked : input.value;
 	    this.setState({ [input.name]: value });
 	};
+
+	handleShowModal = () => {
+		
+	  }
 		  
 		render() {
 			return (
@@ -76,8 +81,11 @@ class LoginView extends Component {
 				                    </div>
 				                    <div className="form-group">					                       
 				                       <input type="password" className="form-control" name="psw" value={this.state.user} onChange={this.handleChange} placeholder="password" required/>
-				                    </div>				                   
-				                    <input type="submit" className="btn btn-black" value="ENTRA"/>
+				                    </div>	
+									<div style={{display: 'flex', justifyContent : 'space-between'}}>			                   
+				                    	<input type="submit" className="btn btn-black" value="ENTRA"/>
+										<RegistrationView /> 
+									</div>
 				                 </form>
 					           </div>
 					        </div>
