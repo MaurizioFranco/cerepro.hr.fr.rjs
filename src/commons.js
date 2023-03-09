@@ -198,6 +198,29 @@ export function executeFetchWithHeader(uri, method, headerToken, successCallback
 	);
 }
 
+export function getUserValues() {
+	try {
+	  let { firstname, role } = JSON.parse(sessionStorage.getItem("user"));
+	  this.setState({
+		username: firstname,
+		role: role
+	  });
+	} catch(error) {
+	  console.error(error);
+	  this.setState({
+		username: "User"
+	  });
+	}
+  }
+
+export function getUserRole() {
+	  let role = JSON.parse(sessionStorage.getItem("user"));
+	  this.setState({
+		role: role
+	  });
+	  return role;
+  }
+
 export function operationError(err) {
 	console.log("OPERATION KO");
 	let errorMessage = (err!==null&&err!==undefined&&err.errorMessage!==undefined)?err.errorMessage:"errore del cazzo!!!";
