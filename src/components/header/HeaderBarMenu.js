@@ -36,13 +36,28 @@ class HeaderBarMenu extends Component {
 		
 		//let loggedUser = JSON.parse(sessionStorage.getItem("user"));
 
-		Commons.getUserValues();
+		this.getUserValues();
 	}
 
 	setApplicationVersion = (data) => {
 		console.log("##########################################"+data);
 		console.log(data);
 	}
+
+	getUserValues = () => {
+		try {
+		  let { firstname, role } = JSON.parse(sessionStorage.getItem("user"));
+		  this.setState({
+			username: firstname,
+			role: role
+		  });
+		} catch(error) {
+		  console.error(error);
+		  this.setState({
+			username: "User"
+		  });
+		}
+	  }
 
 	logout = () => {
 		console.log("LOGOUT - START");

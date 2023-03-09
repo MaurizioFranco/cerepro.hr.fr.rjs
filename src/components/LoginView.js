@@ -4,10 +4,8 @@ import "./LoginView.css";
 import * as Commons from "../commons.js";
 import * as Constants from "../constants.js";
 //import * as Messages from '../messages.js' ;
-import { ToastContainer, toast } from 'react-toastify';
 import { ModalLoadingSpinnerComponent } from "./loader/ModalLoadingSpinnerComponent";
 import LoginAuthenticationKOMessage from "./login/LoginAuthenticationKOMessage.js";
-import RegistrationView from './RegistrationView.js';
 
 class LoginView extends Component {
   constructor(props) {
@@ -85,12 +83,8 @@ class LoginView extends Component {
 	  //salvataggio variabili user su sessionStorage
     this.setState({ user: responseData }); 
 	  sessionStorage.setItem("user", JSON.stringify(responseData));
-    if (this.state.user.enabled) {
-      this.checkCredentials();
-    } else {
-      Commons.operationError({errorMessage: "User is not enabled, check your emails to enable your account"});
-    }
-    
+
+    this.checkCredentials();
   }
 
   showAuthenticationError = () => {
@@ -143,10 +137,7 @@ class LoginView extends Component {
                     required
                   />
                 </div>
-                <div style={{display: 'flex', justifyContent : 'space-between'}}>			                   
-				    <input type="submit" className="btn btn-black" value="ENTRA"/>
-					<RegistrationView /> 
-				</div>
+                <input type="submit" className="btn btn-black" value="ENTRA" />
               </form>
             </div>
           </div>
@@ -155,5 +146,4 @@ class LoginView extends Component {
     );
   }
 }
-
 export default LoginView;
