@@ -242,4 +242,4 @@ export function debugMessage(message) {
 	if (DEBUG_ENABLED) {
 		console.log(message);
 	}
-}
+} 
