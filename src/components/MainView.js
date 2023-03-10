@@ -64,8 +64,16 @@ class MainView extends Component {
 						<Route exact path="/newPosition" component={NewPositionView}/>
 					    <Route exact path="/positionsList" component={PositionsView}/>
 						<Route exact path="/candidatesStatistics" component={CandidatesStatisticsView}/>
+						<Route exact path="/users" component={UsersView}/>
+						<Route exact path="/roles" component={CandidatesStatisticsView}/>
+						<Route exact path="/coursepage" component={CoursePagesView}/>
+						<Route exact path="/question" component={QuestionView}/>
+						<Route exact path="/registerQuestion" component={RegisterQuestionView}/>
+						<Route exact path="/surveys" component={SurveysView}/>
+						<Route exact path="/surveyquestions" component={SurveyQuestionsView}/>
 
-						<Route exact path="/users"
+
+						{/* <Route exact path="/users"
             				render={() => {
               			if (this.checkRoleForHR(Commons.getUserRole)) {
                 			return <UsersView />;
@@ -123,7 +131,7 @@ class MainView extends Component {
               			}
             			}}
           				/>
-						
+						*/}
 				    </div>
 			    </Container>
 		);
