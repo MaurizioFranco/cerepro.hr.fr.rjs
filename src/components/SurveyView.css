@@ -1,0 +1,32 @@
+.start {
+  height: 100%; /* aggiungi un'altezza al div */
+  display: flex; /* imposta il display del div a "flex" */
+  flex-direction: column; /* imposta la direzione del flex a "column" */
+  justify-content: center; /* centra il contenuto verticalmente */
+  align-items: center; /* centra il contenuto orizzontalmente */
+}
+
+.start h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  padding: 4px;
+}
+
+.start p {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+p {
+  text-align: justify;
+  padding: 30px;
+  margin-top: -20px;
+}
+
+@media only screen and (max-width: 600px) {
+  .headerTitle {
+    font-size: 15px;
+    width: auto;
+  }
+}
