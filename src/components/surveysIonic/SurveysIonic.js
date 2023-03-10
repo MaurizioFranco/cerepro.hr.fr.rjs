@@ -428,6 +428,8 @@ class SurveysIonic extends React.Component {
                     <IonButton className="startSurvey" id="startSurvey" onClick={() => { this.startSurvey(); this.createSurveyreplies(); this.highlightButton(0); }}>Inizia il questionario</IonButton>
                 </div>
                 <div className="questionComplete" style={{ display: "none" }} >
+                    <br></br>
+                    <br></br>
                     Questionario Inviato
                 </div>
                 <div className="list" style={{ display: "block" }}>
