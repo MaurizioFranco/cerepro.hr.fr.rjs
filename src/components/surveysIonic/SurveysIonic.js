@@ -174,6 +174,7 @@ class SurveysIonic extends React.Component {
             this.highlightButton(nextSlide)
             if (this.state.currentSlide === numSlides - 2) {
                 document.getElementsByClassName("sendSurvey")[0].style.display = "block";
+                document.getElementsByClassName("forwardButton")[0].style.display = "none";
             }
         };
     }
@@ -189,6 +190,7 @@ class SurveysIonic extends React.Component {
             this.highlightButton(prevSlide)
             if (this.state.currentSlide !== numSlides - 2) {
                 document.getElementsByClassName("sendSurvey")[0].style.display = "none";
+                document.getElementsByClassName("forwardButton")[0].style.display = "block";
             }
         }
     };
@@ -202,8 +204,11 @@ class SurveysIonic extends React.Component {
         this.highlightButton(index)
         if (index === numSlides - 1) {
             document.getElementsByClassName("sendSurvey")[0].style.display = "block";
+            document.getElementsByClassName("forwardButton")[0].style.display = "none";
+            
         } else {
             document.getElementsByClassName("sendSurvey")[0].style.display = "none";
+            document.getElementsByClassName("forwardButton")[0].style.display = "block";
         }
     };
 
@@ -444,7 +449,7 @@ class SurveysIonic extends React.Component {
                         <IonButton onClick={this.handlePrevSlide} className="small-btn">Indietro</IonButton>
                     </ButtonGroup>
                     <ButtonGroup>
-                        <IonButton className="me-2 small-btn" onClick={this.handleNextSlide}>Avanti</IonButton>
+                        <IonButton className="me-2 small-btn forwardButton" onClick={this.handleNextSlide}>Avanti</IonButton>
                     </ButtonGroup>
                 </ButtonToolbar>
                 <h3 className="time">
