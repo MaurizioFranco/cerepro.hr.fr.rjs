@@ -1,8 +1,11 @@
 pipeline {
+    /*
     agent { 
 	    label 'Locale-Master-Node' 
 	    
 	}
+	*/
+	agent any
     options { timeout(time: 1, unit: 'HOURS') }
     parameters {
         booleanParam(name: 'PROMOTE_ON_PRODUCTION', defaultValue: false,
