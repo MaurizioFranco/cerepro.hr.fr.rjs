@@ -217,7 +217,8 @@ class SurveysIonic extends React.Component {
         document.getElementsByClassName("start")[0].style.display = "none";
         document.getElementsByClassName("movementButtons")[0].style.display = "block";
         document.getElementsByClassName("slide")[0].style.display = "block";
-        this.setState({ shouldRenderTime: true })
+        this.setState({ shouldRenderTime: true });
+        // this.highlightButton(0);
     };
 
     sendSurvey = () => {
@@ -429,7 +430,7 @@ class SurveysIonic extends React.Component {
         return (
             <div align="center">
                 <div id="start" className="start">
-                    <IonButton className="startSurvey" id="startSurvey" onClick={() => { this.startSurvey(); this.createSurveyreplies(); this.highlightButton(0); }}>Inizia il questionario</IonButton>
+                    <IonButton className="startSurvey" id="startSurvey" onClick={() => { this.startSurvey(); this.createSurveyreplies(); }}>Inizia il questionario</IonButton>
                 </div>
                 <div className="questionComplete" style={{ display: "none" }} >
                     <br></br>
