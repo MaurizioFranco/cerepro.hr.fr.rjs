@@ -1,5 +1,8 @@
 pipeline {
-    agent any
+    agent { 
+	    label 'Locale-Master-Node' 
+	    
+	}
     options { timeout(time: 1, unit: 'HOURS') }
     parameters {
         booleanParam(name: 'PROMOTE_ON_PRODUCTION', defaultValue: false,
@@ -109,6 +112,7 @@ pipeline {
             }
         }        
         stage ("BUILD AND ARCHIVE PRODUCTION ARTIFACT") {
+            when { expression { return params.PROMOTE_ON_PRODUCTION } }
             environment {
                 ENV = "prod"
                 ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
@@ -131,6 +135,7 @@ pipeline {
             }
         }     
         stage ("DEPLOY PRODUCTION ARTIFACT") {
+            when { expression { return params.PROMOTE_ON_PRODUCTION } }
             environment {
                 ENV = "prod"
                 ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
@@ -142,6 +147,7 @@ pipeline {
             }
         }
         stage ("DELIVERY PRODUCTION ARTIFACT") {
+            when { expression { return params.PROMOTE_ON_PRODUCTION } }
             environment {
                 ENV = "prod"
                 SERVICES_EXPOSED_PORT = "${PROD_SERVICES_EXPOSED_PORT}" 
