@@ -6,6 +6,7 @@ import * as Constants from "../constants.js";
 //import * as Messages from '../messages.js' ;
 import { ModalLoadingSpinnerComponent } from "./loader/ModalLoadingSpinnerComponent";
 import LoginAuthenticationKOMessage from "./login/LoginAuthenticationKOMessage.js";
+import Registration from "./RegistrationView";
 
 class LoginView extends Component {
   constructor(props) {
@@ -56,13 +57,19 @@ class LoginView extends Component {
         Constants.FULL_API_URI
     );
 
-    Commons.executeFetchWithHeader(
-      Constants.FULL_API_URI,
-      "GET",
-      headerToken,
-      this.goAhead,
-      this.showAuthenticationError
-    );
+    if (this.state.user.enabled === false) {
+      Commons.operationError({errorMessage:"Your account is not enabled. Check your emails to enable it"});
+    }
+
+    else {
+      Commons.executeFetchWithHeader(
+        Constants.FULL_API_URI,
+        "GET",
+        headerToken,
+        this.goAhead,
+        this.showAuthenticationError
+      );
+    }
   };
 
   goAhead = (responseData) => {
@@ -137,7 +144,10 @@ class LoginView extends Component {
                     required
                   />
                 </div>
-                <input type="submit" className="btn btn-black" value="ENTRA" />
+                <div style={{display:"flex", justifyContent:"space-between"}}>
+                  <input type="submit" className="btn btn-black" value="ENTRA" />
+                  <Registration />
+                </div>
               </form>
             </div>
           </div>
