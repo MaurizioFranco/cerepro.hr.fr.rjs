@@ -7,8 +7,8 @@ import * as Commons from '../../commons.js';
 import * as Constants from '../../constants';
 import '../loader/LoadingSpinnerComponent.css';
 import proxima_arrow from '../../images/proxima_red_great_arrow.png'
-import { ToastContainer, toast } from 'react-toastify';
-import { IonButton, IonCard, IonCardContent } from '@ionic/react';
+import { toast } from 'react-toastify';
+import { IonButton, IonCheckbox  } from '@ionic/react';
 import './SurveysIonic.css';
 
 class SurveysIonic extends React.Component {
@@ -345,7 +345,7 @@ class SurveysIonic extends React.Component {
                     {element.ansa !== null ?
                         <div>
                             <ion-item>
-                                <ion-checkbox slot="start" id="ansa" type="checkbox"></ion-checkbox>
+                                <IonCheckbox slot="start" id="ansa" type="checkbox"></IonCheckbox>
                                 <ion-label>{element.ansa}</ion-label>
                             </ion-item>
                             {/* <span><input id="ansa" type="checkbox" /></span>
@@ -355,7 +355,7 @@ class SurveysIonic extends React.Component {
                     {element.ansb !== null ?
                         <div>
                             <ion-item>
-                                <ion-checkbox slot="start" id="ansb" type="checkbox"></ion-checkbox>
+                                <IonCheckbox slot="start" id="ansb" type="checkbox"></IonCheckbox>
                                 <ion-label>{element.ansb}</ion-label>
                             </ion-item>
                             {/* <span><input id="ansb" type="checkbox" /></span>
@@ -365,7 +365,7 @@ class SurveysIonic extends React.Component {
                     {element.ansc !== null ?
                         <div>
                             <ion-item>
-                                <ion-checkbox slot="start" id="ansc" type="checkbox"></ion-checkbox>
+                                <IonCheckbox slot="start" id="ansc" type="checkbox"></IonCheckbox>
                                 <ion-label>{element.ansc}</ion-label>
                             </ion-item>
                             {/* <span><input id="ansc" type="checkbox" /></span>
@@ -375,7 +375,7 @@ class SurveysIonic extends React.Component {
                     {element.ansd !== null ?
                         <div>
                             <ion-item>
-                                <ion-checkbox slot="start" id="ansd" type="checkbox"></ion-checkbox>
+                                <IonCheckbox slot="start" id="ansd" type="checkbox"></IonCheckbox>
                                 <ion-label>{element.ansd}</ion-label>
                             </ion-item>
                             {/* <span><input id="ansd" type="checkbox" /></span>
@@ -385,7 +385,7 @@ class SurveysIonic extends React.Component {
                     {element.anse !== null ?
                         <div>
                             <ion-item>
-                                <ion-checkbox slot="start" id="anse" type="checkbox"></ion-checkbox>
+                                <IonCheckbox slot="start" id="anse" type="checkbox"></IonCheckbox>
                                 <ion-label>{element.anse}</ion-label>
                             </ion-item>
                             {/* <span><input id="anse" type="checkbox" /></span>
@@ -395,7 +395,7 @@ class SurveysIonic extends React.Component {
                     {element.ansf !== null ?
                         <div >
                             <ion-item>
-                                <ion-checkbox slot="start" id="ansf" type="checkbox"></ion-checkbox>
+                                <IonCheckbox slot="start" id="ansf" type="checkbox"></IonCheckbox>
                                 <ion-label>{element.ansf}</ion-label>
                             </ion-item>
                             {/* <span><input id="ansf" type="checkbox" /></span>
@@ -405,7 +405,7 @@ class SurveysIonic extends React.Component {
                     {element.ansg !== null ?
                         <div >
                             <ion-item>
-                                <ion-checkbox slot="start" id="ansg" type="checkbox"></ion-checkbox>
+                                <IonCheckbox slot="start" id="ansg" type="checkbox"></IonCheckbox>
                                 <ion-label>{element.ansg}</ion-label>
                             </ion-item>
                             {/* <span><input id="ansg" type="checkbox" /></span>
@@ -415,7 +415,7 @@ class SurveysIonic extends React.Component {
                     {element.ansh !== null ?
                         <div >
                             <ion-item>
-                                <ion-checkbox slot="start" id="ansh" type="checkbox"></ion-checkbox>
+                                <IonCheckbox slot="start" id="ansh" type="checkbox"></IonCheckbox>
                                 <ion-label>{element.ansh}</ion-label>
                             </ion-item>
                             {/* <span><input id="ansh" type="checkbox" /></span>
