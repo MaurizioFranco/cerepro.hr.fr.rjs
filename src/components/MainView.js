@@ -18,13 +18,23 @@ import './MainView.css';
 import { Container } from 'react-bootstrap';
 import QuestionView from './QuestionView';
 import RegisterQuestionView from './RegisterQuestionView';
-import Surveys from './survey/Surveys';
+import * as Commons from "../commons.js";
 
 class MainView extends Component {
-	constructor (props) {
-		super(props);
-		this.validateSession();
+	constructor(props) {
+	  super(props);
+	  this.validateSession();
+	  this.checkRoleForHR();
+	  this.checkRoleForAccount();
 	}
+  
+	checkRoleForAccount(role) {
+	  return role === 0 || role === 10 || role === 50;
+	}
+
+	checkRoleForHR(role) {
+		return role === 0;
+	  }
 	
 	validateSession = () => {
 		let userLoggedEmail = sessionStorage.getItem('userLoggedEmail');
@@ -61,10 +71,71 @@ class MainView extends Component {
 						<Route exact path="/registerQuestion" component={RegisterQuestionView}/>
 						<Route exact path="/surveys" component={SurveysView}/>
 						<Route exact path="/surveyquestions" component={SurveyQuestionsView}/>
-						
+
+
+						{/* <Route exact path="/users"
+            				render={() => {
+              			if (this.checkRoleForHR(Commons.getUserRole)) {
+                			return <UsersView />;
+              			} else {
+               			this.props.history.push("/login");
+                		return null;
+              			}
+            			}}
+          				/>
+
+						<Route exact path="/roles"
+            				render={() => {
+              			if (this.checkRoleForHR(Commons.getUserRole)) {
+                			return <CandidatesStatisticsView />;
+              			} else {
+               			this.props.history.push("/login");
+                		return null;
+              			}
+            			}}
+          				/>
+
+						<Route exact path="/coursepage" component={CoursePagesView}/>
+
+						<Route exact path="/question"
+            				render={() => {
+              			if (this.checkRoleForAccount(Commons.getUserRole)) {
+                			return <QuestionView />;
+              			} else {
+               			this.props.history.push("/login");
+                		return null;
+              			}
+            			}}
+          				/>
+
+						<Route exact path="/registerQuestion" component={RegisterQuestionView}/>
+
+						<Route exact path="/surveys"
+            				render={() => {
+              			if (this.checkRoleForAccount(Commons.getUserRole)) {
+                			return <SurveysView />;
+              			} else {
+               			this.props.history.push("/login");
+                		return null;
+              			}
+            			}}
+          				/>
+
+						<Route exact path="/surveyquestions"
+            				render={() => {
+              			if (this.checkRoleForAccount(Commons.getUserRole)) {
+                			return <SurveyQuestionsView />;
+              			} else {
+               			this.props.history.push("/login");
+                		return null;
+              			}
+            			}}
+          				/>
+						*/}
 				    </div>
 			    </Container>
 		);
 	}
 }
+
 export default MainView;

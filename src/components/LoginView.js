@@ -6,7 +6,6 @@ import * as Constants from "../constants.js";
 //import * as Messages from '../messages.js' ;
 import { ModalLoadingSpinnerComponent } from "./loader/ModalLoadingSpinnerComponent";
 import LoginAuthenticationKOMessage from "./login/LoginAuthenticationKOMessage.js";
-import RegistrationView from './RegistrationView.js';
 
 class LoginView extends Component {
   constructor(props) {
@@ -138,10 +137,7 @@ class LoginView extends Component {
                     required
                   />
                 </div>
-                <div style={{display: 'flex', justifyContent : 'space-between'}}>			                   
-				    <input type="submit" className="btn btn-black" value="ENTRA"/>
-					<RegistrationView /> 
-				</div>
+                <input type="submit" className="btn btn-black" value="ENTRA" />
               </form>
             </div>
           </div>

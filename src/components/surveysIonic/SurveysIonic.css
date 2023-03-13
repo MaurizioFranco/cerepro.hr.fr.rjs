@@ -1,0 +1,49 @@
+#item {
+  display: flex;
+  justify-content: center;
+}
+/* 
+#divQuestion{
+     display: flex;
+    justify-content: center;
+
+} */
+
+@media (max-width: 700px) {
+  .movementButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .movementButtons button {
+    margin: 0px;
+    font-size: 8px;
+    padding: 2px 4px;
+    height: 30px;
+  }
+  .small-btn {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .my-class {
+    font-size: 16px;
+    padding: 10px;
+  }
+}
+
+p {
+  text-align: center;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: auto;
+}
+
+b {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem rem;
+  padding: 4px;
+}

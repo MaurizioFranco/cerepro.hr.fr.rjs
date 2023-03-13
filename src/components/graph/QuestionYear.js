@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as Commons from '../../commons.js';
+import * as Constants from '../../constants';
 import { Chart } from 'chart.js';
 
 class QuestionYear extends React.Component {
@@ -13,7 +14,7 @@ class QuestionYear extends React.Component {
     }
 
     fetchQuestionYear = () => {
-        Commons.executeFetch('http://centauri.proximainformatica.com/cerepro.hr.backend/dev/api/v1/surveyreply/lastyear', 'GET', this.setQuestionYear);
+        Commons.executeFetch(Constants.FULL_SURVEYREPLIES_YEAR_API_URI, 'GET', this.setQuestionYear);
     }
 
     setQuestionYear = (questionYearToSet) => {
