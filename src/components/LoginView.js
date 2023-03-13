@@ -57,13 +57,19 @@ class LoginView extends Component {
         Constants.FULL_API_URI
     );
 
-    Commons.executeFetchWithHeader(
-      Constants.FULL_API_URI,
-      "GET",
-      headerToken,
-      this.goAhead,
-      this.showAuthenticationError
-    );
+    if (this.state.user.enabled === false) {
+      Commons.operationError({errorMessage:"Your account is not enabled. Check your emails to enable it"});
+    }
+
+    else {
+      Commons.executeFetchWithHeader(
+        Constants.FULL_API_URI,
+        "GET",
+        headerToken,
+        this.goAhead,
+        this.showAuthenticationError
+      );
+    }
   };
 
   goAhead = (responseData) => {
