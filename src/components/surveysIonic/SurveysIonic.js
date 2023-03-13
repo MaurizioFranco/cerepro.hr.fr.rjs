@@ -174,6 +174,7 @@ class SurveysIonic extends React.Component {
             this.highlightButton(nextSlide)
             if (this.state.currentSlide === numSlides - 2) {
                 document.getElementsByClassName("sendSurvey")[0].style.display = "block";
+                document.getElementsByClassName("forwardButton")[0].style.display = "none";
             }
         };
     }
@@ -189,6 +190,7 @@ class SurveysIonic extends React.Component {
             this.highlightButton(prevSlide)
             if (this.state.currentSlide !== numSlides - 2) {
                 document.getElementsByClassName("sendSurvey")[0].style.display = "none";
+                document.getElementsByClassName("forwardButton")[0].style.display = "block";
             }
         }
     };
@@ -202,8 +204,11 @@ class SurveysIonic extends React.Component {
         this.highlightButton(index)
         if (index === numSlides - 1) {
             document.getElementsByClassName("sendSurvey")[0].style.display = "block";
+            document.getElementsByClassName("forwardButton")[0].style.display = "none";
+            
         } else {
             document.getElementsByClassName("sendSurvey")[0].style.display = "none";
+            document.getElementsByClassName("forwardButton")[0].style.display = "block";
         }
     };
 
@@ -212,7 +217,8 @@ class SurveysIonic extends React.Component {
         document.getElementsByClassName("start")[0].style.display = "none";
         document.getElementsByClassName("movementButtons")[0].style.display = "block";
         document.getElementsByClassName("slide")[0].style.display = "block";
-        this.setState({ shouldRenderTime: true })
+        this.setState({ shouldRenderTime: true });
+        // this.highlightButton(0);
     };
 
     sendSurvey = () => {
@@ -325,7 +331,6 @@ class SurveysIonic extends React.Component {
                 <div><b>{this.state.errorMessage}</b></div>
                 <br></br>
                 <br></br>
-                <br></br>
             </div>;
         }
 
@@ -425,7 +430,7 @@ class SurveysIonic extends React.Component {
         return (
             <div align="center">
                 <div id="start" className="start">
-                    <IonButton className="startSurvey" id="startSurvey" onClick={() => { this.startSurvey(); this.createSurveyreplies(); this.highlightButton(0); }}>Inizia il questionario</IonButton>
+                    <IonButton className="startSurvey" id="startSurvey" onClick={() => { this.startSurvey(); this.createSurveyreplies(); }}>Inizia il questionario</IonButton>
                 </div>
                 <div className="questionComplete" style={{ display: "none" }} >
                     <br></br>
@@ -445,7 +450,7 @@ class SurveysIonic extends React.Component {
                         <IonButton onClick={this.handlePrevSlide} className="small-btn">Indietro</IonButton>
                     </ButtonGroup>
                     <ButtonGroup>
-                        <IonButton className="me-2 small-btn" onClick={this.handleNextSlide}>Avanti</IonButton>
+                        <IonButton className="me-2 small-btn forwardButton" onClick={this.handleNextSlide}>Avanti</IonButton>
                     </ButtonGroup>
                 </ButtonToolbar>
                 <h3 className="time">
