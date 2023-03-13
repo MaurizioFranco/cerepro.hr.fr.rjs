@@ -325,7 +325,6 @@ class SurveysIonic extends React.Component {
                 <div><b>{this.state.errorMessage}</b></div>
                 <br></br>
                 <br></br>
-                <br></br>
             </div>;
         }
 

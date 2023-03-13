@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as Commons from '../../commons.js';
+import * as Constants from '../../constants';
 import { Chart } from 'chart.js';
 
 class QuestionMonth extends React.Component {
@@ -13,7 +14,7 @@ class QuestionMonth extends React.Component {
     }
 
     fetchQuestionMonth = () => {
-        Commons.executeFetch('http://centauri.proximainformatica.com/cerepro.hr.backend/dev/api/v1/surveyreply/lastmonth', 'GET', this.setQuestionMonth);
+        Commons.executeFetch(Constants.FULL_SURVEYREPLIES_MONTH_API_URI, 'GET', this.setQuestionMonth);
     }
 
     setQuestionMonth = (questionMonthToSet) => {
