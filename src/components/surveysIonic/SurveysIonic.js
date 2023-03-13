@@ -430,7 +430,7 @@ class SurveysIonic extends React.Component {
         return (
             <div align="center">
                 <div id="start" className="start">
-                    <IonButton className="startSurvey" id="startSurvey" onClick={() => {this.startSurvey(); this.createSurveyreplies(); }}>Inizia il questionario</IonButton>
+                    <IonButton className="startSurvey" color="dark" id="startSurvey" onClick={() => {this.startSurvey(); this.createSurveyreplies(); }}>Inizia il questionario</IonButton>
                 </div>
                 <div className="questionComplete" style={{ display: "none" }} >
                     <br></br>
@@ -447,10 +447,10 @@ class SurveysIonic extends React.Component {
                     <br>
                     </br>
                     <ButtonGroup className="me-2" aria-label="First group">
-                        <IonButton onClick={this.handlePrevSlide} className="small-btn">Indietro</IonButton>
+                        <IonButton onClick={this.handlePrevSlide} color="dark" className="small-btn">Indietro</IonButton>
                     </ButtonGroup>
                     <ButtonGroup>
-                        <IonButton className="me-2 small-btn forwardButton" onClick={this.handleNextSlide}>Avanti</IonButton>
+                        <IonButton className="me-2 small-btn forwardButton" color="dark" onClick={this.handleNextSlide}>Avanti</IonButton>
                     </ButtonGroup>
                 </ButtonToolbar>
                 <h3 className="time">
