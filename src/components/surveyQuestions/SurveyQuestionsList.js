@@ -15,7 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import AddSurveyQuestions from "./AddSurveyQuestion.js";
-//import UpdateSurveyQuestion from "./UpdateSurveyQuestion.js";
+import UpdateSurveyQuestions from "./UpdateSurveyQuestions.js";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 
@@ -205,6 +205,9 @@ class SurveyQuestionsList extends Component {
                       {/* <TableCell>
                     <UpdateSurveyQuestion refreshSurveyQuestionsList={this.getSurveyQuestions} idItemToUpdate={surveyQuestion.id} />
                     </TableCell> */}
+                      <TableCell>
+                        <UpdateSurveyQuestions refreshSurveyQuestionsList={this.getSurveyQuestions} idItemToUpdate={surveyQuestion.id}></UpdateSurveyQuestions>
+                      </TableCell>
                       <TableCell>
                         <Button
                           variant="contained"
