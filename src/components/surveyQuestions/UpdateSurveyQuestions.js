@@ -81,7 +81,7 @@ class UpdateSurveyQuestions extends React.Component {
         this.setState({
             surveyId: data.surveyId,
             questionId: data.questionId,
-            position: data.position,
+            position: data.position
         });
     };
 
@@ -180,7 +180,7 @@ class UpdateSurveyQuestions extends React.Component {
                             fullWidth
                             label="Survey Label"
                             name="surveyLabel"
-                            // value={this.state.surveyLabel}
+                            value={this.props.oldSurveyLabel}
                             onChange={this.handleChange}
                             style={{ marginBottom: "10px" }}
                         >
@@ -194,7 +194,7 @@ class UpdateSurveyQuestions extends React.Component {
                             fullWidth
                             label="Question Label"
                             name="questionLabel"
-                            // value={this.state.questionLabel}
+                            value={this.props.oldQuestionLabel}
                             onChange={this.handleChange}
                             style={{ marginBottom: "10px" }}
                         >

@@ -206,7 +206,7 @@ class SurveyQuestionsList extends Component {
                     <UpdateSurveyQuestion refreshSurveyQuestionsList={this.getSurveyQuestions} idItemToUpdate={surveyQuestion.id} />
                     </TableCell> */}
                       <TableCell>
-                        <UpdateSurveyQuestions refreshSurveyQuestionsList={this.getSurveyQuestions} idItemToUpdate={surveyQuestion.id}></UpdateSurveyQuestions>
+                        <UpdateSurveyQuestions refreshSurveyQuestionsList={this.getSurveyQuestions} idItemToUpdate={surveyQuestion.id} oldSurveyLabel={surveyQuestion.surveyLabel} oldQuestionLabel={surveyQuestion.questionLabel}></UpdateSurveyQuestions>
                       </TableCell>
                       <TableCell>
                         <Button
