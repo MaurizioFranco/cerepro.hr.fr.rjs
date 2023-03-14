@@ -11,7 +11,7 @@ class SurveyView extends Component {
 
 	render() {
 		return (
-			<>
+			<div className="surveyView">
 				<IonHeader>
 					<IonToolbar color="white" align="left">
 					<img alt="centauri-academy-logo" src={centauri_academy_header_logo} className="logo" />
@@ -32,9 +32,11 @@ class SurveyView extends Component {
 					</div>
 					<div align="center" style={{ marginTop: '-20px' }}>
 						<SurveysIonic />
+						<br />
+						<br />
 					</div>
 				</IonContent>
-			</>
+			</div>
 		);
 	}
 }
