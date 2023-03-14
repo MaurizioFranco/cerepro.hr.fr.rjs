@@ -53,7 +53,7 @@ class MainView extends Component {
 			const userLoggedRole = user.role;
 			// console.log("Il ruolo dell'utente attualmente loggato è il seguente: " + userLoggedRole);
 		  
-			if (userLoggedRole <= authorizedRole) {
+			if (userLoggedRole === authorizedRole) {
 			  return <Component />;
 			} else {
 			  toast.error("Non hai le autorizzazioni necessarie per accedere a questa risorsa");
@@ -79,10 +79,10 @@ class MainView extends Component {
 						<Route exact path="/users" render={() => renderComponentWithRole(UsersView, 0)} />
 						<Route exact path="/roles" render={() => renderComponentWithRole(CandidatesStatisticsView, 0)} />
 						<Route exact path="/coursepage" component={CoursePagesView}/>
-						<Route exact path="/question" render={() => renderComponentWithRole(QuestionView, 50)} />
-						<Route exact path="/registerQuestion" render={() => renderComponentWithRole(RegisterQuestionView, 50)} />
-						<Route exact path="/surveys" render={() => renderComponentWithRole(SurveysView, 50)} />
-						<Route exact path="/surveyquestions" render={() => renderComponentWithRole(SurveyQuestionsView, 50)} />
+						<Route exact path="/question" render={() => renderComponentWithRole(QuestionView, 0) || renderComponentWithRole(QuestionView, 10) || renderComponentWithRole(QuestionView, 50)} />
+						<Route exact path="/registerQuestion" render={() => renderComponentWithRole(RegisterQuestionView, 0) || renderComponentWithRole(RegisterQuestionView, 10) || renderComponentWithRole(RegisterQuestionView, 50)} />
+						<Route exact path="/surveys" render={() => renderComponentWithRole(SurveysView, 0) || renderComponentWithRole(SurveysView, 10) || renderComponentWithRole(SurveysView, 50)} />
+						<Route exact path="/surveyquestions" render={() => renderComponentWithRole(SurveyQuestionsView, 0) || renderComponentWithRole(SurveyQuestionsView, 10) || renderComponentWithRole(SurveyQuestionsView, 50)} />
 				    </div>
 			    </Container>
 		);
