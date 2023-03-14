@@ -6,6 +6,8 @@ export const BACKEND_API_PREFIX = "http://" + Environment.HOST + ":" + Environme
 export const CANDIDATE_PROFILE_IMAGES_RELATIVE_FOLDER = "/canimg/" ;
 export const CANDIDATE_PROFILE_CV_RELATIVE_FOLDER = "/cancv/" ;
 
+export const SURVEYREPLY_PDF_FILE_PATH = "/cansurv/" ;
+
 export const SUCCESS_ALERT_DIALOG = "success" ;
 export const DANGER_ALERT_DIALOG = "danger" ;
 
@@ -29,6 +31,8 @@ export const SURVEYQUESTIONCUSTOM_API = '/api/v1/surveyquestioncustom/' ;
 export const QUESTIONCANDIDATE_API = '/api/v1/survey/getSurveyForCandidate/';
 export const QUESTIONSTART_API = '/api/v1/surveyreplyrequest/start/';
 export const QUESTIONSEND_API = '/api/v1/surveyreplyrequest/end/';
+export const SURVEYREPLY_ID = '/api/v1/surveyreply/';
+export const FULL_SURVEYREPLY_ID_URI = BACKEND_API_PREFIX + SURVEYREPLY_ID;
 export const FULL_SURVEYREPLIES_WEEK_API_URI = BACKEND_API_PREFIX + SURVEYREPLY_WEEK_API;
 export const FULL_SURVEYREPLIES_MONTH_API_URI = BACKEND_API_PREFIX + SURVEYREPLY_MONTH_API;
 export const FULL_SURVEYREPLIES_YEAR_API_URI = BACKEND_API_PREFIX + SURVEYREPLY_YEAR_API;
