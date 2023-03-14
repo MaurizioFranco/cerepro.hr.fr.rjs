@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Surveys from './survey/Surveys';
 import * as Commons from "../commons.js";
 import * as Constants from "../constants.js";
 import SurveysIonic from './surveysIonic/SurveysIonic';
 import { IonText, IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/react';
 import './SurveyView.css';
+import centauri_academy_header_logo from '../images/header_logo.png';
 
 
 class SurveyView extends Component {
@@ -13,8 +13,10 @@ class SurveyView extends Component {
 		return (
 			<>
 				<IonHeader>
-					<IonToolbar color="dark" align="center">
-						<IonTitle className='headerTitle'>Questionario d'ingresso</IonTitle>
+					<IonToolbar color="white" align="left">
+					<img alt="centauri-academy-logo" src={centauri_academy_header_logo} className="logo" />
+						<span className="navbar-brand title">CeRePro.HR</span>
+						{/* <IonTitle className='headerTitle'>Questionario d'ingresso</IonTitle> */}
 					</IonToolbar>
 				</IonHeader>
 				<IonContent style={{ height: '100vh' }}>
@@ -30,7 +32,6 @@ class SurveyView extends Component {
 					</div>
 					<div align="center" style={{ marginTop: '-20px' }}>
 						<SurveysIonic />
-						{/* <Surveys /> */}
 					</div>
 				</IonContent>
 			</>
