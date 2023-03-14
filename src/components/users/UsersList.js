@@ -4,10 +4,13 @@ import * as Commons from '../../commons.js';
 import * as Constants from '../../constants.js';
 import AddUser from './AddUser.js';
 import UpdateUser from './UpdateUser.js';
+import UpdateUserEnabled from './UpdateUserEnabled.js';
 
 
 import ReactTable from "react-table-6";
 import 'react-table-6/react-table.css';
+
+import { Switch } from '@material-ui/core';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -113,6 +116,12 @@ class UsersList extends Component {
         }, {
             Header: 'lastname',
             accessor: 'lastname'
+        }, {
+            id: 'updateEnabledButton',
+            sortable: false,
+            filterable: false, width: 100,
+            accessor: 'id',
+            Cell: ({ value }) => (<UpdateUserEnabled refreshUsersList={this.getUsers} idItemToUpdate={value} />)
         }, {
             id: 'updateButton',
             sortable: false,
