@@ -5,18 +5,37 @@ import SurveysIonic from './surveysIonic/SurveysIonic';
 import { IonText, IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/react';
 import './SurveyView.css';
 import centauri_academy_header_logo from '../images/header_logo.png';
+import Timer from './surveysIonic/Timer.js';
 
 
 class SurveyView extends Component {
+	state = {
+		shouldRenderTime: false,
+		timer:"",
+		sendSurveyProp:""
+	  };
+	
+	  handleShouldRenderTimeChange = (value1,value2,value3) => {
+		this.setState({ timer: value1,shouldRenderTime:value2,sendSurveyProp:value3 });
+		console.log("eccolooooooo" + this.state.timer)
+		console.log("eccolooooooo" + this.state.shouldRenderTime)
+		console.log("eccolooooooo" + this.state.sendSurveyProp)
+	  };
 
 	render() {
+		const { shouldRenderTime } = this.state;
+		const { timer, sendSurveyProp } = this.state;
 		return (
 			<div className="surveyView">
 				<IonHeader>
-					<IonToolbar color="white" align="left">
-					<img alt="centauri-academy-logo" src={centauri_academy_header_logo} className="logo" />
+					<IonToolbar color="white">
+						<img align="left" alt="centauri-academy-logo" src={centauri_academy_header_logo} className="logo" />
 						<span className="navbar-brand title">CeRePro.HR</span>
-						{/* <IonTitle className='headerTitle'>Questionario d'ingresso</IonTitle> */}
+						{shouldRenderTime && (
+							<span slot="end" style={{marginRight:"25px"}}>
+								<Timer duration={timer} sendSurveyProp={sendSurveyProp} />
+							</span>
+						)}
 					</IonToolbar>
 				</IonHeader>
 				<IonContent style={{ height: '100vh' }}>
@@ -31,7 +50,8 @@ class SurveyView extends Component {
 						</div>
 					</div>
 					<div align="center" style={{ marginTop: '-20px' }}>
-						<SurveysIonic />
+						<SurveysIonic onShouldRenderTimeChange={this.handleShouldRenderTimeChange}/>
+						<br />
 						<br />
 						<br />
 					</div>
