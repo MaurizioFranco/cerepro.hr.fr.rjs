@@ -13,6 +13,10 @@
   padding: 4px;
 }
 
+.surveyView {
+  overflow: hidden;
+}
+
 .start p {
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
