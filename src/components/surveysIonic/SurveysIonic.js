@@ -118,7 +118,7 @@ class SurveysIonic extends React.Component {
 
         Commons.executeFetchWithHeader(Constants.FULL_QUESTIONSTART_API_URI, 'POST', {
             'Content-Type': 'application/json'
-        }, this.successStart, this.unSuccessStart, JSON.stringify(item), true)
+        }, this.successStart, Commons.operationError, JSON.stringify(item), true)
     }
 
     successStart = (data) => {
@@ -276,7 +276,7 @@ class SurveysIonic extends React.Component {
         console.log(" file da modificare problema jsojn" + JSON.stringify(item));
         Commons.executeFetchWithHeader(Constants.FULL_QUESTIONSEND_API_URI + id, 'PUT', {
             'Content-Type': 'application/json'
-        }, this.successEnd, this.unSuccessEnd, JSON.stringify(item))
+        }, this.successEnd, Commons.operationError, JSON.stringify(item))
     }
 
     successEnd = () => {

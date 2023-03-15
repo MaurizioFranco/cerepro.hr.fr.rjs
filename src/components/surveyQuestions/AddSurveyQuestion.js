@@ -98,7 +98,7 @@ class AddSurveyQuestions extends React.Component {
       Constants.FULL_SURVEYQUESTIONS_API_URI,
       "POST",
       this.insertSuccess,
-      this.insertError,
+      Commons.operationError,
       JSON.stringify(item),
       true
     );
@@ -113,11 +113,12 @@ class AddSurveyQuestions extends React.Component {
   }
 
   insertSuccess(response) {
-    console.log("INSERT SURVEY QUESTION SUCCESS");
-    console.log(response);
-    toast.success("Survey question successfully inserted", {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
+    // console.log("INSERT SURVEY QUESTION SUCCESS");
+    // console.log(response);
+    // toast.success("Survey question successfully inserted", {
+    //   position: toast.POSITION.BOTTOM_LEFT,
+    // });
+    Commons.operationSuccess();
     this.setState({ isModalOpen: false });
     this.props.refreshSurveyQuestionsList();
   }

@@ -72,12 +72,13 @@ class UsersList extends Component {
     // }
 
     deleteSuccess = (response) => {
-        console.log("DELETE USER SUCCESS");
-        console.log(response);
-        // if (response.status===201) {
-        toast.success("User successfully deleted", {
-            position: toast.POSITION.BOTTOM_LEFT
-        });
+        // console.log("DELETE USER SUCCESS");
+        // console.log(response);
+        // // if (response.status===201) {
+        // toast.success("User successfully deleted", {
+        //     position: toast.POSITION.BOTTOM_LEFT
+        // });
+        Commons.operationSuccess();
         this.getUsers();
         // } else {
         // this.insertError (response) ;

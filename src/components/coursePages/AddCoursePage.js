@@ -46,7 +46,7 @@ class AddCoursePages extends React.Component {
       Constants.FULL_COURSEPAGE_API_URI,
       "POST",
       this.insertSuccess,
-      this.insertError,
+      Commons.operationError,
       JSON.stringify(item),
       true
     );
@@ -61,11 +61,12 @@ class AddCoursePages extends React.Component {
   };
 
   insertSuccess = (response) => {
-    console.log("INSERT COURSE PAGE SUCCESS");
-    console.log(response);
-    toast.success("Course Page successfully inserted", {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
+    // console.log("INSERT COURSE PAGE SUCCESS");
+    // console.log(response);
+    // toast.success("Course Page successfully inserted", {
+    //   position: toast.POSITION.BOTTOM_LEFT,
+    // });
+    Commons.operationSuccess();
     this.setState({ isModalOpen: false });
     this.props.refreshCoursePagesList();
   };
