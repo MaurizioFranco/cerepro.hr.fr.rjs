@@ -13,6 +13,10 @@
   padding: 4px;
 }
 
+.surveyView {
+  overflow: hidden;
+}
+
 .start p {
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
@@ -26,7 +30,7 @@ p {
 
 @media only screen and (max-width: 600px) {
   .headerTitle {
-    font-size: 15px;
+    font-size: 20px;
     width: auto;
   }
 }

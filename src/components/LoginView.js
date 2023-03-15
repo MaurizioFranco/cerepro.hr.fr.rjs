@@ -78,11 +78,9 @@ class LoginView extends Component {
     //		console.log(responseData.principal.id);
     sessionStorage.setItem("userLoggedEmail", this.state.formEmail);
     sessionStorage.setItem("userId", responseData.principal.id);
-    sessionStorage.setItem(
-      "headerToken",
-      Commons.getAuthorizationToken(this.state.formEmail, this.state.psw)
+    sessionStorage.setItem("headerToken",
+    Commons.getAuthorizationToken(this.state.formEmail, this.state.psw)
     );
-
     this.props.history.push("/");
   };
 

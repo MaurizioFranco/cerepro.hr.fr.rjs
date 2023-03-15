@@ -10,12 +10,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button } from "@material-ui/core";
+import { Button, IconButton } from "@material-ui/core";
+
 import reload from "../../images/reload.png";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddQuestion from './AddQuestion';
+import { event } from 'jquery';
+import SurveyPdfLink from './SurveyPdfLink';
 
 
 class Question extends Component {
@@ -145,6 +148,47 @@ class Question extends Component {
         this.reloadData()
     }
 
+    fetchPdfFile = (surveyreplyId) =>{
+        // Commons.executeFetch(Constants.FULL_SURVEYREPLY_ID_URI + surveyreplyId, 'GET', this.generatePdf)
+        // fetch(Constants.FULL_SURVEYREPLY_ID_URI + surveyreplyId, 
+        //     {
+        //         'Authorization': 'Basic ' + sessionStorage.getItem('headerToken'),
+        //         'Content-Type': 'application/json'
+        //     })
+        // .then(response => {
+        //     response.blob().then(blob => {
+        //         // Creating new object of PDF file
+        //         const fileURL = window.URL.createObjectURL(blob);
+        //         console.log("##### FILE URL #### " + fileURL);
+        //         // Setting various property values
+        //         let alink = document.createElement('a');
+        //         alink.href = fileURL;
+        //         alink.download = response.pdffilename;
+        //         alink.click();
+        //     })
+        // });
+    } 
+
+    onPdfButtonClick = (event) => {
+        const surveyreplyId = event.currentTarget.dataset.id;
+        this.fetchPdfFile(surveyreplyId) ;
+    }
+
+    // generatePdf = () => {
+    //     console.log("#################### GENERATE PDF ###########");
+    //     response = () => {
+    //         response.blob().then(blob => {
+    //             // Creating new object of PDF file
+    //             const fileURL = window.URL.createObjectURL(blob);
+    //             // Setting various property values
+    //             let alink = document.createElement('a');
+    //             alink.href = fileURL;
+    //             alink.download = 'SamplePDF.pdf';
+    //             alink.click();
+    //         })
+    //     });
+    // }
+
     render() {
         return (
             <div>
@@ -241,6 +285,29 @@ class Question extends Component {
                                         <this.StyledTableCell align="left">{user.lastname}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.surveyLabel}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{this.setTime(user.expirationDateTime)}</this.StyledTableCell>
+                                        {console.log("### SURVEY REPLY ID: ### " + user.surveyreplyId)}
+                                        
+                                        {user.surveyreplyId !== null && user.surveyreplyId !== 0 && user.surveyreplyId !== undefined  ?
+                                            
+                                            <this.StyledTableCell align='left'>
+                                                {/* <IconButton id="buttonGeneratePdf" color="primary" data-id={user.surveyreplyId} onClick={this.onPdfButtonClick}>
+                                                    <PdfIcon />
+                                                </IconButton> */}
+                                                <SurveyPdfLink pdffilename={'Maurizio-Franco-3-13-93.pdf'}/>
+                                                {/* <SurveyPdfLink pdffilename={user.urlPdf}/> */}
+                                            </this.StyledTableCell>
+                                            : null
+                                        }
+                                       
+                                        {/* {user.pdffilename !== null && user.pdffilename !== undefined ?
+
+                                            <this.StyledTableCell id="left">
+                                                <Button >Rigenera PDF</Button>
+                                            </this.StyledTableCell>
+                                           
+                                           : null
+                                        } */}
+                                        
                                         <this.StyledTableCell id="cellRight">
                                             <Button id="buttonDelete" data-id={user.id} onClick={this.handleDelete}>Delete</Button>
                                         </this.StyledTableCell>

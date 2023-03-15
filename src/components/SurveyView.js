@@ -1,26 +1,46 @@
 import React, { Component } from 'react';
-import Surveys from './survey/Surveys';
 import * as Commons from "../commons.js";
 import * as Constants from "../constants.js";
 import SurveysIonic from './surveysIonic/SurveysIonic';
 import { IonText, IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/react';
 import './SurveyView.css';
+import centauri_academy_header_logo from '../images/header_logo.png';
+import Timer from './surveysIonic/Timer.js';
 
 
 class SurveyView extends Component {
+	state = {
+		shouldRenderTime: false,
+		timer:"",
+		sendSurveyProp:""
+	  };
+	
+	  handleShouldRenderTimeChange = (value1,value2,value3) => {
+		this.setState({ timer: value1,shouldRenderTime:value2,sendSurveyProp:value3 });
+		console.log("eccolooooooo" + this.state.timer)
+		console.log("eccolooooooo" + this.state.shouldRenderTime)
+		console.log("eccolooooooo" + this.state.sendSurveyProp)
+	  };
 
 	render() {
+		const { shouldRenderTime } = this.state;
+		const { timer, sendSurveyProp } = this.state;
 		return (
-			<>
+			<div className="surveyView">
 				<IonHeader>
-					<IonToolbar color="primary" align="center">
-						<IonTitle className='headerTitle'>Corso Full Stack Developer</IonTitle>
+					<IonToolbar color="white">
+						<img align="left" alt="centauri-academy-logo" src={centauri_academy_header_logo} className="logo" />
+						<span className="navbar-brand title">CeRePro.HR</span>
+						{shouldRenderTime && (
+							<span slot="end" style={{marginRight:"25px"}}>
+								<Timer duration={timer} sendSurveyProp={sendSurveyProp} />
+							</span>
+						)}
 					</IonToolbar>
 				</IonHeader>
 				<IonContent style={{ height: '100vh' }}>
 					<div className="ion-padding">
 						<div className="start">
-							<h2>Questionario d'ingresso</h2>
 							<br />
 							<p>
 								Gentile candidato, questa è la pagina di presentazione del questionario d'ingresso utile per la partecipazione al prossimo corso Full Stack Developer in partenza. La preghiamo di compilare il questionario in base alle sue attuali conoscenze. Questo ci permetterà di avere idea delle sue attuali competenze, e poter quindi, organizzare al meglio il corso stesso.
@@ -30,11 +50,13 @@ class SurveyView extends Component {
 						</div>
 					</div>
 					<div align="center" style={{ marginTop: '-20px' }}>
-						<SurveysIonic />
-						{/* <Surveys /> */}
+						<SurveysIonic onShouldRenderTimeChange={this.handleShouldRenderTimeChange}/>
+						<br />
+						<br />
+						<br />
 					</div>
 				</IonContent>
-			</>
+			</div>
 		);
 	}
 }

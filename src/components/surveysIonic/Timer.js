@@ -29,7 +29,7 @@ class Timer extends Component {
     const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
     return (
-      <h3>Time remaining: {formattedTime}</h3>
+      <h3>Time {formattedTime}</h3>
     );
   }
 }

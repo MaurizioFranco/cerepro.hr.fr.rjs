@@ -1,7 +1,13 @@
+/* ion-item {
+  display: flex;
+  justify-content: center;
+} */
+
 #item {
   display: flex;
   justify-content: center;
 }
+
 /* 
 #divQuestion{
      display: flex;

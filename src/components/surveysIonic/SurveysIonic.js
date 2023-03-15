@@ -7,8 +7,8 @@ import * as Commons from '../../commons.js';
 import * as Constants from '../../constants';
 import '../loader/LoadingSpinnerComponent.css';
 import proxima_arrow from '../../images/proxima_red_great_arrow.png'
-import { ToastContainer, toast } from 'react-toastify';
-import { IonButton, IonCard, IonCardContent } from '@ionic/react';
+import { toast } from 'react-toastify';
+import { IonButton, IonCheckbox, IonLabel, IonItem } from '@ionic/react';
 import './SurveysIonic.css';
 
 class SurveysIonic extends React.Component {
@@ -205,7 +205,7 @@ class SurveysIonic extends React.Component {
         if (index === numSlides - 1) {
             document.getElementsByClassName("sendSurvey")[0].style.display = "block";
             document.getElementsByClassName("forwardButton")[0].style.display = "none";
-            
+
         } else {
             document.getElementsByClassName("sendSurvey")[0].style.display = "none";
             document.getElementsByClassName("forwardButton")[0].style.display = "block";
@@ -217,8 +217,13 @@ class SurveysIonic extends React.Component {
         document.getElementsByClassName("start")[0].style.display = "none";
         document.getElementsByClassName("movementButtons")[0].style.display = "block";
         document.getElementsByClassName("slide")[0].style.display = "block";
-        this.setState({ shouldRenderTime: true });
-        // this.highlightButton(0);
+        this.setState({ shouldRenderTime: true }, () => {
+            setTimeout(() => {
+                //this.props.onSetTime(this.state.timer)
+                // this.props.onSetSendSurvey(this.sendSurvey)
+                this.props.onShouldRenderTimeChange(this.state.timer,this.state.shouldRenderTime,this.state.sendSurvey);
+            }, 500);
+        });
     };
 
     sendSurvey = () => {
@@ -331,6 +336,8 @@ class SurveysIonic extends React.Component {
                 <div><b>{this.state.errorMessage}</b></div>
                 <br></br>
                 <br></br>
+                <br></br>
+                <br></br>
             </div>;
         }
 
@@ -344,80 +351,80 @@ class SurveysIonic extends React.Component {
                     </div>
                     {element.ansa !== null ?
                         <div>
-                            <ion-item>
-                                <ion-checkbox slot="start" id="ansa" type="checkbox"></ion-checkbox>
-                                <ion-label>{element.ansa}</ion-label>
-                            </ion-item>
+                            <IonItem id="item">
+                                <IonCheckbox slot="start" id="ansa" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansa}</IonLabel>
+                            </IonItem>
                             {/* <span><input id="ansa" type="checkbox" /></span>
                             <span>{element.ansa}</span> */}
                         </div>
                         : null}
                     {element.ansb !== null ?
                         <div>
-                            <ion-item>
-                                <ion-checkbox slot="start" id="ansb" type="checkbox"></ion-checkbox>
-                                <ion-label>{element.ansb}</ion-label>
-                            </ion-item>
+                            <IonItem id="item">
+                                <IonCheckbox slot="start" id="ansb" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansb}</IonLabel>
+                            </IonItem>
                             {/* <span><input id="ansb" type="checkbox" /></span>
                             <span>{element.ansb}</span> */}
                         </div>
                         : null}
                     {element.ansc !== null ?
                         <div>
-                            <ion-item>
-                                <ion-checkbox slot="start" id="ansc" type="checkbox"></ion-checkbox>
-                                <ion-label>{element.ansc}</ion-label>
-                            </ion-item>
+                            <IonItem id="item">
+                                <IonCheckbox slot="start" id="ansc" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansc}</IonLabel>
+                            </IonItem>
                             {/* <span><input id="ansc" type="checkbox" /></span>
                             <span>{element.ansc}</span> */}
                         </div>
                         : null}
                     {element.ansd !== null ?
                         <div>
-                            <ion-item>
-                                <ion-checkbox slot="start" id="ansd" type="checkbox"></ion-checkbox>
-                                <ion-label>{element.ansd}</ion-label>
-                            </ion-item>
+                            <IonItem id="item">
+                                <IonCheckbox slot="start" id="ansd" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansd}</IonLabel>
+                            </IonItem>
                             {/* <span><input id="ansd" type="checkbox" /></span>
                             <span>{element.ansd}</span> */}
                         </div>
                         : null}
                     {element.anse !== null ?
                         <div>
-                            <ion-item>
-                                <ion-checkbox slot="start" id="anse" type="checkbox"></ion-checkbox>
-                                <ion-label>{element.anse}</ion-label>
-                            </ion-item>
+                            <IonItem id="item">
+                                <IonCheckbox slot="start" id="anse" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.anse}</IonLabel>
+                            </IonItem>
                             {/* <span><input id="anse" type="checkbox" /></span>
                             <span>{element.anse}</span> */}
                         </div>
                         : null}
                     {element.ansf !== null ?
                         <div >
-                            <ion-item>
-                                <ion-checkbox slot="start" id="ansf" type="checkbox"></ion-checkbox>
-                                <ion-label>{element.ansf}</ion-label>
-                            </ion-item>
+                            <IonItem id="item">
+                                <IonCheckbox slot="start" id="ansf" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansf}</IonLabel>
+                            </IonItem>
                             {/* <span><input id="ansf" type="checkbox" /></span>
                             <span>{element.ansf}</span> */}
                         </div>
                         : null}
                     {element.ansg !== null ?
                         <div >
-                            <ion-item>
-                                <ion-checkbox slot="start" id="ansg" type="checkbox"></ion-checkbox>
-                                <ion-label>{element.ansg}</ion-label>
-                            </ion-item>
+                            <IonItem id="item">
+                                <IonCheckbox slot="start" id="ansg" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansg}</IonLabel>
+                            </IonItem>
                             {/* <span><input id="ansg" type="checkbox" /></span>
                             <span>{element.ansg}</span> */}
                         </div>
                         : null}
                     {element.ansh !== null ?
                         <div >
-                            <ion-item>
-                                <ion-checkbox slot="start" id="ansh" type="checkbox"></ion-checkbox>
-                                <ion-label>{element.ansh}</ion-label>
-                            </ion-item>
+                            <IonItem id="item">
+                                <IonCheckbox slot="start" id="ansh" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansh}</IonLabel>
+                            </IonItem>
                             {/* <span><input id="ansh" type="checkbox" /></span>
                             <span>{element.ansh}</span> */}
                         </div>
@@ -430,7 +437,7 @@ class SurveysIonic extends React.Component {
         return (
             <div align="center">
                 <div id="start" className="start">
-                    <IonButton className="startSurvey" id="startSurvey" onClick={() => {this.startSurvey(); this.createSurveyreplies(); }}>Inizia il questionario</IonButton>
+                    <IonButton className="startSurvey" color="danger" id="startSurvey" onClick={() => { this.startSurvey(); this.createSurveyreplies(); }}>Inizia il questionario</IonButton>
                 </div>
                 <div className="questionComplete" style={{ display: "none" }} >
                     <br></br>
@@ -447,15 +454,15 @@ class SurveysIonic extends React.Component {
                     <br>
                     </br>
                     <ButtonGroup className="me-2" aria-label="First group">
-                        <IonButton onClick={this.handlePrevSlide} className="small-btn">Indietro</IonButton>
+                        <IonButton onClick={this.handlePrevSlide} color="dark" className="small-btn">Indietro</IonButton>
                     </ButtonGroup>
                     <ButtonGroup>
-                        <IonButton className="me-2 small-btn forwardButton" onClick={this.handleNextSlide}>Avanti</IonButton>
+                        <IonButton className="me-2 small-btn forwardButton" color="dark" onClick={this.handleNextSlide}>Avanti</IonButton>
                     </ButtonGroup>
                 </ButtonToolbar>
-                <h3 className="time">
+                {/* <h3 className="time">
                     {shouldRenderTime && <Timer duration={this.state.timer} sendSurveyProp={this.sendSurvey} />}
-                </h3>
+                </h3> */}
                 <br />
                 <br />
                 <br />
