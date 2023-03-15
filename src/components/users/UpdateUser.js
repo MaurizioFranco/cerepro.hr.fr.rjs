@@ -1,7 +1,6 @@
 import React from 'react';
 import SkyLight from 'react-skylight';
 
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import * as Commons from '../../commons.js';
@@ -30,11 +29,6 @@ class UpdateUser extends React.Component {
     }
 
     updateSuccess = (response) => {
-        // console.log("UPDATE USER SUCCESSFULLY");
-        // console.log(response);
-        // toast.success("User successfully updated", {
-        //     position: toast.POSITION.BOTTOM_LEFT
-        // });
         Commons.operationSuccess();
         this.gridRef.current.hide();
         this.props.refreshUsersList();

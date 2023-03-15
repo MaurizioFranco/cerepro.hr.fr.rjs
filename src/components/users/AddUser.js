@@ -1,18 +1,52 @@
-import React from 'react';
-import SkyLight from 'react-skylight';
+import React from "react";
 
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {
+  Button,
+  TextField,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Switch,
+  Typography,
+  Grid,
+} from "@material-ui/core";
 
-import * as Commons from '../../commons.js';
-import * as Constants from '../../constants.js';
+import "react-toastify/dist/ReactToastify.css";
+import * as Commons from "../../commons.js";
+import * as Constants from "../../constants.js";
 
-class AddUser extends React.Component {
+class UpdateUser extends React.Component {
     constructor(props) {
         super(props);
-        //this.state = { brand: '', model: '', year: '', color: '', price: '' };
+        this.state = { idItemToLoad: null,
+            email: "",
+            firstname: "",
+            lastname: "",
+            role: "",
+            enabled: "",
+        };
         this.gridRef = React.createRef();
     }
+
+    componentDidMount() {
+      Commons.executeFetch(
+        Constants.USER_API_URI + this.props.idItemToUpdate,
+        "GET",
+        this.setUser,
+        Commons.operationError
+      );
+    }
+    
+    setUser = (data) => {
+      this.setState({
+        email: data.email,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        role: data.role,
+        enabled: data.enabled
+      });
+    };
 
     handleChange = (event) => {
         this.setState(
@@ -20,68 +54,139 @@ class AddUser extends React.Component {
         );
     }
 
-    // Save car and close modal form
     handleSubmit = (event) => {
         event.preventDefault();
         var item = {
-            email: this.state.email, firstname: this.state.firstname,
-            lastname: this.state.lastname, password: this.state.password
+            email: this.state.email,
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
+            role: this.state.role,
+            enabled: this.state.enabled,
         };
-        this.addUser(item);
+        Commons.executeFetch(Constants.USER_API_URI + this.props.idItemToUpdate, "PUT", this.updateSuccess, Commons.operationError, JSON.stringify(item), true);
     }
 
-    addUser(item) {
-        Commons.executeFetch(Constants.USER_API_URI, "POST", this.insertSuccess, Commons.operationError, JSON.stringify(item), true);
-    }
-
-    insertSuccess = (response) => {
-        // console.log("INSERT USER SUCCESS");
-        // console.log(response);
-        // // if (response.status===201) {
-        //     toast.success("User successfully inserted", {
-        //         position: toast.POSITION.BOTTOM_LEFT
-        //     });
+    updateSuccess = (response) => {
         Commons.operationSuccess();
-        this.gridRef.current.hide();
+        this.setState({ isModalOpen: false });
         this.props.refreshUsersList();
-        // } else {
-        // this.insertError (response) ;
-        // }
     }
 
-    // Cancel and close modal form
     cancelSubmit = (event) => {
         event.preventDefault();
-        this.gridRef.current.hide();
+        this.setState({ isModalOpen: false });
     }
 
-    render() {
-        return (
-            <div>
-                <SkyLight hideOnOverlayClicked ref={this.gridRef}>
-                    <h3>New user</h3>
-                    <form>
-                        <input type="text" placeholder="email" name="email"
-                            onChange={this.handleChange} /><br />
-                        <input type="text" placeholder="firstname" name="firstname"
-                            onChange={this.handleChange} /><br />
-                        <input type="text" placeholder="lastname" name="lastname"
-                            onChange={this.handleChange} /><br />
-                        <input type="password" placeholder="password" name="password"
-                            onChange={this.handleChange} /><br />
-                        <input type="password" placeholder="repeat-password" name="repeat-password"
-                            onChange={this.handleChange} /><br />
-                        <button onClick={this.handleSubmit}>Save</button>
-                        <button onClick={this.cancelSubmit}>Cancel</button>
-                    </form>
-                </SkyLight>
-                <div>
-                    <button onClick={() => this.gridRef.current.show()}>New User</button>
-                </div>
-            </div>
-        );
+    initializeAndShow = () => {
+        console.log(this.props.idItemToUpdate);
+        this.getItemById();
+        //this.gridRef.current.show();
     }
 
+    getItemById = () => {
+        Commons.executeFetch(Constants.USER_API_URI + this.props.idItemToUpdate, "GET", this.setItemToUpdate);
+    }
 
+    setItemToUpdate = (responseData) => {
+        this.setState({
+            itemLoaded: true,
+            email: responseData.email,
+            firstname: responseData.firstname,
+            lastname: responseData.lastname,
+            role: responseData.role,
+            enabled: responseData.enabled,
+        });
+    }
+
+  render() {
+    return (
+      <div>
+        <Dialog
+          open={this.state.isModalOpen}
+          onClose={() => this.setState({ isModalOpen: false })}
+        >
+          <DialogTitle>Edit Users</DialogTitle>
+          <DialogContent>
+            <TextField
+              fullWidth
+              label="E-mail"
+              name="email"
+              value={this.state.email}
+              onChange={this.handleChange}
+              style={{ marginBottom: "10px" }}
+            />
+            <TextField
+              fullWidth
+              label="Firstname"
+              name="firstname"
+              value={this.state.firstname}
+              onChange={this.handleChange}
+              style={{ marginBottom: "10px" }}
+            />
+            <TextField
+              fullWidth
+              label="Lastname"
+              name="lastname"
+              value={this.state.lastname}
+              onChange={this.handleChange}
+              style={{ marginBottom: "10px" }}
+            />
+            <TextField
+              fullWidth
+              label="Role"
+              name="role"
+              type="number"
+              value={this.state.role}
+              onChange={this.handleChange}
+              style={{ marginBottom: "20px" }}
+            />
+
+            <Grid container alignItems="center" justifyContent="flex-start">
+              <Grid item>
+                <Typography variant="subtitle1" gutterBottom>
+                  Enabled:
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Switch
+                  checked={this.state.enabled}
+                  onChange={(event) => this.setState({ enabled: event.target.checked })}
+                  name="enabled"
+                  inputProps={{ 'aria-label': 'Enable user' }}
+                />
+              </Grid>
+            </Grid>
+
+          </DialogContent>
+          <DialogActions>
+          <Button
+              onClick={this.handleSubmit}
+              style={{ marginRight: "14px" }}
+              color="primary"
+            >
+              Save
+            </Button>
+            <Button 
+              onClick={this.cancelSubmit}
+              style={{ margin: "7px" }}
+              color="secondary"
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => this.setState({ isModalOpen: true })}
+          >
+            EDIT
+      </Button>
+    </div>
+  </div>
+);
 }
-export default AddUser;
+}
+
+export default UpdateUser;

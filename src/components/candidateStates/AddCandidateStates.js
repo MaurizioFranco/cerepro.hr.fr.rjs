@@ -72,7 +72,7 @@ class AddCandidateStates extends React.Component {
   insertSuccess = (response) => {
     console.log("INSERT CANDIDATE STATE SUCCESS");
     console.log(response);
-    toast.success("Course Page successfully inserted", {
+    toast.success("Candidate state successfully inserted", {
       position: toast.POSITION.BOTTOM_LEFT,
     });
     this.setState({ isModalOpen: false });
