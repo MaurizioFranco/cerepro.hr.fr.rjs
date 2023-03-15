@@ -65,6 +65,11 @@ class ListedCourseCandidate extends Component {
 	
 	
 	render () {
+
+		const user = JSON.parse(sessionStorage.getItem("user"));
+		const userLoggedRole = user.role;
+		const showDeleteButton = [0, 10, 50].includes(userLoggedRole);
+
 		return (
 				<React.Fragment>
 				<tr className="gradeX odd" role="row">
@@ -85,7 +90,11 @@ class ListedCourseCandidate extends Component {
 				     </Button>
 				    </Link>
 			    </td>
-				<td><Button onClick={() => this.deleteCandidate()} variant="danger">Elimina</Button></td> 
+				{showDeleteButton && (
+          		<td>
+            		<Button onClick={() => this.deleteCandidate()} variant="danger">Elimina</Button>
+          		</td>
+        		)}
 				</tr>
 				</React.Fragment>
 		);

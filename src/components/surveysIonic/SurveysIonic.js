@@ -8,7 +8,7 @@ import * as Constants from '../../constants';
 import '../loader/LoadingSpinnerComponent.css';
 import proxima_arrow from '../../images/proxima_red_great_arrow.png'
 import { toast } from 'react-toastify';
-import { IonButton, IonCheckbox , IonLabel , IonItem } from '@ionic/react';
+import { IonButton, IonCheckbox, IonLabel, IonItem } from '@ionic/react';
 import './SurveysIonic.css';
 
 class SurveysIonic extends React.Component {
@@ -205,7 +205,7 @@ class SurveysIonic extends React.Component {
         if (index === numSlides - 1) {
             document.getElementsByClassName("sendSurvey")[0].style.display = "block";
             document.getElementsByClassName("forwardButton")[0].style.display = "none";
-            
+
         } else {
             document.getElementsByClassName("sendSurvey")[0].style.display = "none";
             document.getElementsByClassName("forwardButton")[0].style.display = "block";
@@ -217,8 +217,13 @@ class SurveysIonic extends React.Component {
         document.getElementsByClassName("start")[0].style.display = "none";
         document.getElementsByClassName("movementButtons")[0].style.display = "block";
         document.getElementsByClassName("slide")[0].style.display = "block";
-        this.setState({ shouldRenderTime: true });
-        // this.highlightButton(0);
+        this.setState({ shouldRenderTime: true }, () => {
+            setTimeout(() => {
+                //this.props.onSetTime(this.state.timer)
+                // this.props.onSetSendSurvey(this.sendSurvey)
+                this.props.onShouldRenderTimeChange(this.state.timer,this.state.shouldRenderTime,this.state.sendSurvey);
+            }, 500);
+        });
     };
 
     sendSurvey = () => {
@@ -331,6 +336,8 @@ class SurveysIonic extends React.Component {
                 <div><b>{this.state.errorMessage}</b></div>
                 <br></br>
                 <br></br>
+                <br></br>
+                <br></br>
             </div>;
         }
 
@@ -430,7 +437,7 @@ class SurveysIonic extends React.Component {
         return (
             <div align="center">
                 <div id="start" className="start">
-                    <IonButton className="startSurvey" color="danger" id="startSurvey" onClick={() => {this.startSurvey(); this.createSurveyreplies(); }}>Inizia il questionario</IonButton>
+                    <IonButton className="startSurvey" color="danger" id="startSurvey" onClick={() => { this.startSurvey(); this.createSurveyreplies(); }}>Inizia il questionario</IonButton>
                 </div>
                 <div className="questionComplete" style={{ display: "none" }} >
                     <br></br>
@@ -453,9 +460,9 @@ class SurveysIonic extends React.Component {
                         <IonButton className="me-2 small-btn forwardButton" color="dark" onClick={this.handleNextSlide}>Avanti</IonButton>
                     </ButtonGroup>
                 </ButtonToolbar>
-                <h3 className="time">
+                {/* <h3 className="time">
                     {shouldRenderTime && <Timer duration={this.state.timer} sendSurveyProp={this.sendSurvey} />}
-                </h3>
+                </h3> */}
                 <br />
                 <br />
                 <br />
