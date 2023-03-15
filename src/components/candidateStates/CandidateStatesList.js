@@ -89,12 +89,13 @@ class CandidateStatesList extends Component {
   }
 
   deleteSuccess = (response) => {
-    console.log("DELETE CANDIDATE STATE SUCCESS");
-    console.log(response);
-    // if (response.status===201) {
-    toast.success("Candidate State successfully deleted", {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
+    // console.log("DELETE CANDIDATE STATE SUCCESS");
+    // console.log(response);
+    // // if (response.status===201) {
+    // toast.success("Candidate State successfully deleted", {
+    //   position: toast.POSITION.BOTTOM_LEFT,
+    // });
+    Commons.operationSuccess();
     this.getCandidateStates();
     // } else {
     // this.insertError (response) ;

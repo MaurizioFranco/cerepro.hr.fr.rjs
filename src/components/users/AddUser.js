@@ -25,26 +25,27 @@ class AddUser extends React.Component {
         event.preventDefault();
         var item = {
             email: this.state.email, firstname: this.state.firstname,
-            lastname: this.state.lastname, password: this.state.password            
+            lastname: this.state.lastname, password: this.state.password
         };
-        this.addUser(item);        
+        this.addUser(item);
     }
 
     addUser(item) {
-        Commons.executeFetch(Constants.USER_API_URI, "POST", this.insertSuccess, Commons.operationError, JSON.stringify(item), true);        
+        Commons.executeFetch(Constants.USER_API_URI, "POST", this.insertSuccess, Commons.operationError, JSON.stringify(item), true);
     }
 
     insertSuccess = (response) => {
-        console.log("INSERT USER SUCCESS");
-        console.log(response);
-        // if (response.status===201) {
-            toast.success("User successfully inserted", {
-                position: toast.POSITION.BOTTOM_LEFT
-            });
-            this.gridRef.current.hide();
-            this.props.refreshUsersList();
+        // console.log("INSERT USER SUCCESS");
+        // console.log(response);
+        // // if (response.status===201) {
+        //     toast.success("User successfully inserted", {
+        //         position: toast.POSITION.BOTTOM_LEFT
+        //     });
+        Commons.operationSuccess();
+        this.gridRef.current.hide();
+        this.props.refreshUsersList();
         // } else {
-            // this.insertError (response) ;
+        // this.insertError (response) ;
         // }
     }
 

@@ -79,12 +79,13 @@ class CoursePagesList extends Component {
   }
 
   deleteSuccess = (response) => {
-    console.log("DELETE COURSE PAGE SUCCESS");
-    console.log(response);
-    // if (response.status===201) {
-    toast.success("Course page successfully deleted", {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
+    // console.log("DELETE COURSE PAGE SUCCESS");
+    // console.log(response);
+    // // if (response.status===201) {
+    // toast.success("Course page successfully deleted", {
+    //   position: toast.POSITION.BOTTOM_LEFT,
+    // });
+    Commons.operationSuccess();
     this.getCoursePages();
     // } else {
     // this.insertError (response) ;

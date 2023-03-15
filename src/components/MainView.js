@@ -19,7 +19,6 @@ import { ModalLoadingSpinnerComponent} from './loader/ModalLoadingSpinnerCompone
 import './MainView.css';
 import { Container } from 'react-bootstrap';
 import QuestionView from './QuestionView';
-import RegisterQuestionView from './RegisterQuestionView';
 //import * as Commons from "../commons.js";
 
 class MainView extends Component {
@@ -80,7 +79,6 @@ class MainView extends Component {
 						<Route exact path="/roles" render={() => renderComponentWithRole(CandidatesStatisticsView, 0)} />
 						<Route exact path="/coursepage" component={CoursePagesView}/>
 						<Route exact path="/question" render={() => renderComponentWithRole(QuestionView, 0) || renderComponentWithRole(QuestionView, 10) || renderComponentWithRole(QuestionView, 50)} />
-						<Route exact path="/registerQuestion" render={() => renderComponentWithRole(RegisterQuestionView, 0) || renderComponentWithRole(RegisterQuestionView, 10) || renderComponentWithRole(RegisterQuestionView, 50)} />
 						<Route exact path="/surveys" render={() => renderComponentWithRole(SurveysView, 0) || renderComponentWithRole(SurveysView, 10) || renderComponentWithRole(SurveysView, 50)} />
 						<Route exact path="/surveyquestions" render={() => renderComponentWithRole(SurveyQuestionsView, 0) || renderComponentWithRole(SurveyQuestionsView, 10) || renderComponentWithRole(SurveyQuestionsView, 50)} />
 				    </div>
