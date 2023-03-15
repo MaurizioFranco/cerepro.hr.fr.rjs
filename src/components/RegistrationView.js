@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Button } from '@material-ui/core';
+import { Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions, } from '@material-ui/core';
 import SkyLight from 'react-skylight';
 import React from "react";
 import Validator from "validator";
@@ -15,13 +15,14 @@ class RegistrationView extends Component {
         super(props);
         this.gridRef = React.createRef();
         this.state = {
-            email: '',
-            firstname: '',
-            lastname: '',
-            password: '',
-            repeatPassword: '',
+            email: 'Email',
+            firstname: 'FirstName',
+            lastname: 'LastName',
+            password: 'Password',
+            repeatPassword: 'Repeat-Password',
             emailIsValid: false,
-            passwordsAreTheSame: false
+            passwordsAreTheSame: false,
+            messageRegistration: ""
         }
     }
 
@@ -35,60 +36,77 @@ class RegistrationView extends Component {
         event.preventDefault();
         var item = {
             email: this.state.email, firstname: this.state.firstname,
-            lastname: this.state.lastname, password: this.state.password,     
+            lastname: this.state.lastname, password: this.state.password,
         };
         console.log(item);
         this.addUser(item);
     }
 
     addUser(item) {
-        Commons.executeFetchWithHeader(Constants.USER_API_URI, "POST", {'Content-Type': 'application/json'}, this.insertSuccess, Commons.operationError, JSON.stringify(item));        
+        Commons.executeFetchWithHeader(Constants.USER_API_URI, "POST", { 'Content-Type': 'application/json' }, this.insertSuccess, Commons.operationError, JSON.stringify(item));
     }
 
     insertSuccess = (response) => {
         console.log("INSERT USER SUCCESS");
         console.log(response);
-            toast.success("User successfully registered. We will send you an email once your account is enabled", {
-                position: toast.POSITION.BOTTOM_LEFT
-            });
-            this.gridRef.current.hide();
+        toast.success("User successfully registered. We will send you an email once your account is enabled", {
+            position: toast.POSITION.BOTTOM_LEFT
+        });
+        this.gridRef.current.hide();
     }
 
     handleEmail = (e) => {
         const email = e.target.value;
-        this.setState({ email: email }, () => {this.checkEmail()});
+        this.setState({ email: email }, () => { this.checkEmail() });
     };
 
     checkEmail = () => {
         if (Validator.isEmail(this.state.email)) {
-            this.setState({ emailIsValid: true });
-          } else {
+            this.setState({ emailIsValid: true, messageRegistration: "" });
+        } else {
             this.setState({ emailIsValid: false });
-          }
+            this.controllRegistration();
+        }
     }
 
     handleFirstname = (e) => {
         const firstname = e.target.value;
         this.setState({ firstname: firstname });
+        this.controllRegistration();
     };
 
     handleLastname = (e) => {
         const lastname = e.target.value;
         this.setState({ lastname: lastname });
+        this.controllRegistration();
     };
 
     handlePassword = (e) => {
         const password = e.target.value;
-        this.setState({ password: password }, () => {this.checkPasswords()});
+        this.setState({ password: password }, () => { this.checkPasswords() });
     };
 
     handleRepeatPassword = (e) => {
         const repeatPassword = e.target.value;
-        this.setState({ repeatPassword: repeatPassword }, () => {this.checkPasswords()});
+        this.setState({ repeatPassword: repeatPassword }, () => { this.checkPasswords() });
     };
 
     checkPasswords = () => {
-        this.setState(prevState=>({passwordsAreTheSame: prevState.password===prevState.repeatPassword}), () => {});
+        this.setState(prevState => ({ passwordsAreTheSame: prevState.password === prevState.repeatPassword }), () => { this.controllRegistration() });
+    }
+
+    default = () => {
+        this.setState({
+            email: '',
+            firstname: '',
+            lastname: '',
+            password: '',
+            repeatPassword: '',
+            passwordsAreTheSame: false,
+            emailIsValid: false,
+            messageRegistration: '',
+        });
+
     }
 
     cancelSubmit = (event) => {
@@ -96,88 +114,94 @@ class RegistrationView extends Component {
         this.gridRef.current.hide();
     }
 
-    render () {
+    controllRegistration = () => {
         if (!this.state.emailIsValid && this.state.email) {
-            return (
-                <div>
-                    <SkyLight hideOnOverlayClicked ref={this.gridRef}>
-                        <h3>Registration</h3>
-                        <form id = "form">
-                            <input type="email" placeholder="email" name="email"
-                                onChange={this.handleEmail} /><br />
-                            <input type="text" placeholder="firstname" name="firstname"
-                                onChange={this.handleFirstname} /><br />
-                            <input type="text" placeholder="lastname" name="lastname"
-                                onChange={this.handleLastname} /><br />
-                            <input type="password" placeholder="password" name="password"
-                                onChange={this.handlePassword} /><br />
-                            <input type="password" placeholder="repeat-password" name="repeatPassword"
-                                onChange={this.handleRepeatPassword} /><br />
-                            <button id="save-button" onClick={this.handleSubmit} disabled={!this.state.passwordsAreTheSame || !this.state.emailIsValid || !this.state.firstname || !this.state.password || !this.state.lastname}>Save</button>
-                            <button onClick={this.cancelSubmit}>Cancel</button>
-                        </form>
-                        <p>La mail inserita non è valida</p>
-                    </SkyLight>
-                    <div>
-                        <Button variant="contained" color="secondary" onClick={() => this.gridRef.current.show()}>Registrati</Button>
-                    </div>
-                    <ToastContainer autoClose={5000} />
-                </div>
-            );
-        }  else if (!this.state.passwordsAreTheSame && this.state.password) {
-            return (
-                <div>
-                    <SkyLight hideOnOverlayClicked ref={this.gridRef}>
-                        <h3>Registration</h3>
-                        <form id = "form">
-                            <input type="email" placeholder="email" name="email"
-                                onChange={this.handleEmail} /><br />
-                            <input type="text" placeholder="firstname" name="firstname"
-                                onChange={this.handleFirstname} /><br />
-                            <input type="text" placeholder="lastname" name="lastname"
-                                onChange={this.handleLastname} /><br />
-                            <input type="password" placeholder="password" name="password"
-                                onChange={this.handlePassword} /><br />
-                            <input type="password" placeholder="repeat-password" name="repeatPassword"
-                                onChange={this.handleRepeatPassword} /><br />
-                            <button id="save-button" onClick={this.handleSubmit} disabled={!this.state.passwordsAreTheSame || !this.state.emailIsValid || !this.state.firstname || !this.state.password || !this.state.lastname}>Save</button>
-                            <button onClick={this.cancelSubmit}>Cancel</button>
-                        </form>
-                        <p>Le due password devono coincidere</p>
-                    </SkyLight>
-                    <div>
-                        <Button variant="contained" color="secondary" onClick={() => this.gridRef.current.show()}>Registrati</Button>
-                    </div>
-                    <ToastContainer autoClose={5000} />
-                </div>
-            );
+            this.setState({ messageRegistration: "la email inserita non è valida" })
+        } else if (!this.state.passwordsAreTheSame && this.state.password) {
+            this.setState({ messageRegistration: "le due password devono coincidere" })
         } else {
-            return (
-                <div>
-                    <SkyLight hideOnOverlayClicked ref={this.gridRef}>
-                        <h3>Registration</h3>
-                        <form id = "form">
-                            <input type="email" placeholder="email" name="email"
-                                onChange={this.handleEmail} /><br />
-                            <input type="text" placeholder="firstname" name="firstname"
-                                onChange={this.handleFirstname} /><br />
-                            <input type="text" placeholder="lastname" name="lastname"
-                                onChange={this.handleLastname} /><br />
-                            <input type="password" placeholder="password" name="password"
-                                onChange={this.handlePassword} /><br />
-                            <input type="password" placeholder="repeat-password" name="repeatPassword"
-                                onChange={this.handleRepeatPassword} /><br />
-                            <button id="save-button" onClick={this.handleSubmit} disabled={!this.state.passwordsAreTheSame || !this.state.emailIsValid || !this.state.firstname || !this.state.password || !this.state.lastname}>Save</button>
-                            <button onClick={this.cancelSubmit}>Cancel</button>
-                        </form>
-                    </SkyLight>
-                    <div>
-                        <Button variant="contained" color="secondary" onClick={() => this.gridRef.current.show()}>Registrati</Button>
-                    </div>
-                    <ToastContainer autoClose={5000} />
-                </div>
-            );
+            this.setState({ messageRegistration: "" })
         }
     }
 
-}   export default RegistrationView;
+    render() {
+        const { messageRegistration } = this.state;
+        return (
+            <div>
+                <SkyLight hideOnOverlayClicked ref={this.gridRef}>
+                    <DialogTitle>Registration</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            fullWidth
+                            label="Email"
+                            name="email"
+                            type="email"
+                            value = {this.state.email}
+                            onChange={this.handleEmail}
+                            style={{ marginBottom: "10px" }}
+                        />
+                        <TextField
+                            fullWidth
+                            label="FirstName"
+                            name="firstname"
+                            type="text"
+                            value = {this.state.firstname}
+                            onChange={this.handleFirstname}
+                            style={{ marginBottom: "10px" }}
+                        />
+                        <TextField
+                            fullWidth
+                            label="LastName"
+                            name="lastname"
+                            value = {this.state.lastname}
+                            onChange={this.handleLastname}
+                            style={{ marginBottom: "20px" }}
+                        />
+                        <TextField
+                            fullWidth
+                            label="Password"
+                            name="password"
+                            type="password"
+                            value = {this.state.password}
+                            onChange={this.handlePassword}
+                            style={{ marginBottom: "20px" }}
+                        />
+                        <TextField
+                            fullWidth
+                            label="Repeat-Password"
+                            name="repeatPassword"
+                            type="password"
+                            value = {this.state.repeatPassword}
+                            onChange={this.handleRepeatPassword}
+                            style={{ marginBottom: "20px" }}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            onClick={this.handleSubmit}
+                            style={{ marginRight: "14px" }}
+                            color="primary"
+                            disabled={!this.state.passwordsAreTheSame || !this.state.emailIsValid || !this.state.firstname || !this.state.password || !this.state.lastname}
+                        >
+                            Save
+                        </Button>
+                        <Button
+                            onClick={this.cancelSubmit}
+                            style={{ margin: "7px" }}
+                            color="secondary"
+                        >
+                            Cancel
+                        </Button>
+                    </DialogActions>
+
+                    <p>{messageRegistration}</p>
+                </SkyLight>
+                <div>
+                    <Button variant="contained" color="secondary" onClick={() => { this.gridRef.current.show(); this.default() }}>Registration</Button>
+                </div>
+                <ToastContainer autoClose={5000} />
+            </div>
+        );
+    }
+}
+export default RegistrationView;
