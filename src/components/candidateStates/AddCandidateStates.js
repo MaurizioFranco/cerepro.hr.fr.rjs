@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 //import SkyLight from 'react-skylight';
 
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import * as Commons from "../../commons.js";
@@ -41,12 +40,6 @@ class AddCandidateStates extends React.Component {
       statusDescription: this.state.statusDescription,
       statusColor: this.state.statusColor,
     };
-    // const formData = new FormData();
-    // formData.append("firstname", this.state.firstname);
-    // formData.append("lastname", this.state.lastname);
-    // formData.append("email", this.state.email);
-    // formData.append("password", this.password );
-    // console.log(item);
     this.addCandidateState(item);
   };
 
@@ -62,7 +55,7 @@ class AddCandidateStates extends React.Component {
   }
 
   insertSuccess = (response) => {
-    Commons.operationSuccess();
+    Commons.operationSuccess(); 
     this.setState({ isModalOpen: false });
     this.props.refreshCandidateStatesList();
   };
@@ -146,4 +139,5 @@ class AddCandidateStates extends React.Component {
     );
   }
 }
+
 export default AddCandidateStates;
