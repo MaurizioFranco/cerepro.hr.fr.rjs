@@ -28,15 +28,15 @@ export class CandidatesHeaderMenu extends Component {
 		return (
 			<li className="nav-item dropdown">
 				<button className="nav-link dropdown-toggle buttonDropdown navigationBarItem" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Candidates
+					Candidature/Posizioni
 		</button>
 
 				<div className="dropdown-menu" aria-labelledby="navbarDropdown">
 					<Link className="dropdown-item navigationBarItem" to="/insertNewCandidate">Inserisci nuovo candidato</Link>
-					<Link className="dropdown-item navigationBarItem" to="/candidateStates">Stati candidatura</Link>
+					
 					<Link className="dropdown-item navigationBarItem" to="/coursepage">Candidature/Posizioni</Link>
 					<Link className="dropdown-item navigationBarItem" to="/candidatesStatistics">Statistiche candidature</Link>
-					<Link className="dropdown-item navigationBarItem" to="/question">Question</Link>
+					
 
 					<div className="dropdown-divider"></div>
 					<Link className="dropdown-item navigationBarItem" to="/candidates">Tutti i candidati</Link>

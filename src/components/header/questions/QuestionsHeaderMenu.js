@@ -35,6 +35,7 @@ export class QuestionsHeaderMenu extends Component {
 
 				<div className="dropdown-menu" aria-labelledby="navbarDropdown">
 					<Link className="dropdown-item navigationBarItem" to="/surveyquestions">Tutte le survey questions</Link>
+					<Link className="dropdown-item navigationBarItem" to="/question">Question</Link>
 					{/* {this.state.position_codes.map(item => <HeaderBarMenuNavbarItem key={item.code} code={item.code} />)} */}
 				</div>
 			</li>

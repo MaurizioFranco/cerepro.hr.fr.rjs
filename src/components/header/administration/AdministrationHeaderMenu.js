@@ -13,8 +13,9 @@ export class AdministrationHeaderMenu extends Component {
 		</button>
 
 				<div className="dropdown-menu" aria-labelledby="navbarDropdown">
-					<Link className="dropdown-item navigationBarItem" to="/users">Users</Link>
-					<Link className="dropdown-item navigationBarItem" to="/roles">Roles</Link>					
+					<Link className="dropdown-item navigationBarItem" to="/users">Utenti</Link>
+					{/* <Link className="dropdown-item navigationBarItem" to="/roles">Ruoli</Link>					 */}
+					<Link className="dropdown-item navigationBarItem" to="/candidateStates">Stati candidatura</Link>
 				</div>
 			</li>
 		);

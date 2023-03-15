@@ -18,8 +18,7 @@ class HeaderBarMenu extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			// userLoggedEmail: '',
-			username: '',
+			userFullName: '',
 			role: null,
 		};
 	}
@@ -29,13 +28,6 @@ class HeaderBarMenu extends Component {
 		Commons.executeFetch(Constants.FULL_APPLICATION_VERSION_URI, "GET", this.setApplicationVersion);
 		console.log("##########################################");
 		
-		// let userLoggedEmail = sessionStorage.getItem('userLoggedEmail');
-		// this.setState({
-		// 	userLoggedEmail: userLoggedEmail
-		// });
-		
-		//let loggedUser = JSON.parse(sessionStorage.getItem("user"));
-
 		this.getUserValues();
 	}
 
@@ -46,15 +38,15 @@ class HeaderBarMenu extends Component {
 
 	getUserValues = () => {
 		try {
-		  let { firstname, role } = JSON.parse(sessionStorage.getItem("user"));
+		  let { firstname, lastname, role } = JSON.parse(sessionStorage.getItem("user"));
 		  this.setState({
-			username: firstname,
+			userFullName: firstname + " " + lastname,
 			role: role
 		  });
 		} catch(error) {
 		  console.error(error);
 		  this.setState({
-			username: "User"
+			userFullName: ""
 		  });
 		}
 	  }
@@ -66,7 +58,7 @@ class HeaderBarMenu extends Component {
 	}
 
 	render() {
-		const { username } = this.state;
+		const { userFullName } = this.state;
 
 		return (
 			<React.Fragment>
@@ -88,7 +80,7 @@ class HeaderBarMenu extends Component {
             				{(this.state.role === 0 || this.state.role === 10 || this.state.role === 50) && <QuestionsHeaderMenu />}
 
 							<li className="nav-item">
-								<span className="nav-link navigationBarItem">Welcome {username}</span>
+								<span className="nav-link navigationBarItem">{userFullName}</span>
 							</li>
 							<li className="nav-item">
 								<button className="nav-link buttonDropdown" onClick={this.logout}>
