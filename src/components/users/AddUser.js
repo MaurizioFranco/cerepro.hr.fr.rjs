@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
   Button,
   TextField,
@@ -11,92 +10,65 @@ import {
   Typography,
   Grid,
 } from "@material-ui/core";
+//import SkyLight from 'react-skylight';
 
 import "react-toastify/dist/ReactToastify.css";
+
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 
-class UpdateUser extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { idItemToLoad: null,
-            email: "",
-            firstname: "",
-            lastname: "",
-            role: "",
-            enabled: "",
-        };
-        this.gridRef = React.createRef();
-    }
-
-    componentDidMount() {
-      Commons.executeFetch(
-        Constants.USER_API_URI + this.props.idItemToUpdate,
-        "GET",
-        this.setUser,
-        Commons.operationError
-      );
-    }
-    
-    setUser = (data) => {
-      this.setState({
-        email: data.email,
-        firstname: data.firstname,
-        lastname: data.lastname,
-        role: data.role,
-        enabled: data.enabled
-      });
+class AddUsers extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      firstname: "",
+      lastname: "",
+      role: props.role || 90,
+      enabled: "",
     };
+    this.gridRef = React.createRef();
+  }
 
-    handleChange = (event) => {
-        this.setState(
-            { [event.target.name]: event.target.value }
-        );
-    }
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
-    handleSubmit = (event) => {
-        event.preventDefault();
-        var item = {
-            email: this.state.email,
-            firstname: this.state.firstname,
-            lastname: this.state.lastname,
-            role: this.state.role,
-            enabled: this.state.enabled,
-        };
-        Commons.executeFetch(Constants.USER_API_URI + this.props.idItemToUpdate, "PUT", this.updateSuccess, Commons.operationError, JSON.stringify(item), true);
-    }
+  handleSubmit = (event) => {
+    event.preventDefault();
+    var item = {
+      email: this.state.email,
+      password: this.state.password,
+      firstname: this.state.firstname,
+      lastname: this.state.lastname,
+      role: this.state.role,
+      enabled: this.state.enabled,
+    };
+    this.addCandidateState(item);
+  };
 
-    updateSuccess = (response) => {
-        Commons.operationSuccess();
-        this.setState({ isModalOpen: false });
-        this.props.refreshUsersList();
-    }
+  addCandidateState(item) {
+    Commons.executeFetch(
+      Constants.USER_API_URI,
+      "POST",
+      this.insertSuccess,
+      Commons.operationError,
+      JSON.stringify(item),
+      true
+    );
+  }
 
-    cancelSubmit = (event) => {
-        event.preventDefault();
-        this.setState({ isModalOpen: false });
-    }
+  insertSuccess = (response) => {
+    Commons.operationSuccess();
+    this.setState({ isModalOpen: false });
+    this.props.refreshUsersList();
+  };
 
-    initializeAndShow = () => {
-        console.log(this.props.idItemToUpdate);
-        this.getItemById();
-        //this.gridRef.current.show();
-    }
-
-    getItemById = () => {
-        Commons.executeFetch(Constants.USER_API_URI + this.props.idItemToUpdate, "GET", this.setItemToUpdate);
-    }
-
-    setItemToUpdate = (responseData) => {
-        this.setState({
-            itemLoaded: true,
-            email: responseData.email,
-            firstname: responseData.firstname,
-            lastname: responseData.lastname,
-            role: responseData.role,
-            enabled: responseData.enabled,
-        });
-    }
+  cancelSubmit = (event) => {
+    event.preventDefault();
+    this.setState({ isModalOpen: false });
+  };
 
   render() {
     return (
@@ -105,13 +77,19 @@ class UpdateUser extends React.Component {
           open={this.state.isModalOpen}
           onClose={() => this.setState({ isModalOpen: false })}
         >
-          <DialogTitle>Edit Users</DialogTitle>
+          <DialogTitle>New User</DialogTitle>
           <DialogContent>
             <TextField
               fullWidth
               label="E-mail"
               name="email"
-              value={this.state.email}
+              onChange={this.handleChange}
+              style={{ marginBottom: "10px" }}
+            />
+            <TextField
+              fullWidth
+              label="Password"
+              name="password"
               onChange={this.handleChange}
               style={{ marginBottom: "10px" }}
             />
@@ -119,7 +97,6 @@ class UpdateUser extends React.Component {
               fullWidth
               label="Firstname"
               name="firstname"
-              value={this.state.firstname}
               onChange={this.handleChange}
               style={{ marginBottom: "10px" }}
             />
@@ -127,7 +104,6 @@ class UpdateUser extends React.Component {
               fullWidth
               label="Lastname"
               name="lastname"
-              value={this.state.lastname}
               onChange={this.handleChange}
               style={{ marginBottom: "10px" }}
             />
@@ -136,12 +112,11 @@ class UpdateUser extends React.Component {
               label="Role"
               name="role"
               type="number"
-              value={this.state.role}
               onChange={this.handleChange}
               style={{ marginBottom: "20px" }}
             />
 
-            <Grid container alignItems="center" justifyContent="flex-start">
+            <Grid container alignItems="center" justify="flex-start">
               <Grid item>
                 <Typography variant="subtitle1" gutterBottom>
                   Enabled:
@@ -178,15 +153,20 @@ class UpdateUser extends React.Component {
         <div>
           <Button
             variant="contained"
-            color="primary"
+            style={{
+              marginRight: "40px",
+              marginBottom: "40px",
+              backgroundColor: "green",
+              color: "#fff",
+              float: "right",
+            }}
             onClick={() => this.setState({ isModalOpen: true })}
           >
-            EDIT
-      </Button>
-    </div>
-  </div>
-);
+            +
+          </Button>
+        </div>
+      </div>
+    );
+  }
 }
-}
-
-export default UpdateUser;
+export default AddUsers;

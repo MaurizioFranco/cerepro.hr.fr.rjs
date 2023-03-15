@@ -1,6 +1,5 @@
 import React from "react";
 //import SkyLight from 'react-skylight';
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
@@ -50,20 +49,7 @@ class AddSurvey extends React.Component {
     );
   }
 
-  insertError = (err) => {
-    console.log("INSERT SURVEY KO");
-    toast.error(err.errorMessage, {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
-    console.error(err);
-  };
-
   insertSuccess = (response) => {
-    // console.log("INSERT SURVEY SUCCESS");
-    // console.log(response);
-    // toast.success("Survey successfully inserted", {
-    //   position: toast.POSITION.BOTTOM_LEFT,
-    // });
     Commons.operationSuccess();
     this.setState({ isModalOpen: false });
     this.props.refreshSurveysList();
