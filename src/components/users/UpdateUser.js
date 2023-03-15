@@ -30,11 +30,12 @@ class UpdateUser extends React.Component {
     }
 
     updateSuccess = (response) => {
-        console.log("UPDATE USER SUCCESSFULLY");
-        console.log(response);
-        toast.success("User successfully updated", {
-            position: toast.POSITION.BOTTOM_LEFT
-        });
+        // console.log("UPDATE USER SUCCESSFULLY");
+        // console.log(response);
+        // toast.success("User successfully updated", {
+        //     position: toast.POSITION.BOTTOM_LEFT
+        // });
+        Commons.operationSuccess();
         this.gridRef.current.hide();
         this.props.refreshUsersList();
     }

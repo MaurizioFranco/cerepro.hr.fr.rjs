@@ -87,12 +87,13 @@ class SurveyQuestionsList extends Component {
   }
 
   deleteSuccess = (response) => {
-    console.log("DELETE SURVEY QUESTION SUCCESS");
-    console.log(response);
-    // if (response.status===201) {
-    toast.success("Survey question successfully deleted", {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
+    // console.log("DELETE SURVEY QUESTION SUCCESS");
+    // console.log(response);
+    // // if (response.status===201) {
+    // toast.success("Survey question successfully deleted", {
+    //   position: toast.POSITION.BOTTOM_LEFT,
+    // });
+    Commons.operationSuccess();
     this.getSurveyQuestions();
     // } else {
     // this.insertError (response) ;

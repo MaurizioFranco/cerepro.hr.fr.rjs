@@ -59,23 +59,14 @@ class AddQuestion extends React.Component {
                 surveyId: surveyId,
                 expirationDateTime: expirationDateTime
             };
-            Commons.executeFetch(Constants.INSERT_SURVEYTOKEN_API_URI, "POST", this.insertSuccess, this.insertError, JSON.stringify(item), true);
+            Commons.executeFetch(Constants.INSERT_SURVEYTOKEN_API_URI, "POST", this.insertSuccess, Commons.operationError, JSON.stringify(item), true);
         }
 
     }
 
     insertSuccess = () => {
-        console.log("successooooooo")
-        toast.success("Insert successfully", {
-            position: toast.POSITION.BOTTOM_LEFT,
-        });
-    }
-
-    insertError = () => {
-        console.log("noooooooooo")
-        toast.error("Insert unSuccessfully", {
-            position: toast.POSITION.BOTTOM_LEFT,
-        });
+        Commons.operationSuccess();
+        this.props.refreshSurveysList()
     }
 
     setCandidates = (candidates) => {

@@ -134,11 +134,12 @@ class UpdateSurveyQuestions extends React.Component {
     }
 
     updateSuccess = (response) => {
-        console.log("SURVEY QUESTION UPDATE SUCCESS");
-        console.log(response);
-        toast.success("SURVEY QUESTION successfully updated", {
-            position: toast.POSITION.BOTTOM_LEFT
-        });
+        // console.log("SURVEY QUESTION UPDATE SUCCESS");
+        // console.log(response);
+        // toast.success("SURVEY QUESTION successfully updated", {
+        //     position: toast.POSITION.BOTTOM_LEFT
+        // });
+        Commons.operationSuccess();
         this.setState({ isModalOpen: false });
         this.props.refreshSurveyQuestionsList();
     }

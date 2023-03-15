@@ -85,7 +85,7 @@ export function getUserLoggedRole() {
 // 				console.log("ERRORE");
 // 				console.log(response);
 // 			})
-			
+
 // 	// )
 // }
 
@@ -97,12 +97,12 @@ export const executeDelete = async (uri, successCallbackFunction, callbackFuncti
 		method: 'DELETE',
 		headers: headerToken
 	})
-  
+
 	console.log(response);
 	console.log(response.status);
 
 	// const data = await response.json()
-	
+
 	// console.log(data);
 
 	if (response.status === 204) {
@@ -118,10 +118,10 @@ export const executeDelete = async (uri, successCallbackFunction, callbackFuncti
 		callbackFunctionKO(responseData);
 	}
 	// console.log(JSON.parse(data))
-  
+
 	//return JSON.parse(data)
 	//console.log()
-  }
+}
 
 export function executeFetch(uri, method, successCallbackFunction, callbackFunctionKO, body, isBodyAJSON) {
 	console.log("Commons.executeFetch - START - uri: " + uri);
@@ -200,34 +200,34 @@ export function executeFetchWithHeader(uri, method, headerToken, successCallback
 
 export function getUserValues() {
 	try {
-	  let { firstname, role } = JSON.parse(sessionStorage.getItem("user"));
-	  this.setState({
-		username: firstname,
-		role: role
-	  });
-	} catch(error) {
-	  console.error(error);
-	  this.setState({
-		username: "User"
-	  });
+		let { firstname, role } = JSON.parse(sessionStorage.getItem("user"));
+		this.setState({
+			username: firstname,
+			role: role
+		});
+	} catch (error) {
+		console.error(error);
+		this.setState({
+			username: "User"
+		});
 	}
-  }
-
-export function getUserRole() {
-	  let role = JSON.parse(sessionStorage.getItem("user"));
-	  this.setState({
-		role: role
-	  });
-	  return role;
-  }
+}
 
 export function operationError(err) {
 	console.log("OPERATION KO");
-	let errorMessage = (err!==null&&err!==undefined&&err.errorMessage!==undefined)?err.errorMessage:"errore del cazzo!!!";
+	let errorMessage = (err !== null && err !== undefined && err.errorMessage !== undefined) ? err.errorMessage : "errore del cazzo!!!";
 	toast.error(errorMessage, {
 		position: toast.POSITION.BOTTOM_LEFT
 	});
 	console.warn(err)
+}
+
+export function operationSuccess(response) {
+	console.log("OPERATION OK");
+	let successMessage = (response !== null && response !== undefined && response.successMessage !== undefined) ? response.successMessage : "succesfully!!!";
+	toast.success(successMessage, {
+		position: toast.POSITION.BOTTOM_LEFT
+	});
 }
 
 const DEBUG_ENABLED = true;

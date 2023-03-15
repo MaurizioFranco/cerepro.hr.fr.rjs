@@ -47,7 +47,7 @@ class Question extends Component {
     }
 
     fetchSendQuestion = (id) => {
-        Commons.executeFetch(Constants.FULL_ST_SENDEMAIL_API_URI + id, 'GET', this.sendSuccess, this.sendError);
+        Commons.executeFetch(Constants.FULL_ST_SENDEMAIL_API_URI + id, 'GET', Commons.operationSuccess, Commons.operationError);
     }
 
     sendError(err) {
@@ -65,9 +65,10 @@ class Question extends Component {
 
     deleteSuccess = (response) => {
         // console.log("DELETE Candidates SUCCESS");
-        toast.success("Delete successfully", {
-            position: toast.POSITION.BOTTOM_LEFT,
-        });
+        // toast.success("Delete successfully", {
+        //     position: toast.POSITION.BOTTOM_LEFT,
+        // });
+        Commons.operationSuccess();
         this.reloadData();
     }
 
@@ -140,6 +141,7 @@ class Question extends Component {
     }
 
     reloadData() {
+        console.log("sto chiamando il reload dal register")
         this.fetchUserExpired(this.state.selectedValueExpired);
         this.fetchUserActive(this.state.selectedValueActive);
     }

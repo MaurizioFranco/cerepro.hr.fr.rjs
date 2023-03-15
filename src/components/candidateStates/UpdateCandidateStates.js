@@ -64,11 +64,12 @@ class UpdateCandidateStates extends React.Component {
     }
 
     updateSuccess = (response) => {
-        console.log("CANDIDATE STATE SUCCESSFULLY UPDATED");
-        console.log(response);
-        toast.success("Candidate State successfully updated", {
-            position: toast.POSITION.BOTTOM_LEFT
-        });
+        // console.log("CANDIDATE STATE SUCCESSFULLY UPDATED");
+        // console.log(response);
+        // toast.success("Candidate State successfully updated", {
+        //     position: toast.POSITION.BOTTOM_LEFT
+        // });
+        Commons.operationSuccess();
         this.setState({ isModalOpen: false });
         this.props.refreshCandidateStatesList();
     }
