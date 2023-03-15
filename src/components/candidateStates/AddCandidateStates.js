@@ -55,26 +55,14 @@ class AddCandidateStates extends React.Component {
       Constants.FULL_CANDIDATE_STATES_API_URI,
       "POST",
       this.insertSuccess,
-      this.insertError,
+      Commons.operationError,
       JSON.stringify(item),
       true
     );
   }
 
-  insertError = (err) => {
-    console.log("INSERT CANDIDATE STATE KO");
-    toast.error(err.errorMessage, {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
-    console.error(err);
-  };
-
   insertSuccess = (response) => {
-    console.log("INSERT CANDIDATE STATE SUCCESS");
-    console.log(response);
-    toast.success("Candidate state successfully inserted", {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
+    Commons.operationSuccess();
     this.setState({ isModalOpen: false });
     this.props.refreshCandidateStatesList();
   };
