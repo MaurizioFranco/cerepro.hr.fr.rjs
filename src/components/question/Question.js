@@ -28,7 +28,7 @@ class Question extends Component {
         this.state = {
             usersExipred: [],
             usersActive: [],
-            selectedValueExpired: '5'
+            selectedValueExpired: '5',
             regeneratedPdf: ''
         }
         this.reloadData = this.reloadData.bind(this);
