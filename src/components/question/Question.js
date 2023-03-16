@@ -29,14 +29,13 @@ class Question extends Component {
             expiredSurveys: [],
             executedSurveys: [],
             activeAndValidSurveys: [],
-            selectedValueExpired: '5',
             regeneratedPdf: ''
         }
         this.reloadData = this.reloadData.bind(this);
     }
 
-    fetchUserExpired = (value) => {
-        Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'expired/' + value + '/0/', 'GET', this.setUserExpired);
+    fetchExpiredSurveys = () => {
+        Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'expired/', 'GET', this.setUserExpired);
     }
 
     fetchActiveAndValidSurveys = () => {
@@ -75,8 +74,8 @@ class Question extends Component {
 
     setUserExpired = (userExpiredToSet) => {
         Commons.debugMessage("userExpiredToSet - START - userExpiredToSet: " + userExpiredToSet);
-        this.setState({ expiredSurveys: userExpiredToSet.content });
-        console.log("USER EXPIRED == " + this.state.expiredSurveys);
+        this.setState({ expiredSurveys: userExpiredToSet });
+        // console.log("EXPIRED == " + this.state.expiredSurveys);
     }
 
     setActiveAndValidSurveys = (activeAndValidSurveysToSet) => {
@@ -120,14 +119,6 @@ class Question extends Component {
         },
     }));
 
-    handleChangeExpired = (event) => {
-        const { value } = event.target;
-        this.setState({ selectedValueExpired: value }, () => {
-            console.log(this.state.selectedValueExpired);
-            this.fetchUserExpired(this.state.selectedValueExpired);
-        });
-    }
-
     sendQuestion = (event) => {
         const id = event.target.dataset.id;
         this.fetchSendQuestion(id);
@@ -140,7 +131,7 @@ class Question extends Component {
 
     reloadData() {
         console.log("sto chiamando il reload dal register")
-        this.fetchUserExpired(this.state.selectedValueExpired);
+        this.fetchExpiredSurveys();
         this.fetchActiveAndValidSurveys();
         this.fetchExecutedSurveys();
     }
@@ -302,16 +293,6 @@ class Question extends Component {
                     <div class="panel-heading">
                         <h1 class="panel-title">
                             <span id="expired">Lista questionari scaduti</span>
-                            <div className="control-table">
-                                <label id="labelQuestion">Visualizza</label>
-                                <select value={this.selectedValueExpired} onChange={this.handleChangeExpired}>
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                                <label id="labelQuestion">Questionari</label>
-                            </div>
                         </h1>
                     </div>
                     <TableContainer component={Paper}>
@@ -323,7 +304,7 @@ class Question extends Component {
                                     <this.StyledTableCell align="left">Lastname</this.StyledTableCell>
                                     <this.StyledTableCell align="left">Question</this.StyledTableCell>
                                     <this.StyledTableCell align="left">expiration Date Time</this.StyledTableCell>
-                                    <this.StyledTableCell align="left"></this.StyledTableCell>
+                                    
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -334,23 +315,7 @@ class Question extends Component {
                                         <this.StyledTableCell align="left">{item.lastname}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{item.surveyLabel}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{this.setTime(item.expirationDateTime)}</this.StyledTableCell>
-                                        {console.log("### GENERATED TOKEN: ### " + item.generatedToken)}
                                         
-                                        {/* {item.urlPdf !== null && item.urlPdf !== 0 && item.urlPdf !== undefined  ?
-                                            
-                                            <this.StyledTableCell align='left'>
-                                                <SurveyPdfLink pdffilename={item.urlPdf}/>
-                                            </this.StyledTableCell>
-                                            : null
-                                        } */}
-                                      
-                                        <this.StyledTableCell align='left'>
-                                            <SurveyPdfLink pdffilename={item.urlPdf}/>
-                                        </this.StyledTableCell>
-                                        
-                                        <this.StyledTableCell align="left">
-                                            <Button  onClick={() => this.regeneratePdf(item.surveyReplyId)}>Rigenera PDF</Button>
-                                        </this.StyledTableCell>
                                         
                                         <this.StyledTableCell id="cellLeft">
                                             <Button id="buttonDelete" data-id={item.id} onClick={this.handleDelete}>Delete</Button>
