@@ -26,8 +26,9 @@ class Question extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            usersExipred: [],
-            usersActive: [],
+            expiredSurveys: [],
+            executedSurveys: [],
+            activeAndValidSurveys: [],
             selectedValueExpired: '5',
             regeneratedPdf: ''
         }
@@ -38,8 +39,12 @@ class Question extends Component {
         Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'expired/' + value + '/0/', 'GET', this.setUserExpired);
     }
 
-    fetchUserActive = () => {
-        Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'active/', 'GET', this.setUserActive);
+    fetchActiveAndValidSurveys = () => {
+        Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'active/', 'GET', this.setActiveAndValidSurveys);
+    }
+
+    fetchExecutedSurveys = () => {
+        Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'executed/', 'GET', this.setExecutedSurveys);
     }
 
     fetchDelete = (value) => {
@@ -64,23 +69,24 @@ class Question extends Component {
     }
 
     deleteSuccess = (response) => {
-        // console.log("DELETE Candidates SUCCESS");
-        // toast.success("Delete successfully", {
-        //     position: toast.POSITION.BOTTOM_LEFT,
-        // });
         Commons.operationSuccess();
         this.reloadData();
     }
 
     setUserExpired = (userExpiredToSet) => {
         Commons.debugMessage("userExpiredToSet - START - userExpiredToSet: " + userExpiredToSet);
-        this.setState({ usersExipred: userExpiredToSet.content });
-        console.log("USER EXPIRED == " + this.state.usersExipred);
+        this.setState({ expiredSurveys: userExpiredToSet.content });
+        console.log("USER EXPIRED == " + this.state.expiredSurveys);
     }
 
-    setUserActive = (userActiveToSet) => {
-        Commons.debugMessage("userActiveToSet - START - userActiveToSet: " + userActiveToSet);
-        this.setState({ usersActive: userActiveToSet });
+    setActiveAndValidSurveys = (activeAndValidSurveysToSet) => {
+        Commons.debugMessage("setActiveAndValidSurveys - START - activeAndValidSurveysToSet: " + activeAndValidSurveysToSet);
+        this.setState({ activeAndValidSurveys: activeAndValidSurveysToSet });
+    }
+
+    setExecutedSurveys = (executedSurveysToSet) => {
+        Commons.debugMessage("setExecutedSurveys - START - executedSurveysToSet: " + executedSurveysToSet);
+        this.setState({ executedSurveys: executedSurveysToSet });
     }
 
     setTime = (expirationDateTime) => {
@@ -135,7 +141,8 @@ class Question extends Component {
     reloadData() {
         console.log("sto chiamando il reload dal register")
         this.fetchUserExpired(this.state.selectedValueExpired);
-        this.fetchUserActive();
+        this.fetchActiveAndValidSurveys();
+        this.fetchExecutedSurveys();
     }
 
     componentDidMount() {
@@ -188,7 +195,7 @@ class Question extends Component {
                 <div style={{ padding: "10px" }}>
                     <div className="panel-heading">
                         <h1 className="panel-title">
-                            <span id="active">Lista questionari ancora da compilare</span>
+                            <span id="active">Questionari ancora da compilare</span>
                             <div className="control-table">
                                 
                                 <button id="reload" onClick={this.reloadData}>
@@ -212,22 +219,78 @@ class Question extends Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {this.state.usersActive.map((user) => (
-                                    <this.StyledTableRow key={user.id}>
-                                        <this.StyledTableCell align="left">{user.email}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.firstname}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.lastname}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.surveyLabel}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{this.setTime(user.expirationDateTime)}</this.StyledTableCell>
+                                {this.state.activeAndValidSurveys.map((item) => (
+                                    <this.StyledTableRow key={item.id}>
+                                        <this.StyledTableCell align="left">{item.email}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.firstname}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.lastname}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.surveyLabel}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{this.setTime(item.expirationDateTime)}</this.StyledTableCell>
                                         <this.StyledTableCell id="cellRight">
-                                            <Button id="buttonDelete" data-id={user.id} onClick={this.handleDelete}>Delete</Button>
+                                            <Button id="buttonDelete" data-id={item.id} onClick={this.handleDelete}>Delete</Button>
                                         </this.StyledTableCell>
                                         <this.StyledTableCell id="cellRight">
-                                            <button type="button" className="btn btn-success custom-width" data-id={user.id} onClick={this.sendQuestion}>Invia Questionario</button>
+                                            <button type="button" className="btn btn-success custom-width" data-id={item.id} onClick={this.sendQuestion}>Invia Questionario</button>
                                         </this.StyledTableCell>
                                     </this.StyledTableRow>
                                 ))}
 
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
+
+                <br>
+                </br>
+                <div style={{ padding: "10px" }}>
+                    <div class="panel-heading">
+                        <h1 class="panel-title">
+                            <span>Questionari eseguiti(completati e non)</span>
+                        </h1>
+                    </div>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <this.StyledTableCell align="left">Email</this.StyledTableCell>
+                                    <this.StyledTableCell align="left">Name</this.StyledTableCell>
+                                    <this.StyledTableCell align="left">Lastname</this.StyledTableCell>
+                                    <this.StyledTableCell align="left">Question</this.StyledTableCell>
+                                    <this.StyledTableCell align="left">expiration Date Time</this.StyledTableCell>
+                                    <this.StyledTableCell align="left"></this.StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {this.state.executedSurveys.map((item) => (
+                                    <this.StyledTableRow key={item.id}>
+                                        <this.StyledTableCell align="left">{item.email}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.firstname}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.lastname}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.surveyLabel}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{this.setTime(item.expirationDateTime)}</this.StyledTableCell>
+                                        {console.log("### GENERATED TOKEN: ### " + item.generatedToken)}
+                                        
+                                        {/* {item.urlPdf !== null && item.urlPdf !== 0 && item.urlPdf !== undefined  ?
+                                            
+                                            <this.StyledTableCell align='left'>
+                                                <SurveyPdfLink pdffilename={item.urlPdf}/>
+                                            </this.StyledTableCell>
+                                            : null
+                                        } */}
+                                      
+                                        <this.StyledTableCell align='left'>
+                                            <SurveyPdfLink pdffilename={item.urlPdf}/>
+                                        </this.StyledTableCell>
+                                        
+                                        <this.StyledTableCell align="left">
+                                            <Button  onClick={() => this.regeneratePdf(item.surveyReplyId)}>Rigenera PDF</Button>
+                                        </this.StyledTableCell>
+                                        
+                                        <this.StyledTableCell id="cellLeft">
+                                            <Button id="buttonDelete" data-id={item.id} onClick={this.handleDelete}>Delete</Button>
+                                        </this.StyledTableCell>
+                                    </this.StyledTableRow>
+                                ))}
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -264,33 +327,33 @@ class Question extends Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {this.state.usersExipred.map((user) => (
-                                    <this.StyledTableRow key={user.id}>
-                                        <this.StyledTableCell align="left">{user.email}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.firstname}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.lastname}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.surveyLabel}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{this.setTime(user.expirationDateTime)}</this.StyledTableCell>
-                                        {console.log("### GENERATED TOKEN: ### " + user.generatedToken)}
+                                {this.state.expiredSurveys.map((item) => (
+                                    <this.StyledTableRow key={item.id}>
+                                        <this.StyledTableCell align="left">{item.email}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.firstname}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.lastname}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.surveyLabel}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{this.setTime(item.expirationDateTime)}</this.StyledTableCell>
+                                        {console.log("### GENERATED TOKEN: ### " + item.generatedToken)}
                                         
-                                        {/* {user.urlPdf !== null && user.urlPdf !== 0 && user.urlPdf !== undefined  ?
+                                        {/* {item.urlPdf !== null && item.urlPdf !== 0 && item.urlPdf !== undefined  ?
                                             
                                             <this.StyledTableCell align='left'>
-                                                <SurveyPdfLink pdffilename={user.urlPdf}/>
+                                                <SurveyPdfLink pdffilename={item.urlPdf}/>
                                             </this.StyledTableCell>
                                             : null
                                         } */}
                                       
                                         <this.StyledTableCell align='left'>
-                                            <SurveyPdfLink pdffilename={user.urlPdf}/>
+                                            <SurveyPdfLink pdffilename={item.urlPdf}/>
                                         </this.StyledTableCell>
                                         
                                         <this.StyledTableCell align="left">
-                                            <Button  onClick={() => this.regeneratePdf(user.surveyReplyId)}>Rigenera PDF</Button>
+                                            <Button  onClick={() => this.regeneratePdf(item.surveyReplyId)}>Rigenera PDF</Button>
                                         </this.StyledTableCell>
                                         
                                         <this.StyledTableCell id="cellLeft">
-                                            <Button id="buttonDelete" data-id={user.id} onClick={this.handleDelete}>Delete</Button>
+                                            <Button id="buttonDelete" data-id={item.id} onClick={this.handleDelete}>Delete</Button>
                                         </this.StyledTableCell>
                                     </this.StyledTableRow>
                                 ))}
