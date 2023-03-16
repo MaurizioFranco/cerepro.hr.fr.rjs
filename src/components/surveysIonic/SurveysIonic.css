@@ -36,10 +36,6 @@
     font-size: 14px;
     white-space: normal;
   }
-
-  #labelQuestion{
-    white-space: normal;
-  }
 }
 
 @media only screen and (max-width: 600px) {

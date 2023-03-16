@@ -347,7 +347,7 @@ class SurveysIonic extends React.Component {
                 <div id={i} name={element.id} className="slide" style={{ display: "none" }}>
                     <br></br>
                     <div>
-                        <h4 id="labelQuestion">{element.label}</h4>
+                        <h4>{element.label}</h4>
                     </div>
                     {element.ansa !== null ?
                         <div>
