@@ -28,7 +28,12 @@ class Question extends Component {
         this.state = {
             usersExipred: [],
             usersActive: [],
+<<<<<<< HEAD
             selectedValueExpired: '5'
+=======
+            selectedValueExpired: '5',
+            selectedValueActive: '5',
+>>>>>>> branch 'master' of https://github.com/MaurizioFranco/cerepro.hr.fe.rjs.git
             regeneratedPdf: ''
         }
         this.reloadData = this.reloadData.bind(this);
@@ -142,32 +147,13 @@ class Question extends Component {
         this.reloadData()
     }
 
-    fetchPdfFile = (surveyreplyId) =>{
-        // Commons.executeFetch(Constants.FULL_SURVEYREPLY_ID_URI + surveyreplyId, 'GET', this.generatePdf)
-        // fetch(Constants.FULL_SURVEYREPLY_ID_URI + surveyreplyId, 
-        //     {
-        //         'Authorization': 'Basic ' + sessionStorage.getItem('headerToken'),
-        //         'Content-Type': 'application/json'
-        //     })
-        // .then(response => {
-        //     response.blob().then(blob => {
-        //         // Creating new object of PDF file
-        //         const fileURL = window.URL.createObjectURL(blob);
-        //         console.log("##### FILE URL #### " + fileURL);
-        //         // Setting various property values
-        //         let alink = document.createElement('a');
-        //         alink.href = fileURL;
-        //         alink.download = response.pdffilename;
-        //         alink.click();
-        //     })
-        // });
-    } 
-
-    onPdfButtonClick = (event) => {
-        const surveyreplyId = event.currentTarget.dataset.id;
-        this.fetchPdfFile(surveyreplyId) ;
+    generateSuccess = () => {
+        toast.success("PDF regenerated", {
+            position: toast.POSITION.BOTTOM_LEFT,
+        });
     }
 
+<<<<<<< HEAD
     // generatePdf = () => {
     //     console.log("#################### GENERATE PDF ###########");
     //     response = () => {
@@ -189,6 +175,8 @@ class Question extends Component {
         });
     }
 
+=======
+>>>>>>> branch 'master' of https://github.com/MaurizioFranco/cerepro.hr.fe.rjs.git
     generateFailed = () => {
         toast.error("PDF failed to regenerate, contact the administration", {
             position: toast.POSITION.BOTTOM_LEFT,

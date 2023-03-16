@@ -347,13 +347,13 @@ class SurveysIonic extends React.Component {
                 <div id={i} name={element.id} className="slide" style={{ display: "none" }}>
                     <br></br>
                     <div>
-                        <h4>{element.label}</h4>
+                        <h4 id="labelQuestion">{element.label}</h4>
                     </div>
                     {element.ansa !== null ?
                         <div>
                             <IonItem id="item">
                                 <IonCheckbox slot="start" id="ansa" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.ansa}</IonLabel>
+                                <IonLabel id="labelText">{element.ansa}</IonLabel>
                             </IonItem>
                             {/* <span><input id="ansa" type="checkbox" /></span>
                             <span>{element.ansa}</span> */}
@@ -363,7 +363,7 @@ class SurveysIonic extends React.Component {
                         <div>
                             <IonItem id="item">
                                 <IonCheckbox slot="start" id="ansb" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.ansb}</IonLabel>
+                                <IonLabel id="labelText">{element.ansb}</IonLabel>
                             </IonItem>
                             {/* <span><input id="ansb" type="checkbox" /></span>
                             <span>{element.ansb}</span> */}
@@ -373,7 +373,7 @@ class SurveysIonic extends React.Component {
                         <div>
                             <IonItem id="item">
                                 <IonCheckbox slot="start" id="ansc" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.ansc}</IonLabel>
+                                <IonLabel id="labelText">{element.ansc}</IonLabel>
                             </IonItem>
                             {/* <span><input id="ansc" type="checkbox" /></span>
                             <span>{element.ansc}</span> */}
@@ -383,7 +383,7 @@ class SurveysIonic extends React.Component {
                         <div>
                             <IonItem id="item">
                                 <IonCheckbox slot="start" id="ansd" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.ansd}</IonLabel>
+                                <IonLabel id="labelText">{element.ansd}</IonLabel>
                             </IonItem>
                             {/* <span><input id="ansd" type="checkbox" /></span>
                             <span>{element.ansd}</span> */}
@@ -393,7 +393,7 @@ class SurveysIonic extends React.Component {
                         <div>
                             <IonItem id="item">
                                 <IonCheckbox slot="start" id="anse" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.anse}</IonLabel>
+                                <IonLabel id="labelText">{element.anse}</IonLabel>
                             </IonItem>
                             {/* <span><input id="anse" type="checkbox" /></span>
                             <span>{element.anse}</span> */}
@@ -403,7 +403,7 @@ class SurveysIonic extends React.Component {
                         <div >
                             <IonItem id="item">
                                 <IonCheckbox slot="start" id="ansf" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.ansf}</IonLabel>
+                                <IonLabel id="labelText">{element.ansf}</IonLabel>
                             </IonItem>
                             {/* <span><input id="ansf" type="checkbox" /></span>
                             <span>{element.ansf}</span> */}
@@ -413,7 +413,7 @@ class SurveysIonic extends React.Component {
                         <div >
                             <IonItem id="item">
                                 <IonCheckbox slot="start" id="ansg" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.ansg}</IonLabel>
+                                <IonLabel id="labelText">{element.ansg}</IonLabel>
                             </IonItem>
                             {/* <span><input id="ansg" type="checkbox" /></span>
                             <span>{element.ansg}</span> */}
@@ -423,7 +423,7 @@ class SurveysIonic extends React.Component {
                         <div >
                             <IonItem id="item">
                                 <IonCheckbox slot="start" id="ansh" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.ansh}</IonLabel>
+                                <IonLabel id="labelText">{element.ansh}</IonLabel>
                             </IonItem>
                             {/* <span><input id="ansh" type="checkbox" /></span>
                             <span>{element.ansh}</span> */}
