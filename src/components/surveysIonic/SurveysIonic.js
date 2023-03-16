@@ -249,11 +249,16 @@ class SurveysIonic extends React.Component {
             jsonArrayResponse.push(jsonResponse)
         }
 
+        const hashString = window.location.hash.slice(1);
+        const url = new URL(hashString, window.location.href);
+        const tokenId = url.searchParams.get("tokenId");
+
         const item = {
             surveyId: this.state.survey.surveyId,
             userTokenId: this.state.survey.candidateTokenId,
             candidateId: this.state.survey.candidateId,
             answers: jsonArrayResponse,
+            generated_token: tokenId
         };
 
         console.log(jsonArrayResponse)
@@ -347,7 +352,7 @@ class SurveysIonic extends React.Component {
                 <div id={i} name={element.id} className="slide" style={{ display: "none" }}>
                     <br></br>
                     <div>
-                        <h4 id="labelQuestion">{element.label}</h4>
+                        <h4>{element.label}</h4>
                     </div>
                     {element.ansa !== null ?
                         <div>
