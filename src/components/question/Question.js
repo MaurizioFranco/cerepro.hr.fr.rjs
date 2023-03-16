@@ -29,7 +29,6 @@ class Question extends Component {
             usersExipred: [],
             usersActive: [],
             selectedValueExpired: '5',
-            selectedValueActive: '5',
             regeneratedPdf: ''
         }
         this.reloadData = this.reloadData.bind(this);
@@ -39,8 +38,8 @@ class Question extends Component {
         Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'expired/' + value + '/0/', 'GET', this.setUserExpired);
     }
 
-    fetchUserActive = (value) => {
-        Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'active/' + value + '/0/', 'GET', this.setUserActive);
+    fetchUserActive = () => {
+        Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'active/', 'GET', this.setUserActive);
     }
 
     fetchDelete = (value) => {
@@ -81,7 +80,7 @@ class Question extends Component {
 
     setUserActive = (userActiveToSet) => {
         Commons.debugMessage("userActiveToSet - START - userActiveToSet: " + userActiveToSet);
-        this.setState({ usersActive: userActiveToSet.content });
+        this.setState({ usersActive: userActiveToSet });
     }
 
     setTime = (expirationDateTime) => {
@@ -123,14 +122,6 @@ class Question extends Component {
         });
     }
 
-    handleChangeActive = (event) => {
-        const { value } = event.target;
-        this.setState({ selectedValueActive: value }, () => {
-            console.log(this.state.selectedValueActive);
-            this.fetchUserActive(this.state.selectedValueActive);
-        });
-    }
-
     sendQuestion = (event) => {
         const id = event.target.dataset.id;
         this.fetchSendQuestion(id);
@@ -144,7 +135,7 @@ class Question extends Component {
     reloadData() {
         console.log("sto chiamando il reload dal register")
         this.fetchUserExpired(this.state.selectedValueExpired);
-        this.fetchUserActive(this.state.selectedValueActive);
+        this.fetchUserActive();
     }
 
     componentDidMount() {
@@ -199,14 +190,7 @@ class Question extends Component {
                         <h1 className="panel-title">
                             <span id="active">Lista questionari ancora da compilare</span>
                             <div className="control-table">
-                                <label id="labelQuestion">Visualizza</label>
-                                <select value={this.selectedValueActive} onChange={this.handleChangeActive}>
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                                <label id="labelQuestion">Questionari</label>
+                                
                                 <button id="reload" onClick={this.reloadData}>
                                     <img src={reload} alt="Reload" style={{ marginRight: "50px" }} />
                                 </button>
