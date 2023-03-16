@@ -29,6 +29,7 @@ class Question extends Component {
             usersExipred: [],
             usersActive: [],
             selectedValueExpired: '5'
+            regeneratedPdf: ''
         }
         this.reloadData = this.reloadData.bind(this);
     }
@@ -181,6 +182,46 @@ class Question extends Component {
     //         })
     //     });
     // }
+    
+    generateSuccess = () => {
+        toast.success("PDF regenerated", {
+            position: toast.POSITION.BOTTOM_LEFT,
+        });
+    }
+
+    generateFailed = () => {
+        toast.error("PDF failed to regenerate, contact the administration", {
+            position: toast.POSITION.BOTTOM_LEFT,
+        });
+    }
+
+    regeneratePdf = (surveyReplyId) => {
+        // Commons.executeFetch(Constants.FULL_PDF_END + surveyReplyId, 'POST', this.sendError);
+        // console.log("regeneratePDf started")
+        // console.log("surveyReplyId: ")
+        // console.log(surveyReplyId)
+        // let token = sessionStorage.getItem('headerToken');
+        // console.log("token: " + token)
+        Commons.executeFetch(Constants.FULL_PDF_END + surveyReplyId, 'POST', this.generateSuccess, this.generateFailed)
+        // fetch(Constants.FULL_PDF_END + surveyReplyId,
+        //     {
+        //         method: 'POST',
+        //         headers: {'Authorization':token}
+        //     }
+        // )
+        //     .then(response => response.json())
+        //     .then( responseData => {
+        //         console.log(responseData)
+        //         toast.error( ("Fatto!"), {
+        //             position: toast.POSITION.BOTTOM_LEFT
+        //         })})
+        //     .catch(err => {
+        //         console.log(err)
+        //         toast.error(err, {
+        //             position: toast.POSITION.BOTTOM_LEFT
+        //         })}
+        //         );
+    }
 
     render() {
         return (
@@ -271,30 +312,25 @@ class Question extends Component {
                                         <this.StyledTableCell align="left">{user.lastname}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{user.surveyLabel}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{this.setTime(user.expirationDateTime)}</this.StyledTableCell>
-                                        {console.log("### SURVEY REPLY ID: ### " + user.surveyreplyId)}
+                                        {console.log("### GENERATED TOKEN: ### " + user.generatedToken)}
                                         
-                                        {user.surveyreplyId !== null && user.surveyreplyId !== 0 && user.surveyreplyId !== undefined  ?
+                                        {/* {user.urlPdf !== null && user.urlPdf !== 0 && user.urlPdf !== undefined  ?
                                             
                                             <this.StyledTableCell align='left'>
-                                                {/* <IconButton id="buttonGeneratePdf" color="primary" data-id={user.surveyreplyId} onClick={this.onPdfButtonClick}>
-                                                    <PdfIcon />
-                                                </IconButton> */}
-                                                <SurveyPdfLink pdffilename={'Maurizio-Franco-3-13-93.pdf'}/>
-                                                {/* <SurveyPdfLink pdffilename={user.urlPdf}/> */}
+                                                <SurveyPdfLink pdffilename={user.urlPdf}/>
                                             </this.StyledTableCell>
                                             : null
-                                        }
-                                       
-                                        {/* {user.pdffilename !== null && user.pdffilename !== undefined ?
-
-                                            <this.StyledTableCell id="left">
-                                                <Button >Rigenera PDF</Button>
-                                            </this.StyledTableCell>
-                                           
-                                           : null
                                         } */}
+                                      
+                                        <this.StyledTableCell align='left'>
+                                            <SurveyPdfLink pdffilename={user.urlPdf}/>
+                                        </this.StyledTableCell>
                                         
-                                        <this.StyledTableCell id="cellRight">
+                                        <this.StyledTableCell align="left">
+                                            <Button  onClick={() => this.regeneratePdf(user.surveyReplyId)}>Rigenera PDF</Button>
+                                        </this.StyledTableCell>
+                                        
+                                        <this.StyledTableCell id="cellLeft">
                                             <Button id="buttonDelete" data-id={user.id} onClick={this.handleDelete}>Delete</Button>
                                         </this.StyledTableCell>
                                     </this.StyledTableRow>
