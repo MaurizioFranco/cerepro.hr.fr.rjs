@@ -215,7 +215,7 @@ export function getUserValues() {
 
 export function operationError(err) {
 	console.log("OPERATION KO");
-	let errorMessage = (err !== null && err !== undefined && err.errorMessage !== undefined) ? err.errorMessage : "errore del cazzo!!!";
+	let errorMessage = (err !== null && err !== undefined && err.errorMessage !== undefined) ? err.errorMessage : "Errore Generico...";
 	toast.error(errorMessage, {
 		position: toast.POSITION.BOTTOM_LEFT
 	});

@@ -32,9 +32,8 @@ class RegistrationView extends Component {
         );
     }
 
-    registerUserFormSubmit = (event) => {
-        console.log("registerUserFormSubmit - START");
-        event.preventDefault();
+    executeUserRegistration = () => {
+        console.log("executeUserRegistration - START");
         var item = {
             email: this.state.email, firstname: this.state.firstname,
             lastname: this.state.lastname, password: this.state.password,
@@ -136,7 +135,7 @@ class RegistrationView extends Component {
                             fullWidth
                             label="Email"
                             name="email"
-                            type="email"
+                            type="text"
                             value = {this.state.email}
                             onChange={this.handleEmail}
                             style={{ marginBottom: "10px" }}
@@ -179,7 +178,7 @@ class RegistrationView extends Component {
                     </DialogContent>
                     <DialogActions>
                         <Button
-                            onClick={this.registerUserFormSubmit}
+                            onClick={this.executeUserRegistration}
                             style={{ marginRight: "14px" }}
                             color="primary"
                             disabled={!this.state.passwordsAreTheSame || !this.state.emailIsValid || !this.state.firstname || !this.state.password || !this.state.lastname}

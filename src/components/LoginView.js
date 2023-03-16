@@ -20,6 +20,11 @@ class LoginView extends Component {
     };
   }
 
+  formSubmit(event) {
+    event.preventDefault();
+    this.getUserByEmail();
+  }
+
   getUserByEmail = () => {
     console.log("getUserByEmail - START");
     let headerToken = Commons.getAuthorizationHeader(
@@ -115,7 +120,7 @@ class LoginView extends Component {
                 visibility={this.state.authenticationKO}
               />
               <label>Inserisci email aziendale e password</label>
-              <form>
+              <form onSubmit={this.formSubmit.bind(this)}>
                 <div className="form-group">
                   <input
                     type="text"
@@ -139,7 +144,7 @@ class LoginView extends Component {
                   />
                 </div>
                 <div style={{display:"flex", justifyContent:"space-between"}}>
-                  <button className="btn btn-black" onClick={this.getUserByEmail}>ENTRA</button>
+                  <input type="submit" className="btn btn-black" value="ENTRA" />
                   <Registration />
                 </div>
               </form>
