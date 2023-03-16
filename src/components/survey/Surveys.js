@@ -215,6 +215,10 @@ class Surveys extends React.Component {
     };
 
     sendSurvey = () => {
+        const hashString = window.location.hash.slice(1);
+        const url = new URL(hashString, window.location.href);
+        const tokenId = url.searchParams.get("tokenId");
+        
         const numSlides = document.getElementsByClassName("slide").length;
         var checkDiv = "";
         var checkboxes = [];
@@ -242,6 +246,7 @@ class Surveys extends React.Component {
             userTokenId: this.state.survey.candidateTokenId,
             candidateId: this.state.survey.candidateId,
             answers: jsonArrayResponse,
+            generated_token: tokenId
         };
 
         console.log(jsonArrayResponse)

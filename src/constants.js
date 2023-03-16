@@ -26,6 +26,7 @@ export const SURVEYREPLY_MONTH_API = '/api/v1/surveyreply/lastmonth';
 export const SURVEYREPLY_YEAR_API = '/api/v1/surveyreply/lastyear';
 export const QUESTION_API = '/api/v1/question/' ;
 export const CANDIDATE_API = '/api/v1/candidate/' ;
+export const PDF_END = '/api/v1/pdf/';
 export const SURVEYQUESTIONS_API = '/api/v1/surveyquestion/' ;
 export const SURVEYQUESTIONCUSTOM_API = '/api/v1/surveyquestioncustom/' ;
 export const QUESTIONCANDIDATE_API = '/api/v1/survey/getSurveyForCandidate/';
@@ -50,6 +51,7 @@ export const FULL_CANDIDATE_STATES_API_URI  = BACKEND_API_PREFIX + CANDIDATE_STA
 export const FULL_QUESTION_API_URI = BACKEND_API_PREFIX + QUESTION_API ;
 export const FULL_SURVEYQUESTIONS_API_URI = BACKEND_API_PREFIX + SURVEYQUESTIONS_API ;
 export const FULL_SURVEYQUESTIONCUSTOM_API_URI = BACKEND_API_PREFIX + SURVEYQUESTIONCUSTOM_API ;
+export const FULL_PDF_END = BACKEND_API_PREFIX + PDF_END;
 
 export const FULL_APPLICATION_VERSION_URI  = BACKEND_API_PREFIX + '/api/v1/application/info/' ;
 
