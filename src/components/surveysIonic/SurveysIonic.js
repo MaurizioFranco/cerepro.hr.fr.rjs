@@ -249,11 +249,16 @@ class SurveysIonic extends React.Component {
             jsonArrayResponse.push(jsonResponse)
         }
 
+        const hashString = window.location.hash.slice(1);
+        const url = new URL(hashString, window.location.href);
+        const tokenId = url.searchParams.get("tokenId");
+
         const item = {
             surveyId: this.state.survey.surveyId,
             userTokenId: this.state.survey.candidateTokenId,
             candidateId: this.state.survey.candidateId,
             answers: jsonArrayResponse,
+            generated_token: tokenId
         };
 
         console.log(jsonArrayResponse)
