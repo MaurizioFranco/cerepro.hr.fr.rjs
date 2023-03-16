@@ -20,19 +20,15 @@ class LoginView extends Component {
     };
   }
 
-  formSubmit(event) {
-    event.preventDefault();
-    this.getUserByEmail();
-  }
-
   getUserByEmail = () => {
+    console.log("getUserByEmail - START");
     let headerToken = Commons.getAuthorizationHeader(
       this.state.formEmail,
       this.state.psw
     );
 
     Commons.debugMessage(
-		  "getUserByEmail - START - FULL_GET_USER_BY_EMAIL_API: " +
+		  "getUserByEmail - DEBUG - FULL_GET_USER_BY_EMAIL_API: " +
 		  Constants.FULL_GET_USER_BY_EMAIL_API
 	  );
 
@@ -110,7 +106,7 @@ class LoginView extends Component {
           <div className="product-info">
             <div className="login-main-text">
               <img src={centauri_logo} alt="logo" className="login_logo" />
-              <span className="title">CeRePro.HR</span>
+              <span className="title">CeRePro</span>
             </div>
           </div>
           <div className="login-form">
@@ -119,7 +115,7 @@ class LoginView extends Component {
                 visibility={this.state.authenticationKO}
               />
               <label>Inserisci email aziendale e password</label>
-              <form onSubmit={this.formSubmit.bind(this)}>
+              <form>
                 <div className="form-group">
                   <input
                     type="text"
@@ -143,7 +139,7 @@ class LoginView extends Component {
                   />
                 </div>
                 <div style={{display:"flex", justifyContent:"space-between"}}>
-                  <input type="submit" className="btn btn-black" value="ENTRA" />
+                  <button className="btn btn-black" onClick={this.getUserByEmail}>ENTRA</button>
                   <Registration />
                 </div>
               </form>
