@@ -28,12 +28,7 @@ class Question extends Component {
         this.state = {
             usersExipred: [],
             usersActive: [],
-<<<<<<< HEAD
             selectedValueExpired: '5'
-=======
-            selectedValueExpired: '5',
-            selectedValueActive: '5',
->>>>>>> branch 'master' of https://github.com/MaurizioFranco/cerepro.hr.fe.rjs.git
             regeneratedPdf: ''
         }
         this.reloadData = this.reloadData.bind(this);
@@ -153,30 +148,6 @@ class Question extends Component {
         });
     }
 
-<<<<<<< HEAD
-    // generatePdf = () => {
-    //     console.log("#################### GENERATE PDF ###########");
-    //     response = () => {
-    //         response.blob().then(blob => {
-    //             // Creating new object of PDF file
-    //             const fileURL = window.URL.createObjectURL(blob);
-    //             // Setting various property values
-    //             let alink = document.createElement('a');
-    //             alink.href = fileURL;
-    //             alink.download = 'SamplePDF.pdf';
-    //             alink.click();
-    //         })
-    //     });
-    // }
-    
-    generateSuccess = () => {
-        toast.success("PDF regenerated", {
-            position: toast.POSITION.BOTTOM_LEFT,
-        });
-    }
-
-=======
->>>>>>> branch 'master' of https://github.com/MaurizioFranco/cerepro.hr.fe.rjs.git
     generateFailed = () => {
         toast.error("PDF failed to regenerate, contact the administration", {
             position: toast.POSITION.BOTTOM_LEFT,
