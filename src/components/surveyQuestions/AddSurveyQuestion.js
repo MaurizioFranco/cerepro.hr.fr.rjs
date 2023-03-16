@@ -31,7 +31,7 @@ class AddSurveyQuestions extends React.Component {
     this.cancelSubmit = this.cancelSubmit.bind(this);
     this.addSurveyQuestion = this.addSurveyQuestion.bind(this);
     this.insertSuccess = this.insertSuccess.bind(this);
-    this.insertError = this.insertError.bind(this);
+    // this.insertError = this.insertError.bind(this);
   }
 
   componentDidMount() {
@@ -104,13 +104,13 @@ class AddSurveyQuestions extends React.Component {
     );
   }
 
-  insertError(err) {
-    console.log("INSERT SURVEY QUESTION KO");
-    toast.error(err.errorMessage, {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
-    console.error(err);
-  }
+  // insertError(err) {
+  //   console.log("INSERT SURVEY QUESTION KO");
+  //   toast.error(err.errorMessage, {
+  //     position: toast.POSITION.BOTTOM_LEFT,
+  //   });
+  //   console.error(err);
+  // }
 
   insertSuccess(response) {
     // console.log("INSERT SURVEY QUESTION SUCCESS");

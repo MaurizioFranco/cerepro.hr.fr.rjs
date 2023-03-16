@@ -31,6 +31,15 @@
     font-size: 12px;
     padding: 6px 12px;
   }
+
+  #labelText{
+    font-size: 14px;
+    white-space: normal;
+  }
+
+  #labelQuestion{
+    white-space: normal;
+  }
 }
 
 @media only screen and (max-width: 600px) {
