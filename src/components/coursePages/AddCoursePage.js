@@ -11,6 +11,9 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Select,
+  MenuItem,
+  InputLabel
 } from "@material-ui/core";
 
 class AddCoursePages extends React.Component {
@@ -22,9 +25,26 @@ class AddCoursePages extends React.Component {
       bodyText: "",
       fileName: "",
       isModalOpen: false,
+      selectedOwner: "",
+      owners: []
     };
     this.gridRef = React.createRef();
   }
+
+  componentDidMount() {
+    this.fetchOwners();
+  }
+
+  fetchOwners = () => {
+    Commons.executeFetch(Constants.BACKEND_API_PREFIX + Constants.GET_USER_BY_ROLE_API + "50", "GET", this.setOwners);
+  }
+
+  setOwners = (retrievedOwners) => {
+    Commons.debugMessage("setOwners - START - owners: " + retrievedOwners);
+    this.setState({
+        owners: retrievedOwners,
+    });
+}
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
@@ -106,6 +126,21 @@ class AddCoursePages extends React.Component {
               onChange={this.handleChange}
               style={{ marginBottom: "20px" }}
             />
+            <InputLabel>Proprietario</InputLabel>
+            <Select
+              fullWidth
+              label="Proprietario"
+              name="proprietario"
+              value={this.state.selectedOwner}
+              onChange={(e) => this.setState({ selectedOwner: e.target.value })}
+              style={{ marginBottom: "10px" }}
+            >
+              {this.state.owners.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.firstname + " " + option.lastname}
+                </MenuItem>))}
+            </Select>
+
             {/* <TextField fullWidth label="File Name" name="fileName" onChange={this.handleChange} style={moreMarginBottom} /> */}
           </DialogContent>
           <DialogActions>
