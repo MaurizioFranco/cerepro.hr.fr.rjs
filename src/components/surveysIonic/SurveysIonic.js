@@ -249,16 +249,11 @@ class SurveysIonic extends React.Component {
             jsonArrayResponse.push(jsonResponse)
         }
 
-        const hashString = window.location.hash.slice(1);
-        const url = new URL(hashString, window.location.href);
-        const tokenId = url.searchParams.get("tokenId");
-
         const item = {
             surveyId: this.state.survey.surveyId,
             userTokenId: this.state.survey.candidateTokenId,
             candidateId: this.state.survey.candidateId,
             answers: jsonArrayResponse,
-            generated_token: tokenId
         };
 
         console.log(jsonArrayResponse)
@@ -357,81 +352,89 @@ class SurveysIonic extends React.Component {
                     {element.ansa !== null ?
                         <div>
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="ansa" type="checkbox"></IonCheckbox>
-                                <IonLabel id="labelText">{element.ansa}</IonLabel>
+                            <span><input id="ansa" type="checkbox" /></span>
+                            <span>{element.ansa}</span>
                             </IonItem>
-                            {/* <span><input id="ansa" type="checkbox" /></span>
-                            <span>{element.ansa}</span> */}
+                            
+                            {/* <IonCheckbox slot="start" id="ansa" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansa}</IonLabel> */}
                         </div>
                         : null}
                     {element.ansb !== null ?
                         <div>
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="ansb" type="checkbox"></IonCheckbox>
-                                <IonLabel id="labelText">{element.ansb}</IonLabel>
+                            <span><input id="ansb" type="checkbox" /></span>
+                            <span>{element.ansb}</span>
                             </IonItem>
-                            {/* <span><input id="ansb" type="checkbox" /></span>
-                            <span>{element.ansb}</span> */}
+                            
+                            {/* <IonCheckbox slot="start" id="ansb" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansb}</IonLabel> */}
                         </div>
                         : null}
                     {element.ansc !== null ?
                         <div>
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="ansc" type="checkbox"></IonCheckbox>
-                                <IonLabel id="labelText">{element.ansc}</IonLabel>
+                            <span><input id="ansc" type="checkbox" /></span>
+                            <span>{element.ansc}</span>
                             </IonItem>
-                            {/* <span><input id="ansc" type="checkbox" /></span>
-                            <span>{element.ansc}</span> */}
+
+                            {/* <IonCheckbox slot="start" id="ansc" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansc}</IonLabel> */}
                         </div>
                         : null}
                     {element.ansd !== null ?
                         <div>
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="ansd" type="checkbox"></IonCheckbox>
-                                <IonLabel id="labelText">{element.ansd}</IonLabel>
+                            <span><input id="ansd" type="checkbox" /></span>
+                            <span>{element.ansd}</span>
                             </IonItem>
-                            {/* <span><input id="ansd" type="checkbox" /></span>
-                            <span>{element.ansd}</span> */}
+                        
+                            {/* <IonCheckbox slot="start" id="ansd" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansd}</IonLabel> */}
                         </div>
                         : null}
                     {element.anse !== null ?
                         <div>
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="anse" type="checkbox"></IonCheckbox>
-                                <IonLabel id="labelText">{element.anse}</IonLabel>
+                            <span><input id="anse" type="checkbox" /></span>
+                            <span>{element.anse}</span>
                             </IonItem>
-                            {/* <span><input id="anse" type="checkbox" /></span>
-                            <span>{element.anse}</span> */}
+                            
+                            {/* <IonCheckbox slot="start" id="anse" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.anse}</IonLabel> */}
                         </div>
                         : null}
                     {element.ansf !== null ?
                         <div >
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="ansf" type="checkbox"></IonCheckbox>
-                                <IonLabel id="labelText">{element.ansf}</IonLabel>
+                            <span><input id="ansf" type="checkbox" /></span>
+                            <span>{element.ansf}</span>
                             </IonItem>
-                            {/* <span><input id="ansf" type="checkbox" /></span>
-                            <span>{element.ansf}</span> */}
+                            
+                            {/* <IonCheckbox slot="start" id="ansf" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansf}</IonLabel> */}
                         </div>
                         : null}
                     {element.ansg !== null ?
                         <div >
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="ansg" type="checkbox"></IonCheckbox>
-                                <IonLabel id="labelText">{element.ansg}</IonLabel>
+                            <span><input id="ansg" type="checkbox" /></span>
+                            <span>{element.ansg}</span>
                             </IonItem>
-                            {/* <span><input id="ansg" type="checkbox" /></span>
-                            <span>{element.ansg}</span> */}
+                            
+                            {/* <IonCheckbox slot="start" id="ansg" type="checkbox"></IonCheckbox>
+                            <IonLabel>{element.ansg}</IonLabel> */}
                         </div>
                         : null}
                     {element.ansh !== null ?
                         <div >
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="ansh" type="checkbox"></IonCheckbox>
-                                <IonLabel id="labelText">{element.ansh}</IonLabel>
+                            <span><input id="ansh" type="checkbox" /></span>
+                            <span>{element.ansh}</span>
                             </IonItem>
-                            {/* <span><input id="ansh" type="checkbox" /></span>
-                            <span>{element.ansh}</span> */}
+                
+                            {/* <IonCheckbox slot="start" id="ansh" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansh}</IonLabel> */}
                         </div>
                         : null}
                 </div>
