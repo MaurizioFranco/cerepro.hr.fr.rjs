@@ -141,6 +141,7 @@ class Question extends Component {
     }
 
     generateSuccess = () => {
+        this.reloadData();
         toast.success("PDF regenerated", {
             position: toast.POSITION.BOTTOM_LEFT,
         });
