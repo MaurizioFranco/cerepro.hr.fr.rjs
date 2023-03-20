@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import * as Commons from '../../commons.js';
 import * as Constants from '../../constants';
 import { Chart } from 'chart.js';
@@ -38,20 +38,6 @@ class QuestionMonth extends React.Component {
                         }
                     ]
                 },
-                // options: {
-                //     scales: {
-                //         yAxes: [{
-                //             ticks: {
-                //                 beginAtZero: true,
-                //                 fontFamily: "'Arial', sans-serif",
-                //                 fontSize: 40,
-                //                 min:0,
-                //                 max:100,
-                //                 stepSize:1
-                //             }
-                //         }]
-                //     }
-                // }
             });
         });
     }

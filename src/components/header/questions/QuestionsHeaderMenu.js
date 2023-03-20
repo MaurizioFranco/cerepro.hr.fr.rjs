@@ -34,7 +34,8 @@ export class QuestionsHeaderMenu extends Component {
 		</button>
 
 				<div className="dropdown-menu" aria-labelledby="navbarDropdown">
-					<Link className="dropdown-item navigationBarItem" to="/surveyquestions">Tutte le survey questions</Link>
+					<Link className="dropdown-item navigationBarItem" to="/surveyquestions">Domande associate ai questionari</Link>
+				<Link className="dropdown-item navigationBarItem" to="/surveys">Questionari</Link>
 					
 				</div>
 			</li>

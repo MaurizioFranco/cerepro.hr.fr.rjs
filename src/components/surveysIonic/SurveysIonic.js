@@ -2,7 +2,6 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
-import Timer from "./Timer.js";
 import * as Commons from '../../commons.js';
 import * as Constants from '../../constants';
 import '../loader/LoadingSpinnerComponent.css';
@@ -328,7 +327,7 @@ class SurveysIonic extends React.Component {
     }
 
     render() {
-        const { surveyLoading, error, shouldRenderTime } = this.state;
+        const { surveyLoading, error } = this.state;
 
         if (surveyLoading) {
             return <div className="modalLoaderDialog">

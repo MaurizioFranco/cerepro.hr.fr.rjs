@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import * as Commons from '../../commons.js';
 import * as Constants from '../../constants';
 import { Chart } from 'chart.js';

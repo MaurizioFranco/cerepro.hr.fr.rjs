@@ -10,8 +10,6 @@ import {
   Paper,
   Button,
 } from "@material-ui/core";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import AddSurveyQuestions from "./AddSurveyQuestion.js";
@@ -87,17 +85,8 @@ class SurveyQuestionsList extends Component {
   }
 
   deleteSuccess = (response) => {
-    // console.log("DELETE SURVEY QUESTION SUCCESS");
-    // console.log(response);
-    // // if (response.status===201) {
-    // toast.success("Survey question successfully deleted", {
-    //   position: toast.POSITION.BOTTOM_LEFT,
-    // });
-    Commons.operationSuccess();
+    Commons.operationSuccess(response);
     this.getSurveyQuestions();
-    // } else {
-    // this.insertError (response) ;
-    // }
   };
 
   handleSelectSurveyLabel = (event) => {
@@ -131,7 +120,6 @@ class SurveyQuestionsList extends Component {
 
     return (
       <div className="App">
-        {/* <CSVLink data={this.state.candidateStates} separator=";">Export CSV</CSVLink> */}
         <AddSurveyQuestions
           refreshSurveyQuestionsList={this.getSurveyQuestions}
         />
@@ -146,9 +134,9 @@ class SurveyQuestionsList extends Component {
             <Table className={classes.table} aria-label="survey table">
               <TableHead>
                 <TableRow style={{ backgroundColor: "#333", color: "#fff" }}>
-                  <TableCell style={{ color: "#fff" }}>ID</TableCell>
+                  <TableCell style={{ color: "#fff" }}>&nbsp;</TableCell>
                   <TableCell style={{ color: "#fff" }}>
-                    Survey Label
+                    Titolo questionario
                     <br></br>
                     <div>
                       <select
@@ -166,13 +154,13 @@ class SurveyQuestionsList extends Component {
                     </div>
                   </TableCell>
                   <TableCell style={{ color: "#fff" }}>
-                    Question Label
+                      Titolo domanda
                   </TableCell>
                   <TableCell
                     style={{ color: "#fff", cursor: "pointer" }}
                     onClick={this.sortByPosition}
                   >
-                    Position{}
+                    Posizione della domanda all'interno del questionario{}
                     {this.state.hideDefaultArrow === false && <span> ↕</span>}
                     {this.state.sortColumn === "position" &&
                       this.state.showArrow &&
@@ -224,7 +212,6 @@ class SurveyQuestionsList extends Component {
             </Table>
           </TableContainer>
         </TableContainer>
-        <ToastContainer autoClose={1500} />
       </div>
     );
   }

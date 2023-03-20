@@ -224,10 +224,8 @@ export function operationError(err) {
 
 export function operationSuccess(response, successMessage) {
 	console.log("OPERATION OK");
-	//let successMessage = (response !== null && response !== undefined && response.successMessage !== undefined) ? response.successMessage : "succesfully!!!";
-	
 	toast.success(
-		successMessage!=null&&successMessage!=undefined?successMessage:"Operazione avvenuta con successo.", 
+		successMessage!==null&&successMessage!==undefined?successMessage:"Operazione avvenuta con successo.", 
 		{
 		position: toast.POSITION.BOTTOM_LEFT
 		}

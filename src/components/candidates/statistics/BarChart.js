@@ -1,6 +1,6 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
-import { CategoryScale, Chart } from "chart.js";
+import { Chart } from "chart.js";
 import {  registerables } from 'chart.js';
 Chart.register(...registerables);
 
