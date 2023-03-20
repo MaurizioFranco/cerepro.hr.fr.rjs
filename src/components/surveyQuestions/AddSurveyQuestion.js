@@ -118,7 +118,7 @@ class AddSurveyQuestions extends React.Component {
     // toast.success("Survey question successfully inserted", {
     //   position: toast.POSITION.BOTTOM_LEFT,
     // });
-    Commons.operationSuccess();
+    Commons.operationSuccess(response);
     this.setState({ isModalOpen: false });
     this.props.refreshSurveyQuestionsList();
   }
