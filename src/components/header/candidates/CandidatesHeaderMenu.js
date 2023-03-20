@@ -39,17 +39,13 @@ export class CandidatesHeaderMenu extends Component {
 				</button>
 
 				<div className="dropdown-menu" aria-labelledby="navbarDropdown">
-					<Link className="dropdown-item navigationBarItem" to="/insertNewCandidate" onMouseOver={() => this.setState({ showDropdown: false })}>Inserisci nuovo candidato</Link>
 
-					<Link className="dropdown-item navigationBarItem" to="/coursepage" onMouseOver={() => this.setState({ showDropdown: false })}>Candidature/Posizioni</Link>
-					{/* <Link className="dropdown-item navigationBarItem" to="/candidatesStatistics">Statistiche candidature</Link> */}
-
+					<Link className="dropdown-item navigationBarItem" to="/coursepage" onMouseOver={() => this.setState({ showDropdown: false })}>Posizioni</Link>
 
 					<div className="dropdown-divider"></div>
-					{/* <Link className="dropdown-item navigationBarItem" to="/candidates">Tutti i candidati</Link>
-					{this.state.position_codes.map(item => <HeaderBarMenuNavbarItem key={item.code} code={item.code} />)} */}
+					<Link className="dropdown-item navigationBarItem" to="/insertNewCandidate" onMouseOver={() => this.setState({ showDropdown: false })}>Inserisci nuovo candidato</Link>
 					<div className="nav-item dropright">
-						<Link className="dropdown-item dropdown-toggle navigationBarItem dropright" to="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onMouseOver={() => this.setState({ showDropdown: true })}>
+						<Link className="dropdown-item dropdown-toggle navigationBarItem dropright" to="/candidates" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onMouseOver={() => this.setState({ showDropdown: true })}>
 							Tutti i candidati
 						</Link>
 						<div  className={`dropdown-menu dropright ${this.state.showDropdown ? 'show' : ''}`} aria-labelledby="navbarDropdown2">

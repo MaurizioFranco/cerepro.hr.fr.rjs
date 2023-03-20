@@ -30,12 +30,12 @@ export class SurveysHeaderMenu extends Component {
 		return (
 			<li className="nav-item dropdown">
 				<button className="nav-link dropdown-toggle buttonDropdown navigationBarItem" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Surveys
+					Questionari
 		</button>
 
 				<div className="dropdown-menu" aria-labelledby="navbarDropdown">
 					<Link className="dropdown-item navigationBarItem" to="/surveys">Tutti i surveys</Link>
-					{/* {this.state.position_codes.map(item => <HeaderBarMenuNavbarItem key={item.code} code={item.code} />)} */}
+					<Link className="dropdown-item navigationBarItem" to="/question">Crea e Invia Sondaggi ai Candidati</Link>
 				</div>
 			</li>
 		);
