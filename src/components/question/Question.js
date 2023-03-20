@@ -51,7 +51,11 @@ class Question extends Component {
     }
 
     fetchSendQuestion = (id) => {
-        Commons.executeFetch(Constants.FULL_ST_SENDEMAIL_API_URI + id, 'GET', Commons.operationSuccess, Commons.operationError);
+        Commons.executeFetch(Constants.FULL_ST_SENDEMAIL_API_URI + id, 'GET', this.sendMailSuccess, Commons.operationError);
+    }
+
+    sendMailSuccess = (responseBody) => {
+        Commons.operationSuccess(responseBody, "Questionario inviato correttamente.");
     }
 
     sendError(err) {
