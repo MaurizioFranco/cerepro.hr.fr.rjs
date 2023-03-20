@@ -210,7 +210,7 @@ class UpdateSurveyQuestions extends React.Component {
                             label="Position"
                             name="position"
                             type="number"
-                            value={this.state.position}
+                            value={this.props.oldSurveyPosition}
                             onChange={this.handleChange}
                             style={{ marginBottom: "20px" }}
                         />
