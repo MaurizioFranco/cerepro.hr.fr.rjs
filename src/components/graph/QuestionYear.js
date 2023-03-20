@@ -30,7 +30,7 @@ class QuestionYear extends React.Component {
                     labels: this.state.labels,
                     datasets: [
                         {
-                            label: 'Questionario Compilato nell ultimo anno',
+                            label: 'Questionari Compilati nell ultimo anno',
                             data: this.state.data,
                             fill: false,
                             borderColor: 'rgba(75,192,192,1)',
@@ -62,7 +62,7 @@ class QuestionYear extends React.Component {
 
     render() {
         return (
-            <div style={{ width: "1000px", height: "500px" , margin:"auto" }}>
+            <div style={{ width: "1000px", height: "500px" , margin:"20px" }}>
                 <canvas ref="canvas"></canvas>
 
             </div>

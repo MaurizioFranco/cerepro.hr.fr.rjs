@@ -35,7 +35,7 @@ export class CandidatesHeaderMenu extends Component {
 					<Link className="dropdown-item navigationBarItem" to="/insertNewCandidate">Inserisci nuovo candidato</Link>
 					
 					<Link className="dropdown-item navigationBarItem" to="/coursepage">Candidature/Posizioni</Link>
-					<Link className="dropdown-item navigationBarItem" to="/candidatesStatistics">Statistiche candidature</Link>
+					{/* <Link className="dropdown-item navigationBarItem" to="/candidatesStatistics">Statistiche candidature</Link> */}
 					
 
 					<div className="dropdown-divider"></div>

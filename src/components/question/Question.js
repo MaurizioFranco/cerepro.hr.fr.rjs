@@ -145,10 +145,11 @@ class Question extends Component {
     }
 
     generateSuccess = () => {
+        Commons.operationSuccess();
         this.reloadData();
-        toast.success("PDF regenerated", {
-            position: toast.POSITION.BOTTOM_LEFT,
-        });
+        // toast.success("PDF regenerated", {
+        //     position: toast.POSITION.BOTTOM_LEFT,
+        // });
     }
 
     generateFailed = () => {
@@ -164,7 +165,7 @@ class Question extends Component {
         // console.log(surveyReplyId)
         // let token = sessionStorage.getItem('headerToken');
         // console.log("token: " + token)
-        Commons.executeFetch(Constants.FULL_PDF_END + surveyReplyId, 'POST', this.generateSuccess, this.generateFailed)
+        Commons.executeFetch(Constants.FULL_PDF_END + surveyReplyId, 'POST', this.generateSuccess, Commons.operationError)
         // fetch(Constants.FULL_PDF_END + surveyReplyId,
         //     {
         //         method: 'POST',

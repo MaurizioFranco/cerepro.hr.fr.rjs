@@ -11,16 +11,17 @@ import Timer from './surveysIonic/Timer.js';
 class SurveyView extends Component {
 	state = {
 		shouldRenderTime: false,
-		timer:"",
-		sendSurveyProp:""
-	  };
-	
-	  handleShouldRenderTimeChange = (value1,value2,value3) => {
-		this.setState({ timer: value1,shouldRenderTime:value2,sendSurveyProp:value3 });
-		console.log("eccolooooooo" + this.state.timer)
-		console.log("eccolooooooo" + this.state.shouldRenderTime)
-		console.log("eccolooooooo" + this.state.sendSurveyProp)
-	  };
+		timer: "",
+		sendSurveyProp: ""
+	};
+
+	handleShouldRenderTimeChange = (value1, value2, value3) => {
+		this.setState({ timer: value1, shouldRenderTime: value2, sendSurveyProp: value3 });
+	};
+
+	handleSendSurveyClick  = () => {
+		this.setState({ shouldRenderTime: false });
+	}
 
 	render() {
 		const { shouldRenderTime } = this.state;
@@ -32,7 +33,7 @@ class SurveyView extends Component {
 						<img align="left" alt="centauri-academy-logo" src={centauri_academy_header_logo} className="logo" />
 						<span className="navbar-brand title">CeRePro.HR</span>
 						{shouldRenderTime && (
-							<span slot="end" style={{marginRight:"25px"}}>
+							<span slot="end" style={{ marginRight: "25px" }}>
 								<Timer duration={timer} sendSurveyProp={sendSurveyProp} />
 							</span>
 						)}
@@ -49,11 +50,8 @@ class SurveyView extends Component {
 							</p>
 						</div>
 					</div>
-					<div align="center" style={{ marginTop: '-20px' }}>
-						<SurveysIonic onShouldRenderTimeChange={this.handleShouldRenderTimeChange}/>
-						<br />
-						<br />
-						<br />
+					<div align="center">
+						<SurveysIonic onShouldRenderTimeChange={this.handleShouldRenderTimeChange} onSendSurveyClick={this.handleSendSurveyClick} />
 					</div>
 				</IonContent>
 			</div>
