@@ -339,12 +339,8 @@ class SurveysIonic extends React.Component {
         }
 
         if (error) {
-            return <div>
+            return <div style={{ marginBottom:'170px' }}>
                 <div><b>{this.state.errorMessage}</b></div>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
             </div>;
         }
 
@@ -453,36 +449,35 @@ class SurveysIonic extends React.Component {
         return (
             <div align="center">
                 <div id="start" className="start">
-                    <IonButton className="startSurvey" color="danger" id="startSurvey" onClick={() => { this.startSurvey(); this.createSurveyreplies(); }}>Inizia il questionario</IonButton>
+                    <IonButton className="startSurvey" color="danger" id="startSurvey" style={{ marginBottom:'170px' }} onClick={() => { this.startSurvey(); this.createSurveyreplies(); }}>Inizia il questionario</IonButton>
                 </div>
-                <div className="questionComplete" style={{ display: "none" }} >
-                    <br></br>
-                    <br></br>
+                <div className="questionComplete" style={{ display: "none",marginTop:'150px' }} >
+                    {/* <br></br>
+                    <br></br> */}
                     Questionario Inviato
                 </div>
                 <div className="list" style={{ display: "block" }}>
                     {list}
                 </div>
-                <ButtonToolbar className="movementButtons" style={{ display: "none" }}>
-                    <ButtonGroup id="indexButton" className="me-2" aria-label="Second group">
+                <ButtonToolbar className="movementButtons" style={{ display: "none",marginTop:'20px'}}>
+                    <ButtonGroup id="indexButton" className="me-2" aria-label="Second group" >
                         {this.getButtons()}
                     </ButtonGroup>
-                    <br>
-                    </br>
+                    <br></br>
                     <ButtonGroup className="me-2" aria-label="First group">
-                        <IonButton onClick={this.handlePrevSlide} color="dark" className="small-btn">Indietro</IonButton>
+                        <IonButton onClick={this.handlePrevSlide} color="dark" className="small-btn" >Indietro</IonButton>
                     </ButtonGroup>
                     <ButtonGroup>
-                        <IonButton className="me-2 small-btn forwardButton" color="dark" onClick={this.handleNextSlide}>Avanti</IonButton>
+                        <IonButton className="me-2 small-btn forwardButton" color="dark" onClick={this.handleNextSlide} >Avanti</IonButton>
                     </ButtonGroup>
                 </ButtonToolbar>
                 {/* <h3 className="time">
                     {shouldRenderTime && <Timer duration={this.state.timer} sendSurveyProp={this.sendSurvey} />}
                 </h3> */}
+                {/* <br />
                 <br />
-                <br />
-                <br />
-                <IonButton className="sendSurvey" color="danger" size="lg" onClick={this.sendSurvey} style={{ display: "none" }}>
+                <br /> */}
+                <IonButton className="sendSurvey" color="danger" size="lg" onClick={this.sendSurvey} style={{ display: "none" ,marginTop:'100px'}}>
                     Invia il questionario
                 </IonButton>
             </div>
