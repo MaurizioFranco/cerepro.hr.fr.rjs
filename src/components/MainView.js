@@ -94,7 +94,7 @@ class MainView extends Component {
 					<Route exact path="/positionsList" component={PositionsView} />
 					<Route exact path="/candidatesStatistics" component={CandidatesStatisticsView} />
 					<Route exact path="/users" render={() => renderComponentWithRole(UsersView, 0)} />
-					<Route exact path="/roles" render={() => renderComponentWithRole(CandidatesStatisticsView, 0)} />
+					{/* <Route exact path="/roles" render={() => renderComponentWithRole(CandidatesStatisticsView, 0)} /> */}
 					<Route exact path="/coursepage" component={CoursePagesView} />
 					<Route exact path="/question" render={() => renderComponentWithRole(QuestionView, 0) || renderComponentWithRole(QuestionView, 10) || renderComponentWithRole(QuestionView, 50)} />
 					<Route exact path="/surveys" render={() => renderComponentWithRole(SurveysView, 0) || renderComponentWithRole(SurveysView, 10) || renderComponentWithRole(SurveysView, 50)} />
