@@ -50,11 +50,8 @@ class SurveyView extends Component {
 							</p>
 						</div>
 					</div>
-					<div align="center" style={{ marginTop: '-20px'  }}>
+					<div align="center">
 						<SurveysIonic onShouldRenderTimeChange={this.handleShouldRenderTimeChange} onSendSurveyClick={this.handleSendSurveyClick} />
-						<br />
-						<br />
-						<br />
 					</div>
 				</IonContent>
 			</div>
