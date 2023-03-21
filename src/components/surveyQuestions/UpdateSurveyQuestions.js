@@ -152,7 +152,7 @@ class UpdateSurveyQuestions extends React.Component {
     initializeAndShow = () => {
         console.log(this.props.idItemToUpdate);
         this.getItemById();
-        //this.gridRef.current.show();
+        
     }
 
     getItemById = () => {
