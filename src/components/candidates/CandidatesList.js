@@ -5,6 +5,8 @@ import * as Constants from "../../constants.js";
 import './CandidatesList.css';
 import downloadIcon from "../../images/download_icon.png";
 
+
+import { withRouter } from "react-router";
 //import AddUser from "./AddUser.js";
 //import UpdateUser from "./UpdateUser.js";
 
@@ -16,20 +18,15 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  Button,
+  Paper
 } from "@material-ui/core";
 
-//import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";
-
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
-// import { CSVLink } from 'react-csv';
+import DeleteButton from "../../commons/DeleteButton.js";
 
 const styles = {
   table: {
@@ -46,15 +43,17 @@ const styles = {
 class CandidatesList extends Component {
   constructor(props) {
     super(props);
+    const { match: { params } } = props;
     this.state = { candidates: [] };
   }
 
-  getCandidates = () => {
+  getCandidates = (positionCode) => {
     Commons.executeFetch(
-      Constants.FULL_CANDIDATE_CUSTOM_GET_LIST_API_URI,
+      Constants.FULL_CANDIDATE_CUSTOM_GET_LIST_API_URI + (positionCode!==undefined?positionCode:''),
       "GET",
       this.setCandidates
     );
+
   };
 
   setCandidates = (data) => {
@@ -63,9 +62,10 @@ class CandidatesList extends Component {
     });
   };
 
-  componentDidMount() {
-    this.getCandidates();
-  }
+  componentDidMount() {			
+		const { match: { params } } = this.props;
+		this.getCandidates(params.id);
+    }
 
   confirmDelete = (id) => {
     confirmAlert({
@@ -86,23 +86,23 @@ class CandidatesList extends Component {
     Commons.executeDelete(
       Constants.FULL_CANDIDATE_CUSTOM_API_URI + id,
       this.deleteSuccess,
-      (error) => {
-        console.error("Delete failed:", error);
-        Commons.operationError();
-      }
+      this.deleteFailed
     );
   };
 
-  deleteSuccess = () => {
-    Commons.operationSuccess();
+  deleteSuccess = (response) => {
+    Commons.operationSuccess(response, "Cancellazione dell'utente avvenuta correttamente.");
     this.getCandidates();
+  };
+
+  deleteFailed = (response) => {
+    Commons.operationError(response, "Cancellazione dell'utente fallita.");
   };
 
   render() {
     const { classes } = this.props;
     return (
       <div className="App">
-        {/* <CSVLink data={this.state.candidates} separator=";">Export CSV</CSVLink> */}
         {/* <AddUser refreshCandidatesList={this.getCandidates}/> */}
         <TableContainer
           style={{
@@ -152,13 +152,7 @@ class CandidatesList extends Component {
                     {/* <UpdateUser refreshCandidatesList={this.getCandidates} idItemToUpdate={candidate.id} /> */}
                     </TableCell>
                     <TableCell>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => this.confirmDelete(candidate.id)}
-                      >
-                        Delete
-                      </Button>
+                    <DeleteButton onClickFunction={() => this.confirmDelete(candidate.id)}/>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -166,10 +160,9 @@ class CandidatesList extends Component {
             </Table>
           </TableContainer>
         </TableContainer>
-      <ToastContainer autoClose={1500} />
       </div>
     );
   }
 }
 
-export default withStyles(styles)(CandidatesList);
+export default withRouter((withStyles(styles)(CandidatesList)))
