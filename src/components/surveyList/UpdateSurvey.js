@@ -58,7 +58,7 @@ class UpdateSurvey extends React.Component {
         // });
         Commons.operationSuccess();
         this.setState({ isModalOpen: false });
-        this.props.refreshSurveyList();
+        this.props.updateSurvey();
     }
 
     cancelSubmit = (event) => {

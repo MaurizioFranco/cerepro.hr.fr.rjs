@@ -21,16 +21,24 @@ class UpdateSurveyQuestions extends React.Component {
             questionLabelOptions: [],
             surveyLabelOptions: [],
             idItemToLoad: null,
-            surveyLabel:"",
-            questionLabel:"",
+            surveyLabel:this.props.oldSurveyLabel,
+            questionLabel:this.props.oldQuestionLabel,
             surveyId: 0,
             questionId: 0,
-            position: 0,
+            position: this.props.oldSurveyPosition
         };
         this.gridRef = React.createRef();
     }
 
     componentDidMount() {
+
+        Commons.executeFetch(
+            Constants.FULL_SURVEYQUESTIONS_API_URI + this.props.idItemToUpdate,
+            "GET",
+            this.setSurveyQuestions,
+            Commons.operationError
+        );
+
         // chiamata all'API per ottenere i valori di label dell'entità "survey"
         Commons.executeFetch(
             Constants.FULL_SURVEY_API_URI,
@@ -67,12 +75,8 @@ class UpdateSurveyQuestions extends React.Component {
             console.error
         );
 
-        Commons.executeFetch(
-            Constants.FULL_SURVEYQUESTIONS_API_URI + this.props.idItemToUpdate,
-            "GET",
-            this.setSurveyQuestions,
-            Commons.operationError
-        );
+        
+        
     }
 
     setSurveyQuestions = (data) => {
@@ -81,6 +85,7 @@ class UpdateSurveyQuestions extends React.Component {
             questionId: data.questionId,
             position: data.position
         });
+       
     };
 
     handleChange = (event) => {
@@ -92,13 +97,10 @@ class UpdateSurveyQuestions extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        console.log("### HANDLE SUBMIT ###");
-        console.log("### label nuova ### " + this.state.surveyLabel);
-        console.log("### question nuova ### " + this.state.questionLabel);
-        console.log("### valore surveyId ### " + this.state.surveyId);
-        console.log("### valore questionId ### " + this.state.questionId);
        var survey_id = 0;
        var question_id = 0;
+       var position_new = parseInt(this.state.position);
+
         for(let i = 0; i < this.state.surveyLabelOptions.length; i++){
             console.log("i : " + i);
             if(this.state.surveyLabelOptions[i].label === this.state.surveyLabel){
@@ -121,12 +123,14 @@ class UpdateSurveyQuestions extends React.Component {
 
         console.log("### NUOVO valore surveyId ### " +survey_id);
         console.log("### NUOVO valore questionId ### " + question_id);
+        console.log("### NUOVO valore Position ### " + position_new);
+
 
         var item = {
             id: this.props.idItemToUpdate,
             surveyId: survey_id,
             questionId: question_id,
-            position: this.state.position,
+            position: position_new,
         };
         Commons.executeFetch(Constants.FULL_SURVEYQUESTIONS_API_URI + this.props.idItemToUpdate, "PUT", this.updateSuccess, Commons.operationError, JSON.stringify(item), true);
     }
@@ -147,26 +151,30 @@ class UpdateSurveyQuestions extends React.Component {
         this.setState({ isModalOpen: false });
     }
 
-    initializeAndShow = () => {
-        console.log(this.props.idItemToUpdate);
-        this.getItemById();
-        //this.gridRef.current.show();
-    }
+    // initializeAndShow = () => {
+    //     console.log(this.props.idItemToUpdate);
+    //     this.getItemById();
+        
+    // }
 
-    getItemById = () => {
-        Commons.executeFetch(Constants.FULL_SURVEYQUESTIONS_API_URI + this.props.idItemToUpdate, "GET", this.setItemToUpdate);
-    }
+    // getItemById = () => {
+    //     Commons.executeFetch(Constants.FULL_SURVEYQUESTIONS_API_URI + this.props.idItemToUpdate, "GET", this.setItemToUpdate);
+    // }
 
-    setItemToUpdate = (responseData) => {
-        this.setState({
-            itemLoaded: true,
-            surveyId: responseData.surveyId,
-            questionId: responseData.questionId,
-            position: responseData.position,
-        });
-    }
+    // setItemToUpdate = (responseData) => {
+    //     this.setState({
+    //         itemLoaded: true,
+    //         surveyId: responseData.surveyId,
+    //         questionId: responseData.questionId,
+    //         position: responseData.position,
+    //     });
+    // }
 
     render() {
+        // console.log("ID item" + this.props.idItemToUpdate)
+        // console.log("Old SurveyLabel: " + this.state.surveyLabel);
+        // console.log("Old QuestionLabel: " + this.state.questionLabel);
+        // console.log("Old Position: " + this.props.oldSurveyPosition);
         return (
             <div>
                 <Dialog
@@ -179,8 +187,9 @@ class UpdateSurveyQuestions extends React.Component {
                             fullWidth
                             label="Survey Label"
                             name="surveyLabel"
-                            value={this.props.oldSurveyLabel}
+                           
                             onChange={this.handleChange}
+                            value={this.state.surveyLabel}
                             style={{ marginBottom: "10px" }}
                         >
                             {this.state.surveyLabelOptions.map((option) => (
@@ -193,7 +202,7 @@ class UpdateSurveyQuestions extends React.Component {
                             fullWidth
                             label="Question Label"
                             name="questionLabel"
-                            value={this.props.oldQuestionLabel}
+                            value={this.state.questionLabel}
                             onChange={this.handleChange}
                             style={{ marginBottom: "10px" }}
                         >
@@ -208,7 +217,7 @@ class UpdateSurveyQuestions extends React.Component {
                             label="Position"
                             name="position"
                             type="number"
-                            value={this.props.oldSurveyPosition}
+                            value={this.state.position}
                             onChange={this.handleChange}
                             style={{ marginBottom: "20px" }}
                         />
@@ -234,7 +243,10 @@ class UpdateSurveyQuestions extends React.Component {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => this.setState({ isModalOpen: true })}
+                        // onClick={() => this.setState({ isModalOpen: true })}
+                        onClick={() => this.setState({ isModalOpen: true, position: this.props.oldSurveyPosition, surveyLabel:this.props.oldSurveyLabel,
+                            questionLabel:this.props.oldQuestionLabel
+                            })}
                     >
                         EDIT
                     </Button>

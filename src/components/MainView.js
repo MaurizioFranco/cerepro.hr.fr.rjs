@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import HeaderBarMenu from './header/HeaderBarMenu';
 import CandidateStatesView from "./candidateStates/CandidateStatesView.js";
-import CandidatesView from "./CandidatesView.js";
+import CandidatesView from "./candidates/CandidatesView.js";
 import CandidateInsertView from "./CandidateInsertView.js";
 import PositionsView from "./PositionsView.js";
 import NewPositionView from "./NewPositionView.js";

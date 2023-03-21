@@ -130,7 +130,7 @@ class SurveysList extends Component {
                     <TableCell>{survey.time}</TableCell>
                     <TableCell>{survey.description}</TableCell>
                     <TableCell>
-                    <UpdateSurvey refreshSurveysList={this.getSurveys} idItemToUpdate={survey.id} />
+                    <UpdateSurvey idItemToUpdate={survey.id} updateSurvey={this.getSurveys} />
                     </TableCell>
                     <TableCell>
                       <Button
