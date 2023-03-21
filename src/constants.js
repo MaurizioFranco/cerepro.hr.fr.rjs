@@ -59,6 +59,7 @@ export const FULL_PDF_END = BACKEND_API_PREFIX + PDF_END;
 export const FULL_APPLICATION_VERSION_URI  = BACKEND_API_PREFIX + '/api/v1/application/info/' ;
 
 export const USER_API_URI  = BACKEND_API_PREFIX + '/api/v1/user/' ;
+export const ROLE_API_URI  = BACKEND_API_PREFIX + '/api/v1/role/' ;
 
 export const AUTH_API = '/user' ;
 // eslint-disable-next-line no-template-curly-in-string
