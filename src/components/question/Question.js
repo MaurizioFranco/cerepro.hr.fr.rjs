@@ -14,7 +14,7 @@ import { Button } from "@material-ui/core";
 
 import reload from "../../images/reload.png";
 
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddQuestion from './AddQuestion';
 import SurveyPdfLink from './SurveyPdfLink';
@@ -186,6 +186,10 @@ class Question extends Component {
     }
 
     render() {
+
+        const user = JSON.parse(sessionStorage.getItem("user"));
+        const userLoggedRole = user.role;
+
         return (
             <div>
                 <div style={{ padding: "10px" }}>
@@ -193,7 +197,7 @@ class Question extends Component {
                         <h1 className="panel-title">
                             <span id="active">Questionari ancora da compilare</span>
                             <div className="control-table">
-                                
+
                                 <button id="reload" onClick={this.reloadData}>
                                     <img src={reload} alt="Reload" style={{ marginRight: "50px" }} />
                                 </button>
@@ -265,7 +269,7 @@ class Question extends Component {
                                         <this.StyledTableCell align="left">{item.surveyLabel}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{this.setTime(item.expirationDateTime)}</this.StyledTableCell>
                                         {console.log("### GENERATED TOKEN: ### " + item.generatedToken)}
-                                        
+
                                         {/* {item.urlPdf !== null && item.urlPdf !== 0 && item.urlPdf !== undefined  ?
                                             
                                             <this.StyledTableCell align='left'>
@@ -273,15 +277,15 @@ class Question extends Component {
                                             </this.StyledTableCell>
                                             : null
                                         } */}
-                                      
-                                        <this.StyledTableCell align='left'>
-                                            <SurveyPdfLink pdffilename={item.urlPdf}/>
+
+                                        <this.StyledTableCell align='left' style={{ display: (userLoggedRole === 0 || userLoggedRole === 10) ? 'table-cell' : 'none' }}>
+                                            <SurveyPdfLink pdffilename={item.urlPdf} />
                                         </this.StyledTableCell>
-                                        
-                                        <this.StyledTableCell align="left">
-                                            <Button  onClick={() => this.regeneratePdf(item.surveyReplyId)}>Rigenera PDF</Button>
+
+                                        <this.StyledTableCell align="left" style={{ display: (userLoggedRole === 0 || userLoggedRole === 10) ? 'table-cell' : 'none' }}>
+                                            <Button onClick={() => this.regeneratePdf(item.surveyReplyId)}>Rigenera PDF</Button>
                                         </this.StyledTableCell>
-                                        
+
                                         <this.StyledTableCell id="cellLeft">
                                             <Button id="buttonDelete" data-id={item.id} onClick={this.handleDelete}>Delete</Button>
                                         </this.StyledTableCell>
@@ -309,7 +313,7 @@ class Question extends Component {
                                     <this.StyledTableCell align="left">Lastname</this.StyledTableCell>
                                     <this.StyledTableCell align="left">Question</this.StyledTableCell>
                                     <this.StyledTableCell align="left">expiration Date Time</this.StyledTableCell>
-                                    
+
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -320,8 +324,8 @@ class Question extends Component {
                                         <this.StyledTableCell align="left">{item.lastname}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{item.surveyLabel}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{this.setTime(item.expirationDateTime)}</this.StyledTableCell>
-                                        
-                                        
+
+
                                         <this.StyledTableCell id="cellLeft">
                                             <Button id="buttonDelete" data-id={item.id} onClick={this.handleDelete}>Delete</Button>
                                         </this.StyledTableCell>
