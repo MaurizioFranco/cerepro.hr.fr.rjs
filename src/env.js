@@ -11,3 +11,7 @@ export const APPLICATION_CONTEXT = "/repro.be/dev" ;
 // export const HOST = "localhost" ;
 // export const PORT = "8080" ;
 // export const APPLICATION_CONTEXT = "/cerepro.hr.backend" ;
+
+//frontendDEV
+export const FRONTEND_HOST = "centauri.proximainformatica.com" ;
+export const FRONTEND_APPLICATION_CONTEXT = "/cerepro_frontend_hr_rjs/dev" ;
