@@ -14,20 +14,15 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  Button,
+  Paper
 } from "@material-ui/core";
 
-//import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
-// import { CSVLink } from 'react-csv';
+import DeleteButton from "../../commons/DeleteButton.js";
 
 const styles = {
   table: {
@@ -89,24 +84,14 @@ class CandidateStatesList extends Component {
   }
 
   deleteSuccess = (response) => {
-    // console.log("DELETE CANDIDATE STATE SUCCESS");
-    // console.log(response);
-    // // if (response.status===201) {
-    // toast.success("Candidate State successfully deleted", {
-    //   position: toast.POSITION.BOTTOM_LEFT,
-    // });
-    Commons.operationSuccess();
+    Commons.operationSuccess(response, "Cancellazione stato candidatura avvenuta con successo.");
     this.getCandidateStates();
-    // } else {
-    // this.insertError (response) ;
-    // }
   };
 
   render() {
     const { classes } = this.props;
     return (
       <div className="App">
-        {/* <CSVLink data={this.state.candidateStates} separator=";">Export CSV</CSVLink> */}
         <AddCandidateStates refreshCandidateStatesList={this.getCandidateStates}/>
         <TableContainer
           style={{
@@ -158,14 +143,8 @@ class CandidateStatesList extends Component {
                     <TableCell>
                     <UpdateCandidateStates refreshCandidateStatesList={this.getCandidateStates} idItemToUpdate={candidateState.id} />
                     </TableCell>
-                    <TableCell>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => this.confirmDelete(candidateState.id)}
-                      >
-                        Delete
-                      </Button>
+                    <TableCell>                      
+                      <DeleteButton onClickFunction={() => this.confirmDelete(candidateState.id)}/>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -173,11 +152,9 @@ class CandidateStatesList extends Component {
             </Table>
           </TableContainer>
         </TableContainer>
-      <ToastContainer autoClose={1500} />
       </div>
     );
   }
 }
 
-//export default CandidateStatesList ;
 export default withStyles(styles)(CandidateStatesList);

@@ -2,7 +2,6 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
-import Timer from "./Timer.js";
 import * as Commons from '../../commons.js';
 import * as Constants from '../../constants';
 import '../loader/LoadingSpinnerComponent.css';
@@ -233,9 +232,10 @@ class SurveysIonic extends React.Component {
         var jsonArrayResponse = [];
 
         for (let i = 0; i < numSlides; i++) {
+            this.props.onSendSurveyClick();
             var jsonResponse = {};
             checkDiv = document.getElementById(i)
-            checkboxes = checkDiv.getElementsByTagName("input")
+            checkboxes = checkDiv.getElementsByTagName("ion-checkbox")
             jsonResponse.questionId = checkDiv.getAttribute("name")
             for (let i = 0; i < checkboxes.length; i++) {
                 if (checkboxes[i].checked) {
@@ -249,11 +249,17 @@ class SurveysIonic extends React.Component {
             jsonArrayResponse.push(jsonResponse)
         }
 
+
+        const hashString = window.location.hash.slice(1);
+        const url = new URL(hashString, window.location.href);
+        const tokenId = url.searchParams.get("tokenId");
+
         const item = {
             surveyId: this.state.survey.surveyId,
             userTokenId: this.state.survey.candidateTokenId,
             candidateId: this.state.survey.candidateId,
             answers: jsonArrayResponse,
+            generated_token: tokenId
         };
 
         console.log(jsonArrayResponse)
@@ -321,7 +327,7 @@ class SurveysIonic extends React.Component {
     }
 
     render() {
-        const { surveyLoading, error, shouldRenderTime } = this.state;
+        const { surveyLoading, error } = this.state;
 
         if (surveyLoading) {
             return <div className="modalLoaderDialog">
@@ -332,12 +338,8 @@ class SurveysIonic extends React.Component {
         }
 
         if (error) {
-            return <div>
+            return <div style={{ marginBottom:'170px' }}>
                 <div><b>{this.state.errorMessage}</b></div>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
             </div>;
         }
 
@@ -348,85 +350,94 @@ class SurveysIonic extends React.Component {
                     <br></br>
                     <div>
                         <h4>{element.label}</h4>
+                        <h5>{element.description}</h5>
                     </div>
                     {element.ansa !== null ?
                         <div>
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="ansa" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.ansa}</IonLabel>
-                            </IonItem>
                             {/* <span><input id="ansa" type="checkbox" /></span>
                             <span>{element.ansa}</span> */}
+                            <IonCheckbox slot="start" id="ansa" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansa}</IonLabel>
+                            </IonItem>
+                            
                         </div>
                         : null}
                     {element.ansb !== null ?
                         <div>
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="ansb" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.ansb}</IonLabel>
-                            </IonItem>
                             {/* <span><input id="ansb" type="checkbox" /></span>
                             <span>{element.ansb}</span> */}
+                            <IonCheckbox slot="start" id="ansb" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansb}</IonLabel>
+                            </IonItem>
+                            
                         </div>
                         : null}
                     {element.ansc !== null ?
                         <div>
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="ansc" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.ansc}</IonLabel>
-                            </IonItem>
                             {/* <span><input id="ansc" type="checkbox" /></span>
                             <span>{element.ansc}</span> */}
+                            <IonCheckbox slot="start" id="ansc" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansc}</IonLabel>
+                            </IonItem>
+
                         </div>
                         : null}
                     {element.ansd !== null ?
                         <div>
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="ansd" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.ansd}</IonLabel>
-                            </IonItem>
                             {/* <span><input id="ansd" type="checkbox" /></span>
                             <span>{element.ansd}</span> */}
+                            <IonCheckbox slot="start" id="ansd" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansd}</IonLabel>
+                            </IonItem>
+                        
                         </div>
                         : null}
                     {element.anse !== null ?
                         <div>
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="anse" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.anse}</IonLabel>
-                            </IonItem>
                             {/* <span><input id="anse" type="checkbox" /></span>
                             <span>{element.anse}</span> */}
+                            <IonCheckbox slot="start" id="anse" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.anse}</IonLabel>
+                            </IonItem>
+                            
                         </div>
                         : null}
                     {element.ansf !== null ?
                         <div >
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="ansf" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.ansf}</IonLabel>
-                            </IonItem>
                             {/* <span><input id="ansf" type="checkbox" /></span>
                             <span>{element.ansf}</span> */}
+                            <IonCheckbox slot="start" id="ansf" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansf}</IonLabel>
+                            </IonItem>
+                            
                         </div>
                         : null}
                     {element.ansg !== null ?
                         <div >
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="ansg" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.ansg}</IonLabel>
-                            </IonItem>
                             {/* <span><input id="ansg" type="checkbox" /></span>
                             <span>{element.ansg}</span> */}
+                            <IonCheckbox slot="start" id="ansg" type="checkbox"></IonCheckbox>
+                            <IonLabel>{element.ansg}</IonLabel>
+                            </IonItem>
+                            
                         </div>
                         : null}
                     {element.ansh !== null ?
                         <div >
                             <IonItem id="item">
-                                <IonCheckbox slot="start" id="ansh" type="checkbox"></IonCheckbox>
-                                <IonLabel>{element.ansh}</IonLabel>
-                            </IonItem>
                             {/* <span><input id="ansh" type="checkbox" /></span>
                             <span>{element.ansh}</span> */}
+                            <IonCheckbox slot="start" id="ansh" type="checkbox"></IonCheckbox>
+                                <IonLabel>{element.ansh}</IonLabel>
+                            </IonItem>
+                
                         </div>
                         : null}
                 </div>
@@ -437,36 +448,35 @@ class SurveysIonic extends React.Component {
         return (
             <div align="center">
                 <div id="start" className="start">
-                    <IonButton className="startSurvey" color="danger" id="startSurvey" onClick={() => { this.startSurvey(); this.createSurveyreplies(); }}>Inizia il questionario</IonButton>
+                    <IonButton className="startSurvey" color="danger" id="startSurvey" style={{ marginBottom:'170px' }} onClick={() => { this.startSurvey(); this.createSurveyreplies(); }}>Inizia il questionario</IonButton>
                 </div>
-                <div className="questionComplete" style={{ display: "none" }} >
-                    <br></br>
-                    <br></br>
+                <div className="questionComplete" style={{ display: "none",marginTop:'150px' }} >
+                    {/* <br></br>
+                    <br></br> */}
                     Questionario Inviato
                 </div>
                 <div className="list" style={{ display: "block" }}>
                     {list}
                 </div>
-                <ButtonToolbar className="movementButtons" style={{ display: "none" }}>
-                    <ButtonGroup id="indexButton" className="me-2" aria-label="Second group">
+                <ButtonToolbar className="movementButtons" style={{ display: "none",marginTop:'20px'}}>
+                    <ButtonGroup id="indexButton" className="me-2" aria-label="Second group" >
                         {this.getButtons()}
                     </ButtonGroup>
-                    <br>
-                    </br>
+                    <br></br>
                     <ButtonGroup className="me-2" aria-label="First group">
-                        <IonButton onClick={this.handlePrevSlide} color="dark" className="small-btn">Indietro</IonButton>
+                        <IonButton onClick={this.handlePrevSlide} color="dark" className="small-btn" >Indietro</IonButton>
                     </ButtonGroup>
                     <ButtonGroup>
-                        <IonButton className="me-2 small-btn forwardButton" color="dark" onClick={this.handleNextSlide}>Avanti</IonButton>
+                        <IonButton className="me-2 small-btn forwardButton" color="dark" onClick={this.handleNextSlide} >Avanti</IonButton>
                     </ButtonGroup>
                 </ButtonToolbar>
                 {/* <h3 className="time">
                     {shouldRenderTime && <Timer duration={this.state.timer} sendSurveyProp={this.sendSurvey} />}
                 </h3> */}
+                {/* <br />
                 <br />
-                <br />
-                <br />
-                <IonButton className="sendSurvey" color="danger" size="lg" onClick={this.sendSurvey} style={{ display: "none" }}>
+                <br /> */}
+                <IonButton className="sendSurvey" color="danger" size="lg" onClick={this.sendSurvey} style={{ display: "none" ,marginTop:'100px'}}>
                     Invia il questionario
                 </IonButton>
             </div>

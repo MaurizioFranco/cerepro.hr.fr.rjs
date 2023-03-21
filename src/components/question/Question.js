@@ -10,14 +10,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, IconButton } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 import reload from "../../images/reload.png";
 
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddQuestion from './AddQuestion';
-import { event } from 'jquery';
 import SurveyPdfLink from './SurveyPdfLink';
 
 
@@ -26,20 +25,24 @@ class Question extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            usersExipred: [],
-            usersActive: [],
-            selectedValueExpired: '5',
-            selectedValueActive: '5',
+            expiredSurveys: [],
+            executedSurveys: [],
+            activeAndValidSurveys: [],
+            regeneratedPdf: ''
         }
         this.reloadData = this.reloadData.bind(this);
     }
 
-    fetchUserExpired = (value) => {
-        Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'expired/' + value + '/0/', 'GET', this.setUserExpired);
+    fetchExpiredSurveys = () => {
+        Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'expired/', 'GET', this.setUserExpired);
     }
 
-    fetchUserActive = (value) => {
-        Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'active/' + value + '/0/', 'GET', this.setUserActive);
+    fetchActiveAndValidSurveys = () => {
+        Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'active/', 'GET', this.setActiveAndValidSurveys);
+    }
+
+    fetchExecutedSurveys = () => {
+        Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'executed/', 'GET', this.setExecutedSurveys);
     }
 
     fetchDelete = (value) => {
@@ -47,7 +50,11 @@ class Question extends Component {
     }
 
     fetchSendQuestion = (id) => {
-        Commons.executeFetch(Constants.FULL_ST_SENDEMAIL_API_URI + id, 'GET', Commons.operationSuccess, Commons.operationError);
+        Commons.executeFetch(Constants.FULL_ST_SENDEMAIL_API_URI + id, 'GET', this.sendMailSuccess, Commons.operationError);
+    }
+
+    sendMailSuccess = (responseBody) => {
+        Commons.operationSuccess(responseBody, "Questionario inviato correttamente.");
     }
 
     sendError(err) {
@@ -64,23 +71,24 @@ class Question extends Component {
     }
 
     deleteSuccess = (response) => {
-        // console.log("DELETE Candidates SUCCESS");
-        // toast.success("Delete successfully", {
-        //     position: toast.POSITION.BOTTOM_LEFT,
-        // });
         Commons.operationSuccess();
         this.reloadData();
     }
 
     setUserExpired = (userExpiredToSet) => {
         Commons.debugMessage("userExpiredToSet - START - userExpiredToSet: " + userExpiredToSet);
-        this.setState({ usersExipred: userExpiredToSet.content });
-        console.log("USER EXPIRED == " + this.state.usersExipred);
+        this.setState({ expiredSurveys: userExpiredToSet });
+        // console.log("EXPIRED == " + this.state.expiredSurveys);
     }
 
-    setUserActive = (userActiveToSet) => {
-        Commons.debugMessage("userActiveToSet - START - userActiveToSet: " + userActiveToSet);
-        this.setState({ usersActive: userActiveToSet.content });
+    setActiveAndValidSurveys = (activeAndValidSurveysToSet) => {
+        Commons.debugMessage("setActiveAndValidSurveys - START - activeAndValidSurveysToSet: " + activeAndValidSurveysToSet);
+        this.setState({ activeAndValidSurveys: activeAndValidSurveysToSet });
+    }
+
+    setExecutedSurveys = (executedSurveysToSet) => {
+        Commons.debugMessage("setExecutedSurveys - START - executedSurveysToSet: " + executedSurveysToSet);
+        this.setState({ executedSurveys: executedSurveysToSet });
     }
 
     setTime = (expirationDateTime) => {
@@ -114,22 +122,6 @@ class Question extends Component {
         },
     }));
 
-    handleChangeExpired = (event) => {
-        const { value } = event.target;
-        this.setState({ selectedValueExpired: value }, () => {
-            console.log(this.state.selectedValueExpired);
-            this.fetchUserExpired(this.state.selectedValueExpired);
-        });
-    }
-
-    handleChangeActive = (event) => {
-        const { value } = event.target;
-        this.setState({ selectedValueActive: value }, () => {
-            console.log(this.state.selectedValueActive);
-            this.fetchUserActive(this.state.selectedValueActive);
-        });
-    }
-
     sendQuestion = (event) => {
         const id = event.target.dataset.id;
         this.fetchSendQuestion(id);
@@ -142,71 +134,70 @@ class Question extends Component {
 
     reloadData() {
         console.log("sto chiamando il reload dal register")
-        this.fetchUserExpired(this.state.selectedValueExpired);
-        this.fetchUserActive(this.state.selectedValueActive);
+        this.fetchExpiredSurveys();
+        this.fetchActiveAndValidSurveys();
+        this.fetchExecutedSurveys();
     }
 
     componentDidMount() {
         this.reloadData()
     }
 
-    fetchPdfFile = (surveyreplyId) =>{
-        // Commons.executeFetch(Constants.FULL_SURVEYREPLY_ID_URI + surveyreplyId, 'GET', this.generatePdf)
-        // fetch(Constants.FULL_SURVEYREPLY_ID_URI + surveyreplyId, 
-        //     {
-        //         'Authorization': 'Basic ' + sessionStorage.getItem('headerToken'),
-        //         'Content-Type': 'application/json'
-        //     })
-        // .then(response => {
-        //     response.blob().then(blob => {
-        //         // Creating new object of PDF file
-        //         const fileURL = window.URL.createObjectURL(blob);
-        //         console.log("##### FILE URL #### " + fileURL);
-        //         // Setting various property values
-        //         let alink = document.createElement('a');
-        //         alink.href = fileURL;
-        //         alink.download = response.pdffilename;
-        //         alink.click();
-        //     })
+    generateSuccess = () => {
+        Commons.operationSuccess();
+        this.reloadData();
+        // toast.success("PDF regenerated", {
+        //     position: toast.POSITION.BOTTOM_LEFT,
         // });
-    } 
-
-    onPdfButtonClick = (event) => {
-        const surveyreplyId = event.currentTarget.dataset.id;
-        this.fetchPdfFile(surveyreplyId) ;
     }
 
-    // generatePdf = () => {
-    //     console.log("#################### GENERATE PDF ###########");
-    //     response = () => {
-    //         response.blob().then(blob => {
-    //             // Creating new object of PDF file
-    //             const fileURL = window.URL.createObjectURL(blob);
-    //             // Setting various property values
-    //             let alink = document.createElement('a');
-    //             alink.href = fileURL;
-    //             alink.download = 'SamplePDF.pdf';
-    //             alink.click();
-    //         })
-    //     });
-    // }
+    generateFailed = () => {
+        toast.error("PDF failed to regenerate, contact the administration", {
+            position: toast.POSITION.BOTTOM_LEFT,
+        });
+    }
+
+    regeneratePdf = (surveyReplyId) => {
+        // Commons.executeFetch(Constants.FULL_PDF_END + surveyReplyId, 'POST', this.sendError);
+        // console.log("regeneratePDf started")
+        // console.log("surveyReplyId: ")
+        // console.log(surveyReplyId)
+        // let token = sessionStorage.getItem('headerToken');
+        // console.log("token: " + token)
+        Commons.executeFetch(Constants.FULL_PDF_END + surveyReplyId, 'POST', this.generateSuccess, Commons.operationError)
+        // fetch(Constants.FULL_PDF_END + surveyReplyId,
+        //     {
+        //         method: 'POST',
+        //         headers: {'Authorization':token}
+        //     }
+        // )
+        //     .then(response => response.json())
+        //     .then( responseData => {
+        //         console.log(responseData)
+        //         toast.error( ("Fatto!"), {
+        //             position: toast.POSITION.BOTTOM_LEFT
+        //         })})
+        //     .catch(err => {
+        //         console.log(err)
+        //         toast.error(err, {
+        //             position: toast.POSITION.BOTTOM_LEFT
+        //         })}
+        //         );
+    }
 
     render() {
+
+        const user = JSON.parse(sessionStorage.getItem("user"));
+        const userLoggedRole = user.role;
+
         return (
             <div>
                 <div style={{ padding: "10px" }}>
                     <div className="panel-heading">
                         <h1 className="panel-title">
-                            <span id="active">Lista questionari ancora da compilare</span>
+                            <span id="active">Questionari ancora da compilare</span>
                             <div className="control-table">
-                                <label id="labelQuestion">Visualizza</label>
-                                <select value={this.selectedValueActive} onChange={this.handleChangeActive}>
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                                <label id="labelQuestion">Questionari</label>
+
                                 <button id="reload" onClick={this.reloadData}>
                                     <img src={reload} alt="Reload" style={{ marginRight: "50px" }} />
                                 </button>
@@ -228,18 +219,18 @@ class Question extends Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {this.state.usersActive.map((user) => (
-                                    <this.StyledTableRow key={user.id}>
-                                        <this.StyledTableCell align="left">{user.email}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.firstname}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.lastname}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.surveyLabel}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{this.setTime(user.expirationDateTime)}</this.StyledTableCell>
+                                {this.state.activeAndValidSurveys.map((item) => (
+                                    <this.StyledTableRow key={item.id}>
+                                        <this.StyledTableCell align="left">{item.email}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.firstname}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.lastname}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.surveyLabel}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{this.setTime(item.expirationDateTime)}</this.StyledTableCell>
                                         <this.StyledTableCell id="cellRight">
-                                            <Button id="buttonDelete" data-id={user.id} onClick={this.handleDelete}>Delete</Button>
+                                            <Button id="buttonDelete" data-id={item.id} onClick={this.handleDelete}>Delete</Button>
                                         </this.StyledTableCell>
                                         <this.StyledTableCell id="cellRight">
-                                            <button type="button" className="btn btn-success custom-width" data-id={user.id} onClick={this.sendQuestion}>Invia Questionario</button>
+                                            <button type="button" className="btn btn-success custom-width" data-id={item.id} onClick={this.sendQuestion}>Invia Questionario</button>
                                         </this.StyledTableCell>
                                     </this.StyledTableRow>
                                 ))}
@@ -254,17 +245,7 @@ class Question extends Component {
                 <div style={{ padding: "10px" }}>
                     <div class="panel-heading">
                         <h1 class="panel-title">
-                            <span id="expired">Lista questionari scaduti</span>
-                            <div className="control-table">
-                                <label id="labelQuestion">Visualizza</label>
-                                <select value={this.selectedValueExpired} onChange={this.handleChangeExpired}>
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                                <label id="labelQuestion">Questionari</label>
-                            </div>
+                            <span>Questionari eseguiti(completati e non)</span>
                         </h1>
                     </div>
                     <TableContainer component={Paper}>
@@ -280,38 +261,33 @@ class Question extends Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {this.state.usersExipred.map((user) => (
-                                    <this.StyledTableRow key={user.id}>
-                                        <this.StyledTableCell align="left">{user.email}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.firstname}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.lastname}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{user.surveyLabel}</this.StyledTableCell>
-                                        <this.StyledTableCell align="left">{this.setTime(user.expirationDateTime)}</this.StyledTableCell>
-                                        {console.log("### SURVEY REPLY ID: ### " + user.surveyreplyId)}
-                                        
-                                        {user.surveyreplyId !== null && user.surveyreplyId !== 0 && user.surveyreplyId !== undefined  ?
+                                {this.state.executedSurveys.map((item) => (
+                                    <this.StyledTableRow key={item.id}>
+                                        <this.StyledTableCell align="left">{item.email}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.firstname}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.lastname}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.surveyLabel}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{this.setTime(item.expirationDateTime)}</this.StyledTableCell>
+                                        {console.log("### GENERATED TOKEN: ### " + item.generatedToken)}
+
+                                        {/* {item.urlPdf !== null && item.urlPdf !== 0 && item.urlPdf !== undefined  ?
                                             
                                             <this.StyledTableCell align='left'>
-                                                {/* <IconButton id="buttonGeneratePdf" color="primary" data-id={user.surveyreplyId} onClick={this.onPdfButtonClick}>
-                                                    <PdfIcon />
-                                                </IconButton> */}
-                                                <SurveyPdfLink pdffilename={'Maurizio-Franco-3-13-93.pdf'}/>
-                                                {/* <SurveyPdfLink pdffilename={user.urlPdf}/> */}
+                                                <SurveyPdfLink pdffilename={item.urlPdf}/>
                                             </this.StyledTableCell>
                                             : null
-                                        }
-                                       
-                                        {/* {user.pdffilename !== null && user.pdffilename !== undefined ?
-
-                                            <this.StyledTableCell id="left">
-                                                <Button >Rigenera PDF</Button>
-                                            </this.StyledTableCell>
-                                           
-                                           : null
                                         } */}
-                                        
-                                        <this.StyledTableCell id="cellRight">
-                                            <Button id="buttonDelete" data-id={user.id} onClick={this.handleDelete}>Delete</Button>
+
+                                        <this.StyledTableCell align='left' style={{ display: (userLoggedRole === 0 || userLoggedRole === 10) ? 'table-cell' : 'none' }}>
+                                            <SurveyPdfLink pdffilename={item.urlPdf} />
+                                        </this.StyledTableCell>
+
+                                        <this.StyledTableCell align="left" style={{ display: (userLoggedRole === 0 || userLoggedRole === 10) ? 'table-cell' : 'none' }}>
+                                            <Button onClick={() => this.regeneratePdf(item.surveyReplyId)}>Rigenera PDF</Button>
+                                        </this.StyledTableCell>
+
+                                        <this.StyledTableCell id="cellLeft">
+                                            <Button id="buttonDelete" data-id={item.id} onClick={this.handleDelete}>Delete</Button>
                                         </this.StyledTableCell>
                                     </this.StyledTableRow>
                                 ))}
@@ -319,7 +295,46 @@ class Question extends Component {
                         </Table>
                     </TableContainer>
                 </div>
-                <ToastContainer autoClose={2500} />
+
+                <br>
+                </br>
+                <div style={{ padding: "10px" }}>
+                    <div class="panel-heading">
+                        <h1 class="panel-title">
+                            <span id="expired">Lista questionari scaduti</span>
+                        </h1>
+                    </div>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <this.StyledTableCell align="left">Email</this.StyledTableCell>
+                                    <this.StyledTableCell align="left">Name</this.StyledTableCell>
+                                    <this.StyledTableCell align="left">Lastname</this.StyledTableCell>
+                                    <this.StyledTableCell align="left">Question</this.StyledTableCell>
+                                    <this.StyledTableCell align="left">expiration Date Time</this.StyledTableCell>
+
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {this.state.expiredSurveys.map((item) => (
+                                    <this.StyledTableRow key={item.id}>
+                                        <this.StyledTableCell align="left">{item.email}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.firstname}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.lastname}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{item.surveyLabel}</this.StyledTableCell>
+                                        <this.StyledTableCell align="left">{this.setTime(item.expirationDateTime)}</this.StyledTableCell>
+
+
+                                        <this.StyledTableCell id="cellLeft">
+                                            <Button id="buttonDelete" data-id={item.id} onClick={this.handleDelete}>Delete</Button>
+                                        </this.StyledTableCell>
+                                    </this.StyledTableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
             </div >
         );
     }

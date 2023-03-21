@@ -9,10 +9,11 @@ import {
   DialogActions,
 } from "@material-ui/core";
 
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
+
+import EditButton from "../../commons/EditButton.js";
 
 class UpdateCandidateStates extends React.Component {
     constructor(props) {
@@ -159,14 +160,8 @@ class UpdateCandidateStates extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <div>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => this.setState({ isModalOpen: true })}
-          >
-            EDIT
-      </Button>
+        <div>          
+        <EditButton onClickFunction={() => this.setState({ isModalOpen: true })}/>
     </div>
   </div>
 );

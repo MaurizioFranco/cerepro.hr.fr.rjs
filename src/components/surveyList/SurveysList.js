@@ -10,8 +10,6 @@ import {
   Paper,
   Button,
 } from "@material-ui/core";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import AddSurvey from "./AddSurvey.js";
@@ -132,7 +130,7 @@ class SurveysList extends Component {
                     <TableCell>{survey.time}</TableCell>
                     <TableCell>{survey.description}</TableCell>
                     <TableCell>
-                    <UpdateSurvey refreshSurveysList={this.getSurveys} idItemToUpdate={survey.id} />
+                    <UpdateSurvey idItemToUpdate={survey.id} updateSurvey={this.getSurveys} />
                     </TableCell>
                     <TableCell>
                       <Button
@@ -149,7 +147,6 @@ class SurveysList extends Component {
             </Table>
           </TableContainer>
         </TableContainer>
-        <ToastContainer autoClose={1500} />
       </div>
     );
   }

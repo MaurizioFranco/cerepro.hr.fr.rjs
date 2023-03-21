@@ -9,8 +9,6 @@ import {
   DialogActions,
 } from "@material-ui/core";
 
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 
@@ -60,7 +58,7 @@ class UpdateSurvey extends React.Component {
         // });
         Commons.operationSuccess();
         this.setState({ isModalOpen: false });
-        this.props.refreshSurveyList();
+        this.props.updateSurvey();
     }
 
     cancelSubmit = (event) => {

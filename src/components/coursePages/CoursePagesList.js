@@ -7,17 +7,17 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  Button,
+  Paper
 } from "@material-ui/core";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import AddCoursePages from "./AddCoursePage.js";
 import UpdateCoursePage from "./UpdateCoursePage.js";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
+
+import DeleteButton from "../../commons/DeleteButton.js";
+
 
 const styles = {
   table: {
@@ -112,24 +112,14 @@ class CoursePagesList extends Component {
   }
 
   deleteSuccess = (response) => {
-    // console.log("DELETE COURSE PAGE SUCCESS");
-    // console.log(response);
-    // // if (response.status===201) {
-    // toast.success("Course page successfully deleted", {
-    //   position: toast.POSITION.BOTTOM_LEFT,
-    // });
-    Commons.operationSuccess();
+    Commons.operationSuccess(response, "Cancellazione posizione avvenuta con successo");
     this.getCoursePages();
-    // } else {
-    // this.insertError (response) ;
-    // }
   };
 
   render() {
     const { classes } = this.props;
     return (
       <div className="App">
-        {/* <CSVLink data={this.state.candidateStates} separator=";">Export CSV</CSVLink> */}
         <AddCoursePages refreshCoursePagesList={this.getCoursePages} />
         <TableContainer
           style={{
@@ -170,13 +160,7 @@ class CoursePagesList extends Component {
                     <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} idItemToUpdate={coursePage.id} />
                     </TableCell>
                     <TableCell>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => this.confirmDelete(coursePage.id)}
-                      >
-                        Delete
-                      </Button>
+                      <DeleteButton onClickFunction={() => this.confirmDelete(coursePage.id)}/>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -184,7 +168,6 @@ class CoursePagesList extends Component {
             </Table>
           </TableContainer>
         </TableContainer>
-        <ToastContainer autoClose={1500} />
       </div>
     );
   }

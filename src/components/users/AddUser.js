@@ -60,7 +60,7 @@ class AddUsers extends React.Component {
   }
 
   insertSuccess = (response) => {
-    Commons.operationSuccess();
+    Commons.operationSuccess(response, "Utente inserito correttamente.");
     this.setState({ isModalOpen: false });
     this.props.refreshUsersList();
   };

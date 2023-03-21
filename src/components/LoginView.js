@@ -3,7 +3,6 @@ import centauri_logo from "../images/header_logo.png";
 import "./LoginView.css";
 import * as Commons from "../commons.js";
 import * as Constants from "../constants.js";
-//import * as Messages from '../messages.js' ;
 import { ModalLoadingSpinnerComponent } from "./loader/ModalLoadingSpinnerComponent";
 import LoginAuthenticationKOMessage from "./login/LoginAuthenticationKOMessage.js";
 import Registration from "./RegistrationView";
