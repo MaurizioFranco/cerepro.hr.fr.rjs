@@ -15,7 +15,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Button,
 } from "@material-ui/core";
 
 import "react-table-6/react-table.css";
@@ -23,7 +22,7 @@ import "react-table-6/react-table.css";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
-// import { CSVLink } from 'react-csv';
+import DeleteButton from "../../commons/DeleteButton.js";
 
 const styles = {
   table: {
@@ -51,11 +50,27 @@ class UsersList extends Component {
     );
   };
 
+  getRoleLevel = (level, index) => {
+    Commons.executeFetch(
+      Constants.FULL_ROLE_LEVEL_URI + level,
+      "GET",
+      (data) => this.setLabel(data, index)
+    );
+  };
+  
+  setLabel = (data, index) => {
+    const label = data.label;
+    const users = [...this.state.users];
+    users[index].roleLabel = label;
+    this.setState({ users });
+  };
+
   setUsers = (data) => {
     this.setState({
       users: data,
     });
   };
+
 
   componentDidMount() {
     this.getUsers();
@@ -129,18 +144,12 @@ class UsersList extends Component {
                     <TableCell>{user.email}</TableCell>
                     <TableCell>{user.firstname}</TableCell>
                     <TableCell>{user.lastname}</TableCell>
-                    <TableCell>{user.role}</TableCell>
+                    <TableCell>{user.roleLabel || this.getRoleLevel(user.role, index)}</TableCell>
                     <TableCell>
                     <UpdateUser refreshUsersList={this.getUsers} idItemToUpdate={user.id} />
                     </TableCell>
-                    <TableCell>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => this.confirmDelete(user.id)}
-                      >
-                        Delete
-                      </Button>
+                    <TableCell>                      
+                      <DeleteButton onClickFunction={() => this.confirmDelete(user.id)}/>
                     </TableCell>
                   </TableRow>
                 ))}
