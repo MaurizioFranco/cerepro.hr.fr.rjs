@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import * as Commons from "../commons.js";
-import * as Constants from "../constants.js";
 import SurveysIonic from './surveysIonic/SurveysIonic';
-import { IonText, IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/react';
+import { IonContent, IonHeader, IonToolbar } from '@ionic/react';
 import './SurveyView.css';
 import centauri_academy_header_logo from '../images/header_logo.png';
 import Timer from './surveysIonic/Timer.js';

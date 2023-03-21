@@ -9,8 +9,6 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 
@@ -118,7 +116,7 @@ class AddSurveyQuestions extends React.Component {
     // toast.success("Survey question successfully inserted", {
     //   position: toast.POSITION.BOTTOM_LEFT,
     // });
-    Commons.operationSuccess();
+    Commons.operationSuccess(response);
     this.setState({ isModalOpen: false });
     this.props.refreshSurveyQuestionsList();
   }

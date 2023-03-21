@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import * as Commons from '../../commons.js';
 import * as Constants from '../../constants';
 import { Chart } from 'chart.js';
@@ -30,7 +30,7 @@ class QuestionMonth extends React.Component {
                     labels: this.state.labels,
                     datasets: [
                         {
-                            label: 'Questionario Compilato negli ultimi 30 giorni',
+                            label: 'Questionari Compilati negli ultimi 30 giorni',
                             data: this.state.data,
                             fill: false,
                             borderColor: 'rgba(75,192,192,1)',
@@ -38,20 +38,6 @@ class QuestionMonth extends React.Component {
                         }
                     ]
                 },
-                // options: {
-                //     scales: {
-                //         yAxes: [{
-                //             ticks: {
-                //                 beginAtZero: true,
-                //                 fontFamily: "'Arial', sans-serif",
-                //                 fontSize: 40,
-                //                 min:0,
-                //                 max:100,
-                //                 stepSize:1
-                //             }
-                //         }]
-                //     }
-                // }
             });
         });
     }
@@ -62,7 +48,7 @@ class QuestionMonth extends React.Component {
 
     render() {
         return (
-            <div style={{ width: "1000px", height: "500px" , margin:"auto" }}>
+            <div style={{ width: "1000px", height: "500px" , margin:"20px" }}>
                 <canvas ref="canvas"></canvas>
             </div>
         );

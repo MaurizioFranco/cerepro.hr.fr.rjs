@@ -10,14 +10,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, IconButton } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 import reload from "../../images/reload.png";
 
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddQuestion from './AddQuestion';
-import { event } from 'jquery';
 import SurveyPdfLink from './SurveyPdfLink';
 
 
@@ -51,7 +50,11 @@ class Question extends Component {
     }
 
     fetchSendQuestion = (id) => {
-        Commons.executeFetch(Constants.FULL_ST_SENDEMAIL_API_URI + id, 'GET', Commons.operationSuccess, Commons.operationError);
+        Commons.executeFetch(Constants.FULL_ST_SENDEMAIL_API_URI + id, 'GET', this.sendMailSuccess, Commons.operationError);
+    }
+
+    sendMailSuccess = (responseBody) => {
+        Commons.operationSuccess(responseBody, "Questionario inviato correttamente.");
     }
 
     sendError(err) {
@@ -328,7 +331,6 @@ class Question extends Component {
                         </Table>
                     </TableContainer>
                 </div>
-                <ToastContainer autoClose={2500} />
             </div >
         );
     }

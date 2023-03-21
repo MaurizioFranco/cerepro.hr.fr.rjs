@@ -19,7 +19,10 @@ import { ModalLoadingSpinnerComponent } from './loader/ModalLoadingSpinnerCompon
 import './MainView.css';
 import { Container } from 'react-bootstrap';
 import QuestionView from './QuestionView';
-// import '../loader/LoadingSpinnerComponent.css';
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import './loader/LoadingSpinnerComponent.css'
 import proxima_arrow from '../images/proxima_red_great_arrow.png'
 //import * as Commons from "../commons.js";
@@ -94,12 +97,13 @@ class MainView extends Component {
 					<Route exact path="/positionsList" component={PositionsView} />
 					<Route exact path="/candidatesStatistics" component={CandidatesStatisticsView} />
 					<Route exact path="/users" render={() => renderComponentWithRole(UsersView, 0)} />
-					<Route exact path="/roles" render={() => renderComponentWithRole(CandidatesStatisticsView, 0)} />
+					{/* <Route exact path="/roles" render={() => renderComponentWithRole(CandidatesStatisticsView, 0)} /> */}
 					<Route exact path="/coursepage" component={CoursePagesView} />
 					<Route exact path="/question" render={() => renderComponentWithRole(QuestionView, 0) || renderComponentWithRole(QuestionView, 10) || renderComponentWithRole(QuestionView, 50)} />
 					<Route exact path="/surveys" render={() => renderComponentWithRole(SurveysView, 0) || renderComponentWithRole(SurveysView, 10) || renderComponentWithRole(SurveysView, 50)} />
 					<Route exact path="/surveyquestions" render={() => renderComponentWithRole(SurveyQuestionsView, 0) || renderComponentWithRole(SurveyQuestionsView, 10) || renderComponentWithRole(SurveyQuestionsView, 50)} />
 				</div>
+				<ToastContainer autoClose={1500} />
 			</Container>
 		);
 	}

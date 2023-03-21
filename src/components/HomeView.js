@@ -5,6 +5,7 @@ import QuestionYear from './graph/QuestionYear';
 import './HomeView.css';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
+import CandidatesStatisticsView from './candidates/statistics/CandidatesStatisticsView';
 
 class HomeView extends Component {
 	render() {
@@ -17,6 +18,14 @@ class HomeView extends Component {
 					Fai clic sul menu per selezionare la
 					pagina da visualizzare.
 				</p>
+
+				<div id="container">
+					<div className="component">
+						<TableContainer component={Paper}>
+							<CandidatesStatisticsView/>
+						</TableContainer>
+					</div>
+				</div>
 
 				<div id="container">
 					<div className="component">

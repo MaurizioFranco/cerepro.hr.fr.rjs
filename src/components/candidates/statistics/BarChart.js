@@ -1,6 +1,6 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
-import { CategoryScale, Chart } from "chart.js";
+import { Chart } from "chart.js";
 import {  registerables } from 'chart.js';
 Chart.register(...registerables);
 
@@ -17,7 +17,7 @@ const BarChart = (props) => {
     labels: labels,
     datasets: [
       {
-        label: "Total Candidates for category",
+        label: "Totale Candidati per Course Code",
         backgroundColor: backgroundColors,
         borderColor: "rgb(255, 99, 132)",
         data: props.data,
@@ -44,7 +44,7 @@ const BarChart = (props) => {
   
 
   return (
-    <div style={{ width: "1000px", height: "800px" , margin:"auto" }}>
+    <div style={{ width: "1000px", height: "500px" , margin:"20px" }}>
       <Bar data={data} />
     </div>
   );

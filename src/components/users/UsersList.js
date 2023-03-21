@@ -18,11 +18,7 @@ import {
   Button,
 } from "@material-ui/core";
 
-//import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -89,7 +85,7 @@ class UsersList extends Component {
   }
 
   deleteSuccess = (response) => {
-    Commons.operationSuccess();
+    Commons.operationSuccess(response, "Cancellazione utente avvenuta correttamente.");
     this.getUsers();
   };
 
@@ -97,7 +93,6 @@ class UsersList extends Component {
     const { classes } = this.props;
     return (
       <div className="App">
-        {/* <CSVLink data={this.state.users} separator=";">Export CSV</CSVLink> */}
         <AddUser refreshUsersList={this.getUsers}/>
         <TableContainer
           style={{
@@ -152,8 +147,7 @@ class UsersList extends Component {
               </TableBody>
             </Table>
           </TableContainer>
-        </TableContainer>
-      <ToastContainer autoClose={1500} />
+        </TableContainer>      
       </div>
     );
   }
