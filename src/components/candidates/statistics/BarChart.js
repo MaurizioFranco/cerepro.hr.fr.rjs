@@ -44,7 +44,7 @@ const BarChart = (props) => {
   
 
   return (
-    <div style={{ width: "1000px", height: "500px" , margin:"20px" }}>
+    <div style={{ width: "500px", height: "300px" , margin:"20px" }}>
       <Bar data={data} />
     </div>
   );

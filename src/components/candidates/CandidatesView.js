@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import CandidateList from './candidates/CandidateList';
-import './candidates/candidates.css';
+import CandidatesList from './CandidatesList.js';
+//import './candidates/candidates.css';
 
 class CandidatesView extends Component {
 	render() {
 		return (
-				  <CandidateList/>
+				  <CandidatesList/>
 					
 		);
 	}

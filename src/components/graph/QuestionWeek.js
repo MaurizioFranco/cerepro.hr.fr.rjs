@@ -62,7 +62,7 @@ class QuestionWeek extends React.Component {
 
     render() {
         return (
-            <div style={{ width: "1000px", height: "500px", margin: "20px" }}>
+            <div style={{ width: "500px", height: "300px", margin: "20px" }}>
                 <canvas ref="canvas"></canvas>
 
             </div>

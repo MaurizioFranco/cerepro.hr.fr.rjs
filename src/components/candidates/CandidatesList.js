@@ -2,9 +2,11 @@ import React, { Component } from "react";
 
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
+import './CandidatesList.css';
+import downloadIcon from "../../images/download_icon.png";
 
-import AddUser from "./AddUser.js";
-import UpdateUser from "./UpdateUser.js";
+//import AddUser from "./AddUser.js";
+//import UpdateUser from "./UpdateUser.js";
 
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -18,7 +20,11 @@ import {
   Button,
 } from "@material-ui/core";
 
+//import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -37,44 +43,28 @@ const styles = {
   },
 };
 
-class UsersList extends Component {
+class CandidatesList extends Component {
   constructor(props) {
     super(props);
-    this.state = { users: [] };
+    this.state = { candidates: [] };
   }
 
-  getUsers = () => {
+  getCandidates = () => {
     Commons.executeFetch(
-      Constants.USER_API_URI,
+      Constants.FULL_CANDIDATE_CUSTOM_GET_LIST_API_URI,
       "GET",
-      this.setUsers
+      this.setCandidates
     );
   };
 
-  getRoleLevel = (level, index) => {
-    Commons.executeFetch(
-      Constants.FULL_ROLE_LEVEL_URI + level,
-      "GET",
-      (data) => this.setLabel(data, index)
-    );
-  };
-  
-  setLabel = (data, index) => {
-    const label = data.label;
-    const users = [...this.state.users];
-    users[index].roleLabel = label;
-    this.setState({ users });
-  };
-
-  setUsers = (data) => {
+  setCandidates = (data) => {
     this.setState({
-      users: data,
+      candidates: data.content,
     });
   };
 
-
   componentDidMount() {
-    this.getUsers();
+    this.getCandidates();
   }
 
   confirmDelete = (id) => {
@@ -94,22 +84,26 @@ class UsersList extends Component {
 
   deleteItem(id) {
     Commons.executeDelete(
-      Constants.USER_API_URI + id,
+      Constants.FULL_CANDIDATE_CUSTOM_API_URI + id,
       this.deleteSuccess,
-      Commons.operationError
+      (error) => {
+        console.error("Delete failed:", error);
+        Commons.operationError();
+      }
     );
-  }
+  };
 
-  deleteSuccess = (response) => {
-    Commons.operationSuccess(response, "Cancellazione utente avvenuta correttamente.");
-    this.getUsers();
+  deleteSuccess = () => {
+    Commons.operationSuccess();
+    this.getCandidates();
   };
 
   render() {
     const { classes } = this.props;
     return (
       <div className="App">
-        <AddUser refreshUsersList={this.getUsers}/>
+        {/* <CSVLink data={this.state.candidates} separator=";">Export CSV</CSVLink> */}
+        {/* <AddUser refreshCandidatesList={this.getCandidates}/> */}
         <TableContainer
           style={{
             paddingLeft: "40px",
@@ -120,40 +114,48 @@ class UsersList extends Component {
           <TableContainer component={Paper}>
             <Table
               className={classes.table}
-              aria-label="user table"
+              aria-label="candidate table"
             >
               <TableHead>
                 <TableRow style={{ backgroundColor: "#333", color: "#fff" }}>
-                  <TableCell style={{ color: "#fff" }}>ID</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Id</TableCell>
+                  <TableCell style={{ color: "#fff" }}></TableCell>
                   <TableCell style={{ color: "#fff" }}>E-mail</TableCell>
                   <TableCell style={{ color: "#fff" }}>Firstname</TableCell>
                   <TableCell style={{ color: "#fff" }}>Lastname</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Role</TableCell>
+                  <TableCell style={{ color: "#fff" }}>CV</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Inserted by</TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.users.map((user, index) => (
+                {this.state.candidates.map((candidate, index) => (
                   <TableRow
                     key={index}
                     className={
                       index % 2 === 0 ? classes.evenRow : classes.oddRow
                     }
                   >
-                    <TableCell>{user.id}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.firstname}</TableCell>
-                    <TableCell>{user.lastname}</TableCell>
-                    <TableCell>{user.roleLabel || this.getRoleLevel(user.role, index)}</TableCell>
+                    <TableCell>{candidate.id}</TableCell>
+                    <TableCell><img class="candidateImg" src={Constants.FRONTEND_API_PREFIX + "/canimg/" + candidate.imgpath} alt={candidate.imgpath} /></TableCell>
+                    <TableCell>{candidate.email}</TableCell>
+                    <TableCell>{candidate.firstname}</TableCell>
+                    <TableCell>{candidate.lastname}</TableCell>
                     <TableCell>
-                    <UpdateUser refreshUsersList={this.getUsers} idItemToUpdate={user.id} />
+                      <a href={`${Constants.FRONTEND_API_PREFIX}/${candidate.cvExternalPath}`} target="_blank" rel="noopener noreferrer">
+                      <img class="downloadIcon" src={downloadIcon} alt={candidate.cvExternalPath} />
+                      </a>
+                    </TableCell>
+                    <TableCell>{candidate.insertedByFirstname} {candidate.insertedByLastname}</TableCell>
+                    <TableCell>
+                    {/* <UpdateUser refreshCandidatesList={this.getCandidates} idItemToUpdate={candidate.id} /> */}
                     </TableCell>
                     <TableCell>
                       <Button
                         variant="contained"
                         color="secondary"
-                        onClick={() => this.confirmDelete(user.id)}
+                        onClick={() => this.confirmDelete(candidate.id)}
                       >
                         Delete
                       </Button>
@@ -163,10 +165,11 @@ class UsersList extends Component {
               </TableBody>
             </Table>
           </TableContainer>
-        </TableContainer>      
+        </TableContainer>
+      <ToastContainer autoClose={1500} />
       </div>
     );
   }
 }
 
-export default withStyles(styles)(UsersList);
+export default withStyles(styles)(CandidatesList);

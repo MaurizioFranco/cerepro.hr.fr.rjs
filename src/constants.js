@@ -2,6 +2,7 @@
 import * as Environment from './env.js';
 
 export const BACKEND_API_PREFIX = "http://" + Environment.HOST + ":" + Environment.PORT + Environment.APPLICATION_CONTEXT ;
+export const FRONTEND_API_PREFIX = "http://" + Environment.FRONTEND_HOST + Environment.FRONTEND_APPLICATION_CONTEXT ;
 
 export const CANDIDATE_PROFILE_IMAGES_RELATIVE_FOLDER = "/canimg/" ;
 export const CANDIDATE_PROFILE_CV_RELATIVE_FOLDER = "/cancv/" ;
@@ -33,6 +34,8 @@ export const QUESTIONCANDIDATE_API = '/api/v1/survey/getSurveyForCandidate/';
 export const QUESTIONSTART_API = '/api/v1/surveyreplyrequest/start/';
 export const QUESTIONSEND_API = '/api/v1/surveyreplyrequest/end/';
 export const SURVEYREPLY_ID = '/api/v1/surveyreply/';
+export const ROLE_LEVEL_API = '/api/v1/role/level/';
+export const FULL_ROLE_LEVEL_URI = BACKEND_API_PREFIX + ROLE_LEVEL_API;
 export const FULL_SURVEYREPLY_ID_URI = BACKEND_API_PREFIX + SURVEYREPLY_ID;
 export const FULL_SURVEYREPLIES_WEEK_API_URI = BACKEND_API_PREFIX + SURVEYREPLY_WEEK_API;
 export const FULL_SURVEYREPLIES_MONTH_API_URI = BACKEND_API_PREFIX + SURVEYREPLY_MONTH_API;
