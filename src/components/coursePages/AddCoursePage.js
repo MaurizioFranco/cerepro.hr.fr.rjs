@@ -26,7 +26,9 @@ class AddCoursePages extends React.Component {
       fileName: "",
       isModalOpen: false,
       selectedOwner: "",
-      owners: []
+      owners: [],
+      firtname: "",
+      latname: ""
     };
     this.gridRef = React.createRef();
   }
@@ -44,6 +46,7 @@ class AddCoursePages extends React.Component {
     this.setState({
         owners: retrievedOwners,
     });
+    console.log(retrievedOwners);
 }
 
   handleChange = (event) => {
@@ -70,6 +73,20 @@ class AddCoursePages extends React.Component {
       JSON.stringify(item),
       true
     );
+    this.addPositionUserOwner(item);
+  }
+
+  addPositionUserOwner = (item) => {
+    var positionUserOwner = {
+      coursePageId: item.id,
+      userId: this.state.owner.id
+    }
+    Commons.executeFetch(
+      "http://localhost:8080/cerepro.hr.backend/api/v1/positionuserowner/",
+      "POST",
+      JSON.stringify(positionUserOwner),
+      true
+    )
   }
 
   insertError = (err) => {
@@ -132,12 +149,12 @@ class AddCoursePages extends React.Component {
               label="Proprietario"
               name="proprietario"
               value={this.state.selectedOwner}
-              onChange={(e) => this.setState({ selectedOwner: e.target.value })}
+              onChange={(e) => this.setState({ selectedOwner: e.target.value})}
               style={{ marginBottom: "10px" }}
             >
-              {this.state.owners.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.firstname + " " + option.lastname}
+              {this.state.owners.map((owner) => (
+                <MenuItem key={owner.value} value={owner.value}>
+                  {owner.firstname + " " + owner.lastname}
                 </MenuItem>))}
             </Select>
 
