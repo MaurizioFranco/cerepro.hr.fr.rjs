@@ -9,6 +9,8 @@ import {
   Switch,
   Typography,
   Grid,
+  Select,
+  MenuItem
 } from "@material-ui/core";
 //import SkyLight from 'react-skylight';
 
@@ -16,6 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
+import { common } from "@mui/material/colors";
 
 class AddUsers extends React.Component {
   constructor(props) {
@@ -27,6 +30,8 @@ class AddUsers extends React.Component {
       lastname: "",
       role: props.role || 90,
       enabled: "",
+      roles: [],
+      selectedRole: ""
     };
     this.gridRef = React.createRef();
   }
@@ -37,12 +42,15 @@ class AddUsers extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const selectedLabel = this.state.selectedRole.label;
+    const selectedRole = this.state.roles.find(role => role.label === selectedLabel);
+    const selectedRoleLevel = selectedRole.level;
     var item = {
       email: this.state.email,
       password: this.state.password,
       firstname: this.state.firstname,
       lastname: this.state.lastname,
-      role: this.state.role,
+      role: selectedRoleLevel,
       enabled: this.state.enabled,
     };
     this.addCandidateState(item);
@@ -69,6 +77,18 @@ class AddUsers extends React.Component {
     event.preventDefault();
     this.setState({ isModalOpen: false });
   };
+
+  componentDidMount() {
+    this.getRoles()
+  }
+
+  getRoles = () => {
+    Commons.executeFetch(Constants.ROLE_API_URI, 'GET', this.setRoles)
+  }
+
+  setRoles = (data) => {
+    this.setState({ roles: data })
+  }
 
   render() {
     return (
@@ -105,16 +125,29 @@ class AddUsers extends React.Component {
               label="Lastname"
               name="lastname"
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={{ marginBottom: "17px" }}
             />
-            <TextField
+            <Select
+              fullWidth
+              label="Role"
+              name="roles"
+              value={this.state.selectedRole}
+              onChange={(e) => this.setState({ selectedRole: e.target.value })}
+              style={{ marginBottom: "10px" }}
+            >
+              {this.state.roles.map((role) => (
+                <option key={role} value={role}>{role.label}</option>
+                ))}
+            </Select>
+
+            {/* <TextField
               fullWidth
               label="Role"
               name="role"
               type="number"
               onChange={this.handleChange}
               style={{ marginBottom: "20px" }}
-            />
+            /> */}
 
             <Grid container alignItems="center" justify="flex-start">
               <Grid item>
@@ -134,14 +167,14 @@ class AddUsers extends React.Component {
 
           </DialogContent>
           <DialogActions>
-          <Button
+            <Button
               onClick={this.handleSubmit}
               style={{ marginRight: "14px" }}
               color="primary"
             >
               Save
             </Button>
-            <Button 
+            <Button
               onClick={this.cancelSubmit}
               style={{ margin: "7px" }}
               color="secondary"
@@ -165,7 +198,7 @@ class AddUsers extends React.Component {
             +
           </Button>
         </div>
-      </div>
+      </div >
     );
   }
 }
