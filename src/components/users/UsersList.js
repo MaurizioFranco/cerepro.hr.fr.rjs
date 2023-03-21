@@ -51,11 +51,27 @@ class UsersList extends Component {
     );
   };
 
+  getRoleLevel = (level, index) => {
+    Commons.executeFetch(
+      Constants.FULL_ROLE_LEVEL_URI + level,
+      "GET",
+      (data) => this.setLabel(data, index)
+    );
+  };
+  
+  setLabel = (data, index) => {
+    const label = data.label;
+    const users = [...this.state.users];
+    users[index].roleLabel = label;
+    this.setState({ users });
+  };
+
   setUsers = (data) => {
     this.setState({
       users: data,
     });
   };
+
 
   componentDidMount() {
     this.getUsers();
@@ -129,7 +145,7 @@ class UsersList extends Component {
                     <TableCell>{user.email}</TableCell>
                     <TableCell>{user.firstname}</TableCell>
                     <TableCell>{user.lastname}</TableCell>
-                    <TableCell>{user.role}</TableCell>
+                    <TableCell>{user.roleLabel || this.getRoleLevel(user.role, index)}</TableCell>
                     <TableCell>
                     <UpdateUser refreshUsersList={this.getUsers} idItemToUpdate={user.id} />
                     </TableCell>
