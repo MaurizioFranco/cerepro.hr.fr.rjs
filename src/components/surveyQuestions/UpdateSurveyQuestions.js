@@ -23,11 +23,12 @@ class UpdateSurveyQuestions extends React.Component {
             questionLabelOptions: [],
             surveyLabelOptions: [],
             idItemToLoad: null,
-            surveyLabel:"",
-            questionLabel:"",
-            surveyId: 0,
-            questionId: 0,
-            position: 0,
+            surveyLabel:this.props.oldSurveyLabel,
+            questionLabel:this.props.oldQuestionLabel,
+            oldPosition: this.props.oldSurveyPosition,
+            // surveyId: 0,
+            // questionId: 0,
+            // position: 0
         };
         this.gridRef = React.createRef();
     }
@@ -101,6 +102,7 @@ class UpdateSurveyQuestions extends React.Component {
         console.log("### valore questionId ### " + this.state.questionId);
        var survey_id = 0;
        var question_id = 0;
+       var position_new = this.state.oldPosition
         for(let i = 0; i < this.state.surveyLabelOptions.length; i++){
             console.log("i : " + i);
             if(this.state.surveyLabelOptions[i].label === this.state.surveyLabel){
@@ -128,7 +130,7 @@ class UpdateSurveyQuestions extends React.Component {
             id: this.props.idItemToUpdate,
             surveyId: survey_id,
             questionId: question_id,
-            position: this.state.position,
+            position: position_new,
         };
         Commons.executeFetch(Constants.FULL_SURVEYQUESTIONS_API_URI + this.props.idItemToUpdate, "PUT", this.updateSuccess, Commons.operationError, JSON.stringify(item), true);
     }
@@ -181,8 +183,9 @@ class UpdateSurveyQuestions extends React.Component {
                             fullWidth
                             label="Survey Label"
                             name="surveyLabel"
-                            value={this.props.oldSurveyLabel}
+                           
                             onChange={this.handleChange}
+                            value={this.state.surveyLabel}
                             style={{ marginBottom: "10px" }}
                         >
                             {this.state.surveyLabelOptions.map((option) => (
@@ -195,7 +198,7 @@ class UpdateSurveyQuestions extends React.Component {
                             fullWidth
                             label="Question Label"
                             name="questionLabel"
-                            value={this.props.oldQuestionLabel}
+                            value={this.state.questionLabel}
                             onChange={this.handleChange}
                             style={{ marginBottom: "10px" }}
                         >
@@ -208,9 +211,9 @@ class UpdateSurveyQuestions extends React.Component {
                         <TextField
                             fullWidth
                             label="Position"
-                            name="position"
+                            name="oldPosition"
                             type="number"
-                            value={this.props.oldSurveyPosition}
+                            value={this.state.oldPosition}
                             onChange={this.handleChange}
                             style={{ marginBottom: "20px" }}
                         />
