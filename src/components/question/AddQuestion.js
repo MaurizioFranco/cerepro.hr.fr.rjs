@@ -9,7 +9,7 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    Select    
+    Select
 } from "@material-ui/core";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,9 +19,12 @@ class AddQuestion extends React.Component {
         super(props);
         this.state = {
             candidates: [],
+            uniqueCourseCode: [],
             uniqueEmails: [],
             uniqueSurveyLabels: [],
             surveyToken: [],
+            filteredEmail: [],
+            selectedCourseCode: '',
             selectedEmail: '',
             selectedSurveyLabel: '',
             selectedDate: '',
@@ -80,9 +83,11 @@ class AddQuestion extends React.Component {
     setCandidates = (candidates) => {
         Commons.debugMessage("setCandidates - START - candidates: " + candidates);
         const uniqueEmails = [...new Set(candidates.map(candidate => candidate.email))];
+        const uniqueCourseCode = [...new Set(candidates.map(candidate => candidate.courseCode))];
         this.setState({
             candidates: candidates,
             uniqueEmails: uniqueEmails,
+            uniqueCourseCode: uniqueCourseCode
         });
     }
 
@@ -117,6 +122,12 @@ class AddQuestion extends React.Component {
         });
     }
 
+    getEmailsByCourseCode = (selectedCourseCode) => {
+        const filteredCandidates = this.state.candidates.filter(candidate => candidate.courseCode === selectedCourseCode);
+        const emails = filteredCandidates.map(candidate => candidate.email);
+        this.setState({ filteredEmail: emails });
+    }
+
     componentDidMount() {
         this.fetchCandidates()
         this.fetchQuestion()
@@ -138,6 +149,22 @@ class AddQuestion extends React.Component {
                     <DialogContent>
                         <Select
                             fullWidth
+                            label="CourseCode"
+                            name="courseCode"
+                            value={this.state.selectedCourseCode}
+                            onChange={(e) => {
+                                this.getEmailsByCourseCode(e.target.value);
+                                this.setState({ selectedCourseCode:e.target.value });
+                              }}
+                            style={{ marginBottom: "10px" }}
+                        >
+                            {/* <option value="">Seleziona utente</option> */}
+                            {this.state.uniqueCourseCode.map(courseCode => (
+                                <option key={courseCode} value={courseCode}>{courseCode}</option>
+                            ))}
+                        </Select>
+                        <Select
+                            fullWidth
                             label="Utente"
                             name="utente"
                             value={this.state.selectedEmail}
@@ -145,7 +172,10 @@ class AddQuestion extends React.Component {
                             style={{ marginBottom: "10px" }}
                         >
                             {/* <option value="">Seleziona utente</option> */}
-                            {this.state.uniqueEmails.map(email => (
+                            {/* {this.state.uniqueEmails.map(email => (
+                                <option key={email} value={email}>{email}</option>
+                            ))} */}
+                            {this.state.filteredEmail.map(email => (
                                 <option key={email} value={email}>{email}</option>
                             ))}
                         </Select>
