@@ -6,9 +6,28 @@ import './candidates.css';
 import './CandidateList.css';
 import * as Constants from '../../constants' ;
 import * as Commons from '../../commons.js' ;
-import { Table } from 'react-bootstrap';
+import * as ReactBootstrap from 'react-bootstrap';
+
+import { Link } from "react-router-dom";
+
 import { withRouter } from "react-router";
 import MessageDialog from './MessageDialog.js';
+
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	Paper
+  } from "@material-ui/core";
+
+import downloadIcon from "../../images/download_icon.png";
+import DeleteButton from "../../commons/DeleteButton.js";
 
 const CANDIDATE_API = '/api/v1/candidatecustom/' ;
 const CANDIDATE_GET_LIST_API = CANDIDATE_API + 'paginated/1000/0/' ;
@@ -80,12 +99,57 @@ class CandidateList extends Component {
 	componentDidMount() {			
 		const { match: { params } } = this.props;
 		this.fetchCandidates(params.id);
-    }
+	}
+	
+	confirmDelete = (askConfirmMessage, confirmOk, confirmKo, apiToCall) => {
+		confirmAlert({
+		  message: askConfirmMessage,
+		  buttons: [
+			{
+			  label: confirmOk,
+			  onClick: () => this.deleteItem(apiToCall),
+			},
+			{
+			  label: confirmKo,
+			},
+		  ],
+		});
+	  };
+	
+	  deleteItem(apiToCall) {
+		Commons.executeDelete(
+		  apiToCall,
+		  this.deleteSuccess,
+		  this.deleteFailed
+		);
+	  };
+	
+	  deleteSuccess = (response) => {
+		Commons.operationSuccess(response, "Cancellazione dell'utente avvenuta correttamente.");
+		this.fetchCandidates(this.state.selectedPositionCode);
+	  };
+	
+	  deleteFailed = (response) => {
+		Commons.operationError(response, "La cancellazione del candidato è fallita. Si prega di contattare l'amministratore.");
+	  };
 	
 	render () {
 		
-		
+		const { classes } = this.props;
+		const styles = {
+			table: {
+			  minWidth: 650,
+			},
+			evenRow: {
+			  backgroundColor: "#fff",
+			},
+			oddRow: {
+			  backgroundColor: "#f2f2f2",
+			},
+		  };
 		return (
+			<React.Fragment>
+
 				<div className="panel-container">
 				    <div className="panel">
 				        <div className="panel-heading">
@@ -93,24 +157,7 @@ class CandidateList extends Component {
 				           <CandidateFilterForm onSearchFormSubmit={this.listFiltering} />
 				        </div>
 				        <div className="panel-body">
-							
-							    {/*
-								<div className="row">
-									<div className="col-sm-6">
-										<div className="dataTables_length" id="data-table-default_length">
-											<label>Visualizza <select id="mySelect">
-												</select> candidati 
-											</label>
-										</div>
-									</div>
-									<div className="col-sm-6">
-										<div id="data-table-default_filter" className="dataTables_filter">
-										<CandidateFilterForm onSearchFormSubmit={this.listFiltering} />
-										</div>
-									</div>
-								</div>
-								*/}
-										<Table striped bordered hover variant="dark">
+										<ReactBootstrap.Table striped bordered hover variant="dark">
 												<thead>
 													<tr>
 														<th>&nbsp;</th>
@@ -128,11 +175,78 @@ class CandidateList extends Component {
 												{ this.state.candidates.filter(item => (item.email.includes(this.state.filteredCandidateEmail))||(item.firstname.includes(this.state.filteredCandidateEmail))||(item.lastname.includes(this.state.filteredCandidateEmail))).map(item => <ListedCourseCandidate notifyWithAlertDialog={this.notifyWithAlertDialog} key={item.id} candidate={item}/>) }
 												</tbody>
 				
-										</Table>
+										</ReactBootstrap.Table>
 						</div>
 		            </div>
 		            <MessageDialog visibility={this.state.messageDialogVisibility} message={this.state.messageDialogText} type={this.state.messageDialogType}/>
 		        </div>
+				<div className="App">
+					{/* <AddUser refreshCandidatesList={this.getCandidates}/> */}
+					<TableContainer
+					style={{
+						paddingLeft: "40px",
+						paddingRight: "40px",
+						paddingBottom: "140px",
+					}}
+					>
+					<TableContainer component={Paper}>
+						<Table
+						className={styles.table}
+						aria-label="candidate table"
+						>
+						<TableHead>
+							<TableRow style={{ backgroundColor: "#333", color: "#fff" }}>
+							<TableCell style={{ color: "#fff" }}>Id</TableCell>
+							<TableCell style={{ color: "#fff" }}></TableCell>
+							<TableCell style={{ color: "#fff" }}>E-mail</TableCell>
+							<TableCell style={{ color: "#fff" }}>Firstname</TableCell>
+							<TableCell style={{ color: "#fff" }}>Lastname</TableCell>
+							<TableCell style={{ color: "#fff" }}>CV</TableCell>
+							<TableCell style={{ color: "#fff" }}>Inserted by</TableCell>
+							<TableCell style={{ color: "#333" }}></TableCell>
+							<TableCell style={{ color: "#333" }}></TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{
+								this.state.candidates.filter(item => (item.email.includes(this.state.filteredCandidateEmail))||(item.firstname.includes(this.state.filteredCandidateEmail))||(item.lastname.includes(this.state.filteredCandidateEmail)))
+							.map((candidate, index) => (
+							<TableRow
+								key={index}
+								className={
+								index % 2 === 0 ? styles.evenRow : styles.oddRow
+								}
+							>
+								<TableCell>{candidate.id}</TableCell>
+								<TableCell><img class="candidateImg" src={Constants.FRONTEND_API_PREFIX + "/canimg/" + candidate.imgpath} alt={candidate.imgpath} /></TableCell>
+								<TableCell>{candidate.email}</TableCell>
+								<TableCell>{candidate.firstname}</TableCell>
+								<TableCell>{candidate.lastname}</TableCell>
+								<TableCell>
+								<a href={`${Constants.FRONTEND_API_PREFIX}/${candidate.cvExternalPath}`} target="_blank" rel="noopener noreferrer">
+								<img class="downloadIcon" src={downloadIcon} alt={candidate.cvExternalPath} />
+								</a>
+								</TableCell>
+								<TableCell>{candidate.insertedByFirstname} {candidate.insertedByLastname}</TableCell>
+								<TableCell>
+								{/* <UpdateUser refreshCandidatesList={this.getCandidates} idItemToUpdate={candidate.id} /> */}
+								<Link to={"/editCandidate/" + candidate.id}>
+									<ReactBootstrap.Button variant="primary">
+										Modifica
+									</ReactBootstrap.Button>
+								</Link>
+								</TableCell>
+								<TableCell>
+								<DeleteButton onClickFunction={() => this.confirmDelete("Sei sicuro di voler cancellare il candidato " + candidate.firstname + " " + candidate.lastname + "?", "Si", "No", Constants.FULL_CANDIDATE_CUSTOM_API_URI + candidate.id)}/>
+								</TableCell>
+							</TableRow>
+							))}
+						</TableBody>
+						</Table>
+					</TableContainer>
+					</TableContainer>
+				</div>
+			</React.Fragment>
 		);
 	}
 }
