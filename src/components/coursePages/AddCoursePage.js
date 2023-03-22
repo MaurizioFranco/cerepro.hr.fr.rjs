@@ -12,7 +12,6 @@ import {
   DialogContent,
   DialogActions,
   Select,
-  MenuItem,
   InputLabel
 } from "@material-ui/core";
 
@@ -27,8 +26,6 @@ class AddCoursePages extends React.Component {
       isModalOpen: false,
       selectedOwner: "",
       owners: [],
-      firtname: "",
-      latname: ""
     };
     this.gridRef = React.createRef();
   }
@@ -143,6 +140,7 @@ class AddCoursePages extends React.Component {
               onChange={this.handleChange}
               style={{ marginBottom: "20px" }}
             />
+
             <InputLabel>Proprietario</InputLabel>
             <Select
               fullWidth
@@ -152,10 +150,9 @@ class AddCoursePages extends React.Component {
               onChange={(e) => this.setState({ selectedOwner: e.target.value})}
               style={{ marginBottom: "10px" }}
             >
-              {this.state.owners.map((owner) => (
-                <MenuItem key={owner.value} value={owner.value}>
-                  {owner.firstname + " " + owner.lastname}
-                </MenuItem>))}
+            {this.state.owners.map((owner) => (
+               <option key={owner} value={owner}>{owner.firstname + " " + owner.lastname}</option>
+              ))}
             </Select>
 
             {/* <TextField fullWidth label="File Name" name="fileName" onChange={this.handleChange} style={moreMarginBottom} /> */}

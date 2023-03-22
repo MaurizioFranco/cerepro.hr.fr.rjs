@@ -36,8 +36,7 @@ class CoursePagesList extends Component {
     super(props);
     this.state = { 
       coursePages: [],
-      owner: {},
-      positionUserOwner:  {}
+
     };
   }
 
@@ -47,40 +46,11 @@ class CoursePagesList extends Component {
 
   getCoursePages = () => {
     Commons.executeFetch(
-      "http://localhost:8080/cerepro.hr.backend/api/v1/coursepagecustom/",
+      Constants.COURSEPAGE_CUSTOM_API,
       "GET",
       this.setCoursePages
     );
   };
-
-  getPositionUserOwner = (coursePageId) => {
-    Commons.executeFetch(
-      Constants.POSITION_USER_OWNER_API + coursePageId,
-      "GET",
-      this.setPositionUserOwner
-    );
-  }
-
-  setPositionUserOwner = (data) => {
-    this.setState({
-      positionUserOwner: data,
-    });
-    this.getOwner(data.userId);
-  }
-
-  getOwner = (userId) => {
-    Commons.executeFetch(
-      Constants.USER_API_URI + "/" + userId,
-      "GET",
-      this.setOwner
-    )
-  }
-
-  setOwner = (data) => {
-    this.setState({
-      owner: data
-    })
-  }
 
   setCoursePages = (data) => {
     this.setState({
