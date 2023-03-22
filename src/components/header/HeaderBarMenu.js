@@ -77,7 +77,7 @@ class HeaderBarMenu extends Component {
 							{this.state.role === 0 && <AdministrationHeaderMenu />}
             				<CandidatesHeaderMenu />
             				{(this.state.role === 0 || this.state.role === 10 || this.state.role === 50) && <SurveysHeaderMenu />}
-            				{(this.state.role === 0 || this.state.role === 10 || this.state.role === 50) && <QuestionsHeaderMenu />}
+            				{(this.state.role === 0 || this.state.role === 10 ) && <QuestionsHeaderMenu />}
 
 							<li className="nav-item">
 								<span className="nav-link navigationBarItem">{userFullName}</span>

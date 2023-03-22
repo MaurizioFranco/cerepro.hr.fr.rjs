@@ -158,31 +158,7 @@ class Question extends Component {
     }
 
     regeneratePdf = (surveyReplyId) => {
-        // Commons.executeFetch(Constants.FULL_PDF_END + surveyReplyId, 'POST', this.sendError);
-        // console.log("regeneratePDf started")
-        // console.log("surveyReplyId: ")
-        // console.log(surveyReplyId)
-        // let token = sessionStorage.getItem('headerToken');
-        // console.log("token: " + token)
         Commons.executeFetch(Constants.FULL_PDF_END + surveyReplyId, 'POST', this.generateSuccess, Commons.operationError)
-        // fetch(Constants.FULL_PDF_END + surveyReplyId,
-        //     {
-        //         method: 'POST',
-        //         headers: {'Authorization':token}
-        //     }
-        // )
-        //     .then(response => response.json())
-        //     .then( responseData => {
-        //         console.log(responseData)
-        //         toast.error( ("Fatto!"), {
-        //             position: toast.POSITION.BOTTOM_LEFT
-        //         })})
-        //     .catch(err => {
-        //         console.log(err)
-        //         toast.error(err, {
-        //             position: toast.POSITION.BOTTOM_LEFT
-        //         })}
-        //         );
     }
 
     render() {

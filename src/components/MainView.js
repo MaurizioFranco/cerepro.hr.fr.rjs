@@ -63,14 +63,18 @@ class MainView extends Component {
 		const renderComponentWithRole = (Component, authorizedRole) => {
 			const user = JSON.parse(sessionStorage.getItem("user"));
 			const userLoggedRole = user.role;
-			// console.log("Il ruolo dell'utente attualmente loggato è il seguente: " + userLoggedRole);
+			console.log("Il ruolo dell'utente attualmente loggato è il seguente: " + userLoggedRole + " typeof userLoggedRole " + typeof userLoggedRole);
+			console.log("confronto con il seguente role value: " + authorizedRole + " typeof authorizedRole " + typeof authorizedRole);
 
-			if (userLoggedRole === authorizedRole) {
-				return <Component />;
+			if (userLoggedRole===authorizedRole) {
+				console.log("Check OK");
+				return <Component/>;
 			} else {
+				console.log("Check KO");
 				toast.error("Non hai le autorizzazioni necessarie per accedere a questa risorsa");
 				this.props.history.push('/login');
 				return null;
+				// return false ;
 			}
 		};
 
@@ -96,12 +100,16 @@ class MainView extends Component {
 					<Route exact path="/newPosition" component={NewPositionView} />
 					<Route exact path="/positionsList" component={PositionsView} />
 					<Route exact path="/candidatesStatistics" component={CandidatesStatisticsView} />
-					<Route exact path="/users" render={() => renderComponentWithRole(UsersView, 0)} />
+					{/* <Route exact path="/users" render={() => renderComponentWithRole(UsersView, 0)} /> */}
+					<Route exact path="/users" component={UsersView} />
 					{/* <Route exact path="/roles" render={() => renderComponentWithRole(CandidatesStatisticsView, 0)} /> */}
 					<Route exact path="/coursepage" component={CoursePagesView} />
-					<Route exact path="/question" render={() => renderComponentWithRole(QuestionView, 0) || renderComponentWithRole(QuestionView, 10) || renderComponentWithRole(QuestionView, 50)} />
-					<Route exact path="/surveys" render={() => renderComponentWithRole(SurveysView, 0) || renderComponentWithRole(SurveysView, 10) || renderComponentWithRole(SurveysView, 50)} />
-					<Route exact path="/surveyquestions" render={() => renderComponentWithRole(SurveyQuestionsView, 0) || renderComponentWithRole(SurveyQuestionsView, 10) || renderComponentWithRole(SurveyQuestionsView, 50)} />
+					{/* <Route exact path="/question" render={() => renderComponentWithRole(QuestionView, 0) || renderComponentWithRole(QuestionView, 10) || renderComponentWithRole(QuestionView, 50)} /> */}
+					<Route exact path="/question" component={QuestionView} />
+					{/* <Route exact path="/surveys" render={() => renderComponentWithRole(SurveysView, 0) || renderComponentWithRole(SurveysView, 10) || renderComponentWithRole(SurveysView, 50)} /> */}
+					<Route exact path="/surveys" component={SurveysView} />
+					{/* <Route exact path="/surveyquestions" render={() => renderComponentWithRole(SurveyQuestionsView, 0) || renderComponentWithRole(SurveyQuestionsView, 10) || renderComponentWithRole(SurveyQuestionsView, 50)} /> */}
+				    <Route exact path="/surveyquestions" component={SurveyQuestionsView} />
 				</div>
 				<ToastContainer autoClose={1500} />
 			</Container>

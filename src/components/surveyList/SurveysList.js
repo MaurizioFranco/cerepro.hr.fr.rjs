@@ -17,6 +17,8 @@ import UpdateSurvey from "./UpdateSurvey.js";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 
+import AuthorizationFilter from "../../commons/AuthorizationFilter.js";
+
 const styles = {
   table: {
     minWidth: 650,
@@ -94,7 +96,7 @@ class SurveysList extends Component {
     const { classes } = this.props;
     return (
       <div className="App">
-        {/* <CSVLink data={this.state.candidateStates} separator=";">Export CSV</CSVLink> */}
+        <AuthorizationFilter/>
         <AddSurvey refreshSurveysList={this.getSurveys} />
         <TableContainer
           style={{
