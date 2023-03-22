@@ -29,6 +29,8 @@ pipeline {
                 ARTIFACT_FULL_FILE_NAME = "${ARTIFACT_FILE_NAME}_${ENV}_${BUILD_NUMBER}${ARTIFACT_FILE_EXTENSION}"
             }
             steps {
+                sh "echo 'current user: '$USER"
+                sh "printenv"
                 echo "ready to download dependencies"
                 sh "npm -v"
                 sh "node -v"
