@@ -3,7 +3,7 @@ pipeline {
 	    label 'Locale-Master-Node' 
 	    
 	}	
-	tools {nodejs "localNodeJs_v18.15.0"}
+	tools {nodejs "nodeJs_18.15.0"}
 	
     options { timeout(time: 1, unit: 'HOURS') }
     parameters {
@@ -34,6 +34,7 @@ pipeline {
                 sh "echo 'current user: '$USER"
                 sh "printenv"
                 echo "ready to download dependencies"
+                sh "npm install -g npm@9.6.2"
                 sh "npm -v"
                 sh "node -v"
                 sh "npm install"
