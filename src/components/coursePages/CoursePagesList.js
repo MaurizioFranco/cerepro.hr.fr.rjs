@@ -34,7 +34,10 @@ const styles = {
 class CoursePagesList extends Component {
   constructor(props) {
     super(props);
-    this.state = { coursePages: [] };
+    this.state = { 
+      coursePages: [],
+
+    };
   }
 
   componentDidMount() {
@@ -43,7 +46,7 @@ class CoursePagesList extends Component {
 
   getCoursePages = () => {
     Commons.executeFetch(
-      Constants.FULL_COURSEPAGE_API_URI,
+      Constants.COURSEPAGE_CUSTOM_API,
       "GET",
       this.setCoursePages
     );
@@ -83,6 +86,15 @@ class CoursePagesList extends Component {
     this.getCoursePages();
   };
 
+  checkName = ( firstname, lastname) => {
+    if (firstname !== "null") {
+      return (firstname + " " + lastname);
+    }
+    else {
+      return "";
+    }
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -103,6 +115,7 @@ class CoursePagesList extends Component {
                   <TableCell style={{ color: "#fff" }}>Title</TableCell>
                   <TableCell style={{ color: "#fff" }}>Code</TableCell>
                   <TableCell style={{ color: "#fff" }}>Body Text</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Owner</TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                 </TableRow>
@@ -121,6 +134,7 @@ class CoursePagesList extends Component {
                     <TableCell>{coursePage.title}</TableCell>
                     <TableCell>{coursePage.code}</TableCell>
                     <TableCell>{coursePage.bodyText}</TableCell>
+                    <TableCell>{this.checkName(coursePage.coursePageOwnerFirstname, coursePage.coursePageOwnerLastname)}</TableCell>
                     <TableCell>
                     <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} idItemToUpdate={coursePage.id} />
                     </TableCell>
@@ -128,7 +142,7 @@ class CoursePagesList extends Component {
                       <DeleteButton onClickFunction={() => this.confirmDelete(coursePage.id)}/>
                     </TableCell>
                   </TableRow>
-                ))}
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
