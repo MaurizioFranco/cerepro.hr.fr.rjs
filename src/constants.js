@@ -64,6 +64,11 @@ export const ROLE_API_URI  = BACKEND_API_PREFIX + '/api/v1/role/' ;
 export const AUTH_API = '/user' ;
 // eslint-disable-next-line no-template-curly-in-string
 export const GET_USER_BY_EMAIL_API = '/api/v1/user/email/' ;
+export const GET_USER_BY_ROLE_API = '/api/v1/user/role/' ;
+export const POSITION_USER_OWNER_API = BACKEND_API_PREFIX + '/api/v1/positionuserowner/' ;
+export const COURSEPAGE_CUSTOM_API = BACKEND_API_PREFIX + '/api/v1/coursepagecustom/' ;
+export const GET_COURSEPAGE_BY_CODE_API = COURSEPAGE_API + "getBodyText/" ;
+export const CREATE_COURSEPAGE_CUSTOM = BACKEND_API_PREFIX + COURSEPAGE_API + "createcoursepagecustom/" ;
 export const FULL_API_URI = BACKEND_API_PREFIX + AUTH_API ;
 export const FULL_GET_USER_BY_EMAIL_API = BACKEND_API_PREFIX + GET_USER_BY_EMAIL_API;
 
