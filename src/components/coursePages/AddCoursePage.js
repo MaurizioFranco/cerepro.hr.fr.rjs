@@ -24,7 +24,8 @@ class AddCoursePages extends React.Component {
       bodyText: "",
       fileName: "",
       isModalOpen: false,
-      selectedOwner: "",
+      selectedOwner: {},
+      selectedOwnerId: "",
       owners: [],
     };
     this.gridRef = React.createRef();
@@ -52,39 +53,59 @@ class AddCoursePages extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const selectedId = this.state.selectedOwner.id;
+    const selectedOwner = this.state.owners.find(owner => owner.id === selectedId);
+    const selectedOwnerId = selectedOwner.id;
+    this.setState({ selectedOwnerId: selectedOwnerId });
     var item = {
       title: this.state.title,
       code: this.state.code,
       bodyText: this.state.bodyText,
       fileName: this.state.fileName,
     };
-    this.addCoursePage(item);
+    this.addCoursePageCustom(item);
   };
 
-  addCoursePage(item) {
+  addCoursePageCustom = (item) => {
+    console.log("Id dell'utente: " + this.state.selectedOwner.id);
+    var coursePageCustom = {
+      bodyText: item.bodyText,
+      fileName: item.fileName,
+      title: item.title,
+      code: item.code,
+      userId: this.state.selectedOwner.id
+    }
+    console.log("ITEM: " + JSON.stringify(coursePageCustom))
     Commons.executeFetch(
-      Constants.FULL_COURSEPAGE_API_URI,
+      Constants.CREATE_COURSEPAGE_CUSTOM,
       "POST",
       this.insertSuccess,
       Commons.operationError,
-      JSON.stringify(item),
+      JSON.stringify(coursePageCustom),
       true
     );
-    this.addPositionUserOwner(item);
   }
 
-  addPositionUserOwner = (item) => {
-    var positionUserOwner = {
-      coursePageId: item.id,
-      userId: this.state.owner.id
-    }
-    Commons.executeFetch(
-      "http://localhost:8080/cerepro.hr.backend/api/v1/positionuserowner/",
-      "POST",
-      JSON.stringify(positionUserOwner),
-      true
-    )
-  }
+  // fetchCoursePage = (item) => {
+  //   console.log("PROVA" + JSON.stringify(item.code));
+  //   Commons.executeFetch(Constants.GET_COURSEPAGE_BY_CODE_API + item.code, "GET", this.addPositionUserOwner);
+  // }
+
+  // addPositionUserOwner = (data) => {
+  //   console.log("ResponseData " + data);
+  //   console.log("ResponseData " + JSON.stringify(data));
+  //   var positionUserOwner = {
+  //     coursePageId: data.id,
+  //     userId: this.state.selectedOwnerId
+  //   }
+  //   console.log(positionUserOwner);
+  //   Commons.executeFetch(
+  //     "http://localhost:8080/cerepro.hr.backend/api/v1/positionuserowner/" + positionUserOwner,
+  //     "POST",
+  //     JSON.stringify(positionUserOwner),
+  //     true
+  //   )
+  // }
 
   insertError = (err) => {
     console.log("INSERT COURSE PAGE KO");
@@ -107,6 +128,7 @@ class AddCoursePages extends React.Component {
 
   cancelSubmit = (event) => {
     event.preventDefault();
+    this.setState({ selectedOwner: ""})
     this.setState({ isModalOpen: false });
   };
 
