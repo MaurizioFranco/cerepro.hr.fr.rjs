@@ -39,7 +39,7 @@ const styles = {
 class UsersList extends Component {
   constructor(props) {
     super(props);
-    this.state = { users: [] };
+    this.state = { users: [], roles: [] };
   }
 
   getUsers = () => {
@@ -50,20 +50,34 @@ class UsersList extends Component {
     );
   };
 
-  getRoleLevel = (level, index) => {
-    Commons.executeFetch(
-      Constants.FULL_ROLE_LEVEL_URI + level,
-      "GET",
-      (data) => this.setLabel(data, index)
-    );
+  getRoles = () => {
+    Commons.executeFetch(Constants.ROLE_API_URI, 'GET', this.setRoles)
+  }
+
+  setRoles = (data) => {
+    this.setState({ roles: data })
+  }
+
+  getRoleLevel = (level) => {
+    const roles = this.state.roles;
+    const role = roles.find(role => role.level === level);
+    return role ? role.label : null;
   };
-  
-  setLabel = (data, index) => {
-    const label = data.label;
-    const users = [...this.state.users];
-    users[index].roleLabel = label;
-    this.setState({ users });
-  };
+
+  // getRoleLevel = (level, index) => {
+  //   Commons.executeFetch(
+  //     Constants.FULL_ROLE_LEVEL_URI + level,
+  //     "GET",
+  //     (data) => this.setLabel(data, index)
+  //   );
+  // };
+
+  // setLabel = (data, index) => {
+  //   const label = data.label;
+  //   const users = [...this.state.users];
+  //   users[index].roleLabel = label;
+  //   this.setState({ users });
+  // };
 
   setUsers = (data) => {
     this.setState({
@@ -74,6 +88,7 @@ class UsersList extends Component {
 
   componentDidMount() {
     this.getUsers();
+    this.getRoles()
   }
 
   confirmDelete = (id) => {
@@ -108,7 +123,7 @@ class UsersList extends Component {
     const { classes } = this.props;
     return (
       <div className="App">
-        <AddUser refreshUsersList={this.getUsers}/>
+        <AddUser refreshUsersList={this.getUsers} />
         <TableContainer
           style={{
             paddingLeft: "40px",
@@ -144,9 +159,10 @@ class UsersList extends Component {
                     <TableCell>{user.email}</TableCell>
                     <TableCell>{user.firstname}</TableCell>
                     <TableCell>{user.lastname}</TableCell>
-                    <TableCell>{user.roleLabel || this.getRoleLevel(user.role, index)}</TableCell>
+                    {/* <TableCell>{user.roleLabel || this.getRoleLevel(user.role, index)}</TableCell> */}
+                    <TableCell>{this.getRoleLevel(user.role)}</TableCell>
                     <TableCell>
-                    <UpdateUser refreshUsersList={this.getUsers} idItemToUpdate={user.id} />
+                      <UpdateUser refreshUsersList={this.getUsers} idItemToUpdate={user.id} />
                     </TableCell>
                     <TableCell>                      
                       <DeleteButton onClickFunction={() => this.confirmDelete(user.id)}/>
@@ -156,7 +172,7 @@ class UsersList extends Component {
               </TableBody>
             </Table>
           </TableContainer>
-        </TableContainer>      
+        </TableContainer>
       </div>
     );
   }
