@@ -86,15 +86,6 @@ class CoursePagesList extends Component {
     this.getCoursePages();
   };
 
-  checkName = ( firstname, lastname) => {
-    if (firstname !== "null") {
-      return (firstname + " " + lastname);
-    }
-    else {
-      return "";
-    }
-  }
-
   render() {
     const { classes } = this.props;
     return (
@@ -134,7 +125,7 @@ class CoursePagesList extends Component {
                     <TableCell>{coursePage.title}</TableCell>
                     <TableCell>{coursePage.code}</TableCell>
                     <TableCell>{coursePage.bodyText}</TableCell>
-                    <TableCell>{this.checkName(coursePage.coursePageOwnerFirstname, coursePage.coursePageOwnerLastname)}</TableCell>
+                    <TableCell>{coursePage.coursePageOwnerFirstname !== "null" ? coursePage.coursePageOwnerFirstname : ""} {coursePage.coursePageOwnerLastname !== "null" ? coursePage.coursePageOwnerLastname : ""}</TableCell>
                     <TableCell>
                     <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} idItemToUpdate={coursePage.id} />
                     </TableCell>
