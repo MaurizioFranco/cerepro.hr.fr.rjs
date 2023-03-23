@@ -107,6 +107,8 @@ class CoursePagesList extends Component {
                   <TableCell style={{ color: "#fff" }}>Code</TableCell>
                   <TableCell style={{ color: "#fff" }}>Body Text</TableCell>
                   <TableCell style={{ color: "#fff" }}>Owner</TableCell>
+                  <TableCell style={{ color: "#fff" }}>Opened_By</TableCell>
+                  <TableCell style={{ color: "#fff" }}>InsertedTime</TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                 </TableRow>
@@ -126,6 +128,8 @@ class CoursePagesList extends Component {
                     <TableCell>{coursePage.code}</TableCell>
                     <TableCell>{coursePage.bodyText}</TableCell>
                     <TableCell>{coursePage.coursePageOwnerFirstname !== "null" ? coursePage.coursePageOwnerFirstname : ""} {coursePage.coursePageOwnerLastname !== "null" ? coursePage.coursePageOwnerLastname : ""}</TableCell>
+                    <TableCell>{coursePage.opened_by}</TableCell>
+                    <TableCell>{coursePage.created_datetime}</TableCell>
                     <TableCell>
                     <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} idItemToUpdate={coursePage.id} />
                     </TableCell>

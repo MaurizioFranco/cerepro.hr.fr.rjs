@@ -15,77 +15,81 @@ import * as Constants from "../../constants.js";
 import EditButton from "../../commons/EditButton.js";
 
 class UpdateCoursePages extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { idItemToLoad: null, title: '', code: '', bodyText: '' };
-        this.gridRef = React.createRef();
-    }
+  constructor(props) {
+    super(props);
+    this.state = { idItemToLoad: null, title: '', code: '', bodyText: '' ,opened_by:''};
+    this.gridRef = React.createRef();
+  }
 
-    componentDidMount() {
-      Commons.executeFetch(
-        Constants.FULL_COURSEPAGE_API_URI + this.props.idItemToUpdate,
-        "GET",
-        this.setCoursePages,
-        Commons.operationError
-      );
-    }
-    
-    setCoursePages = (data) => {
-      this.setState({
-        title: data.title,
-        code: data.code,
-        bodyText: data.bodyText,
-      });
+  componentDidMount() {
+    Commons.executeFetch(
+      Constants.FULL_COURSEPAGE_API_URI + this.props.idItemToUpdate,
+      "GET",
+      this.setCoursePages,
+      Commons.operationError
+    );
+  }
+
+  setCoursePages = (data) => {
+    this.setState({
+      title: data.title,
+      code: data.code,
+      bodyText: data.bodyText,
+      opened_by : data.opened_by
+    });
+  };
+
+  handleChange = (event) => {
+    this.setState(
+      { [event.target.name]: event.target.value }
+    );
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    var item = {
+      title: this.state.title,
+      code: this.state.code, 
+      bodyText: this.state.bodyText,
+      opened_by : this.state.opened_by
     };
+    Commons.executeFetch(Constants.FULL_COURSEPAGE_API_URI + this.props.idItemToUpdate, "PUT", this.updateSuccess, Commons.operationError, JSON.stringify(item), true);
+  }
 
-    handleChange = (event) => {
-        this.setState(
-            { [event.target.name]: event.target.value }
-        );
-    }
+  updateSuccess = (response) => {
+    // console.log("COURSE PAGE SUCCESSFULLY UPDATED");
+    // console.log(response);
+    // toast.success("Course Page successfully updated", {
+    //     position: toast.POSITION.BOTTOM_LEFT
+    // });
+    Commons.operationSuccess();
+    this.setState({ isModalOpen: false });
+    this.props.refreshCoursePagesList();
+  }
 
-    handleSubmit = (event) => {
-        event.preventDefault();
-        var item = {
-            title: this.state.title, code: this.state.code, bodyText: this.state.bodyText
-        };
-        Commons.executeFetch(Constants.FULL_COURSEPAGE_API_URI + this.props.idItemToUpdate, "PUT", this.updateSuccess, Commons.operationError, JSON.stringify(item), true);
-    }
+  cancelSubmit = (event) => {
+    event.preventDefault();
+    this.setState({ isModalOpen: false });
+  }
 
-    updateSuccess = (response) => {
-        // console.log("COURSE PAGE SUCCESSFULLY UPDATED");
-        // console.log(response);
-        // toast.success("Course Page successfully updated", {
-        //     position: toast.POSITION.BOTTOM_LEFT
-        // });
-        Commons.operationSuccess();
-        this.setState({ isModalOpen: false });
-        this.props.refreshCoursePagesList();
-    }
+  initializeAndShow = () => {
+    console.log(this.props.idItemToUpdate);
+    this.getItemById();
+    //this.gridRef.current.show();
+  }
 
-    cancelSubmit = (event) => {
-        event.preventDefault();
-        this.setState({ isModalOpen: false });
-    }
+  getItemById = () => {
+    Commons.executeFetch(Constants.FULL_COURSEPAGE_API_URI + this.props.idItemToUpdate, "GET", this.setItemToUpdate);
+  }
 
-    initializeAndShow = () => {
-        console.log(this.props.idItemToUpdate);
-        this.getItemById();
-        //this.gridRef.current.show();
-    }
-
-    getItemById = () => {
-        Commons.executeFetch(Constants.FULL_COURSEPAGE_API_URI + this.props.idItemToUpdate, "GET", this.setItemToUpdate);
-    }
-
-    setItemToUpdate = (responseData) => {
-        this.setState({
-            itemLoaded: true,
-            title: responseData.title,
-            code: responseData.code,
-            bodyText: responseData.bodyText
-        });
-    }
+  setItemToUpdate = (responseData) => {
+    this.setState({
+      itemLoaded: true,
+      title: responseData.title,
+      code: responseData.code,
+      bodyText: responseData.bodyText
+    });
+  }
 
   render() {
     return (
@@ -122,14 +126,14 @@ class UpdateCoursePages extends React.Component {
             />
           </DialogContent>
           <DialogActions>
-          <Button
+            <Button
               onClick={this.handleSubmit}
               style={{ marginRight: "14px" }}
               color="primary"
             >
               Save
             </Button>
-            <Button 
+            <Button
               onClick={this.cancelSubmit}
               style={{ margin: "7px" }}
               color="secondary"
@@ -139,11 +143,11 @@ class UpdateCoursePages extends React.Component {
           </DialogActions>
         </Dialog>
         <div>
-        <EditButton onClickFunction={() => this.setState({ isModalOpen: true })}/>
-    </div>
-  </div>
-);
-}
+          <EditButton onClickFunction={() => this.setState({ isModalOpen: true })} />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default UpdateCoursePages;
