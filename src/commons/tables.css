@@ -2,10 +2,10 @@
     min-width: 650px;
   }
   .table-style-even-row {
-    background-color: "#fff";
+    background-color: #fff;
   }
   .table-style-odd-row {
-    background-color: "#fff";
+    background-color: #f2f2f2;
   }
   .table-head-row { 
       background: black;

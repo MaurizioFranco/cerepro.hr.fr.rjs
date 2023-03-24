@@ -166,10 +166,8 @@ class CandidateList extends Component {
 					}}
 					>
 					<TableContainer component={Paper}>
-						<Table
-						className={styles.table}
-						>
-						<TableHead>
+						<Table className={"table-style"}>
+						  <TableHead>
 							<TableRow className={"table-head-row"}>
 							<TableCell style={{ color: "#fff" }}>&nbsp;</TableCell>
 							<TableCell style={{ color: "#fff" }}></TableCell>

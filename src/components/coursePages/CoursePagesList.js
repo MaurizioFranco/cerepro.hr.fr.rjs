@@ -75,39 +75,17 @@ setTime = (expirationDateTime) => {
   };
 
   render() {
-    const { classes } = this.props;
     return (
       <div className="App">
-        {/* <div style={{ display: "inline"}} >
-            <h2 style={{ textAlign: "center"}}>POSIZIONI</h2> */}
-            {/* <AddCoursePages refreshCoursePagesList={this.getCoursePages} /> */}
-        {/* </div> */}
-
-        {/* <div className="panel-heading">
-                        <h1 className="panel-title">
-                            <span id="active">POSIZIONI</span>
-                            <div className="control-table">
-
-                                
-                                <AddCoursePages refreshCoursePagesList={this.getCoursePages} />
-                            </div>
-                        </h1>
-                    </div> */}
         <div class="panel panel-default">
             <h3  style={{ textAlign: "center"}}>POSIZIONI</h3>
             <AddCoursePages refreshCoursePagesList={this.getCoursePages} />
         </div>
-        <TableContainer
-          style={{
-            paddingLeft: "40px",
-            paddingRight: "40px",
-            paddingBottom: "140px",
-          }}
-        >
-          <TableContainer component={Paper}>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow className={"table-head-row"}>
+        
+        <TableContainer component={Paper}>
+          <Table className={"table-style"}>
+						<TableHead>
+							<TableRow className={"table-head-row"}>
                   <TableCell style={{ color: "#fff" }}>POSIZIONE</TableCell>
                   <TableCell style={{ color: "#fff" }}>CODICE NUMERICO</TableCell>
                   <TableCell style={{ color: "#fff" }}>CODICE ALFANUMERICO</TableCell>
@@ -124,7 +102,7 @@ setTime = (expirationDateTime) => {
                   <TableRow
                     key={index}
                     className={
-                      index % 2 === 0 ? classes.evenRow : classes.oddRow
+                      index % 2 === 0 ? "table-style-even-row" : "table-style-odd-row"
                     }
                   >
                     <TableCell>{coursePage.title}</TableCell>
@@ -147,7 +125,6 @@ setTime = (expirationDateTime) => {
               </TableBody>
             </Table>
           </TableContainer>
-        </TableContainer>
       </div>
     );
   }
