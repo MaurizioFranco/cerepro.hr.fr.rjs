@@ -3,7 +3,7 @@ pipeline {
 	    label 'Locale-Master-Node' 
 	    
 	}	
-	tools {nodejs "localNodeJs_v18.15.0"}
+	tools {nodejs "nodeJs_18.15.0"}
 	
     options { timeout(time: 1, unit: 'HOURS') }
     parameters {
