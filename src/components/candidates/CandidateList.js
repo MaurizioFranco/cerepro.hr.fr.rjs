@@ -13,8 +13,8 @@ import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
 import MessageDialog from './MessageDialog.js';
 
-import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
+// import { confirmAlert } from "react-confirm-alert";
+// import "react-confirm-alert/src/react-confirm-alert.css";
 
 import {
 	Table,
@@ -101,28 +101,28 @@ class CandidateList extends Component {
 		this.fetchCandidates(params.id);
 	}
 	
-	confirmDelete = (askConfirmMessage, confirmOk, confirmKo, apiToCall) => {
-		confirmAlert({
-		  message: askConfirmMessage,
-		  buttons: [
-			{
-			  label: confirmOk,
-			  onClick: () => this.deleteItem(apiToCall),
-			},
-			{
-			  label: confirmKo,
-			},
-		  ],
-		});
-	  };
+	// confirmDelete = (askConfirmMessage, confirmOk, confirmKo, apiToCall, deleteSuccessCallbackFn, deleteFailedCallbackFn) => {
+	// 	confirmAlert({
+	// 	  message: askConfirmMessage,
+	// 	  buttons: [
+	// 		{
+	// 		  label: confirmOk,
+	// 		  onClick: () => this.deleteItem(apiToCall),
+	// 		},
+	// 		{
+	// 		  label: confirmKo,
+	// 		},
+	// 	  ],
+	// 	});
+	//   };
 	
-	  deleteItem(apiToCall) {
-		Commons.executeDelete(
-		  apiToCall,
-		  this.deleteSuccess,
-		  this.deleteFailed
-		);
-	  };
+	//   deleteItem(apiToCall, deleteSuccessCallbackFn, deleteFailedCallbackFn) {
+	// 	Commons.executeDelete(
+	// 	  apiToCall,
+	// 	  deleteSuccessCallbackFn,
+	// 	  deleteFailedCallbackFn
+	// 	);
+	//   };
 	
 	  deleteSuccess = (response) => {
 		Commons.operationSuccess(response, "Cancellazione dell'utente avvenuta correttamente.");
@@ -218,7 +218,7 @@ class CandidateList extends Component {
 								</Link>
 								</TableCell>
 								<TableCell>
-								<DeleteButton onClickFunction={() => this.confirmDelete("Sei sicuro di voler cancellare il candidato " + candidate.firstname + " " + candidate.lastname + "?", "Si", "No", Constants.FULL_CANDIDATE_CUSTOM_API_URI + candidate.id)}/>
+		<DeleteButton onClickFunction={() => Commons.confirmDelete("Sei sicuro di voler cancellare il candidato " + candidate.firstname + " " + candidate.lastname + "?", "Si", "No", Constants.FULL_CANDIDATE_CUSTOM_API_URI + candidate.id, this.deleteSuccess, this.deleteFailed)}/>
 								</TableCell>
 							</TableRow>
 							))}

@@ -4,6 +4,9 @@ import { trackPromise } from 'react-promise-tracker';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+
 export function getAuthorizationHeader(email, password) {
 	console.log("getAuthorizationHeader - START - email: " + email + " - password: " + password);
 	let authdata = getAuthorizationToken(email, password);
@@ -45,49 +48,6 @@ export function getUserLoggedRole() {
 	return role;
 
 }
-
-// export function executeDelete(uri, successCallbackFunction, callbackFunctionKO) {
-// 	console.log("Commons.executeDelete - START - uri: " + uri);
-// 	let token = sessionStorage.getItem('headerToken');
-// 	let headerToken = getAuthorizationHeaderFromToken(token);
-
-// 	// trackPromise(
-// 		fetch(uri, {
-// 			method: 'DELETE',
-// 			headers: headerToken
-// 		})
-// 			//   .then((response) => {
-// 			//.then(response => response.json()
-// 			//.then(response => response.then(response => (response.status===204?{ status: response.status, body: "sticazzi" }:{ status: response.status, body: "stimazzi" }))
-// 			.then(
-// 				response => response
-// 				//response => response.json().then(data => ({ status: response.status, body: data }))
-// 				)
-// 			.then((response) => {
-// 				console.log("Commons.executeDelete - DEBUG - response: " + response);
-// 				console.log(response.status);
-// 				console.log(response);
-// 				 if (response.status === 204) {
-// 				 	successCallbackFunction();
-// 				// 	//   } else if (data.status===200||data.status===201) {
-// 				// 	// 		  successCallbackFunction(data.body);
-// 				 } else {//ERROR
-// 					 //callbackFunctionKO(response.body);
-// 					 console.log("DEBUG1");
-// 					 let responseData = response.json() ;
-// 					 console.log(responseData);
-// 					 //console.log(responseData.errorMessage);
-// 					 console.log("DEBUG2");
-// 					 callbackFunctionKO(response);
-// 				 }
-// 			})
-// 			.catch((response) => {
-// 				console.log("ERRORE");
-// 				console.log(response);
-// 			})
-
-// 	// )
-// }
 
 export const executeDelete = async (uri, successCallbackFunction, callbackFunctionKO) => {
 	console.log("Commons.executeDelete - START - uri: " + uri);
@@ -152,31 +112,6 @@ export function executeFetchWithHeader(uri, method, headerToken, successCallback
 			.then(
 				response => response.json().then(data => ({ status: response.status, body: data }))
 			)
-			//   console.log(response);
-			// //   if (method==="POST" && response.status===201) {
-			// // 	  successCallbackFunction(response);
-			// //   } else if (response.status===200) {
-			// // 	  successCallbackFunction(response.json());
-			// //   } else {//ERROR
-			// // 	callbackFunctionKO();
-			// //   }
-			// //   if(!response.ok) {
-			// // 	  console.warn(response.status); // Will show you the status
-			// // 	  //throw new Error(response.status);
-			// //   } else if (method==="DELETE") {
-			// // 	  return "" ;
-			// //   } else return response.json();
-			// let responseData = response.json() 
-			// //   return response.json();
-			// return (responseData) ;
-			//     //   if (method==="POST" && response.status===201) {
-			// 	// 	  successCallbackFunction(responseData);
-			// 	//   } else if (response.status===200) {
-			// 	// 	  successCallbackFunction(responseData);
-			// 	//   } else {//ERROR
-			// 	// 	callbackFunctionKO(responseData);
-			// 	//   }
-			//   })
 			.then((data) => {
 				console.log("Commons.executeFetchWithHeader - DEBUG - data: " + data);
 				//console.log(data);
@@ -189,11 +124,6 @@ export function executeFetchWithHeader(uri, method, headerToken, successCallback
 				} else {//ERROR
 					callbackFunctionKO(data.body);
 				}
-				//   if (data!==undefined) {
-				// 	successCallbackFunction(data);
-				//   } else {
-				// 	  callbackFunctionKO(data);
-				//   }
 			})
 	);
 }
@@ -231,6 +161,29 @@ export function operationSuccess(response, successMessage) {
 		}
 	);
 }
+
+export const confirmDelete = (askConfirmMessage, confirmOk, confirmKo, apiToCall, deleteSuccessCallbackFn, deleteFailedCallbackFn) => {
+	confirmAlert({
+	  message: askConfirmMessage,
+	  buttons: [
+		{
+		  label: confirmOk,
+		  onClick: () => deleteItem(apiToCall, deleteSuccessCallbackFn, deleteFailedCallbackFn),
+		},
+		{
+		  label: confirmKo,
+		},
+	  ],
+	});
+  }
+
+  export const deleteItem = (apiToCall, deleteSuccessCallbackFn, deleteFailedCallbackFn) => {
+	executeDelete(
+	  apiToCall,
+	  deleteSuccessCallbackFn,
+	  deleteFailedCallbackFn
+	);
+  };
 
 const DEBUG_ENABLED = true;
 const INFO_ENABLED = true;

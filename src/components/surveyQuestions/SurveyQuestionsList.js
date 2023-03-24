@@ -7,8 +7,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  Button,
+  Paper
 } from "@material-ui/core";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -16,6 +15,8 @@ import AddSurveyQuestions from "./AddSurveyQuestion.js";
 import UpdateSurveyQuestions from "./UpdateSurveyQuestions.js";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
+
+import DeleteButton from "../../commons/DeleteButton.js";
 
 const styles = {
   table: {
@@ -199,13 +200,7 @@ class SurveyQuestionsList extends Component {
                         <UpdateSurveyQuestions refreshSurveyQuestionsList={this.getSurveyQuestions} idItemToUpdate={surveyQuestion.id} oldSurveyPosition={surveyQuestion.position} oldSurveyLabel={surveyQuestion.surveyLabel} oldQuestionLabel={surveyQuestion.questionLabel}></UpdateSurveyQuestions>
                       </TableCell>
                       <TableCell>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={() => this.confirmDelete(surveyQuestion.id)}
-                        >
-                          Delete
-                        </Button>
+                        <DeleteButton onClickFunction={() => this.confirmDelete(surveyQuestion.id)}/>
                       </TableCell>
                     </TableRow>
                   ))}

@@ -12,6 +12,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from "@material-ui/core";
 
+import DeleteButton from "../../commons/DeleteButton.js";
+
 import reload from "../../images/reload.png";
 
 import { toast } from 'react-toastify';
@@ -43,10 +45,6 @@ class Question extends Component {
 
     fetchExecutedSurveys = () => {
         Commons.executeFetch(Constants.FULL_SURVEYTOKEN_API_URI + 'executed/', 'GET', this.setExecutedSurveys);
-    }
-
-    fetchDelete = (value) => {
-        Commons.executeDelete(Constants.DELETE_SURVEYTOKEN_API_URI + value, this.deleteSuccess, Commons.operationError);
     }
 
     fetchSendQuestion = (id) => {
@@ -127,13 +125,7 @@ class Question extends Component {
         this.fetchSendQuestion(id);
     }
 
-    handleDelete = (event) => {
-        const id = event.currentTarget.dataset.id;
-        this.fetchDelete(id)
-    }
-
     reloadData() {
-        console.log("sto chiamando il reload dal register")
         this.fetchExpiredSurveys();
         this.fetchActiveAndValidSurveys();
         this.fetchExecutedSurveys();
@@ -203,7 +195,7 @@ class Question extends Component {
                                         <this.StyledTableCell align="left">{item.surveyLabel}</this.StyledTableCell>
                                         <this.StyledTableCell align="left">{this.setTime(item.expirationDateTime)}</this.StyledTableCell>
                                         <this.StyledTableCell id="cellRight">
-                                            <Button id="buttonDelete" data-id={item.id} onClick={this.handleDelete}>Delete</Button>
+                                            <DeleteButton onClickFunction={() => Commons.confirmDelete("Sei sicuro di voler cancellare il questionario selezionato?", "Si", "No", Constants.DELETE_SURVEYTOKEN_API_URI + item.id, this.deleteSuccess, Commons.operationError)}/>
                                         </this.StyledTableCell>
                                         <this.StyledTableCell id="cellRight">
                                             <button type="button" className="btn btn-success custom-width" data-id={item.id} onClick={this.sendQuestion}>Invia Questionario</button>
@@ -263,7 +255,7 @@ class Question extends Component {
                                         </this.StyledTableCell>
 
                                         <this.StyledTableCell id="cellLeft">
-                                            <Button id="buttonDelete" data-id={item.id} onClick={this.handleDelete}>Delete</Button>
+                                            <DeleteButton onClickFunction={() => Commons.confirmDelete("Sei sicuro di voler cancellare il questionario selezionato?", "Si", "No", Constants.DELETE_SURVEYTOKEN_API_URI + item.id, this.deleteSuccess, Commons.operationError)}/>
                                         </this.StyledTableCell>
                                     </this.StyledTableRow>
                                 ))}
@@ -303,7 +295,7 @@ class Question extends Component {
 
 
                                         <this.StyledTableCell id="cellLeft">
-                                            <Button id="buttonDelete" data-id={item.id} onClick={this.handleDelete}>Delete</Button>
+                                            <DeleteButton onClickFunction={() => Commons.confirmDelete("Sei sicuro di voler cancellare il questionario selezionato?", "Si", "No", Constants.DELETE_SURVEYTOKEN_API_URI + item.id, this.deleteSuccess, Commons.operationError)}/>
                                         </this.StyledTableCell>
                                     </this.StyledTableRow>
                                 ))}
