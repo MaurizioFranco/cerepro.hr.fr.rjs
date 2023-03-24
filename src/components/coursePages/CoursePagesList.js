@@ -94,7 +94,7 @@ setTime = (expirationDateTime) => {
                         </h1>
                     </div> */}
         <div class="panel panel-default">
-            <h3  style={{ textAlign: "center"}}>Panel title</h3>
+            <h3  style={{ textAlign: "center"}}>POSIZIONI</h3>
             <AddCoursePages refreshCoursePagesList={this.getCoursePages} />
         </div>
         <TableContainer
