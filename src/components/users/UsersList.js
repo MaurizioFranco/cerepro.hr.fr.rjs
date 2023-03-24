@@ -6,6 +6,7 @@ import * as Constants from "../../constants.js";
 import AddUser from "./AddUser.js";
 import UpdateUser from "./UpdateUser.js";
 import UpdateUserEnabled from './UpdateUserEnabled.js';
+import UpdateUserPassword from './UpdateUserPassword.js';
 
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -147,6 +148,7 @@ class UsersList extends Component {
                   <TableCell style={{ color: "#333" }}></TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
+                  <TableCell style={{ color: "#333" }}></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -164,6 +166,9 @@ class UsersList extends Component {
                     {/* <TableCell>{user.roleLabel || this.getRoleLevel(user.role, index)}</TableCell> */}
                     <TableCell>{this.getRoleLevel(user.role)}</TableCell>
                     <TableCell><UpdateUserEnabled refreshUsersList={this.getUsers} idItemToUpdate={user.id} /></TableCell>
+                    <TableCell>
+                      <UpdateUserPassword refreshUsersList={this.getUsers} idItemToUpdate={user.id} />
+                    </TableCell>
                     <TableCell>
                       <UpdateUser refreshUsersList={this.getUsers} idItemToUpdate={user.id} />
                     </TableCell>
