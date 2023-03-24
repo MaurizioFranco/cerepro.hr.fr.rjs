@@ -53,6 +53,7 @@ class CoursePagesList extends Component {
   };
 
   setCoursePages = (data) => {
+    console.log("ecco i miei dati " + JSON.stringify(data))
     this.setState({
       coursePages: data,
     });
@@ -128,7 +129,7 @@ class CoursePagesList extends Component {
                     <TableCell>{coursePage.code}</TableCell>
                     <TableCell>{coursePage.bodyText}</TableCell>
                     <TableCell>{coursePage.coursePageOwnerFirstname !== "null" ? coursePage.coursePageOwnerFirstname : ""} {coursePage.coursePageOwnerLastname !== "null" ? coursePage.coursePageOwnerLastname : ""}</TableCell>
-                    <TableCell>{coursePage.opened_by}</TableCell>
+                    <TableCell>{coursePage.coursePageFirstNameOpenedBy} {coursePage.coursePageLastNameOpenedBy }</TableCell>
                     <TableCell>{coursePage.created_datetime}</TableCell>
                     <TableCell>
                     <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} idItemToUpdate={coursePage.id} />
