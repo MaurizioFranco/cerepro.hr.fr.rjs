@@ -13,7 +13,9 @@ export class CandidatesHeaderMenu extends Component {
 		super(props);
 		this.state = {
 			position_codes: [],
-			showDropdown: false
+			showDropdown: false,
+			showDropdownHeader:false,
+			noShow:true
 		};
 	}
 
@@ -33,12 +35,12 @@ export class CandidatesHeaderMenu extends Component {
 
 	render() {
 		return (
-			<li className="nav-item dropdown">
-				<button className="nav-link dropdown-toggle buttonDropdown navigationBarItem" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onMouseOver={() => this.setState({ showDropdown: false })}>
+			<li className="nav-item dropdown" onMouseLeave={() => this.setState({ showDropdownHeader: false })}>
+				<button className="nav-link dropdown-toggle buttonDropdown navigationBarItem" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onMouseOver={() => this.setState({ showDropdownHeader: true })}  onClick={() => this.setState({noShow:false})}>
 					Candidature/Posizioni
 				</button>
 
-				<div className="dropdown-menu" aria-labelledby="navbarDropdown">
+				<div className={`dropdown-menu ${this.state.showDropdownHeader ? 'show' : ''}`} aria-labelledby="navbarDropdown" >
 
 					<Link className="dropdown-item navigationBarItem" to="/coursepage" onMouseOver={() => this.setState({ showDropdown: false })}>Posizioni</Link>
 

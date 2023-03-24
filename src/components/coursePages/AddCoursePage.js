@@ -42,10 +42,10 @@ class AddCoursePages extends React.Component {
   setOwners = (retrievedOwners) => {
     Commons.debugMessage("setOwners - START - owners: " + retrievedOwners);
     this.setState({
-        owners: retrievedOwners,
+      owners: retrievedOwners,
     });
     console.log(retrievedOwners);
-}
+  }
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
@@ -68,12 +68,15 @@ class AddCoursePages extends React.Component {
 
   addCoursePageCustom = (item) => {
     console.log("Id dell'utente: " + this.state.selectedOwner.id);
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const userLoggedId = user.id;
     var coursePageCustom = {
       bodyText: item.bodyText,
       fileName: item.fileName,
       title: item.title,
       code: item.code,
-      userId: this.state.selectedOwner.id
+      userId: this.state.selectedOwner.id,
+      opened_by : userLoggedId,
     }
     console.log("ITEM: " + JSON.stringify(coursePageCustom))
     Commons.executeFetch(
@@ -128,7 +131,7 @@ class AddCoursePages extends React.Component {
 
   cancelSubmit = (event) => {
     event.preventDefault();
-    this.setState({ selectedOwner: ""})
+    this.setState({ selectedOwner: "" })
     this.setState({ isModalOpen: false });
   };
 
@@ -169,11 +172,11 @@ class AddCoursePages extends React.Component {
               label="Proprietario"
               name="proprietario"
               value={this.state.selectedOwner}
-              onChange={(e) => this.setState({ selectedOwner: e.target.value})}
+              onChange={(e) => this.setState({ selectedOwner: e.target.value })}
               style={{ marginBottom: "10px" }}
             >
-            {this.state.owners.map((owner) => (
-               <option key={owner} value={owner}>{owner.firstname + " " + owner.lastname}</option>
+              {this.state.owners.map((owner) => (
+                <option key={owner} value={owner}>{owner.firstname + " " + owner.lastname}</option>
               ))}
             </Select>
 
@@ -187,7 +190,7 @@ class AddCoursePages extends React.Component {
             >
               Save
             </Button>
-            <Button 
+            <Button
               onClick={this.cancelSubmit}
               style={{ margin: "7px" }}
               color="secondary"

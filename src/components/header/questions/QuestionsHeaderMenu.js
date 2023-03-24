@@ -17,6 +17,12 @@ export class QuestionsHeaderMenu extends Component {
 	// 		position_codes: []
 	// 	};
 	// }
+	constructor(props) {
+		super(props);
+		this.state = {
+			showDropdownHeader: false,
+		};
+	}
 
 	// setPositionCodes = (data) => {
 	// 	this.setState({ position_codes: data });
@@ -28,15 +34,15 @@ export class QuestionsHeaderMenu extends Component {
 
 	render() {
 		return (
-			<li className="nav-item dropdown">
-				<button className="nav-link dropdown-toggle buttonDropdown navigationBarItem" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<li className="nav-item dropdown" onMouseLeave={() => this.setState({ showDropdownHeader: false })}>
+				<button className="nav-link dropdown-toggle buttonDropdown navigationBarItem" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onMouseOver={() => this.setState({ showDropdownHeader: true })}>
 					Questionari Admin
-		</button>
+				</button>
 
-				<div className="dropdown-menu" aria-labelledby="navbarDropdown">
+				<div className={`dropdown-menu ${this.state.showDropdownHeader ? 'show' : ''}`} aria-labelledby="navbarDropdown">
 					<Link className="dropdown-item navigationBarItem" to="/surveyquestions">Domande associate ai questionari</Link>
-				<Link className="dropdown-item navigationBarItem" to="/surveys">Questionari</Link>
-					
+					<Link className="dropdown-item navigationBarItem" to="/surveys">Questionari</Link>
+
 				</div>
 			</li>
 		);

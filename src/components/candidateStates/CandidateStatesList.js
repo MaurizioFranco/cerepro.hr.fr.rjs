@@ -44,7 +44,7 @@ class CandidateStatesList extends Component {
 
   getCandidateStates = () => {
     Commons.executeFetch(
-      Constants.FULL_CANDIDATE_STATES_API_URI,
+      Constants.FULL_CANDIDATE_STATES_BY_CODE_API_URI,
       "GET",
       this.setCandidateStates
     );

@@ -142,23 +142,6 @@ class UpdateUser extends React.Component {
               onChange={this.handleChange}
               style={{ marginBottom: "20px" }}
             />
-
-            <Grid container alignItems="center" justify="flex-start">
-              <Grid item>
-                <Typography variant="subtitle1" gutterBottom>
-                  Enabled:
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Switch
-                  checked={this.state.enabled}
-                  onChange={(event) => this.setState({ enabled: event.target.checked })}
-                  name="enabled"
-                  inputProps={{ 'aria-label': 'Enable user' }}
-                />
-              </Grid>
-            </Grid>
-
           </DialogContent>
           <DialogActions>
           <Button
