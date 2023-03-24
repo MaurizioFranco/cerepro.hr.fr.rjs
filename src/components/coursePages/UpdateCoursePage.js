@@ -1,7 +1,6 @@
 import React from "react";
 
 import {
-  Button,
   TextField,
   Dialog,
   DialogTitle,
@@ -13,21 +12,16 @@ import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 
 import EditButton from "../../commons/EditButton.js";
+import CancelButton from "../../commons/CancelButton.js";
+import SaveButton from "../../commons/SaveButton.js";
+
+import './UpdateCoursePage.css';
 
 class UpdateCoursePages extends React.Component {
   constructor(props) {
     super(props);
     this.state = { idItemToLoad: null, title: '', code: '', bodyText: '' ,opened_by:''};
     this.gridRef = React.createRef();
-  }
-
-  componentDidMount() {
-    Commons.executeFetch(
-      Constants.FULL_COURSEPAGE_API_URI + this.props.idItemToUpdate,
-      "GET",
-      this.setCoursePages,
-      Commons.operationError
-    );
   }
 
   setCoursePages = (data) => {
@@ -98,11 +92,11 @@ class UpdateCoursePages extends React.Component {
           open={this.state.isModalOpen}
           onClose={() => this.setState({ isModalOpen: false })}
         >
-          <DialogTitle>Edit Course Page</DialogTitle>
+          <DialogTitle className="commonDialogTitle">MODIFICA POSIZIONE</DialogTitle>
           <DialogContent>
             <TextField
               fullWidth
-              label="Title"
+              label="TITOLO POSIZIONE"
               name="title"
               value={this.state.title}
               onChange={this.handleChange}
@@ -110,7 +104,7 @@ class UpdateCoursePages extends React.Component {
             />
             <TextField
               fullWidth
-              label="Code"
+              label="CODICE ALFANUMERICO"
               name="code"
               value={this.state.code}
               onChange={this.handleChange}
@@ -118,7 +112,7 @@ class UpdateCoursePages extends React.Component {
             />
             <TextField
               fullWidth
-              label="Body Text"
+              label="BREVE DESCRIZIONE"
               name="bodyText"
               value={this.state.bodyText}
               onChange={this.handleChange}
@@ -126,20 +120,8 @@ class UpdateCoursePages extends React.Component {
             />
           </DialogContent>
           <DialogActions>
-            <Button
-              onClick={this.handleSubmit}
-              style={{ marginRight: "14px" }}
-              color="primary"
-            >
-              Save
-            </Button>
-            <Button
-              onClick={this.cancelSubmit}
-              style={{ margin: "7px" }}
-              color="secondary"
-            >
-              Cancel
-            </Button>
+            <SaveButton onClickFunction={() => this.handleSubmit()}/>
+            <CancelButton onClickFunction={() => this.setState({ isModalOpen: false })}/>
           </DialogActions>
         </Dialog>
         <div>

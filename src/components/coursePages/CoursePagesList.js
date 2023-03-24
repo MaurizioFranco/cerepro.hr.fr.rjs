@@ -58,29 +58,6 @@ class CoursePagesList extends Component {
     });
   };
 
-  confirmDelete = (id) => {
-    confirmAlert({
-      message: "Are you sure to delete?",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => this.deleteItem(id),
-        },
-        {
-          label: "No",
-        },
-      ],
-    });
-  };
-
-  deleteItem(id) {
-    Commons.executeDelete(
-      Constants.FULL_COURSEPAGE_API_URI + id,
-      this.deleteSuccess,
-      Commons.operationError
-    );
-  }
-
   deleteSuccess = (response) => {
     Commons.operationSuccess(response, "Cancellazione posizione avvenuta con successo");
     this.getCoursePages();
@@ -90,7 +67,25 @@ class CoursePagesList extends Component {
     const { classes } = this.props;
     return (
       <div className="App">
-        <AddCoursePages refreshCoursePagesList={this.getCoursePages} />
+        {/* <div style={{ display: "inline"}} >
+            <h2 style={{ textAlign: "center"}}>POSIZIONI</h2> */}
+            {/* <AddCoursePages refreshCoursePagesList={this.getCoursePages} /> */}
+        {/* </div> */}
+
+        {/* <div className="panel-heading">
+                        <h1 className="panel-title">
+                            <span id="active">POSIZIONI</span>
+                            <div className="control-table">
+
+                                
+                                <AddCoursePages refreshCoursePagesList={this.getCoursePages} />
+                            </div>
+                        </h1>
+                    </div> */}
+        <div class="panel panel-default">
+            <h3  style={{ textAlign: "center"}}>Panel title</h3>
+            <AddCoursePages refreshCoursePagesList={this.getCoursePages} />
+        </div>
         <TableContainer
           style={{
             paddingLeft: "40px",
@@ -102,13 +97,13 @@ class CoursePagesList extends Component {
             <Table className={classes.table} aria-label="course pages table">
               <TableHead>
                 <TableRow style={{ backgroundColor: "#333", color: "#fff" }}>
-                  <TableCell style={{ color: "#fff" }}>ID</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Title</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Code</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Body Text</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Owner</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Opened_By</TableCell>
-                  <TableCell style={{ color: "#fff" }}>InsertedTime</TableCell>
+                  <TableCell style={{ color: "#fff" }}>POSIZIONE</TableCell>
+                  <TableCell style={{ color: "#fff" }}>CODICE NUMERICO</TableCell>
+                  <TableCell style={{ color: "#fff" }}>CODICE ALFANUMERICO</TableCell>
+                  <TableCell style={{ color: "#fff" }}>BREVE DESCRIZIONE</TableCell>
+                  <TableCell style={{ color: "#fff" }}>HR RESPONSABILE DELLA POSIZIONE</TableCell>
+                  <TableCell style={{ color: "#fff" }}>APERTO DA</TableCell>
+                  <TableCell style={{ color: "#fff" }}>APERTA IL</TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                 </TableRow>
@@ -121,10 +116,10 @@ class CoursePagesList extends Component {
                       index % 2 === 0 ? classes.evenRow : classes.oddRow
                     }
                   >
+                    <TableCell>{coursePage.title}</TableCell>
                     <TableCell component="th" scope="row">
                       {coursePage.id}
                     </TableCell>
-                    <TableCell>{coursePage.title}</TableCell>
                     <TableCell>{coursePage.code}</TableCell>
                     <TableCell>{coursePage.bodyText}</TableCell>
                     <TableCell>{coursePage.coursePageOwnerFirstname !== "null" ? coursePage.coursePageOwnerFirstname : ""} {coursePage.coursePageOwnerLastname !== "null" ? coursePage.coursePageOwnerLastname : ""}</TableCell>
@@ -134,7 +129,7 @@ class CoursePagesList extends Component {
                     <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} idItemToUpdate={coursePage.id} />
                     </TableCell>
                     <TableCell>
-                      <DeleteButton onClickFunction={() => this.confirmDelete(coursePage.id)}/>
+                      <DeleteButton onClickFunction={() => Commons.confirmDelete("Sei sicuro di voler cancellare la posizione " + coursePage.code + "?", "Si", "No", Constants.FULL_COURSEPAGE_API_URI + coursePage.id, this.deleteSuccess, Commons.operationError)}/>
                     </TableCell>
                   </TableRow>
                   ))}

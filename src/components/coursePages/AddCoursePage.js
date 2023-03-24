@@ -15,6 +15,10 @@ import {
   InputLabel
 } from "@material-ui/core";
 
+// import { Select } from '@mui/material';
+
+import './AddCoursePage.css';
+
 class AddCoursePages extends React.Component {
   constructor(props) {
     super(props);
@@ -89,27 +93,6 @@ class AddCoursePages extends React.Component {
     );
   }
 
-  // fetchCoursePage = (item) => {
-  //   console.log("PROVA" + JSON.stringify(item.code));
-  //   Commons.executeFetch(Constants.GET_COURSEPAGE_BY_CODE_API + item.code, "GET", this.addPositionUserOwner);
-  // }
-
-  // addPositionUserOwner = (data) => {
-  //   console.log("ResponseData " + data);
-  //   console.log("ResponseData " + JSON.stringify(data));
-  //   var positionUserOwner = {
-  //     coursePageId: data.id,
-  //     userId: this.state.selectedOwnerId
-  //   }
-  //   console.log(positionUserOwner);
-  //   Commons.executeFetch(
-  //     "http://localhost:8080/cerepro.hr.backend/api/v1/positionuserowner/" + positionUserOwner,
-  //     "POST",
-  //     JSON.stringify(positionUserOwner),
-  //     true
-  //   )
-  // }
-
   insertError = (err) => {
     console.log("INSERT COURSE PAGE KO");
     toast.error(err.errorMessage, {
@@ -119,11 +102,6 @@ class AddCoursePages extends React.Component {
   };
 
   insertSuccess = (response) => {
-    // console.log("INSERT COURSE PAGE SUCCESS");
-    // console.log(response);
-    // toast.success("Course Page successfully inserted", {
-    //   position: toast.POSITION.BOTTOM_LEFT,
-    // });
     Commons.operationSuccess();
     this.setState({ isModalOpen: false });
     this.props.refreshCoursePagesList();
@@ -137,36 +115,36 @@ class AddCoursePages extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="add-course-page-dialog">
         <Dialog
           open={this.state.isModalOpen}
           onClose={() => this.setState({ isModalOpen: false })}
         >
-          <DialogTitle>New Course Page</DialogTitle>
+          <DialogTitle className="commonDialogTitle">INSERISCI NUOVA POSIZIONE</DialogTitle>
           <DialogContent>
             <TextField
               fullWidth
-              label="Title"
+              label="TITOLO POSIZIONE"
               name="title"
               onChange={this.handleChange}
               style={{ marginBottom: "10px" }}
             />
             <TextField
               fullWidth
-              label="Code"
+              label="CODICE ALFANUMERICO"
               name="code"
               onChange={this.handleChange}
               style={{ marginBottom: "10px" }}
             />
             <TextField
               fullWidth
-              label="Body Text"
+              label="BREVE DESCRIZIONE"
               name="bodyText"
               onChange={this.handleChange}
               style={{ marginBottom: "20px" }}
             />
 
-            <InputLabel>Proprietario</InputLabel>
+            <InputLabel>HR RESPONSABILE DELLA POSIZIONE</InputLabel>
             <Select
               fullWidth
               label="Proprietario"
