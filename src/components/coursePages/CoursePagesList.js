@@ -34,7 +34,7 @@ const styles = {
 class CoursePagesList extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       coursePages: [],
 
     };
@@ -58,6 +58,19 @@ class CoursePagesList extends Component {
       coursePages: data,
     });
   };
+
+  setTime = (expirationDateTime) => {
+    if (expirationDateTime != null) {
+      const expirationTime = new Date(expirationDateTime)
+      const date = expirationTime.toLocaleDateString();
+      const time = expirationTime.toLocaleTimeString();
+      const separator = ' ';
+      return `${date}${separator}${time}`;
+    } else {
+      return expirationDateTime
+    }
+  }
+
 
   confirmDelete = (id) => {
     confirmAlert({
@@ -129,16 +142,16 @@ class CoursePagesList extends Component {
                     <TableCell>{coursePage.code}</TableCell>
                     <TableCell>{coursePage.bodyText}</TableCell>
                     <TableCell>{coursePage.coursePageOwnerFirstname !== "null" ? coursePage.coursePageOwnerFirstname : ""} {coursePage.coursePageOwnerLastname !== "null" ? coursePage.coursePageOwnerLastname : ""}</TableCell>
-                    <TableCell>{coursePage.coursePageFirstNameOpenedBy} {coursePage.coursePageLastNameOpenedBy }</TableCell>
-                    <TableCell>{coursePage.created_datetime}</TableCell>
+                    <TableCell>{coursePage.coursePageFirstNameOpenedBy} {coursePage.coursePageLastNameOpenedBy}</TableCell>
+                    <TableCell>{this.setTime(coursePage.created_datetime)}</TableCell>
                     <TableCell>
-                    <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} idItemToUpdate={coursePage.id} />
+                      <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} idItemToUpdate={coursePage.id} />
                     </TableCell>
                     <TableCell>
-                      <DeleteButton onClickFunction={() => this.confirmDelete(coursePage.id)}/>
+                      <DeleteButton onClickFunction={() => this.confirmDelete(coursePage.id)} />
                     </TableCell>
                   </TableRow>
-                  ))}
+                ))}
               </TableBody>
             </Table>
           </TableContainer>
