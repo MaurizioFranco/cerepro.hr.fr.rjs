@@ -154,14 +154,14 @@ class Question extends Component {
     }
 
     render() {
-
+        const { classes } = this.props;
         const user = JSON.parse(sessionStorage.getItem("user"));
         const userLoggedRole = user.role;
 
         return (
             <div>
                 <div style={{ padding: "10px" }}>
-                    <div className="panel-heading">
+                    {/* <div className="panel-heading">
                         <h1 className="panel-title">
                             <span id="active">Questionari ancora da compilare</span>
                             <div className="control-table">
@@ -169,14 +169,18 @@ class Question extends Component {
                                 <button id="reload" onClick={this.reloadData}>
                                     <img src={reload} alt="Reload" style={{ marginRight: "50px" }} />
                                 </button>
-                                <AddQuestion refreshSurveysList={this.reloadData} />
+                                
                             </div>
                         </h1>
+                    </div> */}
+                    <div class="panel panel-default">
+                        <h3  style={{ textAlign: "center"}}>QUESTIONARI ANCORA DA COMPILARE</h3>
+                        <AddQuestion refreshSurveysList={this.reloadData} />
                     </div>
                     <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                        <Table>
                             <TableHead>
-                                <TableRow>
+                                <TableRow className={"table-head-row"}>
                                     <this.StyledTableCell align="left">Email</this.StyledTableCell>
                                     <this.StyledTableCell align="left">Name</this.StyledTableCell>
                                     <this.StyledTableCell align="left">Lastname</this.StyledTableCell>

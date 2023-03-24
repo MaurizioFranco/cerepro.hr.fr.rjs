@@ -105,9 +105,9 @@ setTime = (expirationDateTime) => {
           }}
         >
           <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="course pages table">
+            <Table className={classes.table}>
               <TableHead>
-                <TableRow style={{ backgroundColor: "#333", color: "#fff" }}>
+                <TableRow className={"table-head-row"}>
                   <TableCell style={{ color: "#fff" }}>POSIZIONE</TableCell>
                   <TableCell style={{ color: "#fff" }}>CODICE NUMERICO</TableCell>
                   <TableCell style={{ color: "#fff" }}>CODICE ALFANUMERICO</TableCell>
