@@ -59,45 +59,6 @@ class CoursePagesList extends Component {
     });
   };
 
-<<<<<<< HEAD
-=======
-  setTime = (expirationDateTime) => {
-    if (expirationDateTime != null) {
-      const expirationTime = new Date(expirationDateTime)
-      const date = expirationTime.toLocaleDateString();
-      const time = expirationTime.toLocaleTimeString();
-      const separator = ' ';
-      return `${date}${separator}${time}`;
-    } else {
-      return expirationDateTime
-    }
-  }
-
-
-  confirmDelete = (id) => {
-    confirmAlert({
-      message: "Are you sure to delete?",
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => this.deleteItem(id),
-        },
-        {
-          label: "No",
-        },
-      ],
-    });
-  };
-
-  deleteItem(id) {
-    Commons.executeDelete(
-      Constants.FULL_COURSEPAGE_API_URI + id,
-      this.deleteSuccess,
-      Commons.operationError
-    );
-  }
-
->>>>>>> branch 'master' of https://github.com/MaurizioFranco/cerepro.hr.fe.rjs.git
   deleteSuccess = (response) => {
     Commons.operationSuccess(response, "Cancellazione posizione avvenuta con successo");
     this.getCoursePages();
@@ -169,11 +130,7 @@ class CoursePagesList extends Component {
                       <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} idItemToUpdate={coursePage.id} />
                     </TableCell>
                     <TableCell>
-<<<<<<< HEAD
                       <DeleteButton onClickFunction={() => Commons.confirmDelete("Sei sicuro di voler cancellare la posizione " + coursePage.code + "?", "Si", "No", Constants.FULL_COURSEPAGE_API_URI + coursePage.id, this.deleteSuccess, Commons.operationError)}/>
-=======
-                      <DeleteButton onClickFunction={() => this.confirmDelete(coursePage.id)} />
->>>>>>> branch 'master' of https://github.com/MaurizioFranco/cerepro.hr.fe.rjs.git
                     </TableCell>
                   </TableRow>
                 ))}
