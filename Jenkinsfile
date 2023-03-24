@@ -37,6 +37,8 @@ pipeline {
                 sh "npm install -g npm@9.6.2"
                 sh "npm -v"
                 sh "node -v"
+                sh "npm cache clean --force"
+                sh "npm config set legacy-peer-deps true"                
                 sh "npm install"
 	            echo "preparing .env"
 	            sh "rm .env && cp .env.DEV .env"

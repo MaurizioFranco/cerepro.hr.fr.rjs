@@ -156,30 +156,11 @@ class CandidateList extends Component {
 				           Lista candidati {this.state.listLabel}
 				           <CandidateFilterForm onSearchFormSubmit={this.listFiltering} />
 				        </div>
-				        <div className="panel-body">
-										<ReactBootstrap.Table striped bordered hover variant="dark">
-												<thead>
-													<tr>
-														<th>&nbsp;</th>
-														<th></th>
-														<th>EMAIL</th>
-														<th>Nome</th>
-														<th>Cognome</th>
-														<th>CV</th>
-														<th>inserito da</th>
-														<th width="100"></th>
-														<th width="100"></th>
-													</tr>
-												</thead>
-												<tbody>
-												{ this.state.candidates.filter(item => (item.email.includes(this.state.filteredCandidateEmail))||(item.firstname.includes(this.state.filteredCandidateEmail))||(item.lastname.includes(this.state.filteredCandidateEmail))).map(item => <ListedCourseCandidate notifyWithAlertDialog={this.notifyWithAlertDialog} key={item.id} candidate={item}/>) }
-												</tbody>
-				
-										</ReactBootstrap.Table>
-						</div>
+				        
 		            </div>
-		            <MessageDialog visibility={this.state.messageDialogVisibility} message={this.state.messageDialogText} type={this.state.messageDialogType}/>
 		        </div>
+				<br/>
+				<label>Lista candidati {this.state.listLabel}</label>
 				<div className="App">
 					{/* <AddUser refreshCandidatesList={this.getCandidates}/> */}
 					<TableContainer
@@ -196,13 +177,13 @@ class CandidateList extends Component {
 						>
 						<TableHead>
 							<TableRow style={{ backgroundColor: "#333", color: "#fff" }}>
-							<TableCell style={{ color: "#fff" }}>Id</TableCell>
+							<TableCell style={{ color: "#fff" }}>&nbsp;</TableCell>
 							<TableCell style={{ color: "#fff" }}></TableCell>
-							<TableCell style={{ color: "#fff" }}>E-mail</TableCell>
-							<TableCell style={{ color: "#fff" }}>Firstname</TableCell>
-							<TableCell style={{ color: "#fff" }}>Lastname</TableCell>
-							<TableCell style={{ color: "#fff" }}>CV</TableCell>
-							<TableCell style={{ color: "#fff" }}>Inserted by</TableCell>
+							<TableCell style={{ color: "#fff" }}>e-mail</TableCell>
+							<TableCell style={{ color: "#fff" }}>nome</TableCell>
+							<TableCell style={{ color: "#fff" }}>cognome</TableCell>
+							<TableCell style={{ color: "#fff" }}>cv</TableCell>
+							<TableCell style={{ color: "#fff" }}>inserito da</TableCell>
 							<TableCell style={{ color: "#333" }}></TableCell>
 							<TableCell style={{ color: "#333" }}></TableCell>
 							</TableRow>
@@ -217,7 +198,7 @@ class CandidateList extends Component {
 								index % 2 === 0 ? styles.evenRow : styles.oddRow
 								}
 							>
-								<TableCell>{candidate.id}</TableCell>
+								<TableCell style={{'backgroundColor' : candidate.candidateStatusColor}} >{candidate.id}</TableCell>
 								<TableCell><img class="candidateImg" src={Constants.FRONTEND_API_PREFIX + "/canimg/" + candidate.imgpath} alt={candidate.imgpath} /></TableCell>
 								<TableCell>{candidate.email}</TableCell>
 								<TableCell>{candidate.firstname}</TableCell>
