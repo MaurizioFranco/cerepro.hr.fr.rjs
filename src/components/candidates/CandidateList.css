@@ -1,3 +1,5 @@
+@import url("../../commons/tables.css");
+
 .candidates-list-input-filter {
 /* 	display: inline-block; */
 	float: right;

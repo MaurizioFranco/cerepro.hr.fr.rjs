@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 
-import ListedCourseCandidate from './ListedCourseCandidate';
 import CandidateFilterForm from './CandidateFilterForm';
 import './candidates.css';
 import './CandidateList.css';
@@ -11,10 +10,6 @@ import * as ReactBootstrap from 'react-bootstrap';
 import { Link } from "react-router-dom";
 
 import { withRouter } from "react-router";
-import MessageDialog from './MessageDialog.js';
-
-// import { confirmAlert } from "react-confirm-alert";
-// import "react-confirm-alert/src/react-confirm-alert.css";
 
 import {
 	Table,
@@ -173,10 +168,9 @@ class CandidateList extends Component {
 					<TableContainer component={Paper}>
 						<Table
 						className={styles.table}
-						aria-label="candidate table"
 						>
 						<TableHead>
-							<TableRow style={{ backgroundColor: "#333", color: "#fff" }}>
+							<TableRow className={"table-head-row"}>
 							<TableCell style={{ color: "#fff" }}>&nbsp;</TableCell>
 							<TableCell style={{ color: "#fff" }}></TableCell>
 							<TableCell style={{ color: "#fff" }}>e-mail</TableCell>
