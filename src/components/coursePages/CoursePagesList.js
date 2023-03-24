@@ -9,8 +9,6 @@ import {
   TableRow,
   Paper
 } from "@material-ui/core";
-import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
 import AddCoursePages from "./AddCoursePage.js";
 import UpdateCoursePage from "./UpdateCoursePage.js";
 import * as Commons from "../../commons.js";
@@ -58,6 +56,18 @@ class CoursePagesList extends Component {
       coursePages: data,
     });
   };
+
+setTime = (expirationDateTime) => {
+    if (expirationDateTime != null) {
+      const expirationTime = new Date(expirationDateTime)
+      const date = expirationTime.toLocaleDateString();
+      const time = expirationTime.toLocaleTimeString();
+      const separator = ' ';
+      return `${date}${separator}${time}`;
+    } else {
+      return expirationDateTime
+    }
+  }
 
   deleteSuccess = (response) => {
     Commons.operationSuccess(response, "Cancellazione posizione avvenuta con successo");
