@@ -1,0 +1,12 @@
+
+.page-title {
+    display:inline-block;
+    left:100px;
+    margin-right:50px;
+}
+.add-button {
+  display:inline-block;
+  float: right;
+} 
+
+

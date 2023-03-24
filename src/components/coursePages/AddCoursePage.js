@@ -115,7 +115,8 @@ class AddCoursePages extends React.Component {
 
   render() {
     return (
-      <div className="add-course-page-dialog">
+      <React.Fragment>
+
         <Dialog
           open={this.state.isModalOpen}
           onClose={() => this.setState({ isModalOpen: false })}
@@ -177,22 +178,18 @@ class AddCoursePages extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <div>
           <Button
+            className={"add-button"}
             variant="contained"
             style={{
-              marginRight: "40px",
-              marginBottom: "40px",
               backgroundColor: "green",
               color: "#fff",
-              float: "right",
             }}
             onClick={() => this.setState({ isModalOpen: true })}
           >
             +
           </Button>
-        </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

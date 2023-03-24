@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 
-import CandidateFilterForm from './CandidateFilterForm';
 import './candidates.css';
 import './CandidateList.css';
 import * as Constants from '../../constants' ;
@@ -23,6 +22,7 @@ import {
 
 import downloadIcon from "../../images/download_icon.png";
 import DeleteButton from "../../commons/DeleteButton.js";
+import PageMainTitle from '../../commons/PageMainTitle';
 
 const CANDIDATE_API = '/api/v1/candidatecustom/' ;
 const CANDIDATE_GET_LIST_API = CANDIDATE_API + 'paginated/1000/0/' ;
@@ -58,8 +58,8 @@ class CandidateList extends Component {
 		}
 	}
 	
-	listFiltering = (text) => {
-		this.setState({filteredCandidateEmail: text});
+	listFiltering = (event) => {
+		this.setState({filteredCandidateEmail: event.target.value});
 	}
 	
 	fetchCandidates = (positionCode) =>{
@@ -96,28 +96,6 @@ class CandidateList extends Component {
 		this.fetchCandidates(params.id);
 	}
 	
-	// confirmDelete = (askConfirmMessage, confirmOk, confirmKo, apiToCall, deleteSuccessCallbackFn, deleteFailedCallbackFn) => {
-	// 	confirmAlert({
-	// 	  message: askConfirmMessage,
-	// 	  buttons: [
-	// 		{
-	// 		  label: confirmOk,
-	// 		  onClick: () => this.deleteItem(apiToCall),
-	// 		},
-	// 		{
-	// 		  label: confirmKo,
-	// 		},
-	// 	  ],
-	// 	});
-	//   };
-	
-	//   deleteItem(apiToCall, deleteSuccessCallbackFn, deleteFailedCallbackFn) {
-	// 	Commons.executeDelete(
-	// 	  apiToCall,
-	// 	  deleteSuccessCallbackFn,
-	// 	  deleteFailedCallbackFn
-	// 	);
-	//   };
 	
 	  deleteSuccess = (response) => {
 		Commons.operationSuccess(response, "Cancellazione dell'utente avvenuta correttamente.");
@@ -130,7 +108,6 @@ class CandidateList extends Component {
 	
 	render () {
 		
-		const { classes } = this.props;
 		const styles = {
 			table: {
 			  minWidth: 650,
@@ -143,31 +120,17 @@ class CandidateList extends Component {
 			},
 		  };
 		return (
-			<React.Fragment>
-
-				<div className="panel-container">
-				    <div className="panel">
-				        <div className="panel-heading">
-				           Lista candidati {this.state.listLabel}
-				           <CandidateFilterForm onSearchFormSubmit={this.listFiltering} />
-				        </div>
-				        
-		            </div>
-		        </div>
-				<br/>
-				<label>Lista candidati {this.state.listLabel}</label>
-				<div className="App">
-					{/* <AddUser refreshCandidatesList={this.getCandidates}/> */}
-					<TableContainer
-					style={{
-						paddingLeft: "40px",
-						paddingRight: "40px",
-						paddingBottom: "140px",
-					}}
-					>
-					<TableContainer component={Paper}>
-						<Table className={"table-style"}>
-						  <TableHead>
+			<div className="App">
+				<div class="panel panel-default">
+					<PageMainTitle text={"LISTA CANDIDATI " + this.state.listLabel} />
+					<div className={"filter-list-input"}>
+						cerca per nome/cognome/email&nbsp;
+					    <input type="text"   onChange={this.listFiltering}/>
+					</div>
+				</div>
+				<TableContainer component={Paper}>
+                    <Table className={"table-style"}>
+						<TableHead>
 							<TableRow className={"table-head-row"}>
 							<TableCell style={{ color: "#fff" }}>&nbsp;</TableCell>
 							<TableCell style={{ color: "#fff" }}></TableCell>
@@ -210,19 +173,16 @@ class CandidateList extends Component {
 								</Link>
 								</TableCell>
 								<TableCell>
-		<DeleteButton onClickFunction={() => Commons.confirmDelete("Sei sicuro di voler cancellare il candidato " + candidate.firstname + " " + candidate.lastname + "?", "Si", "No", Constants.FULL_CANDIDATE_CUSTOM_API_URI + candidate.id, this.deleteSuccess, this.deleteFailed)}/>
+		                            <DeleteButton onClickFunction={() => Commons.confirmDelete("Sei sicuro di voler cancellare il candidato " + candidate.firstname + " " + candidate.lastname + "?", "Si", "No", Constants.FULL_CANDIDATE_CUSTOM_API_URI + candidate.id, this.deleteSuccess, this.deleteFailed)}/>
 								</TableCell>
 							</TableRow>
 							))}
 						</TableBody>
-						</Table>
-					</TableContainer>
-					</TableContainer>
-				</div>
-			</React.Fragment>
+					</Table>
+				</TableContainer>
+			</div>
 		);
 	}
 }
 
-//export default CandidateList ;
 export default withRouter(CandidateList)

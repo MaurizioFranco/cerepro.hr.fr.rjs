@@ -1,10 +1,14 @@
 @import url("../../commons/tables.css");
+@import url("../../commons/pages.css");
+
+.filter-list-input {
+    display:inline-block;
+    float: right;
+  } 
 
 .candidates-list-input-filter {
-/* 	display: inline-block; */
+	display: inline;
 	float: right;
-/* 	vertical-align: top !important;  */
-/* 	padding-bottom: 5px; */
 }
 
 .candidateImg {

@@ -15,6 +15,7 @@ import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 
 import DeleteButton from "../../commons/DeleteButton.js";
+import PageMainTitle from "../../commons/PageMainTitle.js";
 
 
 const styles = {
@@ -78,10 +79,9 @@ setTime = (expirationDateTime) => {
     return (
       <div className="App">
         <div class="panel panel-default">
-            <h3  style={{ textAlign: "center"}}>POSIZIONI</h3>
-            <AddCoursePages refreshCoursePagesList={this.getCoursePages} />
-        </div>
-        
+					<PageMainTitle text={"POSIZIONI"} />
+          <AddCoursePages refreshCoursePagesList={this.getCoursePages} />
+				</div>
         <TableContainer component={Paper}>
           <Table className={"table-style"}>
 						<TableHead>
