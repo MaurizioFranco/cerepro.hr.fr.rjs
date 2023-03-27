@@ -39,9 +39,13 @@ class MainView extends Component {
 
 	validateSession = () => {
 		let userLoggedEmail = sessionStorage.getItem('userLoggedEmail');
-
+		let targetPage = window.location.hash.slice(2);
 		if ((userLoggedEmail === null) || (userLoggedEmail === 'null')) {
-			this.props.history.push('/login');
+			if(targetPage === ""){
+				this.props.history.push(`/login`);
+			}else{
+				this.props.history.push(`/login?targetPage=${targetPage}`);
+			}
 		}
 	}
 
