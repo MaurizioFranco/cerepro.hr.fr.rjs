@@ -1,5 +1,5 @@
 import React from "react";
-import './Question.css';
+import './AllCandidateSurveys.css';
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 import {

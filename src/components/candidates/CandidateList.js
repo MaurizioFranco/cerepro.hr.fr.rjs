@@ -134,11 +134,11 @@ class CandidateList extends Component {
 							<TableRow className={"table-head-row"}>
 							<TableCell style={{ color: "#fff" }}>&nbsp;</TableCell>
 							<TableCell style={{ color: "#fff" }}></TableCell>
-							<TableCell style={{ color: "#fff" }}>e-mail</TableCell>
-							<TableCell style={{ color: "#fff" }}>nome</TableCell>
-							<TableCell style={{ color: "#fff" }}>cognome</TableCell>
-							<TableCell style={{ color: "#fff" }}>cv</TableCell>
-							<TableCell style={{ color: "#fff" }}>inserito da</TableCell>
+							<TableCell style={{ color: "#fff" }}>E-MAIL</TableCell>
+							<TableCell style={{ color: "#fff" }}>NOME</TableCell>
+							<TableCell style={{ color: "#fff" }}>COGNOME</TableCell>
+							<TableCell style={{ color: "#fff" }}>CV</TableCell>
+							<TableCell style={{ color: "#fff" }}>INSERITO DA</TableCell>
 							<TableCell style={{ color: "#333" }}></TableCell>
 							<TableCell style={{ color: "#333" }}></TableCell>
 							</TableRow>
