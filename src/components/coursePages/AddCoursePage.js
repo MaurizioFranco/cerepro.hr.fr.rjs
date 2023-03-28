@@ -13,6 +13,7 @@ import {
   Select,
   InputLabel
 } from "@material-ui/core";
+import styles from "../../styles.js";
 
 import './AddCoursePage.css';
 
@@ -118,7 +119,7 @@ class AddCoursePages extends React.Component {
           open={this.state.isModalOpen}
           onClose={() => this.setState({ isModalOpen: false })}
         >
-          <DialogTitle className="commonDialogTitle">INSERISCI NUOVA POSIZIONE</DialogTitle>
+          <DialogTitle className="commonDialogTitle" style={styles.modalTitle}>INSERISCI NUOVA POSIZIONE</DialogTitle>
           <DialogContent>
             <TextField
               fullWidth
@@ -132,24 +133,25 @@ class AddCoursePages extends React.Component {
               label="CODICE ALFANUMERICO"
               name="code"
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
               label="BREVE DESCRIZIONE"
               name="bodyText"
               onChange={this.handleChange}
-              style={{ marginBottom: "20px" }}
+              style={styles.fieldBeforeSelectLabel}
             />
-
-            <InputLabel>HR RESPONSABILE DELLA POSIZIONE</InputLabel>
+            <InputLabel style={styles.selectLabel}>
+              HR RESPONSABILE DELLA POSIZIONE
+            </InputLabel>
             <Select
               fullWidth
               label="Proprietario"
               name="proprietario"
               value={this.state.selectedOwner}
               onChange={(e) => this.setState({ selectedOwner: e.target.value })}
-              style={{ marginBottom: "10px" }}
+              style={styles.fieldBeforeButtons}
             >
               {this.state.owners.map((owner) => (
                 <option key={owner} value={owner}>{owner.firstname + " " + owner.lastname}</option>
@@ -158,25 +160,17 @@ class AddCoursePages extends React.Component {
 
           </DialogContent>
           <DialogActions>
-            <Button
-              onClick={this.handleSubmit}
-              style={{ marginRight: "14px" }}
-              color="primary"
-            >
-              Save
+            <Button onClick={this.handleSubmit} style={styles.saveButton}>
+              Salva
             </Button>
-            <Button
-              onClick={this.cancelSubmit}
-              style={{ margin: "7px" }}
-              color="secondary"
-            >
-              Cancel
+            <Button onClick={this.cancelSubmit} style={styles.cancelButton}>
+              Annulla
             </Button>
           </DialogActions>
         </Dialog>
           <Button
             className={"add-button"}
-            variant="contained"
+            style={styles.addButton}
             onClick={() => this.setState({ isModalOpen: true })}
           >
             +

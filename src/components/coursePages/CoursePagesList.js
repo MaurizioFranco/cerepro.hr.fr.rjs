@@ -15,6 +15,7 @@ import * as Constants from "../../constants.js";
 
 import DeleteButton from "../../commons/DeleteButton.js";
 import PageMainTitle from "../../commons/PageMainTitle.js";
+import styles from "../../styles.js";
 
 export default class CoursePagesList extends Component {
   constructor(props) {
