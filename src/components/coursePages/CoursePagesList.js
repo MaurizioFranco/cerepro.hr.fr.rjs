@@ -16,19 +16,7 @@ import * as Constants from "../../constants.js";
 
 import DeleteButton from "../../commons/DeleteButton.js";
 import PageMainTitle from "../../commons/PageMainTitle.js";
-
-
-const styles = {
-  table: {
-    minWidth: 650,
-  },
-  evenRow: {
-    backgroundColor: "#fff",
-  },
-  oddRow: {
-    backgroundColor: "#f2f2f2",
-  },
-};
+import styles from "../../styles.js";
 
 class CoursePagesList extends Component {
   constructor(props) {
@@ -82,6 +70,7 @@ setTime = (expirationDateTime) => {
 					<PageMainTitle text={"POSIZIONI"} />
           <AddCoursePages refreshCoursePagesList={this.getCoursePages} />
 				</div>
+        <br></br>
         <TableContainer component={Paper}>
           <Table className={"table-style"}>
 						<TableHead>
@@ -106,9 +95,7 @@ setTime = (expirationDateTime) => {
                     }
                   >
                     <TableCell>{coursePage.title}</TableCell>
-                    <TableCell component="th" scope="row">
-                      {coursePage.id}
-                    </TableCell>
+                    <TableCell component="th" scope="row">{coursePage.id}</TableCell>
                     <TableCell>{coursePage.code}</TableCell>
                     <TableCell>{coursePage.bodyText}</TableCell>
                     <TableCell>{coursePage.coursePageOwnerFirstname !== "null" ? coursePage.coursePageOwnerFirstname : ""} {coursePage.coursePageOwnerLastname !== "null" ? coursePage.coursePageOwnerLastname : ""}</TableCell>

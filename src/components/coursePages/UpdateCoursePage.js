@@ -16,6 +16,7 @@ import * as Constants from "../../constants.js";
 import EditButton from "../../commons/EditButton.js";
 import CancelButton from "../../commons/CancelButton.js";
 import SaveButton from "../../commons/SaveButton.js";
+import styles from "../../styles.js";
 
 import './UpdateCoursePage.css';
 
@@ -162,7 +163,7 @@ class UpdateCoursePages extends React.Component {
               name="title"
               value={this.state.title}
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
@@ -170,7 +171,7 @@ class UpdateCoursePages extends React.Component {
               name="code"
               value={this.state.code}
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
@@ -178,7 +179,7 @@ class UpdateCoursePages extends React.Component {
               name="bodyText"
               value={this.state.bodyText}
               onChange={this.handleChange}
-              style={{ marginBottom: "20px" }}
+              style={styles.fieldBeforeSelectLabel}
             />
             <InputLabel>HR RESPONSABILE DELLA POSIZIONE</InputLabel>
             <Select
@@ -187,7 +188,7 @@ class UpdateCoursePages extends React.Component {
               name="proprietario"
               value={this.state.selectedOwner}
               onChange={(e) => this.setState({ selectedOwner: e.target.value,coursePageOwnerFirstname : e.target.value.firstname,coursePageOwnerLastname:e.target.value.lastname,userId:e.target.value.id })}
-              style={{ marginBottom: "10px" }}
+              style={styles.fieldBeforeButtons}
             >
               {this.state.owners.map((owner) => (
                 <option key={owner} value={owner}>{owner.firstname + " " + owner.lastname}</option>
@@ -195,8 +196,8 @@ class UpdateCoursePages extends React.Component {
             </Select>
           </DialogContent>
           <DialogActions>
-            <SaveButton onClickFunction={() => this.handleSubmit()} />
-            <CancelButton onClickFunction={() => this.setState({ isModalOpen: false })} />
+            <SaveButton onClickFunction={() => this.handleSubmit()}/>
+            <CancelButton onClickFunction={() => this.setState({ isModalOpen: false })}/>
           </DialogActions>
         </Dialog>
         <div>
