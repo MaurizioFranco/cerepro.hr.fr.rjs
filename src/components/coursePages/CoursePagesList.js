@@ -115,7 +115,7 @@ setTime = (expirationDateTime) => {
                     <TableCell>{coursePage.coursePageFirstNameOpenedBy} {coursePage.coursePageLastNameOpenedBy}</TableCell>
                     <TableCell>{this.setTime(coursePage.created_datetime)}</TableCell>
                     <TableCell>
-                      <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} idItemToUpdate={coursePage.id} />
+                      <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} coursePage={coursePage}/>
                     </TableCell>
                     <TableCell>
                       <DeleteButton onClickFunction={() => Commons.confirmDelete("Sei sicuro di voler cancellare la posizione " + coursePage.code + "?", "Si", "No", Constants.FULL_COURSEPAGE_API_URI + coursePage.id, this.deleteSuccess, Commons.operationError)}/>

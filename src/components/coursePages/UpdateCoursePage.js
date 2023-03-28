@@ -20,7 +20,7 @@ import './UpdateCoursePage.css';
 class UpdateCoursePages extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { idItemToLoad: null, title: '', code: '', bodyText: '' ,opened_by:''};
+    this.state = { idItemToLoad: null, title: props.coursePage.title, code: props.coursePage.code, bodyText: props.coursePage.bodyText};
     this.gridRef = React.createRef();
   }
 
@@ -39,27 +39,53 @@ class UpdateCoursePages extends React.Component {
     );
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    var item = {
-      title: this.state.title,
-      code: this.state.code, 
-      bodyText: this.state.bodyText,
-      opened_by : this.state.opened_by
+  handleSubmit = () => {
+    const { title, code, bodyText } = this.state;
+    const { coursePage } = this.props;
+  
+    const updatedCoursePage = {
+      ...coursePage,
+      title,
+      code,
+      bodyText,
     };
-    Commons.executeFetch(Constants.FULL_COURSEPAGE_API_URI + this.props.idItemToUpdate, "PUT", this.updateSuccess, Commons.operationError, JSON.stringify(item), true);
+  
+    Commons.executeFetch(
+      Constants.FULL_COURSEPAGE_API_URI + updatedCoursePage.id,
+      "PUT",
+      this.updateSuccess,
+      Commons.operationError,
+      JSON.stringify(updatedCoursePage),
+      true
+    );
   }
-
+  
   updateSuccess = (response) => {
-    // console.log("COURSE PAGE SUCCESSFULLY UPDATED");
-    // console.log(response);
-    // toast.success("Course Page successfully updated", {
-    //     position: toast.POSITION.BOTTOM_LEFT
-    // });
     Commons.operationSuccess();
-    this.setState({ isModalOpen: false });
     this.props.refreshCoursePagesList();
+    this.setState({ isModalOpen: false });
   }
+  
+  updateCoursePage = () => {
+    const { title, code, bodyText } = this.state;
+    const { coursePage } = this.props;
+  
+    const updatedCoursePage = {
+      ...coursePage,
+      title,
+      code,
+      bodyText,
+    };
+  
+    Commons.executeFetch(
+      Constants.FULL_COURSEPAGE_API_URI + updatedCoursePage.id,
+      "PUT",
+      this.updateSuccess,
+      Commons.operationError,
+      JSON.stringify(updatedCoursePage),
+      true
+    );
+  };
 
   cancelSubmit = (event) => {
     event.preventDefault();

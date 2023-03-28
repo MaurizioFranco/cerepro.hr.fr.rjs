@@ -81,7 +81,17 @@ class LoginView extends Component {
     sessionStorage.setItem("headerToken",
     Commons.getAuthorizationToken(this.state.formEmail, this.state.psw)
     );
-    this.props.history.push("/");
+    let queryParams = new URLSearchParams(this.props.location.search);
+    let targetPage = queryParams.get('targetPage');
+
+    if (targetPage) {
+        // Se c'è un valore targetPage, reindirizza l'utente alla pagina corrispondente dopo il login
+        this.props.history.push(`/${targetPage}`);
+    } else {
+        // Altrimenti, reindirizza l'utente alla homepage dopo il login
+        this.props.history.push('/');
+    }
+    // this.props.history.push("/");
   };
 
   setUserData = (responseData) => {
