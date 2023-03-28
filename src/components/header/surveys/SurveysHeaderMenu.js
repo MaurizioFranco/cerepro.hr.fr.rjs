@@ -17,9 +17,12 @@ export class SurveysHeaderMenu extends Component {
 					Questionari
 				</button>
 
-				<div className={`dropdown-menu ${this.state.showDropdownHeader ? 'show' : ''}`} aria-labelledby="navbarDropdown">
+				<div className={`dropdown-menu ${this.state.showDropdownHeader ? 'show' : ''}`}>
 
-					<Link className="dropdown-item navigationBarItem" to="/question">Crea e Invia Sondaggi ai Candidati</Link>
+					<Link className="dropdown-item navigationBarItem" to="/candidateSurveysToDo">Crea e Invia Sondaggi ai Candidati</Link>
+					<Link className="dropdown-item navigationBarItem" to="/candidateSurveysDid">Questionari eseguiti(Terminati e Non)</Link>
+					<Link className="dropdown-item navigationBarItem" to="/candidateSurveysExpired">Questionari scaduti e non completati</Link>
+					<Link className="dropdown-item navigationBarItem" to="/allCandidateSurveys">Tutti</Link>
 				</div>
 			</li>
 		);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as Constants from '../../constants';
 import * as Commons from '../../commons.js';
-import './Question.css';
+import './AllCandidateSurveys.css';
 import { styled } from '@mui/material/styles';
 
 

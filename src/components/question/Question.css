@@ -1,4 +1,7 @@
 @import url("../../commons/tables.css");
+@import url("../../commons/pages.css");
+
+/* @import url("../../commons/tables.css");
 
 .h1,
 h1 {
@@ -74,10 +77,4 @@ h1 {
   border-color: #00acac;
 }
 
-/* #allContainer{
-  display: flex; 
-  align-items: center;
-  justify-content: flex-end;
-  margin-bottom: 0;
-} */
-
+ */
