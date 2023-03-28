@@ -109,7 +109,7 @@ class AllCandidateSurveys extends Component {
     }
 
     generateFailed = () => {
-        toast.error("PDF failed to regenerate, contact the administration", {
+        toast.error("ERRORE nell rigenerazione del pdf. Si prega di contattare l'amministratore.", {
             position: toast.POSITION.BOTTOM_LEFT,
         });
     }
