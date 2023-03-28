@@ -12,7 +12,10 @@ import {
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 
-class AddSurveyQuestions extends React.Component {
+
+import './AddSurveyQuestion.css';
+
+export default class AddSurveyQuestion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -128,7 +131,7 @@ class AddSurveyQuestions extends React.Component {
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         <Dialog
           open={this.state.isModalOpen}
           onClose={() => this.setState({ isModalOpen: false })}
@@ -189,24 +192,14 @@ class AddSurveyQuestions extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <div>
-          <Button
-            variant="contained"
-            style={{
-              marginRight: "40px",
-              marginBottom: "40px",
-              backgroundColor: "green",
-              color: "#fff",
-              float: "right",
-            }}
-            onClick={() => this.setState({ isModalOpen: true })}
-          >
-            +
+        <Button
+          variant="contained"
+          className={"add-button"}
+          onClick={() => this.setState({ isModalOpen: true })}
+        >
+          +
           </Button>
-        </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
-
-export default AddSurveyQuestions;

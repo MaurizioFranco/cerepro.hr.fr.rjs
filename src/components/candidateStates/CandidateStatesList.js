@@ -3,10 +3,11 @@ import React, { Component } from "react";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 
+import './CandidateStatesList.css';
+
 import AddCandidateStates from "./AddCandidateStates.js";
 import UpdateCandidateStates from "./UpdateCandidateStates.js";
 
-import { withStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableBody,
@@ -23,18 +24,9 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
 import DeleteButton from "../../commons/DeleteButton.js";
+import PageMainTitle from "../../commons/PageMainTitle.js";
 
-const styles = {
-  table: {
-    minWidth: 650,
-  },
-  evenRow: {
-    backgroundColor: "#fff",
-  },
-  oddRow: {
-    backgroundColor: "#f2f2f2",
-  },
-};
+import './AddCandidateStates.css';
 
 class CandidateStatesList extends Component {
   constructor(props) {
@@ -89,29 +81,21 @@ class CandidateStatesList extends Component {
   };
 
   render() {
-    const { classes } = this.props;
     return (
       <div className="App">
-        <AddCandidateStates refreshCandidateStatesList={this.getCandidateStates}/>
-        <TableContainer
-          style={{
-            paddingLeft: "40px",
-            paddingRight: "40px",
-            paddingBottom: "140px",
-          }}
-        >
-          <TableContainer component={Paper}>
-            <Table
-              className={classes.table}
-              aria-label="candidate states table"
-            >
-              <TableHead>
-                <TableRow style={{ backgroundColor: "#333", color: "#fff" }}>
-                  <TableCell style={{ color: "#fff" }}>ID</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Status Code</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Status Label</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Status Description</TableCell>
-                  <TableCell style={{ color: "#fff" }}>Status Color</TableCell>
+        <div class="panel panel-default">
+					<PageMainTitle text={"STATI CANDIDATURA"} />
+          <AddCandidateStates refreshCoursePagesList={this.getCandidateStates} />
+				</div>
+        <TableContainer component={Paper}>
+          <Table className={"table-style"}>
+						<TableHead>
+							<TableRow className={"table-head-row"}>
+                  <TableCell style={{ color: "#fff" }}>&nbsp;</TableCell>
+                  <TableCell style={{ color: "#fff" }}>CODICE NUMERICO</TableCell>
+                  <TableCell style={{ color: "#fff" }}>ETICHETTA</TableCell>
+                  <TableCell style={{ color: "#fff" }}>DESCRIZIONE</TableCell>
+                  <TableCell style={{ color: "#fff" }}>COLORE</TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                 </TableRow>
@@ -121,7 +105,7 @@ class CandidateStatesList extends Component {
                   <TableRow
                     key={index}
                     className={
-                      index % 2 === 0 ? classes.evenRow : classes.oddRow
+                      index % 2 === 0 ? "table-style-even-row" : "table-style-odd-row"
                     }
                   >
                     <TableCell>{candidateState.id}</TableCell>
@@ -151,10 +135,9 @@ class CandidateStatesList extends Component {
               </TableBody>
             </Table>
           </TableContainer>
-        </TableContainer>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(CandidateStatesList);
+export default CandidateStatesList ;

@@ -140,7 +140,7 @@ class AddQuestion extends React.Component {
 
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <Dialog
                     open={this.state.isModalOpen}
                     onClose={() => this.setState({ isModalOpen: false })}
@@ -227,16 +227,9 @@ class AddQuestion extends React.Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <div>
                     <Button
                         variant="contained"
-                        style={{
-                            marginTop: "-45px",
-                            marginBottom: "0px",
-                            backgroundColor: "green",
-                            color: "#fff",
-                            float: "right",
-                        }}
+                        className={"add-button"}
                         onClick={() => this.setState({
                             isModalOpen: true, selectedEmail: '',
                             selectedSurveyLabel: '',
@@ -245,8 +238,7 @@ class AddQuestion extends React.Component {
                     >
                         +
                     </Button>
-                </div>
-            </div>
+            </React.Fragment>
         );
     }
 }

@@ -1,5 +1,4 @@
 import React from "react";
-//import SkyLight from 'react-skylight';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Commons from "../../commons.js";
@@ -14,8 +13,6 @@ import {
   Select,
   InputLabel
 } from "@material-ui/core";
-
-// import { Select } from '@mui/material';
 
 import './AddCoursePage.css';
 
@@ -159,7 +156,6 @@ class AddCoursePages extends React.Component {
               ))}
             </Select>
 
-            {/* <TextField fullWidth label="File Name" name="fileName" onChange={this.handleChange} style={moreMarginBottom} /> */}
           </DialogContent>
           <DialogActions>
             <Button
@@ -181,10 +177,6 @@ class AddCoursePages extends React.Component {
           <Button
             className={"add-button"}
             variant="contained"
-            style={{
-              backgroundColor: "green",
-              color: "#fff",
-            }}
             onClick={() => this.setState({ isModalOpen: true })}
           >
             +

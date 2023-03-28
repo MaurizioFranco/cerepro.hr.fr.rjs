@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableBody,
@@ -17,20 +16,12 @@ import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 
 import DeleteButton from "../../commons/DeleteButton.js";
+import PageMainTitle from "../../commons/PageMainTitle.js";
 
-const styles = {
-  table: {
-    minWidth: 650,
-  },
-  evenRow: {
-    backgroundColor: "#fff",
-  },
-  oddRow: {
-    backgroundColor: "#f2f2f2",
-  },
-};
 
-class SurveyQuestionsList extends Component {
+import './SurveyQuestionsList.css';
+
+export default class SurveyQuestionsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -117,27 +108,19 @@ class SurveyQuestionsList extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-
     return (
       <div className="App">
-        <AddSurveyQuestions
-          refreshSurveyQuestionsList={this.getSurveyQuestions}
-        />
-        <TableContainer
-          style={{
-            paddingLeft: "40px",
-            paddingRight: "40px",
-            paddingBottom: "140px",
-          }}
-        >
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="survey table">
-              <TableHead>
-                <TableRow style={{ backgroundColor: "#333", color: "#fff" }}>
+        <div class="panel panel-default">
+					<PageMainTitle text={"QUESTIONARI COMPLETI (CON COLLEGAMENTO ALLE SINGOLE DOMANDE)"} />
+          <AddSurveyQuestions refreshCoursePagesList={this.getSurveyQuestions} />
+				</div>
+        <TableContainer component={Paper}>
+          <Table className={"table-style"}>
+						<TableHead>
+							<TableRow className={"table-head-row"}>               
                   <TableCell style={{ color: "#fff" }}>&nbsp;</TableCell>
                   <TableCell style={{ color: "#fff" }}>
-                    Titolo questionario
+                    TITOLO QUESTIONARIO
                     <br></br>
                     <div>
                       <select
@@ -155,13 +138,13 @@ class SurveyQuestionsList extends Component {
                     </div>
                   </TableCell>
                   <TableCell style={{ color: "#fff" }}>
-                      Titolo domanda
+                      TITOLO DOMANDA
                   </TableCell>
                   <TableCell
                     style={{ color: "#fff", cursor: "pointer" }}
                     onClick={this.sortByPosition}
                   >
-                    Posizione della domanda all'interno del questionario{}
+                    POSIZIONE DELLA DOMANDA ALL'INTERNO DEL QUESTIONARIO{}
                     {this.state.hideDefaultArrow === false && <span> ↕</span>}
                     {this.state.sortColumn === "position" &&
                       this.state.showArrow &&
@@ -183,7 +166,7 @@ class SurveyQuestionsList extends Component {
                     <TableRow
                       key={index}
                       className={
-                        index % 2 === 0 ? classes.evenRow : classes.oddRow
+                        index % 2 === 0 ? "table-style-even-row" : "table-style-odd-row"
                       }
                     >
                       <TableCell component="th" scope="row">
@@ -192,11 +175,7 @@ class SurveyQuestionsList extends Component {
                       <TableCell>{surveyQuestion.surveyLabel}</TableCell>
                       <TableCell>{surveyQuestion.questionLabel}</TableCell>
                       <TableCell>{surveyQuestion.position}</TableCell>
-                      {/* <TableCell>
-                    <UpdateSurveyQuestion refreshSurveyQuestionsList={this.getSurveyQuestions} idItemToUpdate={surveyQuestion.id} />
-                    </TableCell> */}
                       <TableCell>
-                        {/* <UpdateSurveyQuestions refreshSurveyQuestionsList={this.getSurveyQuestions} idItemToUpdate={surveyQuestion.id} oldSurveyLabel={surveyQuestion.surveyLabel} oldQuestionLabel={surveyQuestion.questionLabel}></UpdateSurveyQuestions> */}
                         <UpdateSurveyQuestions refreshSurveyQuestionsList={this.getSurveyQuestions} idItemToUpdate={surveyQuestion.id} oldSurveyPosition={surveyQuestion.position} oldSurveyLabel={surveyQuestion.surveyLabel} oldQuestionLabel={surveyQuestion.questionLabel}></UpdateSurveyQuestions>
                       </TableCell>
                       <TableCell>
@@ -207,10 +186,7 @@ class SurveyQuestionsList extends Component {
               </TableBody>
             </Table>
           </TableContainer>
-        </TableContainer>
       </div>
     );
   }
 }
-
-export default withStyles(styles)(SurveyQuestionsList);

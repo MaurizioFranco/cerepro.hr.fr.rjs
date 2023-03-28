@@ -1,6 +1,4 @@
 import React from "react";
-//import SkyLight from 'react-skylight';
-import "react-toastify/dist/ReactToastify.css";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 import {
@@ -12,7 +10,10 @@ import {
   DialogActions,
 } from "@material-ui/core";
 
-class AddSurvey extends React.Component {
+
+import './AddSurvey.css';
+
+export default class AddSurvey extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -62,12 +63,12 @@ class AddSurvey extends React.Component {
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         <Dialog
           open={this.state.isModalOpen}
           onClose={() => this.setState({ isModalOpen: false })}
         >
-          <DialogTitle>New Survey</DialogTitle>
+          <DialogTitle>INSERISCI UN NUOVO QUESTIONARIO</DialogTitle>
           <DialogContent>
             <TextField
               fullWidth
@@ -112,24 +113,14 @@ class AddSurvey extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <div>
           <Button
             variant="contained"
-            style={{
-              marginRight: "40px",
-              marginBottom: "40px",
-              backgroundColor: "green",
-              color: "#fff",
-              float: "right",
-            }}
+            className={"add-button"}
             onClick={() => this.setState({ isModalOpen: true })}
           >
             +
           </Button>
-        </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
-
-export default AddSurvey;

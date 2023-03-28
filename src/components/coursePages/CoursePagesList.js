@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableBody,
@@ -17,25 +16,11 @@ import * as Constants from "../../constants.js";
 import DeleteButton from "../../commons/DeleteButton.js";
 import PageMainTitle from "../../commons/PageMainTitle.js";
 
-
-const styles = {
-  table: {
-    minWidth: 650,
-  },
-  evenRow: {
-    backgroundColor: "#fff",
-  },
-  oddRow: {
-    backgroundColor: "#f2f2f2",
-  },
-};
-
-class CoursePagesList extends Component {
+export default class CoursePagesList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       coursePages: [],
-
     };
   }
 
@@ -129,5 +114,3 @@ setTime = (expirationDateTime) => {
     );
   }
 }
-
-export default withStyles(styles)(CoursePagesList);

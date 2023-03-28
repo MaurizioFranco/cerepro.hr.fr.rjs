@@ -7,6 +7,8 @@
 .add-button {
   display:inline-block;
   float: right;
+  color: #fff  !important;
+  background-color: green !important;
 } 
 
 

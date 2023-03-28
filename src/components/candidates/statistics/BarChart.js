@@ -17,7 +17,7 @@ const BarChart = (props) => {
     labels: labels,
     datasets: [
       {
-        label: "Totale Candidati per Course Code",
+        label: "Candidature per posizioni",
         backgroundColor: backgroundColors,
         borderColor: "rgb(255, 99, 132)",
         data: props.data,

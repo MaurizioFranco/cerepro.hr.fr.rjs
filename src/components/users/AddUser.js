@@ -9,16 +9,15 @@ import {
   Switch,
   Typography,
   Grid,
-  Select,
-  MenuItem
+  Select
 } from "@material-ui/core";
-//import SkyLight from 'react-skylight';
 
 import "react-toastify/dist/ReactToastify.css";
 
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
-import { common } from "@mui/material/colors";
+
+import './AddUser.css';
 
 class AddUsers extends React.Component {
   constructor(props) {
@@ -92,12 +91,12 @@ class AddUsers extends React.Component {
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         <Dialog
           open={this.state.isModalOpen}
           onClose={() => this.setState({ isModalOpen: false })}
         >
-          <DialogTitle>New User</DialogTitle>
+          <DialogTitle>INSERISCI UN NUOVO UTENTE</DialogTitle>
           <DialogContent>
             <TextField
               fullWidth
@@ -140,15 +139,6 @@ class AddUsers extends React.Component {
                 ))}
             </Select>
 
-            {/* <TextField
-              fullWidth
-              label="Role"
-              name="role"
-              type="number"
-              onChange={this.handleChange}
-              style={{ marginBottom: "20px" }}
-            /> */}
-
             <Grid container alignItems="center" justify="flex-start">
               <Grid item>
                 <Typography variant="subtitle1" gutterBottom>
@@ -183,22 +173,14 @@ class AddUsers extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <div>
           <Button
+            className={"add-button"}
             variant="contained"
-            style={{
-              marginRight: "40px",
-              marginBottom: "40px",
-              backgroundColor: "green",
-              color: "#fff",
-              float: "right",
-            }}
             onClick={() => this.setState({ isModalOpen: true })}
           >
             +
           </Button>
-        </div>
-      </div >
+        </React.Fragment>
     );
   }
 }

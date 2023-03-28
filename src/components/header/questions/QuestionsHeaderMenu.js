@@ -24,14 +24,6 @@ export class QuestionsHeaderMenu extends Component {
 		};
 	}
 
-	// setPositionCodes = (data) => {
-	// 	this.setState({ position_codes: data });
-	// }
-
-	// componentDidMount() {
-	// 	Commons.executeFetch(FULL_API_URI, "GET", this.setPositionCodes);
-	// }
-
 	render() {
 		return (
 			<li className="nav-item dropdown" onMouseLeave={() => this.setState({ showDropdownHeader: false })}>
@@ -40,8 +32,8 @@ export class QuestionsHeaderMenu extends Component {
 				</button>
 
 				<div className={`dropdown-menu ${this.state.showDropdownHeader ? 'show' : ''}`} aria-labelledby="navbarDropdown">
-					<Link className="dropdown-item navigationBarItem" to="/surveyquestions">Domande associate ai questionari</Link>
 					<Link className="dropdown-item navigationBarItem" to="/surveys">Questionari</Link>
+					<Link className="dropdown-item navigationBarItem" to="/surveyquestions">Associazione domande/questionari</Link>
 
 				</div>
 			</li>

@@ -7,12 +7,13 @@ import {
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
-//import SkyLight from 'react-skylight';
 
 import "react-toastify/dist/ReactToastify.css";
 
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
+
+import './AddCandidateStates.css';
 
 class AddCandidateStates extends React.Component {
   constructor(props) {
@@ -67,12 +68,12 @@ class AddCandidateStates extends React.Component {
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         <Dialog
           open={this.state.isModalOpen}
           onClose={() => this.setState({ isModalOpen: false })}
         >
-          <DialogTitle>New Candidate State</DialogTitle>
+          <DialogTitle>INSERISCI UN NUOVO STATO CANDIDATURA</DialogTitle>
           <DialogContent>
             <TextField
               fullWidth
@@ -120,22 +121,14 @@ class AddCandidateStates extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <div>
           <Button
             variant="contained"
-            style={{
-              marginRight: "40px",
-              marginBottom: "40px",
-              backgroundColor: "green",
-              color: "#fff",
-              float: "right",
-            }}
+            className={"add-button"}
             onClick={() => this.setState({ isModalOpen: true })}
           >
             +
           </Button>
-        </div>
-      </div>
+        </React.Fragment>
     );
   }
 }

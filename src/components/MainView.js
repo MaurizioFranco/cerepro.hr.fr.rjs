@@ -91,7 +91,6 @@ class MainView extends Component {
 					<Route exact path="/coursepage" component={CoursePagesView} />
 					<Route exact path="/surveys" component={SurveysView} />
 				    <Route exact path="/surveyquestions" component={SurveyQuestionsView} />
-
 					<Route exact path="/allCandidateSurveys" component={AllCandidateSurveysView} />
 					<Route exact path="/candidateSurveysToDo" component={CandidateSurveysToDoView} />
 					<Route exact path="/candidateSurveysDid" component={CandidateSurveysDidView} />
