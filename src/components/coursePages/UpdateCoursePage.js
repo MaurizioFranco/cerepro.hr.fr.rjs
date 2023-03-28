@@ -6,6 +6,8 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  InputLabel,
+  Select
 } from "@material-ui/core";
 
 import * as Commons from "../../commons.js";
@@ -20,18 +22,28 @@ import './UpdateCoursePage.css';
 class UpdateCoursePages extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { idItemToLoad: null, title: props.coursePage.title, code: props.coursePage.code, bodyText: props.coursePage.bodyText};
+    this.state = {
+      idItemToLoad: null,
+      title: props.coursePage.title,
+      code: props.coursePage.code,
+      bodyText: props.coursePage.bodyText,
+      owners: [],
+      userId:"",
+      selectedOwner: props.coursePage.selectedOwner,
+      coursePageOwnerFirstname: props.coursePage.coursePageOwnerFirstname,
+      coursePageOwnerLastname : props.coursePage.coursePageOwnerLastname
+    };
     this.gridRef = React.createRef();
   }
 
-  setCoursePages = (data) => {
-    this.setState({
-      title: data.title,
-      code: data.code,
-      bodyText: data.bodyText,
-      opened_by : data.opened_by
-    });
-  };
+  // setCoursePages = (data) => {
+  //   this.setState({
+  //     title: data.title,
+  //     code: data.code,
+  //     bodyText: data.bodyText,
+  //     opened_by: data.opened_by,
+  //   });
+  // };
 
   handleChange = (event) => {
     this.setState(
@@ -40,18 +52,23 @@ class UpdateCoursePages extends React.Component {
   }
 
   handleSubmit = () => {
-    const { title, code, bodyText } = this.state;
+    const { title, code, bodyText,coursePageOwnerFirstname,coursePageOwnerLastname,userId } = this.state;
     const { coursePage } = this.props;
-  
+
     const updatedCoursePage = {
       ...coursePage,
       title,
       code,
       bodyText,
+      coursePageOwnerFirstname ,
+      coursePageOwnerLastname,
+      userId
     };
-  
+
+    console.log("item updatato " + JSON.stringify(updatedCoursePage))
+
     Commons.executeFetch(
-      Constants.FULL_COURSEPAGE_API_URI + updatedCoursePage.id,
+      Constants.COURSEPAGE_CUSTOM_API + updatedCoursePage.id,
       "PUT",
       this.updateSuccess,
       Commons.operationError,
@@ -59,33 +76,35 @@ class UpdateCoursePages extends React.Component {
       true
     );
   }
-  
+
   updateSuccess = (response) => {
     Commons.operationSuccess();
     this.props.refreshCoursePagesList();
     this.setState({ isModalOpen: false });
   }
-  
-  updateCoursePage = () => {
-    const { title, code, bodyText } = this.state;
-    const { coursePage } = this.props;
-  
-    const updatedCoursePage = {
-      ...coursePage,
-      title,
-      code,
-      bodyText,
-    };
-  
-    Commons.executeFetch(
-      Constants.FULL_COURSEPAGE_API_URI + updatedCoursePage.id,
-      "PUT",
-      this.updateSuccess,
-      Commons.operationError,
-      JSON.stringify(updatedCoursePage),
-      true
-    );
-  };
+
+  // updateCoursePage = () => {
+  //   const { title, code, bodyText,coursePageOwnerFirstname,coursePageOwnerLastname } = this.state;
+  //   const { coursePage } = this.props;
+
+  //   const updatedCoursePage = {
+  //     ...coursePage,
+  //     title,
+  //     code,
+  //     bodyText,
+  //     coursePageOwnerFirstname,
+  //     coursePageOwnerLastname
+  //   };
+
+  //   Commons.executeFetch(
+  //     Constants.FULL_COURSEPAGE_API_URI + updatedCoursePage.id,
+  //     "PUT",
+  //     this.updateSuccess,
+  //     Commons.operationError,
+  //     JSON.stringify(updatedCoursePage),
+  //     true
+  //   );
+  // };
 
   cancelSubmit = (event) => {
     event.preventDefault();
@@ -94,12 +113,29 @@ class UpdateCoursePages extends React.Component {
 
   initializeAndShow = () => {
     console.log(this.props.idItemToUpdate);
-    this.getItemById();
+    // this.getItemById();
     //this.gridRef.current.show();
   }
 
-  getItemById = () => {
-    Commons.executeFetch(Constants.FULL_COURSEPAGE_API_URI + this.props.idItemToUpdate, "GET", this.setItemToUpdate);
+
+  // getItemById = () => {
+  //   Commons.executeFetch(Constants.COURSEPAGE_CUSTOM_API + this.props.idItemToUpdate, "GET", this.setItemToUpdate);
+  // }
+
+  componentDidMount = () => {
+    this.fetchOwners();
+  }
+
+  fetchOwners = () => {
+    Commons.executeFetch(Constants.BACKEND_API_PREFIX + Constants.GET_USER_BY_ROLE_API + "50", "GET", this.setOwners);
+  }
+
+  setOwners = (retrievedOwners) => {
+    Commons.debugMessage("setOwners - START - owners: " + retrievedOwners);
+    this.setState({
+      owners: retrievedOwners,
+    });
+    console.log(retrievedOwners);
   }
 
   setItemToUpdate = (responseData) => {
@@ -107,7 +143,7 @@ class UpdateCoursePages extends React.Component {
       itemLoaded: true,
       title: responseData.title,
       code: responseData.code,
-      bodyText: responseData.bodyText
+      bodyText: responseData.bodyText,
     });
   }
 
@@ -144,10 +180,23 @@ class UpdateCoursePages extends React.Component {
               onChange={this.handleChange}
               style={{ marginBottom: "20px" }}
             />
+            <InputLabel>HR RESPONSABILE DELLA POSIZIONE</InputLabel>
+            <Select
+              fullWidth
+              label="Proprietario"
+              name="proprietario"
+              value={this.state.selectedOwner}
+              onChange={(e) => this.setState({ selectedOwner: e.target.value,coursePageOwnerFirstname : e.target.value.firstname,coursePageOwnerLastname:e.target.value.lastname,userId:e.target.value.id })}
+              style={{ marginBottom: "10px" }}
+            >
+              {this.state.owners.map((owner) => (
+                <option key={owner} value={owner}>{owner.firstname + " " + owner.lastname}</option>
+              ))}
+            </Select>
           </DialogContent>
           <DialogActions>
-            <SaveButton onClickFunction={() => this.handleSubmit()}/>
-            <CancelButton onClickFunction={() => this.setState({ isModalOpen: false })}/>
+            <SaveButton onClickFunction={() => this.handleSubmit()} />
+            <CancelButton onClickFunction={() => this.setState({ isModalOpen: false })} />
           </DialogActions>
         </Dialog>
         <div>
