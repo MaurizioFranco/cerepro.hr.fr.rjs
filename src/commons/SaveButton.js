@@ -7,7 +7,7 @@ import styles from "../styles.js";
 class SaveButton extends Component {
   render() {    
     return (
-      <Button variant="contained" endIcon={<Save />} style={styles.saveButton} onClick={this.props.onClick}>
+      <Button variant="contained" endIcon={<Save />} style={styles.saveButton} onClick={this.props.onClick} disabled={this.props.disabled}>
         SALVA
       </Button>
       

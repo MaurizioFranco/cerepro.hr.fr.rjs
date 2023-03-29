@@ -3,7 +3,6 @@ import './AllCandidateSurveys.css';
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 import {
-    Button,
     TextField,
     Dialog,
     DialogTitle,
@@ -11,6 +10,10 @@ import {
     DialogActions,
     Select
 } from "@material-ui/core";
+import SaveButton from "../../commons/SaveButton";
+import CancelButton from "../../commons/CancelButton";
+import AddButton from "../../commons/AddButton";
+import ResetButton from "../../commons/ResetButton";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -203,41 +206,29 @@ class AddQuestion extends React.Component {
                         </TextField>
                     </DialogContent>
                     <DialogActions>
-                        <Button
-                            style={{ marginRight: "14px" }}
-                            color="primary"
+                        <SaveButton
                             disabled={!this.state.selectedEmail || !this.state.selectedSurveyLabel || !this.state.selectedDate}
                             onClick={this.handleSubmit}
                         >
-                            Save
-                        </Button>
-                        <Button
+                        </SaveButton>
+                        <ResetButton
                             onClick={this.resetData}
-                            style={{ marginRight: "14px" }}
-                            id="buttonResetForm"
                         >
-                            Reset
-                        </Button>
-                        <Button
+                        </ResetButton>
+                        <CancelButton
                             onClick={this.cancelSubmit}
-                            style={{ margin: "7px" }}
-                            color="secondary"
                         >
-                            Cancel
-                        </Button>
+                        </CancelButton>
                     </DialogActions>
                 </Dialog>
-                    <Button
-                        variant="contained"
-                        className={"add-button"}
+                    <AddButton
                         onClick={() => this.setState({
                             isModalOpen: true, selectedEmail: '',
                             selectedSurveyLabel: '',
                             selectedDate: ''
                         })}
                     >
-                        +
-                    </Button>
+                    </AddButton>
             </React.Fragment>
         );
     }

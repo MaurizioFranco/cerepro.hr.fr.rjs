@@ -24,6 +24,7 @@ const styles = {
   },
 
   saveButton: {
+    margin: "7px",
     marginRight: "14px",
     color: "#fff",
     backgroundColor: "#57aaff",
@@ -42,6 +43,13 @@ const styles = {
     float: "right",
   },
 
+  resetButton: {
+    margin: "7px",
+    marginRight: "14px",
+    color: "#fff",
+    backgroundColor: "#8B4513",
+  },
+
   resetPasswordButton: {
     color: "#fff",
     backgroundColor: "#b375f9",
@@ -54,7 +62,17 @@ const styles = {
   divContainer: {
     paddingLeft: "40px",
     paddingRight: "40px",
-    paddingBottom: "140px",
+    paddingBottom: "100px",
+  },
+
+  manyDivContainer: {
+    paddingLeft: "40px",
+    paddingRight: "40px",
+    paddingBottom: "40px",
+  },
+
+  marginWithoutAdd : {
+    marginBottom: "30px",
   },
 
   evenRow: {

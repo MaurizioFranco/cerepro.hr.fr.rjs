@@ -1,11 +1,11 @@
 import AllCandidateSurveys from './AllCandidateSurveys';
-
+import styles from '../../styles';
 
 export default class CandidateSurveysDid extends AllCandidateSurveys {
 
     render() {
         return (
-            <div className="App">
+            <div style={styles.divContainer} className="App">
                 {this.candidateSurveysDidSection()}
             </div>
         );

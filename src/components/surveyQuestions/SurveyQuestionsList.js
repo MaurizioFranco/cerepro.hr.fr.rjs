@@ -8,6 +8,7 @@ import {
   TableRow,
   Paper
 } from "@material-ui/core";
+import styles from '../../styles';
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import AddSurveyQuestions from "./AddSurveyQuestion.js";
@@ -109,7 +110,7 @@ export default class SurveyQuestionsList extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div style={styles.divContainer} className="App">
         <div class="panel panel-default">
 					<PageMainTitle text={"QUESTIONARI COMPLETI (CON COLLEGAMENTO ALLE SINGOLE DOMANDE)"} />
           <AddSurveyQuestions refreshCoursePagesList={this.getSurveyQuestions} />

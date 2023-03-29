@@ -12,10 +12,9 @@ import {
     TableRow,
     Paper
 } from "@material-ui/core";
-
-import { Button } from "@material-ui/core";
-
+import RegeneratePdfButton from '../../commons/RegeneratePdfButton';
 import DeleteButton from "../../commons/DeleteButton.js";
+import styles from '../../styles';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -121,10 +120,9 @@ class AllCandidateSurveys extends Component {
     candidateSutveysToDoSection = () => {
         return (
             <React.Fragment>
-                <div class="panel panel-default">
+                <div style={styles.manyDivContainer} class="panel panel-default">
                     <PageMainTitle text={"QUESTIONARI ANCORA DA COMPILARE"} />
                     <AddQuestion refreshSurveysList={this.reloadData} />
-                </div>
                 <TableContainer component={Paper}>
                     <Table className={"table-style"}>
                         <TableHead>
@@ -157,6 +155,7 @@ class AllCandidateSurveys extends Component {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                </div>
             </React.Fragment>
         )
     }
@@ -166,11 +165,10 @@ class AllCandidateSurveys extends Component {
         const userLoggedRole = user.role;
         return (
             <React.Fragment>
-                <div class="panel panel-default">
-                    <PageMainTitle text={"QUESTIONARI COMPILATI(TERMINATI E NON)"} />
-                </div>
+                <div style={styles.manyDivContainer} class="panel panel-default">
+                    <PageMainTitle style={{marginBottom: 30}} text={"QUESTIONARI COMPILATI(TERMINATI E NON)"} />
                 <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                    <Table aria-label="customized table">
                         <TableHead>
                             <TableRow className={"table-head-row"}>
                                 <TableCell style={{ color: "#fff" }}>E-MAIL</TableCell>
@@ -193,7 +191,7 @@ class AllCandidateSurveys extends Component {
                                         <SurveyPdfLink pdffilename={item.urlPdf} />
                                     </TableCell>
                                     <TableCell style={{ display: (userLoggedRole === 0 || userLoggedRole === 10) ? 'table-cell' : 'none' }}>
-                                        <Button onClick={() => this.regeneratePdf(item.surveyReplyId)}>Rigenera PDF</Button>
+                                        <RegeneratePdfButton onClick={() => this.regeneratePdf(item.surveyReplyId)}></RegeneratePdfButton>
                                     </TableCell>
                                     <TableCell id="cellLeft">
                                         <DeleteButton onClickFunction={() => Commons.confirmDelete("Sei sicuro di voler cancellare il questionario selezionato?", "Si", "No", Constants.DELETE_SURVEYTOKEN_API_URI + item.id, this.deleteSuccess, Commons.operationError)} />
@@ -203,6 +201,7 @@ class AllCandidateSurveys extends Component {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                </div>
             </React.Fragment>
         )
     }
@@ -210,11 +209,10 @@ class AllCandidateSurveys extends Component {
     candidateSurveysExpiredSection = () => {
         return (
             <React.Fragment>
-                <div class="panel panel-default">
-                    <PageMainTitle text={"QUESTIONARI SCADUTI (NON COMPILATI)"} />
-                </div>
+                <div style={styles.manyDivContainer} class="panel panel-default">
+                    <PageMainTitle style={{marginBottom: 30}} text={"QUESTIONARI SCADUTI (NON COMPILATI)"} />
                 <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                    <Table aria-label="customized table">
                         <TableHead>
                             <TableRow className={"table-head-row"}>
                                 <TableCell style={{ color: "#fff" }}>E-MAIL</TableCell>
@@ -241,6 +239,7 @@ class AllCandidateSurveys extends Component {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                </div>
             </React.Fragment>
         )
     }
