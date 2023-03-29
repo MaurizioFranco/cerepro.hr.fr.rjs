@@ -138,7 +138,7 @@ class UsersList extends Component {
                       <UpdateUserPassword refreshUsersList={this.getUsers} idItemToUpdate={user.id}/>
                     </TableCell>
                     <TableCell>
-                      <UpdateUser refreshUsersList={this.getUsers} idItemToUpdate={user.id}/>
+                      <UpdateUser refreshUsersList={this.getUsers} idItemToUpdate={user.id} roles={this.state.roles}/>
                     </TableCell>
                     <TableCell>                      
                       <DeleteButton onClick={() => this.confirmDelete(user.id)}/>
