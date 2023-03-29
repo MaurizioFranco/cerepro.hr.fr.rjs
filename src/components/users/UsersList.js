@@ -20,6 +20,7 @@ import {
   TableRow,
   Paper,
 } from "@material-ui/core";
+import styles from "../../styles.js";
 
 import "react-table-6/react-table.css";
 
@@ -28,18 +29,6 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 
 import DeleteButton from "../../commons/DeleteButton.js";
 import PageMainTitle from "../../commons/PageMainTitle.js";
-
-const styles = {
-  table: {
-    minWidth: 650,
-  },
-  evenRow: {
-    backgroundColor: "#fff",
-  },
-  oddRow: {
-    backgroundColor: "#f2f2f2",
-  },
-};
 
 class UsersList extends Component {
   constructor(props) {
@@ -111,7 +100,7 @@ class UsersList extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className="App">
+      <div style={styles.divContainer} className="App">
         <div class="panel panel-default">
 					<PageMainTitle text={"UTENTI"} />
           <AddUser refreshCoursePagesList={this.getUsers} />
@@ -146,13 +135,13 @@ class UsersList extends Component {
                     <TableCell>{this.getRoleLevel(user.role)}</TableCell>
                     <TableCell><UpdateUserEnabled refreshUsersList={this.getUsers} idItemToUpdate={user.id} /></TableCell>
                     <TableCell>
-                      <UpdateUserPassword refreshUsersList={this.getUsers} idItemToUpdate={user.id} />
+                      <UpdateUserPassword refreshUsersList={this.getUsers} idItemToUpdate={user.id}/>
                     </TableCell>
                     <TableCell>
-                      <UpdateUser refreshUsersList={this.getUsers} idItemToUpdate={user.id} />
+                      <UpdateUser refreshUsersList={this.getUsers} idItemToUpdate={user.id} roles={this.state.roles}/>
                     </TableCell>
                     <TableCell>                      
-                      <DeleteButton onClickFunction={() => this.confirmDelete(user.id)}/>
+                      <DeleteButton onClick={() => this.confirmDelete(user.id)}/>
                     </TableCell>
                   </TableRow>
                 ))}

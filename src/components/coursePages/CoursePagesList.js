@@ -25,6 +25,12 @@ export default class CoursePagesList extends Component {
   }
 
   componentDidMount() {
+    const hashString = window.location.hash.slice(1);
+    const url = new URL(hashString, window.location.href);
+    const positionCode = url.searchParams.get("positionCode");
+    if (positionCode) {
+      this.setState({positionCode:positionCode})
+    } 
     this.getCoursePages();
   }
 
@@ -62,11 +68,11 @@ setTime = (expirationDateTime) => {
 
   render() {
     return (
-      <div className="App">
+      <div style={styles.divContainer} className="App">
         <div class="panel panel-default">
-					<PageMainTitle text={"POSIZIONI"} />
+          <PageMainTitle text={"POSIZIONI"} />
           <AddCoursePages refreshCoursePagesList={this.getCoursePages} />
-				</div>
+        </div>
         <TableContainer component={Paper}>
           <Table className={"table-style"}>
 						<TableHead>

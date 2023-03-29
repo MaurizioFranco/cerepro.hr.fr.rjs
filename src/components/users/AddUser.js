@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Button,
   TextField,
   Dialog,
   DialogTitle,
@@ -11,13 +10,16 @@ import {
   Grid,
   Select
 } from "@material-ui/core";
+import AddButton from "../../commons/AddButton.js";
+import SaveButton from "../../commons/SaveButton.js";
+import CancelButton from "../../commons/CancelButton.js";
+import styles from "../../styles.js";
 
 import "react-toastify/dist/ReactToastify.css";
 
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
-
-import './AddUser.css';
+//import { common } from "@mui/material/colors";
 
 class AddUsers extends React.Component {
   constructor(props) {
@@ -103,28 +105,28 @@ class AddUsers extends React.Component {
               label="E-mail"
               name="email"
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
               label="Password"
               name="password"
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
               label="Firstname"
               name="firstname"
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
               label="Lastname"
               name="lastname"
               onChange={this.handleChange}
-              style={{ marginBottom: "17px" }}
+              style={styles.fieldBeforeSelect}
             />
             <Select
               fullWidth
@@ -132,7 +134,7 @@ class AddUsers extends React.Component {
               name="roles"
               value={this.state.selectedRole}
               onChange={(e) => this.setState({ selectedRole: e.target.value })}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             >
               {this.state.roles.map((role) => (
                 <option key={role} value={role}>{role.label}</option>
@@ -157,29 +159,18 @@ class AddUsers extends React.Component {
 
           </DialogContent>
           <DialogActions>
-            <Button
+            <SaveButton
               onClick={this.handleSubmit}
-              style={{ marginRight: "14px" }}
-              color="primary"
             >
-              Save
-            </Button>
-            <Button
-              onClick={this.cancelSubmit}
-              style={{ margin: "7px" }}
-              color="secondary"
-            >
-              Cancel
-            </Button>
+            </SaveButton>
+            <CancelButton 
+              onClick={this.cancelSubmit}>
+            </CancelButton>
           </DialogActions>
         </Dialog>
-          <Button
-            className={"add-button"}
-            variant="contained"
-            onClick={() => this.setState({ isModalOpen: true })}
-          >
-            +
-          </Button>
+          <AddButton
+            onClick={() => this.setState({ isModalOpen: true })}>
+          </AddButton>
         </React.Fragment>
     );
   }

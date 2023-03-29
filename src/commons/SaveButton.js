@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 
 import {Button} from "@material-ui/core";
+import { Save } from '@material-ui/icons';
 import styles from "../styles.js";
 
 class SaveButton extends Component {
   render() {    
     return (
-      <Button variant="contained" style={styles.saveButton} onClick={this.props.onClickFunction}>
+      <Button variant="contained" endIcon={<Save />} style={styles.saveButton} onClick={this.props.onClick}>
         SALVA
       </Button>
       

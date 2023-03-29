@@ -4,7 +4,6 @@ import "react-toastify/dist/ReactToastify.css";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 import {
-  Button,
   TextField,
   Dialog,
   DialogTitle,
@@ -13,6 +12,9 @@ import {
   Select,
   InputLabel
 } from "@material-ui/core";
+import AddButton from "../../commons/AddButton.js";
+import SaveButton from "../../commons/SaveButton.js";
+import CancelButton from "../../commons/CancelButton.js";
 import styles from "../../styles.js";
 
 import './AddCoursePage.css';
@@ -160,21 +162,18 @@ class AddCoursePages extends React.Component {
 
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleSubmit} style={styles.saveButton}>
-              Salva
-            </Button>
-            <Button onClick={this.cancelSubmit} style={styles.cancelButton}>
-              Annulla
-            </Button>
+            <SaveButton 
+              onClick={this.handleSubmit}>
+            </SaveButton>
+            <CancelButton
+              onClick={this.cancelSubmit}>
+            </CancelButton>
           </DialogActions>
         </Dialog>
-          <Button
-            className={"add-button"}
-            style={styles.addButton}
+          <AddButton
             onClick={() => this.setState({ isModalOpen: true })}
           >
-            +
-          </Button>
+          </AddButton>
       </React.Fragment>
     );
   }

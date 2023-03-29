@@ -1,13 +1,15 @@
 import React from "react";
 
 import {
-  Button,
   TextField,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
+import SaveButton from "../../commons/SaveButton.js";
+import CancelButton from "../../commons/CancelButton.js";
+import styles from "../../styles.js";
 
 import "react-toastify/dist/ReactToastify.css";
 import * as Commons from "../../commons.js";
@@ -116,7 +118,7 @@ class UpdateCandidateStates extends React.Component {
               name="statusCode"
               value={this.state.statusCode}
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
@@ -124,7 +126,7 @@ class UpdateCandidateStates extends React.Component {
               name="statusLabel"
               value={this.state.statusLabel}
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
@@ -132,7 +134,7 @@ class UpdateCandidateStates extends React.Component {
               name="statusDescription"
               value={this.state.statusDescription}
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
@@ -140,28 +142,22 @@ class UpdateCandidateStates extends React.Component {
               name="statusColor"
               value={this.state.statusColor}
               onChange={this.handleChange}
-              style={{ marginBottom: "20px" }}
+              style={styles.fieldBeforeButtons}
             />
           </DialogContent>
           <DialogActions>
-          <Button
+          <SaveButton
               onClick={this.handleSubmit}
-              style={{ marginRight: "14px" }}
-              color="primary"
             >
-              Save
-            </Button>
-            <Button 
+            </SaveButton>
+            <CancelButton 
               onClick={this.cancelSubmit}
-              style={{ margin: "7px" }}
-              color="secondary"
             >
-              Cancel
-            </Button>
+            </CancelButton>
           </DialogActions>
         </Dialog>
         <div>          
-        <EditButton onClickFunction={() => this.setState({ isModalOpen: true })}/>
+        <EditButton onClick={() => this.setState({ isModalOpen: true })}/>
     </div>
   </div>
 );

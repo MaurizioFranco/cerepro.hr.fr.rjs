@@ -1,12 +1,15 @@
 import React from "react";
 import {
-  Button,
   TextField,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
+import styles from "../../styles.js";
+import AddButton from "../../commons/AddButton.js";
+import SaveButton from "../../commons/SaveButton.js";
+import CancelButton from "../../commons/CancelButton.js";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -80,54 +83,45 @@ class AddCandidateStates extends React.Component {
               label="Status Code"
               name="statusCode"
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
               label="Status Label"
               name="statusLabel"
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
               label="Status Description"
               name="statusDescription"
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
               label="Status Color"
               name="statusColor"
               onChange={this.handleChange}
-              style={{ marginBottom: "20px" }}
+              style={styles.fieldBeforeButtons}
             />
           </DialogContent>
           <DialogActions>
-          <Button
+          <SaveButton
               onClick={this.handleSubmit}
-              style={{ marginRight: "14px" }}
-              color="primary"
             >
-              Save
-            </Button>
-            <Button 
+            </SaveButton>
+            <CancelButton 
               onClick={this.cancelSubmit}
-              style={{ margin: "7px" }}
-              color="secondary"
             >
-              Cancel
-            </Button>
+            </CancelButton>
           </DialogActions>
         </Dialog>
-          <Button
-            variant="contained"
-            className={"add-button"}
+          <AddButton
             onClick={() => this.setState({ isModalOpen: true })}
           >
-            +
-          </Button>
+          </AddButton>
         </React.Fragment>
     );
   }

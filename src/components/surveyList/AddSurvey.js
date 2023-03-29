@@ -2,14 +2,15 @@ import React from "react";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 import {
-  Button,
   TextField,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
-
+import AddButton from "../../commons/AddButton.js";
+import CancelButton from "../../commons/CancelButton.js";
+import SaveButton from "../../commons/SaveButton.js";
 
 import './AddSurvey.css';
 
@@ -97,29 +98,20 @@ export default class AddSurvey extends React.Component {
             />
           </DialogContent>
           <DialogActions>
-            <Button
+            <SaveButton
               onClick={this.handleSubmit}
-              style={{ marginRight: "14px" }}
-              color="primary"
             >
-              Save
-            </Button>
-            <Button 
+            </SaveButton>
+            <CancelButton 
               onClick={this.cancelSubmit}
-              style={{ margin: "7px" }}
-              color="secondary"
             >
-              Cancel
-            </Button>
+            </CancelButton>
           </DialogActions>
         </Dialog>
-          <Button
-            variant="contained"
-            className={"add-button"}
+          <AddButton
             onClick={() => this.setState({ isModalOpen: true })}
           >
-            +
-          </Button>
+          </AddButton>
       </React.Fragment>
     );
   }

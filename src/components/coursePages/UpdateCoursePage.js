@@ -179,7 +179,7 @@ class UpdateCoursePages extends React.Component {
               name="bodyText"
               value={this.state.bodyText}
               onChange={this.handleChange}
-              style={styles.fieldBeforeSelectLabel}
+              style={styles.fieldBeforeSelectWithLabel}
             />
             <InputLabel>HR RESPONSABILE DELLA POSIZIONE</InputLabel>
             <Select
@@ -196,12 +196,12 @@ class UpdateCoursePages extends React.Component {
             </Select>
           </DialogContent>
           <DialogActions>
-            <SaveButton onClickFunction={() => this.handleSubmit()}/>
-            <CancelButton onClickFunction={() => this.setState({ isModalOpen: false })}/>
+            <SaveButton onClick={() => this.handleSubmit()}/>
+            <CancelButton onClick={() => this.setState({ isModalOpen: false })}/>
           </DialogActions>
         </Dialog>
         <div>
-          <EditButton onClickFunction={() => this.setState({ isModalOpen: true })} />
+          <EditButton onClick={() => this.setState({ isModalOpen: true })} />
         </div>
       </div>
     );
