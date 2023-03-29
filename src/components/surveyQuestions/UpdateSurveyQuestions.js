@@ -1,7 +1,6 @@
 import React from "react";
 
 import {
-    Button,
     TextField,
     Dialog,
     DialogTitle,
@@ -10,6 +9,9 @@ import {
     MenuItem,
     Select,
 } from "@material-ui/core";
+import SaveButton from "../../commons/SaveButton.js";
+import CancelButton from "../../commons/CancelButton.js";
+import EditButton from "../../commons/EditButton.js";
 
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
@@ -223,33 +225,23 @@ class UpdateSurveyQuestions extends React.Component {
                         />
                     </DialogContent>
                     <DialogActions>
-                        <Button
+                        <SaveButton
                             onClick={this.handleSubmit}
-                            style={{ marginRight: "14px" }}
-                            color="primary"
                         >
-                            Save
-                        </Button>
-                        <Button
+                        </SaveButton>
+                        <CancelButton
                             onClick={this.cancelSubmit}
-                            style={{ margin: "7px" }}
-                            color="secondary"
                         >
-                            Cancel
-                        </Button>
+                        </CancelButton>
                     </DialogActions>
                 </Dialog>
                 <div>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        // onClick={() => this.setState({ isModalOpen: true })}
+                    <EditButton
                         onClick={() => this.setState({ isModalOpen: true, position: this.props.oldSurveyPosition, surveyLabel:this.props.oldSurveyLabel,
                             questionLabel:this.props.oldQuestionLabel
                             })}
                     >
-                        EDIT
-                    </Button>
+                    </EditButton>
                 </div>
             </div>
         );
