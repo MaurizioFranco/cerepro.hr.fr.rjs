@@ -5,7 +5,8 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  Select
 } from "@material-ui/core";
 import styles from "../../styles.js";
 
@@ -18,86 +19,95 @@ import CancelButton from "../../commons/CancelButton.js";
 import EditButton from "../../commons/EditButton.js";
 
 class UpdateUser extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { idItemToLoad: null,
-            email: "",
-            firstname: "",
-            lastname: "",
-            role: "",
-            enabled: "",
-        };
-        this.gridRef = React.createRef();
-    }
-
-    componentDidMount() {
-      Commons.executeFetch(
-        Constants.USER_API_URI + this.props.idItemToUpdate,
-        "GET",
-        this.setUser,
-        Commons.operationError
-      );
-    }
-    
-    setUser = (data) => {
-      this.setState({
-        email: data.email,
-        firstname: data.firstname,
-        lastname: data.lastname,
-        role: data.role,
-        enabled: data.enabled
-      });
+  constructor(props) {
+    super(props);
+    this.state = {
+      idItemToLoad: null,
+      email: "",
+      firstname: "",
+      lastname: "",
+      role: "",
+      enabled: "",
+      roles: this.props.roles,
+      selectedRole: ""
     };
+    this.gridRef = React.createRef();
+  }
 
-    handleChange = (event) => {
-        this.setState(
-            { [event.target.name]: event.target.value }
-        );
-    }
+  componentDidMount() {
+    Commons.executeFetch(
+      Constants.USER_API_URI + this.props.idItemToUpdate,
+      "GET",
+      this.setUser,
+      Commons.operationError
+    );
+  }
 
-    handleSubmit = (event) => {
-        event.preventDefault();
-        var item = {
-            email: this.state.email,
-            firstname: this.state.firstname,
-            lastname: this.state.lastname,
-            role: this.state.role,
-            enabled: this.state.enabled,
-        };
-        Commons.executeFetch(Constants.USER_API_URI + this.props.idItemToUpdate, "PUT", this.updateSuccess, Commons.operationError, JSON.stringify(item), true);
-    }
+  setUser = (data) => {
+    const roleLabel = this.state.roles;
+    const role = roleLabel.find(role => role.level === data.role);
+    this.setState({
+      email: data.email,
+      firstname: data.firstname,
+      lastname: data.lastname,
+      role: data.role,
+      enabled: data.enabled,
+      selectedRole : role.label
+    });
+  };
 
-    updateSuccess = (response) => {
-        Commons.operationSuccess();
-        this.setState({ isModalOpen: false });
-        this.props.refreshUsersList();
-    }
+  handleChange = (event) => {
+    this.setState(
+      { [event.target.name]: event.target.value }
+    );
+  }
 
-    cancelSubmit = (event) => {
-        event.preventDefault();
-        this.setState({ isModalOpen: false });
-    }
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const selectedLabel = this.state.selectedRole.label;
+    const selectedRole = this.state.roles.find(role => role.label === selectedLabel);
+    const selectedRoleLevel = selectedRole.level;
+    var item = {
+      email: this.state.email,
+      firstname: this.state.firstname,
+      lastname: this.state.lastname,
+      role: selectedRoleLevel,
+      enabled: this.state.enabled,
+    };
+    Commons.executeFetch(Constants.USER_API_URI + this.props.idItemToUpdate, "PUT", this.updateSuccess, Commons.operationError, JSON.stringify(item), true);
+  }
 
-    initializeAndShow = () => {
-        console.log(this.props.idItemToUpdate);
-        this.getItemById();
-        //this.gridRef.current.show();
-    }
+  updateSuccess = (response) => {
+    Commons.operationSuccess();
+    this.setState({ isModalOpen: false });
+    this.props.refreshUsersList();
+  }
 
-    getItemById = () => {
-        Commons.executeFetch(Constants.USER_API_URI + this.props.idItemToUpdate, "GET", this.setItemToUpdate);
-    }
+  cancelSubmit = (event) => {
+    event.preventDefault();
+    this.setState({ isModalOpen: false });
+  }
 
-    setItemToUpdate = (responseData) => {
-        this.setState({
-            itemLoaded: true,
-            email: responseData.email,
-            firstname: responseData.firstname,
-            lastname: responseData.lastname,
-            role: responseData.role,
-            enabled: responseData.enabled,
-        });
-    }
+  initializeAndShow = () => {
+    console.log(this.props.idItemToUpdate);
+    this.getItemById();
+    //this.gridRef.current.show();
+  }
+
+  getItemById = () => {
+    Commons.executeFetch(Constants.USER_API_URI + this.props.idItemToUpdate, "GET", this.setItemToUpdate);
+  }
+
+  setItemToUpdate = (responseData) => {
+    this.setState({
+      itemLoaded: true,
+      email: responseData.email,
+      firstname: responseData.firstname,
+      lastname: responseData.lastname,
+      role: responseData.role,
+      enabled: responseData.enabled,
+    });
+  }
 
   render() {
     return (
@@ -132,33 +142,36 @@ class UpdateUser extends React.Component {
               onChange={this.handleChange}
               style={styles.field}
             />
-            <TextField
+            <Select
               fullWidth
               label="Role"
-              name="role"
-              type="number"
-              value={this.state.role}
-              onChange={this.handleChange}
-              style={styles.fieldBeforeButtons}
-            />
+              name="roles"
+              value={this.state.selectedRole} 
+              onChange={(e) => this.setState({ selectedRole: e.target.value })}
+              style={styles.field}
+            >
+              {this.state.roles.map((role) => (
+                <option key={role} value={role}>{role.label}</option>
+              ))}
+            </Select>
           </DialogContent>
           <DialogActions>
-          <SaveButton
+            <SaveButton
               onClick={this.handleSubmit}
             >
             </SaveButton>
-            <CancelButton 
+            <CancelButton
               onClick={this.cancelSubmit}
             >
             </CancelButton>
           </DialogActions>
         </Dialog>
-        <div>          
-          <EditButton onClick={() => this.setState({ isModalOpen: true })}/>
-    </div>
-  </div>
-);
-}
+        <div>
+          <EditButton onClick={() => this.setState({ isModalOpen: true })} />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default UpdateUser;
