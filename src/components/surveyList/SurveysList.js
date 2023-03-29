@@ -7,8 +7,10 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Button,
 } from "@material-ui/core";
+import DeleteButton from "../../commons/DeleteButton.js";
+import styles from "../../styles.js";
+
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import AddSurvey from "./AddSurvey.js";
@@ -71,7 +73,7 @@ export default class SurveysList extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div style={styles.divContainer} className="App">
         <div class="panel panel-default">
           <PageMainTitle text={"QUESTIONARI"} />
           <AddSurvey refreshCoursePagesList={this.getSurveys} />
@@ -83,7 +85,7 @@ export default class SurveysList extends Component {
 
                 <TableCell style={{ color: "#fff" }}>&nbsp;</TableCell>
                 <TableCell style={{ color: "#fff" }}>TITOLO</TableCell>
-                <TableCell style={{ color: "#333" }}>TEMPO DI ESECUZIONE(in minuti)</TableCell>
+                <TableCell style={{ color: "#fff" }}>TEMPO DI ESECUZIONE (in minuti)</TableCell>
                 <TableCell style={{ color: "#fff" }}>DESCRIZIONE</TableCell>
                 <TableCell style={{ color: "#333" }}></TableCell>
                 <TableCell style={{ color: "#333" }}></TableCell>
@@ -107,13 +109,10 @@ export default class SurveysList extends Component {
                     <UpdateSurvey idItemToUpdate={survey.id} updateSurvey={this.getSurveys} />
                   </TableCell>
                   <TableCell>
-                    <Button
-                      variant="contained"
-                      color="secondary"
+                    <DeleteButton
                       onClick={() => this.confirmDelete(survey.id)}
                     >
-                      Delete
-                      </Button>
+                      </DeleteButton>
                   </TableCell>
                 </TableRow>
               ))}

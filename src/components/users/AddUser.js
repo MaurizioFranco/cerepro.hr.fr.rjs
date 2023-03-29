@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Button,
   TextField,
   Dialog,
   DialogTitle,
@@ -11,6 +10,9 @@ import {
   Grid,
   Select
 } from "@material-ui/core";
+import AddButton from "../../commons/AddButton.js";
+import SaveButton from "../../commons/SaveButton.js";
+import CancelButton from "../../commons/CancelButton.js";
 import styles from "../../styles.js";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -157,27 +159,18 @@ class AddUsers extends React.Component {
 
           </DialogContent>
           <DialogActions>
-            <Button
+            <SaveButton
               onClick={this.handleSubmit}
-              style={styles.saveButton}
             >
-              Save
-            </Button>
-            <Button
-              onClick={this.cancelSubmit}
-              style={styles.cancelButton}
-            >
-              Cancel
-            </Button>
+            </SaveButton>
+            <CancelButton 
+              onClick={this.cancelSubmit}>
+            </CancelButton>
           </DialogActions>
         </Dialog>
-          <Button
-            className={"add-button"}
-            style={styles.addButton}
-            onClick={() => this.setState({ isModalOpen: true })}
-          >
-            +
-          </Button>
+          <AddButton
+            onClick={() => this.setState({ isModalOpen: true })}>
+          </AddButton>
         </React.Fragment>
     );
   }

@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Button,
   TextField,
   Dialog,
   DialogTitle,
@@ -8,6 +7,9 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import styles from "../../styles.js";
+import AddButton from "../../commons/AddButton.js";
+import SaveButton from "../../commons/SaveButton.js";
+import CancelButton from "../../commons/CancelButton.js";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -106,27 +108,20 @@ class AddCandidateStates extends React.Component {
             />
           </DialogContent>
           <DialogActions>
-          <Button
+          <SaveButton
               onClick={this.handleSubmit}
-              style={styles.saveButton}
             >
-              Save
-            </Button>
-            <Button 
+            </SaveButton>
+            <CancelButton 
               onClick={this.cancelSubmit}
-              style={styles.cancelButton}
             >
-              Cancel
-            </Button>
+            </CancelButton>
           </DialogActions>
         </Dialog>
-          <Button
-            variant="contained"
-            style={styles.addButton}
+          <AddButton
             onClick={() => this.setState({ isModalOpen: true })}
           >
-            +
-          </Button>
+          </AddButton>
         </React.Fragment>
     );
   }

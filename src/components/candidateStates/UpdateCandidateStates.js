@@ -1,13 +1,14 @@
 import React from "react";
 
 import {
-  Button,
   TextField,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
+import SaveButton from "../../commons/SaveButton.js";
+import CancelButton from "../../commons/CancelButton.js";
 import styles from "../../styles.js";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -145,22 +146,18 @@ class UpdateCandidateStates extends React.Component {
             />
           </DialogContent>
           <DialogActions>
-          <Button
+          <SaveButton
               onClick={this.handleSubmit}
-              style={styles.saveButton}
             >
-              Save
-            </Button>
-            <Button 
+            </SaveButton>
+            <CancelButton 
               onClick={this.cancelSubmit}
-              style={styles.cancelButton}
             >
-              Cancel
-            </Button>
+            </CancelButton>
           </DialogActions>
         </Dialog>
         <div>          
-        <EditButton onClickFunction={() => this.setState({ isModalOpen: true })}/>
+        <EditButton onClick={() => this.setState({ isModalOpen: true })}/>
     </div>
   </div>
 );

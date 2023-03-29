@@ -1,7 +1,6 @@
 import React from "react";
 
 import {
-  Button,
   TextField,
   Dialog,
   DialogTitle,
@@ -14,6 +13,8 @@ import "react-toastify/dist/ReactToastify.css";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
 
+import SaveButton from "../../commons/SaveButton.js";
+import CancelButton from "../../commons/CancelButton.js";
 import EditButton from "../../commons/EditButton.js";
 
 class UpdateUser extends React.Component {
@@ -142,22 +143,18 @@ class UpdateUser extends React.Component {
             />
           </DialogContent>
           <DialogActions>
-          <Button
+          <SaveButton
               onClick={this.handleSubmit}
-              style={styles.saveButton}
             >
-              Save
-            </Button>
-            <Button 
+            </SaveButton>
+            <CancelButton 
               onClick={this.cancelSubmit}
-              style={styles.cancelButton}
             >
-              Cancel
-            </Button>
+            </CancelButton>
           </DialogActions>
         </Dialog>
         <div>          
-          <EditButton onClickFunction={() => this.setState({ isModalOpen: true })}/>
+          <EditButton onClick={() => this.setState({ isModalOpen: true })}/>
     </div>
   </div>
 );

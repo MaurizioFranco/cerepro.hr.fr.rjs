@@ -7,9 +7,11 @@ import {
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
+import { VpnKey } from "@material-ui/icons";
+import styles from "../../styles.js";
+
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
-import styles from "../../styles.js";
 
 class UpdateUserPassword extends React.Component {
   constructor(props) {
@@ -118,6 +120,7 @@ class UpdateUserPassword extends React.Component {
           </form>
         </Dialog>
         <Button
+          endIcon={<VpnKey />}
           style={styles.resetPasswordButton}
           onClick={() => this.setState({ isModalOpen: true })}
         >

@@ -63,7 +63,7 @@ setTime = (expirationDateTime) => {
 
   render() {
     return (
-      <div className="App">
+      <div style={styles.divContainer} className="App">
         <div class="panel panel-default">
 					<PageMainTitle text={"POSIZIONI"} />
           <AddCoursePages refreshCoursePagesList={this.getCoursePages} />
@@ -104,7 +104,7 @@ setTime = (expirationDateTime) => {
                       <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} coursePage={coursePage}/>
                     </TableCell>
                     <TableCell>
-                      <DeleteButton onClickFunction={() => Commons.confirmDelete("Sei sicuro di voler cancellare la posizione " + coursePage.code + "?", "Si", "No", Constants.FULL_COURSEPAGE_API_URI + coursePage.id, this.deleteSuccess, Commons.operationError)}/>
+                      <DeleteButton onClick={() => Commons.confirmDelete("Sei sicuro di voler cancellare la posizione " + coursePage.code + "?", "Si", "No", Constants.FULL_COURSEPAGE_API_URI + coursePage.id, this.deleteSuccess, Commons.operationError)}/>
                     </TableCell>
                   </TableRow>
                 ))}

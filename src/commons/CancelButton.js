@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 
 import {Button} from "@material-ui/core";
+import { Cancel } from '@material-ui/icons';
 import styles from "../styles.js";
 
 class CancelButton extends Component {
   render() {    
     return (
-      <Button variant="contained" style={styles.cancelButton} onClick={this.props.onClickFunction}>
+      <Button variant="contained" endIcon={<Cancel />} style={styles.cancelButton} onClick={this.props.onClick}>
         ANNULLA
       </Button>
       

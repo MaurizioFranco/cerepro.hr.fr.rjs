@@ -100,7 +100,7 @@ class UsersList extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className="App">
+      <div style={styles.divContainer} className="App">
         <div class="panel panel-default">
 					<PageMainTitle text={"UTENTI"} />
           <AddUser refreshCoursePagesList={this.getUsers} />
@@ -141,7 +141,7 @@ class UsersList extends Component {
                       <UpdateUser refreshUsersList={this.getUsers} idItemToUpdate={user.id}/>
                     </TableCell>
                     <TableCell>                      
-                      <DeleteButton onClickFunction={() => this.confirmDelete(user.id)}/>
+                      <DeleteButton onClick={() => this.confirmDelete(user.id)}/>
                     </TableCell>
                   </TableRow>
                 ))}

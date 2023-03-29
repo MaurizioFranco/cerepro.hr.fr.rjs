@@ -82,9 +82,8 @@ class CandidateStatesList extends Component {
   };
 
   render() {
-    const { classes } = this.props;
     return (
-      <div className="App">
+      <div style={styles.divContainer} className="App">
         <div class="panel panel-default">
 					<PageMainTitle text={"STATI CANDIDATURA"} />
           <AddCandidateStates refreshCoursePagesList={this.getCandidateStates} />
@@ -130,7 +129,7 @@ class CandidateStatesList extends Component {
                     <UpdateCandidateStates refreshCandidateStatesList={this.getCandidateStates} idItemToUpdate={candidateState.id} />
                     </TableCell>
                     <TableCell>                      
-                      <DeleteButton onClickFunction={() => this.confirmDelete(candidateState.id)}/>
+                      <DeleteButton onClick={() => this.confirmDelete(candidateState.id)}/>
                     </TableCell>
                   </TableRow>
                 ))}

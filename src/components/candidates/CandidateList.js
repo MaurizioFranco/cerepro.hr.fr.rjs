@@ -19,6 +19,7 @@ import {
 	TableRow,
 	Paper
   } from "@material-ui/core";
+import styles from '../../styles';
 
 import downloadIcon from "../../images/download_icon.png";
 import DeleteButton from "../../commons/DeleteButton.js";
@@ -107,25 +108,13 @@ class CandidateList extends Component {
 	  };
 	
 	render () {
-		
-		const styles = {
-			table: {
-			  minWidth: 650,
-			},
-			evenRow: {
-			  backgroundColor: "#fff",
-			},
-			oddRow: {
-			  backgroundColor: "#f2f2f2",
-			},
-		  };
 		return (
-			<div className="App">
+			<div style={styles.divContainer} className="App">
 				<div class="panel panel-default">
 					<PageMainTitle text={"LISTA CANDIDATI " + this.state.listLabel} />
 					<div className={"filter-list-input"}>
 						cerca per nome/cognome/email&nbsp;
-					    <input type="text"   onChange={this.listFiltering}/>
+					    <input type="text" style={{marginBottom: 30}} onChange={this.listFiltering}/>
 					</div>
 				</div>
 				<TableContainer component={Paper}>
@@ -173,7 +162,7 @@ class CandidateList extends Component {
 								</Link>
 								</TableCell>
 								<TableCell>
-		                            <DeleteButton onClickFunction={() => Commons.confirmDelete("Sei sicuro di voler cancellare il candidato " + candidate.firstname + " " + candidate.lastname + "?", "Si", "No", Constants.FULL_CANDIDATE_CUSTOM_API_URI + candidate.id, this.deleteSuccess, this.deleteFailed)}/>
+		                            <DeleteButton onClick={() => Commons.confirmDelete("Sei sicuro di voler cancellare il candidato " + candidate.firstname + " " + candidate.lastname + "?", "Si", "No", Constants.FULL_CANDIDATE_CUSTOM_API_URI + candidate.id, this.deleteSuccess, this.deleteFailed)}/>
 								</TableCell>
 							</TableRow>
 							))}

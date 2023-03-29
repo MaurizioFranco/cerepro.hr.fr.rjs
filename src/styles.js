@@ -36,8 +36,7 @@ const styles = {
   },
 
   addButton: {
-    marginRight: "40px",
-    marginBottom: "40px",
+    marginBottom: "30px",
     backgroundColor: "green",
     color: "#fff",
     float: "right",
@@ -52,7 +51,7 @@ const styles = {
     minWidth: 650,
   },
 
-  tableContainer: {
+  divContainer: {
     paddingLeft: "40px",
     paddingRight: "40px",
     paddingBottom: "140px",
