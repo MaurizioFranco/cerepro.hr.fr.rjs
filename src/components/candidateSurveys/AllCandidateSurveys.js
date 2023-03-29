@@ -177,6 +177,8 @@ class AllCandidateSurveys extends Component {
                                 <TableCell style={{ color: "#fff" }}>NOME COGNOME CANDIDATO</TableCell>
                                 <TableCell style={{ color: "#fff" }}>QUESTIONARIO</TableCell>
                                 <TableCell style={{ color: "#fff" }}>SCADENZA QUESTIONARIO</TableCell>
+                                <TableCell style={{ display: (userLoggedRole === 0 || userLoggedRole === 10) ? 'table-cell' : 'none' }}/>
+                                <TableCell style={{ display: (userLoggedRole === 0 || userLoggedRole === 10) ? 'table-cell' : 'none' }}/>
                                 <TableCell style={{ color: "#fff" }}>&nbsp;</TableCell>
                             </TableRow>
                         </TableHead>
@@ -187,16 +189,12 @@ class AllCandidateSurveys extends Component {
                                     <TableCell>{item.firstname + " " + item.lastname}</TableCell>
                                     <TableCell>{item.surveyLabel}</TableCell>
                                     <TableCell>{this.setTime(item.expirationDateTime)}</TableCell>
-                                    {console.log("### GENERATED TOKEN: ### " + item.generatedToken)}
-
                                     <TableCell align='left' style={{ display: (userLoggedRole === 0 || userLoggedRole === 10) ? 'table-cell' : 'none' }}>
                                         <SurveyPdfLink pdffilename={item.urlPdf} />
                                     </TableCell>
-
                                     <TableCell style={{ display: (userLoggedRole === 0 || userLoggedRole === 10) ? 'table-cell' : 'none' }}>
                                         <Button onClick={() => this.regeneratePdf(item.surveyReplyId)}>Rigenera PDF</Button>
                                     </TableCell>
-
                                     <TableCell id="cellLeft">
                                         <DeleteButton onClickFunction={() => Commons.confirmDelete("Sei sicuro di voler cancellare il questionario selezionato?", "Si", "No", Constants.DELETE_SURVEYTOKEN_API_URI + item.id, this.deleteSuccess, Commons.operationError)} />
                                     </TableCell>

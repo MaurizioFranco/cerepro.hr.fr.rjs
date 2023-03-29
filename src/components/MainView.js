@@ -17,6 +17,9 @@ import { ModalLoadingSpinnerComponent } from './loader/ModalLoadingSpinnerCompon
 import './MainView.css';
 import { Container } from 'react-bootstrap';
 
+import * as Commons from "../commons.js";
+import * as Constants from "../constants.js";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -35,9 +38,12 @@ class MainView extends Component {
 			userLoggedRole: null,
 			loaderSpinner :false
 		}
+		
 		this.validateSession();
 	}
 
+
+	
 	validateSession = () => {
 		let userLoggedEmail = sessionStorage.getItem('userLoggedEmail');
 		let targetPage = window.location.hash.slice(2);

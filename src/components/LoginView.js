@@ -6,6 +6,11 @@ import * as Constants from "../constants.js";
 import { ModalLoadingSpinnerComponent } from "./loader/ModalLoadingSpinnerComponent";
 import LoginAuthenticationKOMessage from "./login/LoginAuthenticationKOMessage.js";
 import Registration from "./RegistrationView";
+import InfoIcon from '@mui/icons-material/Info';
+
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 
 class LoginView extends Component {
   constructor(props) {
@@ -16,8 +21,28 @@ class LoginView extends Component {
       psw: "",
       authenticationKO: false,
       user: [],
+      applicationInfoData: null
     };
+    sessionStorage.clear();
+    this.retrieveApplicationInfo();
   }
+
+  retrieveApplicationInfo = () => {
+		Commons.executeFetchWithHeader(
+			Constants.FULL_APPLICATION_INFO_API,
+			"GET",
+			{ 'Content-Type': 'application/json' },
+			this.setApplicationInfo
+		  );
+	}
+
+	setApplicationInfo = (responseData) => {
+     sessionStorage.setItem("applicationInfo", JSON.stringify(responseData));
+     this.setState({
+      applicationInfoData: responseData
+     });
+	}
+
 
   formSubmit(event) {
     event.preventDefault();
@@ -32,16 +57,16 @@ class LoginView extends Component {
     );
 
     Commons.debugMessage(
-		  "getUserByEmail - DEBUG - FULL_GET_USER_BY_EMAIL_API: " +
-		  Constants.FULL_GET_USER_BY_EMAIL_API
-	  );
+      "getUserByEmail - DEBUG - FULL_GET_USER_BY_EMAIL_API: " +
+      Constants.FULL_GET_USER_BY_EMAIL_API
+    );
 
     Commons.executeFetchWithHeader(
       Constants.FULL_GET_USER_BY_EMAIL_API + this.state.formEmail,
       "GET",
-	    headerToken,
+      headerToken,
       this.setUserData,
-	    this.showAuthenticationError
+      this.showAuthenticationError
     );
   }
 
@@ -54,11 +79,11 @@ class LoginView extends Component {
 
     Commons.debugMessage(
       "LoginView.checkCredentials - START - FULL_API_URI: " +
-        Constants.FULL_API_URI
+      Constants.FULL_API_URI
     );
 
     if (this.state.user.enabled === false) {
-      Commons.operationError({errorMessage:"Your account is not enabled. Check your emails to enable it"});
+      Commons.operationError({ errorMessage: "Your account is not enabled. Check your emails to enable it" });
     }
 
     else {
@@ -79,26 +104,24 @@ class LoginView extends Component {
     sessionStorage.setItem("userLoggedEmail", this.state.formEmail);
     sessionStorage.setItem("userId", responseData.principal.id);
     sessionStorage.setItem("headerToken",
-    Commons.getAuthorizationToken(this.state.formEmail, this.state.psw)
+      Commons.getAuthorizationToken(this.state.formEmail, this.state.psw)
     );
     let queryParams = new URLSearchParams(this.props.location.search);
     let targetPage = queryParams.get('targetPage');
 
     if (targetPage) {
-        // Se c'è un valore targetPage, reindirizza l'utente alla pagina corrispondente dopo il login
-        this.props.history.push(`/${targetPage}`);
+      // Se c'è un valore targetPage, reindirizza l'utente alla pagina corrispondente dopo il login
+      this.props.history.push(`/${targetPage}`);
     } else {
-        // Altrimenti, reindirizza l'utente alla homepage dopo il login
-        this.props.history.push('/');
+      // Altrimenti, reindirizza l'utente alla homepage dopo il login
+      this.props.history.push('/');
     }
     // this.props.history.push("/");
   };
 
   setUserData = (responseData) => {
-	  //salvataggio variabili user su sessionStorage
-    this.setState({ user: responseData }); 
-	  sessionStorage.setItem("user", JSON.stringify(responseData));
-
+    this.setState({ user: responseData });
+    sessionStorage.setItem("user", JSON.stringify(responseData));
     this.checkCredentials();
   }
 
@@ -113,6 +136,23 @@ class LoginView extends Component {
   };
 
   render() {
+    // sessionStorage.setItem("applicationInfo", responseData);
+    //const applicationInfoData = JSON.parse(sessionStorage.getItem("applicationInfo"));
+    // console.log("applicationInfoData: ----->");
+    // console.log(applicationInfoData);
+    // console.log(JSON.stringify(applicationInfoData));
+    // console.log(JSON.parse(applicationInfoData));
+    const infoTooltipedIcon =
+      ((this.state.applicationInfoData !== null) ?
+        (<Tooltip title={"Versione backend: " + this.state.applicationInfoData.backendVersion}>
+          <Button sx={{ m: 1 }}><InfoIcon style={{ color: '#000', fontSize: "medium", margin: "0px", padding: "0px", minWIdth: "0px" }} /></Button>
+        </Tooltip>)
+        :
+        '');
+    // const infoTooltipedIcon = ((applicationInfoData!==null&&applicationInfoData!=undefined)?(<Tooltip title={"Versione backend: " + JSON.stringify(applicationInfoData)}>
+    //   <Button sx={{ m: 1 }}><InfoIcon style={{color:'#000',fontSize:"medium", margin: "0px", padding: "0px", minWIdth: "0px"}}/></Button>
+    // </Tooltip>):'');
+
     return (
       <div className="container-fluid ">
         <ModalLoadingSpinnerComponent />
@@ -121,6 +161,9 @@ class LoginView extends Component {
             <div className="login-main-text">
               <img src={centauri_logo} alt="logo" className="login_logo" />
               <span className="title">CeRePro</span>
+
+              {infoTooltipedIcon}
+
             </div>
           </div>
           <div className="login-form">
@@ -152,7 +195,7 @@ class LoginView extends Component {
                     required
                   />
                 </div>
-                <div style={{display:"flex", justifyContent:"space-between"}}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <input type="submit" className="btn btn-black" value="ENTRA" />
                   <Registration />
                 </div>
