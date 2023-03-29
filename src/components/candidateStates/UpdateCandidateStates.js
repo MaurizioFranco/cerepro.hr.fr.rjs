@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
+import styles from "../../styles.js";
 
 import "react-toastify/dist/ReactToastify.css";
 import * as Commons from "../../commons.js";
@@ -116,7 +117,7 @@ class UpdateCandidateStates extends React.Component {
               name="statusCode"
               value={this.state.statusCode}
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
@@ -124,7 +125,7 @@ class UpdateCandidateStates extends React.Component {
               name="statusLabel"
               value={this.state.statusLabel}
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
@@ -132,7 +133,7 @@ class UpdateCandidateStates extends React.Component {
               name="statusDescription"
               value={this.state.statusDescription}
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
@@ -140,21 +141,19 @@ class UpdateCandidateStates extends React.Component {
               name="statusColor"
               value={this.state.statusColor}
               onChange={this.handleChange}
-              style={{ marginBottom: "20px" }}
+              style={styles.fieldBeforeButtons}
             />
           </DialogContent>
           <DialogActions>
           <Button
               onClick={this.handleSubmit}
-              style={{ marginRight: "14px" }}
-              color="primary"
+              style={styles.saveButton}
             >
               Save
             </Button>
             <Button 
               onClick={this.cancelSubmit}
-              style={{ margin: "7px" }}
-              color="secondary"
+              style={styles.cancelButton}
             >
               Cancel
             </Button>

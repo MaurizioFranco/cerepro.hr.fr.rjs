@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
+import styles from "../../styles.js";
 
 class UpdateUserPassword extends React.Component {
   constructor(props) {
@@ -87,7 +88,7 @@ class UpdateUserPassword extends React.Component {
                 type="password"
                 value={password}
                 onChange={this.handleInputChange}
-                style={{ marginBottom: "10px" }}
+                style={styles.field}
               />
               <TextField
                 fullWidth
@@ -102,28 +103,22 @@ class UpdateUserPassword extends React.Component {
                     ? "Le due password non corrispondono"
                     : ""
                 }
-                style={{ marginBottom: "20px" }}
+                style={styles.fieldBeforeButtons}
               />
             </DialogContent>
             <DialogActions>
-              <Button type="submit" disabled={!isFormValid} color="primary">
+              <Button type="submit" disabled={!isFormValid} style={styles.saveButton}>
                 Save
               </Button>
               <Button
-                onClick={() => this.setState({ isModalOpen: false })}
-                color="secondary"
-              >
+                onClick={() => this.setState({ isModalOpen: false })} style={styles.cancelButton}>
                 Cancel
               </Button>
             </DialogActions>
           </form>
         </Dialog>
         <Button
-           variant="contained"
-           style={{
-             backgroundColor: "green",
-             color: "#fff"
-           }}
+          style={styles.resetPasswordButton}
           onClick={() => this.setState({ isModalOpen: true })}
         >
           Cambia password

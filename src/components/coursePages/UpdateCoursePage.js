@@ -179,7 +179,7 @@ class UpdateCoursePages extends React.Component {
               name="bodyText"
               value={this.state.bodyText}
               onChange={this.handleChange}
-              style={styles.fieldBeforeSelectLabel}
+              style={styles.fieldBeforeSelectWithLabel}
             />
             <InputLabel>HR RESPONSABILE DELLA POSIZIONE</InputLabel>
             <Select

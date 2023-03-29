@@ -6,11 +6,9 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
-  Switch,
-  Typography,
-  Grid,
+  DialogActions
 } from "@material-ui/core";
+import styles from "../../styles.js";
 
 import "react-toastify/dist/ReactToastify.css";
 import * as Commons from "../../commons.js";
@@ -115,7 +113,7 @@ class UpdateUser extends React.Component {
               name="email"
               value={this.state.email}
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
@@ -123,7 +121,7 @@ class UpdateUser extends React.Component {
               name="firstname"
               value={this.state.firstname}
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
@@ -131,7 +129,7 @@ class UpdateUser extends React.Component {
               name="lastname"
               value={this.state.lastname}
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
@@ -140,21 +138,19 @@ class UpdateUser extends React.Component {
               type="number"
               value={this.state.role}
               onChange={this.handleChange}
-              style={{ marginBottom: "20px" }}
+              style={styles.fieldBeforeButtons}
             />
           </DialogContent>
           <DialogActions>
           <Button
               onClick={this.handleSubmit}
-              style={{ marginRight: "14px" }}
-              color="primary"
+              style={styles.saveButton}
             >
               Save
             </Button>
             <Button 
               onClick={this.cancelSubmit}
-              style={{ margin: "7px" }}
-              color="secondary"
+              style={styles.cancelButton}
             >
               Cancel
             </Button>

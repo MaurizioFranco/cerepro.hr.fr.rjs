@@ -15,14 +15,18 @@ const styles = {
     marginBottom: "20px",
   },
 
-  fieldBeforeSelectLabel: {
+  fieldBeforeSelect: {
+    marginBottom: "17px",
+  },
+
+  fieldBeforeSelectWithLabel: {
     marginBottom: "30px",
   },
 
   saveButton: {
     marginRight: "14px",
     color: "#fff",
-    backgroundColor: "#b375f9",
+    backgroundColor: "#57aaff",
   },
 
   cancelButton: {
@@ -32,12 +36,26 @@ const styles = {
   },
 
   addButton: {
+    marginRight: "40px",
+    marginBottom: "40px",
     backgroundColor: "green",
     color: "#fff",
+    float: "right",
+  },
+
+  resetPasswordButton: {
+    color: "#fff",
+    backgroundColor: "#b375f9",
   },
 
   table: {
     minWidth: 650,
+  },
+
+  tableContainer: {
+    paddingLeft: "40px",
+    paddingRight: "40px",
+    paddingBottom: "140px",
   },
 
   evenRow: {

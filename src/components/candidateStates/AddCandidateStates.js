@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
+import styles from "../../styles.js";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -80,42 +81,40 @@ class AddCandidateStates extends React.Component {
               label="Status Code"
               name="statusCode"
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
               label="Status Label"
               name="statusLabel"
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
               label="Status Description"
               name="statusDescription"
               onChange={this.handleChange}
-              style={{ marginBottom: "10px" }}
+              style={styles.field}
             />
             <TextField
               fullWidth
               label="Status Color"
               name="statusColor"
               onChange={this.handleChange}
-              style={{ marginBottom: "20px" }}
+              style={styles.fieldBeforeButtons}
             />
           </DialogContent>
           <DialogActions>
           <Button
               onClick={this.handleSubmit}
-              style={{ marginRight: "14px" }}
-              color="primary"
+              style={styles.saveButton}
             >
               Save
             </Button>
             <Button 
               onClick={this.cancelSubmit}
-              style={{ margin: "7px" }}
-              color="secondary"
+              style={styles.cancelButton}
             >
               Cancel
             </Button>
@@ -123,7 +122,7 @@ class AddCandidateStates extends React.Component {
         </Dialog>
           <Button
             variant="contained"
-            className={"add-button"}
+            style={styles.addButton}
             onClick={() => this.setState({ isModalOpen: true })}
           >
             +

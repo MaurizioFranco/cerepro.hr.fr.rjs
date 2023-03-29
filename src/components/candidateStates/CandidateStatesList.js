@@ -8,6 +8,7 @@ import './CandidateStatesList.css';
 import AddCandidateStates from "./AddCandidateStates.js";
 import UpdateCandidateStates from "./UpdateCandidateStates.js";
 
+import { withStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableBody,
@@ -17,6 +18,7 @@ import {
   TableRow,
   Paper
 } from "@material-ui/core";
+import styles from "../../styles.js";
 
 import "react-table-6/react-table.css";
 
@@ -25,7 +27,6 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 
 import DeleteButton from "../../commons/DeleteButton.js";
 import PageMainTitle from "../../commons/PageMainTitle.js";
-
 import './AddCandidateStates.css';
 
 class CandidateStatesList extends Component {
@@ -81,6 +82,7 @@ class CandidateStatesList extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <div className="App">
         <div class="panel panel-default">
@@ -140,4 +142,4 @@ class CandidateStatesList extends Component {
   }
 }
 
-export default CandidateStatesList ;
+export default withStyles(styles)(CandidateStatesList);
