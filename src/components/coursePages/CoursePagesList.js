@@ -8,6 +8,7 @@ import {
   TableRow,
   Paper
 } from "@material-ui/core";
+import styles from "../../styles.js";
 import AddCoursePages from "./AddCoursePage.js";
 import UpdateCoursePage from "./UpdateCoursePage.js";
 import * as Commons from "../../commons.js";
