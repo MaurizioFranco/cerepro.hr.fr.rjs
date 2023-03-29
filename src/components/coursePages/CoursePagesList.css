@@ -1,2 +1,12 @@
 @import url("../../commons/tables.css");
 @import url("../../commons/pages.css");
+
+.blink {
+    animation: blinker 1s linear infinite;
+  }
+  
+  @keyframes blinker {
+    50% {
+      background-color: #f7d794;
+    }
+  }

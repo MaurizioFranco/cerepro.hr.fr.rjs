@@ -16,16 +16,24 @@ import * as Constants from "../../constants.js";
 import DeleteButton from "../../commons/DeleteButton.js";
 import PageMainTitle from "../../commons/PageMainTitle.js";
 import styles from "../../styles.js";
+import './CoursePagesList.css';
 
 export default class CoursePagesList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       coursePages: [],
+      positionCode:""
     };
   }
 
   componentDidMount() {
+    const hashString = window.location.hash.slice(1);
+    const url = new URL(hashString, window.location.href);
+    const positionCode = url.searchParams.get("positionCode");
+    if (positionCode) {
+      this.setState({positionCode:positionCode})
+    } 
     this.getCoursePages();
   }
 
@@ -44,7 +52,7 @@ export default class CoursePagesList extends Component {
     });
   };
 
-setTime = (expirationDateTime) => {
+  setTime = (expirationDateTime) => {
     if (expirationDateTime != null) {
       const expirationTime = new Date(expirationDateTime)
       const date = expirationTime.toLocaleDateString();
@@ -65,52 +73,55 @@ setTime = (expirationDateTime) => {
     return (
       <div style={styles.divContainer} className="App">
         <div class="panel panel-default">
-					<PageMainTitle text={"POSIZIONI"} />
+          <PageMainTitle text={"POSIZIONI"} />
           <AddCoursePages refreshCoursePagesList={this.getCoursePages} />
-				</div>
+        </div>
         <TableContainer component={Paper}>
           <Table className={"table-style"}>
-						<TableHead>
-							<TableRow className={"table-head-row"}>
-                  <TableCell style={{ color: "#fff" }}>POSIZIONE</TableCell>
-                  <TableCell style={{ color: "#fff" }}>CODICE NUMERICO</TableCell>
-                  <TableCell style={{ color: "#fff" }}>CODICE ALFANUMERICO</TableCell>
-                  <TableCell style={{ color: "#fff" }}>BREVE DESCRIZIONE</TableCell>
-                  <TableCell style={{ color: "#fff" }}>HR RESPONSABILE DELLA POSIZIONE</TableCell>
-                  <TableCell style={{ color: "#fff" }}>APERTO DA</TableCell>
-                  <TableCell style={{ color: "#fff" }}>APERTA IL</TableCell>
-                  <TableCell style={{ color: "#333" }}></TableCell>
-                  <TableCell style={{ color: "#333" }}></TableCell>
+            <TableHead>
+              <TableRow className={"table-head-row"}>
+                <TableCell style={{ color: "#fff" }}>POSIZIONE</TableCell>
+                <TableCell style={{ color: "#fff" }}>CODICE NUMERICO</TableCell>
+                <TableCell style={{ color: "#fff" }}>CODICE ALFANUMERICO</TableCell>
+                <TableCell style={{ color: "#fff" }}>BREVE DESCRIZIONE</TableCell>
+                <TableCell style={{ color: "#fff" }}>HR RESPONSABILE DELLA POSIZIONE</TableCell>
+                <TableCell style={{ color: "#fff" }}>APERTO DA</TableCell>
+                <TableCell style={{ color: "#fff" }}>APERTA IL</TableCell>
+                <TableCell style={{ color: "#333" }}></TableCell>
+                <TableCell style={{ color: "#333" }}></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {this.state.coursePages.map((coursePage, index) => (
+                <TableRow
+                  key={index}
+                  className={
+                    index % 2 === 0 ? "table-style-even-row" : "table-style-odd-row"
+                  }
+                  style={
+                    coursePage.code === this.state.positionCode ? {animation: "blinker 1s linear infinite"}:{}
+                  }
+                >
+                  <TableCell>{coursePage.title}</TableCell>
+                  <TableCell component="th" scope="row">
+                    {coursePage.id}
+                  </TableCell>
+                  <TableCell>{coursePage.code}</TableCell>
+                  <TableCell>{coursePage.bodyText}</TableCell>
+                  <TableCell>{coursePage.coursePageOwnerFirstname !== "null" ? coursePage.coursePageOwnerFirstname : ""} {coursePage.coursePageOwnerLastname !== "null" ? coursePage.coursePageOwnerLastname : ""}</TableCell>
+                  <TableCell>{coursePage.coursePageFirstNameOpenedBy} {coursePage.coursePageLastNameOpenedBy}</TableCell>
+                  <TableCell>{this.setTime(coursePage.created_datetime)}</TableCell>
+                  <TableCell>
+                    <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} coursePage={coursePage} />
+                  </TableCell>
+                  <TableCell>
+                    <DeleteButton onClick={() => Commons.confirmDelete("Sei sicuro di voler cancellare la posizione " + coursePage.code + "?", "Si", "No", Constants.FULL_COURSEPAGE_API_URI + coursePage.id, this.deleteSuccess, Commons.operationError)} />
+                  </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.coursePages.map((coursePage, index) => (
-                  <TableRow
-                    key={index}
-                    className={
-                      index % 2 === 0 ? "table-style-even-row" : "table-style-odd-row"
-                    }
-                  >
-                    <TableCell>{coursePage.title}</TableCell>
-                    <TableCell component="th" scope="row">
-                      {coursePage.id}
-                    </TableCell>
-                    <TableCell>{coursePage.code}</TableCell>
-                    <TableCell>{coursePage.bodyText}</TableCell>
-                    <TableCell>{coursePage.coursePageOwnerFirstname !== "null" ? coursePage.coursePageOwnerFirstname : ""} {coursePage.coursePageOwnerLastname !== "null" ? coursePage.coursePageOwnerLastname : ""}</TableCell>
-                    <TableCell>{coursePage.coursePageFirstNameOpenedBy} {coursePage.coursePageLastNameOpenedBy}</TableCell>
-                    <TableCell>{this.setTime(coursePage.created_datetime)}</TableCell>
-                    <TableCell>
-                      <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} coursePage={coursePage}/>
-                    </TableCell>
-                    <TableCell>
-                      <DeleteButton onClick={() => Commons.confirmDelete("Sei sicuro di voler cancellare la posizione " + coursePage.code + "?", "Si", "No", Constants.FULL_COURSEPAGE_API_URI + coursePage.id, this.deleteSuccess, Commons.operationError)}/>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     );
   }
