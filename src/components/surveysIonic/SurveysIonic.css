@@ -32,10 +32,11 @@
     padding: 6px 12px;
   }
 
-  #labelText{
-    font-size: 14px;
-    white-space: normal;
-  }
+}
+
+#labelText{
+  /* font-size: 14px; */
+  white-space: normal;
 }
 
 @media only screen and (max-width: 600px) {
