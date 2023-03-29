@@ -44,15 +44,18 @@ class UpdateUser extends React.Component {
   }
 
   setUser = (data) => {
-    const roleLabel = this.state.roles;
-    const role = roleLabel.find(role => role.level === data.role);
+    // const roleLabel = this.state.roles;
+    // const role = roleLabel.find(role => role.level === data.role);
+    // console.log("++++++++++++++++++++++++++++++" + role.label)
+    // if(role){
+    //   this.setState({selectedRole : role.label})
+    // }
     this.setState({
       email: data.email,
       firstname: data.firstname,
       lastname: data.lastname,
       role: data.role,
       enabled: data.enabled,
-      selectedRole : role.label
     });
   };
 
