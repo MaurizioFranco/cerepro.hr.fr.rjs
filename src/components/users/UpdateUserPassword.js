@@ -7,7 +7,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
-import { VpnKey } from "@material-ui/icons";
+import { Cancel, Save, VpnKey } from "@material-ui/icons";
 import styles from "../../styles.js";
 
 import * as Commons from "../../commons.js";
@@ -109,11 +109,11 @@ class UpdateUserPassword extends React.Component {
               />
             </DialogContent>
             <DialogActions>
-              <Button type="submit" disabled={!isFormValid} style={styles.saveButton}>
+              <Button type="submit" disabled={!isFormValid} endIcon={<Save />} style={styles.saveButton}>
                 Save
               </Button>
               <Button
-                onClick={() => this.setState({ isModalOpen: false })} style={styles.cancelButton}>
+                onClick={() => this.setState({ isModalOpen: false })} endIcon={<Cancel />} style={styles.cancelButton}>
                 Cancel
               </Button>
             </DialogActions>
