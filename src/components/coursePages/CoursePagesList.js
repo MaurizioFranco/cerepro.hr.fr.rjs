@@ -6,13 +6,15 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper
+  Paper,
+  Icon
 } from "@material-ui/core";
 import styles from "../../styles.js";
 import AddCoursePages from "./AddCoursePage.js";
 import UpdateCoursePage from "./UpdateCoursePage.js";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
+import { CheckCircle } from '@material-ui/icons';
 
 import DeleteButton from "../../commons/DeleteButton.js";
 import PageMainTitle from "../../commons/PageMainTitle.js";
@@ -62,6 +64,14 @@ setTime = (expirationDateTime) => {
     }
   }
 
+  setStatusOpen = (statusOpen) => {
+    if(statusOpen === true){
+      return <Icon color="secondary"><CheckCircle /></Icon>;
+    }else{
+      return <Icon color="disabled"><CheckCircle /></Icon>;
+    }
+  }
+
   deleteSuccess = (response) => {
     Commons.operationSuccess(response, "Cancellazione posizione avvenuta con successo");
     this.getCoursePages();
@@ -76,6 +86,7 @@ setTime = (expirationDateTime) => {
         </div>
         <TableContainer component={Paper}>
           <Table className={"table-style"}>
+<<<<<<< HEAD
 						<TableHead>
 							<TableRow className={"table-head-row"}>
                   <TableCell style={{ color: "#fff" }}>POSIZIONE</TableCell>
@@ -87,6 +98,49 @@ setTime = (expirationDateTime) => {
                   <TableCell style={{ color: "#fff" }}>APERTA IL</TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
                   <TableCell style={{ color: "#333" }}></TableCell>
+=======
+            <TableHead>
+              <TableRow className={"table-head-row"}>
+                <TableCell style={{ color: "#fff" }}>POSIZIONE</TableCell>
+                <TableCell style={{ color: "#fff" }}>CODICE NUMERICO</TableCell>
+                <TableCell style={{ color: "#fff" }}>CODICE ALFANUMERICO</TableCell>
+                <TableCell style={{ color: "#fff" }}>BREVE DESCRIZIONE</TableCell>
+                <TableCell style={{ color: "#fff" }}>HR RESPONSABILE DELLA POSIZIONE</TableCell>
+                <TableCell style={{ color: "#fff" }}>APERTO DA</TableCell>
+                <TableCell style={{ color: "#fff" }}>APERTA IL</TableCell>
+                <TableCell style={{ color: "#fff" }}>STATO</TableCell>
+                <TableCell style={{ color: "#333" }}></TableCell>
+                <TableCell style={{ color: "#333" }}></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {this.state.coursePages.map((coursePage, index) => (
+                <TableRow
+                  key={index}
+                  className={
+                    index % 2 === 0 ? "table-style-even-row" : "table-style-odd-row"
+                  }
+                  style={
+                    coursePage.code === this.state.positionCode ? {animation: "blinker 1s linear infinite"}:{}
+                  }
+                >
+                  <TableCell>{coursePage.title}</TableCell>
+                  <TableCell component="th" scope="row">
+                    {coursePage.id}
+                  </TableCell>
+                  <TableCell>{coursePage.code}</TableCell>
+                  <TableCell>{coursePage.bodyText}</TableCell>
+                  <TableCell>{coursePage.coursePageOwnerFirstname !== "null" ? coursePage.coursePageOwnerFirstname : ""} {coursePage.coursePageOwnerLastname !== "null" ? coursePage.coursePageOwnerLastname : ""}</TableCell>
+                  <TableCell>{coursePage.coursePageFirstNameOpenedBy} {coursePage.coursePageLastNameOpenedBy}</TableCell>
+                  <TableCell>{this.setTime(coursePage.created_datetime)}</TableCell>
+                  <TableCell>{this.setStatusOpen(coursePage.statusOpen)}</TableCell>
+                  <TableCell>
+                    <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} coursePage={coursePage} />
+                  </TableCell>
+                  <TableCell>
+                    <DeleteButton onClick={() => Commons.confirmDelete("Sei sicuro di voler cancellare la posizione " + coursePage.code + "?", "Si", "No", Constants.FULL_COURSEPAGE_API_URI + coursePage.id, this.deleteSuccess, Commons.operationError)} />
+                  </TableCell>
+>>>>>>> refs/remotes/origin/#107
                 </TableRow>
               </TableHead>
               <TableBody>
