@@ -7,7 +7,10 @@ import {
   DialogContent,
   DialogActions,
   InputLabel,
-  Select
+  Select,
+  Grid,
+  Switch,
+  Typography
 } from "@material-ui/core";
 
 import * as Commons from "../../commons.js";
@@ -32,7 +35,8 @@ class UpdateCoursePages extends React.Component {
       userId:"",
       selectedOwner: props.coursePage.selectedOwner,
       coursePageOwnerFirstname: props.coursePage.coursePageOwnerFirstname,
-      coursePageOwnerLastname : props.coursePage.coursePageOwnerLastname
+      coursePageOwnerLastname : props.coursePage.coursePageOwnerLastname,
+      statusOpen : props.coursePage.statusOpen
     };
     this.gridRef = React.createRef();
   }
@@ -53,7 +57,7 @@ class UpdateCoursePages extends React.Component {
   }
 
   handleSubmit = () => {
-    const { title, code, bodyText,coursePageOwnerFirstname,coursePageOwnerLastname,userId } = this.state;
+    const { title, code, bodyText,coursePageOwnerFirstname,coursePageOwnerLastname,userId,statusOpen } = this.state;
     const { coursePage } = this.props;
 
     const updatedCoursePage = {
@@ -63,7 +67,8 @@ class UpdateCoursePages extends React.Component {
       bodyText,
       coursePageOwnerFirstname ,
       coursePageOwnerLastname,
-      userId
+      userId,
+      statusOpen
     };
 
     console.log("item updatato " + JSON.stringify(updatedCoursePage))
@@ -194,6 +199,21 @@ class UpdateCoursePages extends React.Component {
                 <option key={owner} value={owner}>{owner.firstname + " " + owner.lastname}</option>
               ))}
             </Select>
+            <Grid container alignItems="center" justify="flex-start">
+              <Grid item>
+                <Typography variant="subtitle1" gutterBottom>
+                  Stato:
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Switch
+                  checked={this.state.statusOpen}
+                  onChange={(event) => this.setState({ statusOpen: event.target.checked })}
+                  name="enabled"
+                  inputProps={{ 'aria-label': 'Enable user' }}
+                />
+              </Grid>
+            </Grid>
           </DialogContent>
           <DialogActions>
             <SaveButton onClick={() => this.handleSubmit()}/>

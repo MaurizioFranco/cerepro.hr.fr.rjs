@@ -6,12 +6,14 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper
+  Paper,
+  Icon
 } from "@material-ui/core";
 import AddCoursePages from "./AddCoursePage.js";
 import UpdateCoursePage from "./UpdateCoursePage.js";
 import * as Commons from "../../commons.js";
 import * as Constants from "../../constants.js";
+import { CheckCircle } from '@material-ui/icons';
 
 import DeleteButton from "../../commons/DeleteButton.js";
 import PageMainTitle from "../../commons/PageMainTitle.js";
@@ -64,6 +66,14 @@ export default class CoursePagesList extends Component {
     }
   }
 
+  setStatusOpen = (statusOpen) => {
+    if(statusOpen === true){
+      return <Icon color="secondary"><CheckCircle /></Icon>;
+    }else{
+      return <Icon color="disabled"><CheckCircle /></Icon>;
+    }
+  }
+
   deleteSuccess = (response) => {
     Commons.operationSuccess(response, "Cancellazione posizione avvenuta con successo");
     this.getCoursePages();
@@ -87,6 +97,7 @@ export default class CoursePagesList extends Component {
                 <TableCell style={{ color: "#fff" }}>HR RESPONSABILE DELLA POSIZIONE</TableCell>
                 <TableCell style={{ color: "#fff" }}>APERTO DA</TableCell>
                 <TableCell style={{ color: "#fff" }}>APERTA IL</TableCell>
+                <TableCell style={{ color: "#fff" }}>STATO</TableCell>
                 <TableCell style={{ color: "#333" }}></TableCell>
                 <TableCell style={{ color: "#333" }}></TableCell>
               </TableRow>
@@ -111,6 +122,7 @@ export default class CoursePagesList extends Component {
                   <TableCell>{coursePage.coursePageOwnerFirstname !== "null" ? coursePage.coursePageOwnerFirstname : ""} {coursePage.coursePageOwnerLastname !== "null" ? coursePage.coursePageOwnerLastname : ""}</TableCell>
                   <TableCell>{coursePage.coursePageFirstNameOpenedBy} {coursePage.coursePageLastNameOpenedBy}</TableCell>
                   <TableCell>{this.setTime(coursePage.created_datetime)}</TableCell>
+                  <TableCell>{this.setStatusOpen(coursePage.statusOpen)}</TableCell>
                   <TableCell>
                     <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} coursePage={coursePage} />
                   </TableCell>
