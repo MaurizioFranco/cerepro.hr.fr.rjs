@@ -70,4 +70,5 @@ class UpdateUserEnabled extends React.Component {
         );
     }
 }
+
 export default UpdateUserEnabled;
