@@ -117,11 +117,10 @@ class AddQuestion extends React.Component {
 
     resetData = () => {
         this.setState({
+            selectedCourseCode: '',
             selectedEmail: '',
             selectedSurveyLabel: '',
-            selectedDate: ''
-        }, () => {
-            document.getElementById('date-input').value = '';
+            selectedDate: '',
         });
     }
 
