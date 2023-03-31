@@ -34,14 +34,14 @@ class UpdateUser extends React.Component {
     this.gridRef = React.createRef();
   }
 
-  componentDidMount() {
-    Commons.executeFetch(
-      Constants.USER_API_URI + this.props.idItemToUpdate,
-      "GET",
-      this.setUser,
-      Commons.operationError
-    );
-  }
+  // componentDidMount() {
+  //   Commons.executeFetch(
+  //     Constants.USER_API_URI + this.props.idItemToUpdate,
+  //     "GET",
+  //     this.setUser,
+  //     Commons.operationError
+  //   );
+  // }
 
   setUser = (data) => {
     // const roleLabel = this.state.roles;
@@ -50,12 +50,18 @@ class UpdateUser extends React.Component {
     // if(role){
     //   this.setState({selectedRole : role.label})
     // }
+    console.log("setUser");
+    console.log(data);
+    const selectedRole = this.state.roles.find(role => role.level === data.role);
+    console.log("selectedRole");
+    console.log(selectedRole);
     this.setState({
       email: data.email,
       firstname: data.firstname,
       lastname: data.lastname,
       role: data.role,
       enabled: data.enabled,
+      selectedRole: selectedRole
     });
   };
 
@@ -93,12 +99,20 @@ class UpdateUser extends React.Component {
 
   initializeAndShow = () => {
     console.log(this.props.idItemToUpdate);
+    console.log(this.state.roles);
     this.getItemById();
+    this.setState({ isModalOpen: true });
     //this.gridRef.current.show();
   }
 
   getItemById = () => {
-    Commons.executeFetch(Constants.USER_API_URI + this.props.idItemToUpdate, "GET", this.setItemToUpdate);
+    // Commons.executeFetch(Constants.USER_API_URI + this.props.idItemToUpdate, "GET", this.setItemToUpdate);
+    Commons.executeFetch(
+      Constants.USER_API_URI + this.props.idItemToUpdate,
+      "GET",
+      this.setUser,
+      Commons.operationError
+    );
   }
 
   setItemToUpdate = (responseData) => {
@@ -110,6 +124,11 @@ class UpdateUser extends React.Component {
       role: responseData.role,
       enabled: responseData.enabled,
     });
+  }
+
+  showUpdateModal = () => {
+    console.log("show modal");
+      this.setState({ isModalOpen: true });
   }
 
   render() {
@@ -170,7 +189,7 @@ class UpdateUser extends React.Component {
           </DialogActions>
         </Dialog>
         <div>
-          <EditButton onClick={() => this.setState({ isModalOpen: true })} />
+          <EditButton onClick={() => this.initializeAndShow()} />
         </div>
       </div>
     );
