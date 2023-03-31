@@ -24,6 +24,8 @@ import styles from '../../styles';
 import downloadIcon from "../../images/download_icon.png";
 import DeleteButton from "../../commons/DeleteButton.js";
 import PageMainTitle from '../../commons/PageMainTitle';
+import UpdateCoursePages from '../coursePages/UpdateCoursePage';
+import CandidateUpdateForm from './update/CandidateUpdateForm';
 
 const CANDIDATE_API = '/api/v1/candidatecustom/' ;
 const CANDIDATE_GET_LIST_API = CANDIDATE_API + 'paginated/1000/0/' ;
@@ -96,6 +98,11 @@ class CandidateList extends Component {
 		const { match: { params } } = this.props;
 		this.fetchCandidates(params.id);
 	}
+
+	refreshCoursePage = () =>{
+		const { match: { params } } = this.props;
+		this.fetchCandidates(params.id);
+	}
 	
 	
 	  deleteSuccess = (response) => {
@@ -155,11 +162,12 @@ class CandidateList extends Component {
 								<TableCell>{candidate.insertedByFirstname} {candidate.insertedByLastname}</TableCell>
 								<TableCell>
 								{/* <UpdateUser refreshCandidatesList={this.getCandidates} idItemToUpdate={candidate.id} /> */}
-								<Link to={"/editCandidate/" + candidate.id}>
+								{/* <Link to={"/editCandidate/" + candidate.id}>
 									<ReactBootstrap.Button variant="primary">
 										Modifica
 									</ReactBootstrap.Button>
-								</Link>
+								</Link> */}
+								<CandidateUpdateForm updateCoursePageList={this.refreshCoursePage} candidate={candidate.id}/>
 								</TableCell>
 								<TableCell>
 		                            <DeleteButton onClick={() => Commons.confirmDelete("Sei sicuro di voler cancellare il candidato " + candidate.firstname + " " + candidate.lastname + "?", "Si", "No", Constants.FULL_CANDIDATE_CUSTOM_API_URI + candidate.id, this.deleteSuccess, this.deleteFailed)}/>
