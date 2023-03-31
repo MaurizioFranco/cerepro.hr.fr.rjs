@@ -22,8 +22,14 @@
 	color: #fff;
 /* 	width: 100%; */
 }
+
 .panel-body {
 	padding: 10px 15px;
+}
+
+.profileCvImages {
+  max-width: 50px;
+  max-height: 50px;
 }
 
 

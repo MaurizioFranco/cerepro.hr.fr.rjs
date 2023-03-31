@@ -71,8 +71,13 @@ const styles = {
     paddingBottom: "40px",
   },
 
-  marginWithoutAdd : {
+  marginWithoutAdd: {
     marginBottom: "30px",
+  },
+
+  label: {
+    marginBottom: "0px",
+    paddingBottom: "0px",
   },
 
   evenRow: {

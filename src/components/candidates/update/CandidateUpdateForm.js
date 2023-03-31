@@ -6,8 +6,7 @@ import CandidateUpdateFormPositionCodeSelect from './CandidateUpdateFormPosition
 import CandidateProfileCVDownloadImage from '../CandidateProfileCVDownloadImage.js';
 import Select from 'react-select';
 import CandidateProfileImage from '../CandidateProfileImage.js';
-import { Redirect, withRouter } from 'react-router-dom'
-import { Button } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom'
 import EditButton from "../../../commons/EditButton.js";
 import SaveButton from "../../../commons/SaveButton.js";
 import CancelButton from "../../../commons/CancelButton.js";
@@ -252,6 +251,7 @@ class CandidateUpdateForm extends Component {
 				>
 					<DialogTitle>Modifica Candidato</DialogTitle>
 					<DialogContent>
+
 						<TextField
 							fullWidth
 							label="Nome"
@@ -260,6 +260,7 @@ class CandidateUpdateForm extends Component {
 							onChange={this.handleInputChange}
 							style={styles.field}
 						/>
+
 						<TextField
 							fullWidth
 							label="Cognome"
@@ -268,33 +269,37 @@ class CandidateUpdateForm extends Component {
 							onChange={this.handleInputChange}
 							style={styles.field}
 						/>
+
 						<TextField
 							fullWidth
-							label="Email"
-							name="email"
+							label="E-mail"
+							name="e-mail"
 							value={this.state.email}
 							onChange={this.handleInputChange}
 							style={styles.field}
 						/>
+
 						<TextField
 							fullWidth
-							label="Numero di telefono(personale)"
-							name="numero di telefono(personale)"
+							label="Numero di telefono personale"
+							name="numero di telefono personale"
 							value={this.state.mobile}
 							onChange={this.handleInputChange}
 							style={styles.field}>
 						</TextField>
-						<label>Data di Nascita</label>
+
+						<label style={styles.label}>Data di Nascita</label>
 						<TextField
 							fullWidth
 							name="Data di nascita"
 							type="date"
 							value={this.state.birthdate}
 							onChange={this.handleInputChange}
-							style={styles.field}
+							style={styles.fieldBeforeSelect}
 						>
-							<input id="date-input" type="date"></input>
+						<input id="date-input" type="date"></input>
 						</TextField>
+
 						<TextField
 							fullWidth
 							label="Domicilio"
@@ -303,6 +308,7 @@ class CandidateUpdateForm extends Component {
 							onChange={this.handleInputChange}
 							style={styles.field}
 						/>
+
 						<TextField
 							fullWidth
 							label="Titolo di studio"
@@ -311,6 +317,7 @@ class CandidateUpdateForm extends Component {
 							onChange={this.handleInputChange}
 							style={styles.field}
 						/>
+
 						<FormControlLabel
 							control={
 								<Checkbox
@@ -321,6 +328,7 @@ class CandidateUpdateForm extends Component {
 							}
 							label="Laureato"
 						/><br></br>
+
 						<FormControlLabel
 							control={
 								<Checkbox
@@ -331,6 +339,7 @@ class CandidateUpdateForm extends Component {
 							}
 							label="Laurea Magistrale (già conseguita)"
 						/><br></br>
+
 						<FormControlLabel
 							control={
 								<Checkbox
@@ -344,23 +353,24 @@ class CandidateUpdateForm extends Component {
 
 						<label>Posizione</label>
 						<CandidateUpdateFormPositionCodeSelect defaultValue={this.state.courseCode} setCandidateNewPositionCode={this.setCandidateNewPositionCode} />
-						
-						<label>Allega CV(.doc,.pdf,.docx,.odt)</label>
+						<br></br>
+						<label>Allega CV (.doc, .pdf, .docx, .odt)</label>
 						<CandidateProfileCVDownloadImage cvExternalPath={this.state.oldCV} />
-						<input type="file" id="cvpath" accept=".doc,.pdf,.docx,.odt" />
-
-						<label>Allega immagine profilo(.png,.jpeg,.gif,.jpg)</label>
+						<input style={styles.fieldBeforeSelectWithLabel} type="file" id="cvpath" accept=".doc,.pdf,.docx,.odt" />
+						<br></br>
+						<label>Allega immagine profilo (.png, .jpeg, .gif, .jpg)</label>
 						<CandidateProfileImage img={this.state.oldImg} />
-						<input type="file" id="imgpath" accept=".png,.jpeg,.gif,.jpg" />
-
+						<input style={styles.fieldBeforeSelect} type="file" id="imgpath" accept=".png,.jpeg,.gif,.jpg" />
+						<br></br>
 						<label>Note tecniche</label>
-						<textarea value={this.state.note} name="note" onChange={this.handleInputChange} rows="10" className="note-textarea" />
-						<label>Stato candidatura</label>
+						<textarea style={styles.field} value={this.state.note} name="note" onChange={this.handleInputChange} rows="10" className="note-textarea" />
 
+						<label>Stato candidatura</label>
 						<Select
 							value={this.state.candidateStates.filter(({ value }) => value === this.state.candidateStatusCode)}
 							onChange={this.handleCandidatesStatesChange}
 							options={this.state.candidateStates}
+							style={styles.fieldBeforeButtons}
 						/>
 						<br></br>
 					</DialogContent>
