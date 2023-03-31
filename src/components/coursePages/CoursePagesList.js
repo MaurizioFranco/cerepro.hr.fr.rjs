@@ -117,6 +117,7 @@ setTime = (expirationDateTime) => {
                     <TableCell>{coursePage.coursePageOwnerFirstname !== "null" ? coursePage.coursePageOwnerFirstname : ""} {coursePage.coursePageOwnerLastname !== "null" ? coursePage.coursePageOwnerLastname : ""}</TableCell>
                     <TableCell>{coursePage.coursePageFirstNameOpenedBy} {coursePage.coursePageLastNameOpenedBy}</TableCell>
                     <TableCell>{this.setTime(coursePage.created_datetime)}</TableCell>
+                    <TableCell>{this.setStatusOpen(coursePage.statusOpen)}</TableCell>
                     <TableCell>
                       <UpdateCoursePage refreshCoursePagesList={this.getCoursePages} coursePage={coursePage}/>
                     </TableCell>
