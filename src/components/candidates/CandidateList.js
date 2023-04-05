@@ -115,6 +115,8 @@ class CandidateList extends Component {
 	  };
 	
 	render () {
+		const user = JSON.parse(sessionStorage.getItem("user"));
+        const userLoggedRole = user.role;
 		return (
 			<div style={styles.divContainer} className="App">
 				<div class="panel panel-default">
@@ -128,7 +130,7 @@ class CandidateList extends Component {
                     <Table className={"table-style"}>
 						<TableHead>
 							<TableRow className={"table-head-row"}>
-							<TableCell style={{ color: "#fff" }}>&nbsp;</TableCell>
+							<TableCell style={{ color: "#fff", display: userLoggedRole === 0 ? 'table-cell' : 'none' }}>&nbsp;</TableCell>
 							<TableCell style={{ color: "#fff" }}></TableCell>
 							<TableCell style={{ color: "#fff" }}>E-MAIL</TableCell>
 							<TableCell style={{ color: "#fff" }}>NOME</TableCell>
@@ -149,7 +151,7 @@ class CandidateList extends Component {
 								index % 2 === 0 ? styles.evenRow : styles.oddRow
 								}
 							>
-								<TableCell style={{'backgroundColor' : candidate.candidateStatusColor}} >{candidate.id}</TableCell>
+								<TableCell style={{'backgroundColor' : candidate.candidateStatusColor , display: userLoggedRole === 0 ? 'table-cell' : 'none'}} >{candidate.id}</TableCell>
 								<TableCell><img class="candidateImg" src={Constants.FRONTEND_API_PREFIX + "/canimg/" + candidate.imgpath} alt={candidate.imgpath} /></TableCell>
 								<TableCell>{candidate.email}</TableCell>
 								<TableCell>{candidate.firstname}</TableCell>
